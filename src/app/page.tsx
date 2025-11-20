@@ -78,7 +78,10 @@ export default function Home() {
             <h1 className="text-2xl font-serif tracking-wider text-foreground">HUMANO</h1>
           </div>
           <div className="text-right flex flex-col items-end">
-            <div className="flex items-center gap-2 text-xs font-medium text-foreground bg-card/40 px-3 py-1.5 rounded-full border border-border backdrop-blur-sm cursor-pointer hover:bg-card/60 transition-colors group">
+            <div
+              onClick={() => router.push('/ubicacion')}
+              className="flex items-center gap-2 text-xs font-medium text-foreground bg-card/40 px-3 py-1.5 rounded-full border border-border backdrop-blur-sm cursor-pointer hover:bg-card/60 transition-colors group"
+            >
               <CloudSun className="h-3.5 w-3.5 text-primary hidden sm:inline" />
               <span>{weather.temp}</span>
               <span className="w-px h-3 bg-border mx-1" />
