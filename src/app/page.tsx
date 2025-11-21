@@ -2,11 +2,16 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { CloudSun, ChevronRight } from "lucide-react"
+import { Menu, CloudSun, ChevronRight, Mic } from "lucide-react"
 
 import { AssistantBubble } from "@/components/humano/AssistantBubble"
 import { IntentSelector, IntentId } from "@/components/humano/IntentSelector"
 import { VoiceInput } from "@/components/humano/VoiceInput"
+import { ImageSlider } from "@/components/humano/ImageSlider"
+import { FeaturedRoom } from "@/components/humano/FeaturedRoom"
+import { ScrollGallery } from "@/components/humano/ScrollGallery"
+import { RoomsCarousel } from "@/components/humano/RoomsCarousel"
+import { Footer } from "@/components/humano/Footer"
 import { NavMenu } from "@/components/humano/NavMenu"
 import { LanguageSelector } from "@/components/humano/LanguageSelector"
 import { ThemeToggle } from "@/components/humano/ThemeToggle"
@@ -68,48 +73,83 @@ export default function Home() {
         <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl" />
       </div>
 
-      <main className="relative z-10 flex-1 flex flex-col px-6 pt-16 sm:pt-8 pb-8 gap-8 max-w-screen-sm mx-auto w-full">
-        {/* HEADER */}
-        <header className="flex items-start justify-between animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-          <div className="space-y-1">
-            <p className="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">
-              Hotel
-            </p>
-            <h1 className="text-2xl font-serif tracking-wider text-foreground">HUMANO</h1>
+      {/* Header - Centered */}
+      <header className="relative z-10 pt-16 sm:pt-24 pb-6 px-6 flex items-start justify-between max-w-screen-sm mx-auto w-full animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+        <div className="space-y-1">
+          <p className="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">
+            Hotel
+          </p>
+          <h1 className="text-2xl font-serif tracking-wider text-foreground">HUMANO</h1>
+        </div>
+        <div className="text-right flex flex-col items-end">
+          <div
+            onClick={() => router.push('/ubicacion')}
+            className="flex items-center gap-2 text-xs font-medium text-foreground bg-card/40 px-3 py-1.5 rounded-full border border-border backdrop-blur-sm cursor-pointer hover:bg-card/60 transition-colors group"
+          >
+            <CloudSun className="h-3.5 w-3.5 text-primary hidden sm:inline" />
+            <span>{weather.temp}</span>
+            <span className="w-px h-3 bg-border mx-1" />
+            <span className="text-[10px] uppercase tracking-wider">Miraflores</span>
+            <ChevronRight className="h-3 w-3 text-muted-foreground group-hover:text-primary transition-colors ml-1" />
           </div>
-          <div className="text-right flex flex-col items-end">
-            <div
-              onClick={() => router.push('/ubicacion')}
-              className="flex items-center gap-2 text-xs font-medium text-foreground bg-card/40 px-3 py-1.5 rounded-full border border-border backdrop-blur-sm cursor-pointer hover:bg-card/60 transition-colors group"
-            >
-              <CloudSun className="h-3.5 w-3.5 text-primary hidden sm:inline" />
-              <span>{weather.temp}</span>
-              <span className="w-px h-3 bg-border mx-1" />
-              <span className="text-[10px] uppercase tracking-wider">Miraflores</span>
-              <ChevronRight className="h-3 w-3 text-muted-foreground group-hover:text-primary transition-colors ml-1" />
-            </div>
-            <p className="text-[10px] text-muted-foreground mt-1 capitalize pr-2 hidden sm:block">
-              {weather.desc}
-            </p>
-          </div>
-        </header>
+          <p className="text-[10px] text-muted-foreground mt-1 capitalize pr-2 hidden sm:block">
+            {weather.desc}
+          </p>
+        </div>
+      </header>
 
+      {/* HERO SECTION - Full Width on Desktop */}
+      <section className="relative z-10 mb-16 px-6 lg:px-12 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+        <div className="grid lg:grid-cols-2 gap-4 h-[280px] max-w-screen-2xl mx-auto">
+          {/* Left Column - Video */}
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#003035] to-[#004045] animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+            {/* Video Placeholder */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center space-y-4">
+                <div className="h-16 w-16 rounded-full bg-primary/20 backdrop-blur-sm border-2 border-primary/50 flex items-center justify-center mx-auto cursor-pointer hover:scale-110 transition-transform group">
+                  <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-primary border-b-8 border-b-transparent ml-1 group-hover:border-l-primary/80"></div>
+                </div>
+                <div>
+                  <p className="text-primary font-serif text-lg">Descubre Humano</p>
+                  <p className="text-primary/60 text-sm">Video experiencia</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Slider & Featured Room Side by Side */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* Image Slider */}
+            <div className="animate-fade-in-up" style={{ animationDelay: "0.5s" }}>
+              <ImageSlider />
+            </div>
+
+            {/* Featured Room */}
+            <div className="animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
+              <FeaturedRoom />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content - Centered */}
+      <main className="relative z-10 flex flex-col px-6 pb-8 gap-8 max-w-screen-sm mx-auto w-full pt-8">
         {/* CONVERSATION AREA */}
-        <section className="flex-1 flex flex-col justify-center gap-8">
+        <section className="flex flex-col gap-8">
           <div className="space-y-6">
             <AssistantBubble
               message="Hola, soy tu anfitrión en Humano, Miraflores."
               className="animate-fade-in-up"
-              style={{ animationDelay: "0.4s" } as React.CSSProperties}
+              style={{ animationDelay: "0.7s" } as React.CSSProperties}
             />
             <AssistantBubble
               message="¿Vienes por trabajo, descanso o aventura?"
               className="animate-fade-in-up"
-              style={{ animationDelay: "0.7s" } as React.CSSProperties}
+              style={{ animationDelay: "0.9s" } as React.CSSProperties}
             />
           </div>
 
-          <div className="animate-fade-in-up" style={{ animationDelay: "1.0s" }}>
+          <div className="animate-fade-in-up" style={{ animationDelay: "1.1s" }}>
             <IntentSelector
               selectedIntent={intent}
               onSelect={handleIntentSelect}
@@ -136,6 +176,47 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      {/* NEW INSTITUTIONAL SECTIONS */}
+
+      {/* Section 1: Video Hero + Institutional Text */}
+      <section className="relative bg-background py-24">
+        {/* Video Container */}
+        <div className="w-full h-[70vh] bg-gradient-to-br from-[#003035] to-[#004045] relative overflow-hidden mb-16">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <div className="h-20 w-20 rounded-full bg-primary/20 backdrop-blur-sm border-2 border-primary/50 flex items-center justify-center mx-auto cursor-pointer hover:scale-110 transition-transform group">
+                <div className="w-0 h-0 border-t-10 border-t-transparent border-l-16 border-l-primary border-b-10 border-b-transparent ml-1 group-hover:border-l-primary/80"></div>
+              </div>
+              <p className="text-primary font-serif text-xl">Experiencia Humano</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Institutional Text */}
+        <div className="max-w-screen-sm mx-auto px-6 text-center space-y-6">
+          <p className="text-xs uppercase tracking-wider text-primary font-bold animate-fade-in-up" style={{ animationDelay: "0s" }}>
+            Donde lo humano es lo esencial
+          </p>
+          <h1 className="text-3xl sm:text-4xl font-serif leading-tight text-foreground animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+            Hospitalidad consciente en Lima
+          </h1>
+          <p className="text-base text-muted-foreground leading-relaxed animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+            En Humano creemos que la hospitalidad va más allá del servicio.
+            Es crear espacios donde las personas puedan reconectar consigo mismas
+            y con los demás, en el corazón de Miraflores.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 2: Scroll Gallery */}
+      <ScrollGallery />
+
+      {/* Section 3: Rooms Carousel */}
+      <RoomsCarousel />
+
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }
