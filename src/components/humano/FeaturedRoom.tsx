@@ -4,7 +4,11 @@ import { Star, ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 
-export function FeaturedRoom() {
+interface FeaturedRoomProps {
+    image?: string
+}
+
+export function FeaturedRoom({ image }: FeaturedRoomProps) {
     const router = useRouter()
 
     return (
@@ -13,12 +17,20 @@ export function FeaturedRoom() {
             className="h-full glass-card rounded-2xl overflow-hidden flex flex-col group cursor-pointer hover:border-primary/30 transition-all"
         >
             {/* Room Image */}
-            <div className="relative h-40 bg-gradient-to-br from-secondary/30 to-muted">
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-muted-foreground/40 text-sm font-serif">Junior Suite</p>
-                </div>
+            <div className="relative h-40 bg-gradient-to-br from-secondary/30 to-muted overflow-hidden">
+                {image ? (
+                    <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                        style={{ backgroundImage: `url('${image}')` }}
+                    />
+                ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-muted-foreground/40 text-sm font-serif">Junior Suite</p>
+                    </div>
+                )}
+
                 {/* Featured Badge */}
-                <div className="absolute top-3 left-3">
+                <div className="absolute top-3 left-3 z-10">
                     <div className="px-3 py-1 rounded-full bg-primary/90 backdrop-blur-sm">
                         <p className="text-xs font-bold text-primary-foreground">Destacada</p>
                     </div>

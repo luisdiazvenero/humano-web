@@ -55,11 +55,11 @@ export function IntentSelector({ selectedIntent, onSelect }: IntentSelectorProps
                             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         )}
                         <div className={cn(
-                            "p-2.5 rounded-full bg-primary/20 w-fit mb-0 sm:mb-1 relative z-10 transition-colors shrink-0",
-                            isActive && "bg-black/10",
-                            "group-hover:bg-[#003035]/10"
+                            "p-2.5 rounded-full bg-[#FFC85D] w-fit mb-0 sm:mb-1 relative z-10 transition-colors shrink-0",
+                            isActive && "bg-[#FFC85D]",
+                            "group-hover:bg-[#FFC85D]"
                         )}>
-                            <Icon className={cn("h-5 w-5 sm:h-6 sm:w-6 transition-colors", "group-hover:text-[#003035]")} />
+                            <Icon className={cn("h-5 w-5 sm:h-6 sm:w-6 transition-colors text-[#003035]", isActive && "text-[#003035]", "group-hover:text-[#003035]")} />
                         </div>
                         <div className="w-full relative z-10">
                             <span className="block font-semibold text-base sm:text-lg tracking-wide mb-0 sm:mb-1">

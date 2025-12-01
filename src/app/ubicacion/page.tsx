@@ -111,7 +111,7 @@ export default function UbicacionPage() {
                         <h3 className="text-xs font-bold uppercase tracking-wider text-primary">Conoce Humano</h3>
                         <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted">
                             {/* Placeholder - Replace with actual video */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#003035] to-[#004045] flex items-center justify-center">
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#003035] to-[#003744] flex items-center justify-center">
                                 <div className="text-center space-y-3">
                                     <div className="h-16 w-16 rounded-full bg-primary/20 backdrop-blur-sm border-2 border-primary/50 flex items-center justify-center mx-auto cursor-pointer hover:scale-110 transition-transform">
                                         <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-primary border-b-8 border-b-transparent ml-1"></div>

@@ -19,41 +19,69 @@ const imagePlaceholders = [
     { color: "bg-muted", label: "Restaurante" }                 // Gris
 ]
 
-export function ImageSlider() {
+interface ImageSliderProps {
+    images?: { src: string, alt: string, label?: string }[]
+}
+
+export function ImageSlider({ images }: ImageSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0)
+
+    // Use provided images or fallback to placeholders
+    const items = images || imagePlaceholders
+    const isCustomImages = !!images
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % imagePlaceholders.length)
-        }, 4000) // Cambia cada 4 segundos
+            setCurrentIndex((prev) => (prev + 1) % items.length)
+        }, 4000)
 
         return () => clearInterval(interval)
-    }, [])
+    }, [items.length])
 
     const goToNext = () => {
-        setCurrentIndex((prev) => (prev + 1) % imagePlaceholders.length)
+        setCurrentIndex((prev) => (prev + 1) % items.length)
     }
 
     const goToPrev = () => {
-        setCurrentIndex((prev) => (prev - 1 + imagePlaceholders.length) % imagePlaceholders.length)
+        setCurrentIndex((prev) => (prev - 1 + items.length) % items.length)
     }
 
     return (
         <div className="relative h-full rounded-2xl overflow-hidden group">
             {/* Images */}
             <div className="relative h-full">
-                {imagePlaceholders.map((img, index) => (
+                {items.map((item, index) => (
                     <div
                         key={index}
                         className={cn(
                             "absolute inset-0 transition-opacity duration-700",
-                            img.color,
+                            !isCustomImages && (item as any).color,
                             index === currentIndex ? "opacity-100" : "opacity-0"
                         )}
                     >
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-foreground/40 text-lg font-serif">{img.label}</p>
-                        </div>
+                        {isCustomImages ? (
+                            <>
+                                <div
+                                    className="absolute inset-0 bg-cover bg-center"
+                                    style={{ backgroundImage: `url('${(item as any).src}')` }}
+                                />
+                                {/* Gradient Overlay for text readability */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                                {/* Label */}
+                                {(item as any).label && (
+                                    <div className="absolute inset-0 flex items-end justify-center pb-12">
+                                        <p className="text-white text-lg font-serif tracking-wide drop-shadow-md">
+                                            {(item as any).label}
+                                        </p>
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <p className="text-foreground/40 text-lg font-serif">{(item as any).label}</p>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
@@ -74,7 +102,7 @@ export function ImageSlider() {
 
             {/* Indicators */}
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                {imagePlaceholders.map((_, index) => (
+                {items.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}

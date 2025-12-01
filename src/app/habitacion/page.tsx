@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Bed, Users, Wifi, Square, Star, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Logo } from "@/components/humano/Logo"
 
 export default function HabitacionPage() {
     const router = useRouter()
@@ -24,9 +25,7 @@ export default function HabitacionPage() {
                     <div className="max-w-lg mx-auto w-full space-y-8 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
                         {/* Logo */}
                         <div className="mb-8">
-                            <div className="h-12 w-12 border-2 border-primary rounded-md flex items-center justify-center mb-4">
-                                <span className="text-primary font-serif text-2xl font-bold">H</span>
-                            </div>
+                            <Logo className="h-16 w-auto text-primary" />
                         </div>
 
                         {/* Title */}
@@ -122,20 +121,17 @@ export default function HabitacionPage() {
                     </div>
                 </div>
 
-                {/* Right Column - Image */}
-                <div className="relative min-h-[50vh] lg:min-h-screen bg-gradient-to-br from-secondary/30 to-muted animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-                    {/* Image Placeholder */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-muted-foreground/40 text-lg font-serif">Junior Suite Vista Mar</p>
-                    </div>
-                    {/* 
-                    Replace with actual image:
-                    <img
-                        src="/images/junior-suite.jpg"
-                        alt="Junior Suite"
+                {/* Right Column - Video */}
+                <div className="relative min-h-[50vh] lg:min-h-screen bg-black animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+                    <video
+                        src="/habitacion-1.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
                         className="absolute inset-0 w-full h-full object-cover"
                     />
-                    */}
+                    <div className="absolute inset-0 bg-black/10" />
                 </div>
             </div>
         </div>

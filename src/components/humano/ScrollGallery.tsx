@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
 
-const images = ["Malecón", "Vista Mar", "Atardecer"]
+const images = [
+    { src: "/sunset-miraflores.jpg", label: "Atardecer" },
+    { src: "/miraflores-amor.jpg", label: "Malecón" },
+    { src: "/faro-miraflores.jpg", label: "Vista al Mar" }
+]
 
 export function ScrollGallery() {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -41,12 +45,23 @@ export function ScrollGallery() {
                             {images.map((image, index) => (
                                 <div
                                     key={index}
-                                    className={`absolute inset-0 bg-muted flex items-center justify-center transition-opacity duration-700 ${index === currentIndex ? 'opacity-100' : 'opacity-0'
-                                        }`}
+                                    className={`absolute inset-0 transition-opacity duration-700 ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
                                 >
-                                    <p className="text-4xl font-serif text-muted-foreground/30">
-                                        {image}
-                                    </p>
+                                    {/* Image */}
+                                    <div
+                                        className="absolute inset-0 bg-cover bg-center"
+                                        style={{ backgroundImage: `url('${image.src}')` }}
+                                    />
+
+                                    {/* Gradient Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                                    {/* Label */}
+                                    <div className="absolute inset-0 flex items-end justify-center pb-12">
+                                        <p className="text-white text-2xl font-serif tracking-wide drop-shadow-md">
+                                            {image.label}
+                                        </p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
