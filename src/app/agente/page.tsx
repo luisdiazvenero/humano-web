@@ -46,6 +46,21 @@ export default function AgentPage() {
         setIsTyping(false)
       }, 800)
 
+      // Message 1.5: Image Slider
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          id: 1.5,
+          sender: 'agent',
+          type: 'gallery',
+          content: [
+            { src: "/slider-propuesta-1.jpg", alt: "Restaurante", label: "Restaurante" },
+            { src: "/slider-propuesta-2.jpg", alt: "Piscina", label: "Piscina" },
+            { src: "/slider-propuesta-3.jpg", alt: "Lobby", label: "Lobby & Bar" },
+            { src: "/slider-propuesta-4.jpg", alt: "Rooftop", label: "Rooftop" }
+          ]
+        }])
+      }, 1400)
+
       // Message 2: Question
       setTimeout(() => {
         setIsTyping(true)
@@ -330,7 +345,9 @@ export default function AgentPage() {
 
                 {msg.type === 'gallery' && (
                   <div className="w-full rounded-2xl overflow-hidden shadow-md bg-card animate-fade-in-up">
-                    <ImageSlider images={msg.content} />
+                    <div className="aspect-square">
+                      <ImageSlider key={`agent-gallery-${msg.id}`} images={msg.content} />
+                    </div>
                   </div>
                 )}
 
