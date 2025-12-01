@@ -53,10 +53,9 @@ export default function AgentPage() {
           sender: 'agent',
           type: 'gallery',
           content: [
-            { src: "/slider-propuesta-1.jpg", alt: "Restaurante", label: "Restaurante" },
-            { src: "/slider-propuesta-2.jpg", alt: "Piscina", label: "Piscina" },
-            { src: "/slider-propuesta-3.jpg", alt: "Lobby", label: "Lobby & Bar" },
-            { src: "/slider-propuesta-4.jpg", alt: "Rooftop", label: "Rooftop" }
+            { src: "/sunset-miraflores.jpg", alt: "Atardecer", label: "Atardecer" },
+            { src: "/miraflores-amor.jpg", alt: "Malecón", label: "Malecón" },
+            { src: "/faro-miraflores.jpg", alt: "Vista al Mar", label: "Vista al Mar" }
           ]
         }])
       }, 1400)
