@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { ArrowLeft, MapPin, Clock, Plane, Phone, Mail, Thermometer, Cloud } from "lucide-react"
+import { FullLogo } from "@/components/humano/FullLogo"
 
 export default function UbicacionPage() {
     const router = useRouter()
@@ -22,8 +23,8 @@ export default function UbicacionPage() {
                 <div className="flex flex-col p-6 sm:p-12 gap-8 lg:h-screen lg:overflow-y-auto">
                     {/* Header */}
                     <header className="pt-12 sm:pt-8 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-                        <p className="text-xs tracking-[0.3em] uppercase text-primary font-bold mb-2">Ubicación</p>
-                        <h1 className="text-4xl sm:text-5xl font-serif tracking-wider text-foreground mb-2">HUMANO</h1>
+                        <p className="text-xs tracking-[0.3em] uppercase text-primary font-bold mb-4">Ubicación</p>
+                        <FullLogo className="h-32 w-auto mb-4" />
                         <p className="text-sm text-muted-foreground">Miraflores, Lima - Perú</p>
                     </header>
 
@@ -109,24 +110,16 @@ export default function UbicacionPage() {
                     {/* Video Section */}
                     <div className="space-y-4 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
                         <h3 className="text-xs font-bold uppercase tracking-wider text-primary">Conoce Humano</h3>
-                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted">
-                            {/* Placeholder - Replace with actual video */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#003035] to-[#003744] flex items-center justify-center">
-                                <div className="text-center space-y-3">
-                                    <div className="h-16 w-16 rounded-full bg-primary/20 backdrop-blur-sm border-2 border-primary/50 flex items-center justify-center mx-auto cursor-pointer hover:scale-110 transition-transform">
-                                        <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-primary border-b-8 border-b-transparent ml-1"></div>
-                                    </div>
-                                    <p className="text-sm text-primary/80">Video promocional</p>
-                                </div>
-                            </div>
-                            {/* 
-                            <iframe
-                                className="absolute inset-0 w-full h-full"
-                                src="YOUR_VIDEO_URL"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            />
-                            */}
+                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-black shadow-lg">
+                            <video
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="absolute inset-0 w-full h-full object-cover"
+                            >
+                                <source src="/hotel-acerca.mp4" type="video/mp4" />
+                            </video>
                         </div>
                     </div>
 
@@ -136,29 +129,15 @@ export default function UbicacionPage() {
 
                 {/* Right Column - Map */}
                 <div className="relative h-[50vh] lg:h-screen bg-muted/30 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-                    {/* Map Placeholder */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-muted flex items-center justify-center">
-                        <div className="text-center space-y-4 p-8">
-                            <MapPin className="h-16 w-16 text-primary mx-auto" />
-                            <div>
-                                <p className="text-lg font-semibold">Mapa Interactivo</p>
-                                <p className="text-sm text-muted-foreground mt-2">
-                                    Integra Google Maps o Mapbox aquí
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Google Maps Integration Example
+                    {/* Google Maps */}
                     <iframe
                         className="absolute inset-0 w-full h-full"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.0!2d-77.03!3d-12.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA3JzEyLjAiUyA3N8KwMDEnNDguMCJX!5e0!3m2!1sen!2spe!4v1234567890"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.713022635406!2d-77.03459192415605!3d-12.126589643486793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c81c205a764d%3A0x2655076d57ac50d4!2sAv.%20Jos%C3%A9%20Larco%201301%2C%20Miraflores%2015074!5e0!3m2!1sen!2spe!4v1701394000000!5m2!1sen!2spe"
                         style={{ border: 0 }}
                         allowFullScreen
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
                     />
-                    */}
                 </div>
             </div>
         </div>
