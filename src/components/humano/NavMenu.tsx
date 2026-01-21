@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 
 const menuItems = [
     { label: "Propuesta", href: "/propuesta" },
+    { label: "Propuesta 2", href: "/propuesta-2" },
+    { label: "Propuesta 3", href: "/propuesta-3" },
     { label: "Agente", href: "/agente" },
     { label: "Inicio", href: "/inicio" },
     { label: "Hotel", href: "#hotel" },
