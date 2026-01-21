@@ -1,29 +1,4 @@
-// Archivo generado automáticamente desde microsite-faqs.xlsx
-// Para regenerar: python3 scripts/excel-to-json.py
-
-export interface Conversation {
-  topic: string
-  sub_tema: string
-  intro?: string
-  fase: string
-  titulo: string
-  contenido: string
-  imagen?: string
-  cierre?: string
-  proximo_paso?: string
-  ctas: string
-}
-
-export interface Profile {
-  name: string
-  icon: string
-  description: string
-  caracteristica: string
-  grupo: string
-  conversations: Conversation[]
-}
-
-export const profiles: Profile[] = [
+[
   {
     "name": "Trabajo Solo",
     "icon": "💼",
