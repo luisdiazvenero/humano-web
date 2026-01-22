@@ -3,14 +3,45 @@
 import { useState, useEffect, useRef } from "react"
 import { profiles } from "./conversations-data"
 import { Logo } from "@/components/humano/Logo"
-import { ArrowLeft, Sparkles } from "lucide-react"
+import { ArrowLeft, Sparkles, Briefcase, Palmtree, Compass } from "lucide-react"
+
+// Definir los 3 perfiles principales
+const mainProfiles = [
+  {
+    name: "Trabajo",
+    icon: <Briefcase className="h-8 w-8" />,
+    emoji: "💼",
+    description: "Viajes de negocios y profesionales",
+    color: "from-blue-500 to-blue-700",
+    caracteristica: "trabajo"
+  },
+  {
+    name: "Descanso",
+    icon: <Palmtree className="h-8 w-8" />,
+    emoji: "🌴",
+    description: "Relax y desconexión total",
+    color: "from-green-500 to-emerald-700",
+    caracteristica: "descanso"
+  },
+  {
+    name: "Aventura",
+    icon: <Compass className="h-8 w-8" />,
+    emoji: "🧭",
+    description: "Exploración y experiencias únicas",
+    color: "from-orange-500 to-red-600",
+    caracteristica: "aventura"
+  }
+]
 
 export default function DemoPage() {
+  const [selectedCaracteristica, setSelectedCaracteristica] = useState<string | null>(null)
+  const [selectedGrupo, setSelectedGrupo] = useState<string | null>(null)
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null)
   const [currentConvoIndex, setCurrentConvoIndex] = useState(0)
   const [messages, setMessages] = useState<any[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [showIntro, setShowIntro] = useState(true)
+  const [waitingForGrupoSelection, setWaitingForGrupoSelection] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
@@ -21,16 +52,66 @@ export default function DemoPage() {
     scrollToBottom()
   }, [messages])
 
-  const startConversation = (profileIndex: number) => {
-    setSelectedProfile(profileIndex)
-    setCurrentConvoIndex(0)
+  const startConversation = (caracteristica: string) => {
+    setSelectedCaracteristica(caracteristica)
     setMessages([])
     setShowIntro(false)
+    setWaitingForGrupoSelection(true)
 
-    // Start first conversation
+    // Mensaje de bienvenida
     setTimeout(() => {
-      showConversation(profileIndex, 0)
-    }, 500)
+      setIsTyping(true)
+    }, 300)
+
+    setTimeout(() => {
+      const mainProfile = mainProfiles.find(p => p.caracteristica === caracteristica)
+      setMessages([{
+        id: Date.now(),
+        sender: 'agent',
+        type: 'text',
+        content: `¡Genial! Veo que vienes por ${caracteristica}. Cuéntame, ¿viajas solo, en pareja o en grupo?`
+      }])
+      setIsTyping(false)
+    }, 1000)
+
+    // Mostrar botones de grupo
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        sender: 'agent',
+        type: 'grupo_buttons',
+        content: ['Solo', 'En pareja', 'En grupo']
+      }])
+    }, 1500)
+  }
+
+  const selectGrupo = (grupo: string) => {
+    setSelectedGrupo(grupo)
+    setWaitingForGrupoSelection(false)
+
+    // Mensaje del usuario
+    setMessages(prev => [...prev, {
+      id: Date.now(),
+      sender: 'user',
+      type: 'text',
+      content: `Viajo ${grupo.toLowerCase()}`
+    }])
+
+    // Buscar el perfil específico
+    const grupoKey = grupo === 'Solo' ? 'solo' : grupo === 'En pareja' ? 'pareja' : 'grupo'
+    const profileIndex = profiles.findIndex(
+      p => p.caracteristica === selectedCaracteristica && p.grupo === grupoKey
+    )
+
+    if (profileIndex !== -1) {
+      setSelectedProfile(profileIndex)
+      setCurrentConvoIndex(0)
+
+      // Iniciar primera conversación
+      setTimeout(() => {
+        showConversation(profileIndex, 0)
+      }, 1000)
+    }
   }
 
   const showConversation = (profileIndex: number, convoIndex: number) => {
@@ -150,56 +231,80 @@ export default function DemoPage() {
   }
 
   const resetDemo = () => {
+    setSelectedCaracteristica(null)
+    setSelectedGrupo(null)
     setSelectedProfile(null)
     setCurrentConvoIndex(0)
     setMessages([])
     setShowIntro(true)
+    setWaitingForGrupoSelection(false)
   }
 
   if (showIntro) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#003744] via-[#004d5c] to-[#003744] text-white flex flex-col items-center justify-center p-6">
-        <div className="max-w-4xl w-full text-center space-y-12">
-          <div className="space-y-4">
-            <div className="inline-block p-3 bg-white/10 rounded-2xl backdrop-blur-sm">
-              <Sparkles className="h-12 w-12 text-[#E8B931]" />
+        <div className="max-w-5xl w-full text-center space-y-12">
+          {/* Header */}
+          <div className="space-y-6">
+            <div className="inline-block p-4 bg-white/10 rounded-3xl backdrop-blur-sm shadow-2xl">
+              <Sparkles className="h-16 w-16 text-[#E8B931]" />
             </div>
-            <h1 className="text-5xl font-serif font-bold">Demo Conversacional</h1>
-            <p className="text-xl text-white/80">Humano Hotel - Experiencias Personalizadas</p>
+            <div>
+              <h1 className="text-6xl font-serif font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+                Demo Conversacional
+              </h1>
+              <p className="text-2xl text-white/70 font-light">Humano Hotel - Experiencias Personalizadas</p>
+            </div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-            <p className="text-lg text-white/90 mb-6">
-              Explora cómo nuestro asistente virtual adapta la conversación según el perfil del huésped.
-              Selecciona un perfil para ver la experiencia completa:
+          {/* Description */}
+          <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 shadow-xl">
+            <p className="text-lg text-white/90 leading-relaxed">
+              Descubre cómo nuestro asistente virtual se adapta a tu tipo de viaje.
+              <br />
+              <span className="text-white/70">Selecciona el propósito de tu visita:</span>
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {profiles.map((profile, index) => (
+          {/* Main Profiles - 3 Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {mainProfiles.map((profile) => (
               <button
-                key={index}
-                onClick={() => startConversation(index)}
-                className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-2xl p-6 border-2 border-white/20 hover:border-[#E8B931] transition-all duration-300 text-left cursor-pointer"
+                key={profile.caracteristica}
+                onClick={() => startConversation(profile.caracteristica)}
+                className={`group relative bg-gradient-to-br ${profile.color} rounded-3xl p-8 border-2 border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer overflow-hidden`}
               >
-                <div className="text-5xl mb-3">{profile.icon}</div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-[#E8B931] transition-colors">
-                  {profile.name}
-                </h3>
-                <p className="text-sm text-white/70">{profile.description}</p>
-                <div className="mt-4 flex items-center text-[#E8B931] text-sm font-medium">
-                  Ver demo
-                  <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                {/* Background decoration */}
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500" />
+
+                {/* Content */}
+                <div className="relative z-10 space-y-4">
+                  <div className="flex justify-center">
+                    <div className="p-4 bg-white/20 rounded-2xl backdrop-blur-sm group-hover:bg-white/30 transition-all duration-300">
+                      {profile.icon}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-3xl font-bold">{profile.name}</h3>
+                    <p className="text-white/90 text-sm font-medium">{profile.description}</p>
+                  </div>
+
+                  <div className="flex items-center justify-center text-white/90 text-sm font-semibold pt-2 group-hover:text-white transition-colors">
+                    Iniciar conversación
+                    <svg className="ml-2 h-5 w-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
                 </div>
               </button>
             ))}
           </div>
 
-          <div className="text-sm text-white/50">
-            <p>💡 Datos basados en microsite-faqs.xlsx</p>
-            <p className="mt-1">Demo independiente - No integrado en navegación principal</p>
+          {/* Footer note */}
+          <div className="text-sm text-white/40 space-y-1">
+            <p>💡 Sistema conversacional adaptativo basado en IA</p>
+            <p>Demo técnica - Contenido real del hotel</p>
           </div>
         </div>
       </div>
@@ -207,40 +312,49 @@ export default function DemoPage() {
   }
 
   const profile = selectedProfile !== null ? profiles[selectedProfile] : null
+  const mainProfile = selectedCaracteristica ? mainProfiles.find(p => p.caracteristica === selectedCaracteristica) : null
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-lg border-b border-border">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-lg border-b border-border shadow-sm">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <button
             onClick={resetDemo}
-            className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"
+            className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            Cambiar perfil
+            Reiniciar
           </button>
-          <div className="flex items-center gap-3">
-            <div className="text-3xl">{profile?.icon}</div>
-            <div>
-              <p className="text-sm font-bold">{profile?.name}</p>
-              <p className="text-xs text-muted-foreground">{profile?.description}</p>
+
+          {mainProfile && (
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-xl bg-gradient-to-br ${mainProfile.color} text-white shadow-md`}>
+                {mainProfile.icon}
+              </div>
+              <div>
+                <p className="text-sm font-bold">{mainProfile.name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {selectedGrupo ? `Viajero ${selectedGrupo.toLowerCase()}` : 'Personalizando...'}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="w-20" /> {/* Spacer for centering */}
         </div>
       </header>
 
       {/* Messages */}
-      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-8 space-y-6">
+      <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-8 space-y-6">
         {messages.map((msg) => (
           <div key={msg.id} className="animate-fade-in-up">
             {msg.sender === 'agent' && msg.type === 'text' && (
-              <div className="flex gap-3 items-start">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#003744] text-white shadow-md">
-                  <Logo className="h-4 w-auto text-white" />
+              <div className="flex gap-4 items-start">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#003744] to-[#004d5c] text-white shadow-lg">
+                  <Logo className="h-5 w-auto text-white" />
                 </div>
-                <div className="bg-card/60 backdrop-blur-sm rounded-2xl rounded-tl-none px-5 py-3.5 text-sm leading-relaxed shadow-md max-w-[85%]">
+                <div className="bg-card/80 backdrop-blur-sm rounded-2xl rounded-tl-none px-6 py-4 text-sm leading-relaxed shadow-lg max-w-[85%] border border-border/30">
                   {msg.content}
                 </div>
               </div>
@@ -253,23 +367,41 @@ export default function DemoPage() {
             )}
 
             {msg.type === 'card' && (
-              <div className="bg-card border border-border rounded-2xl p-6 shadow-lg space-y-4">
+              <div className="bg-gradient-to-br from-card to-card/50 border border-border/50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300 space-y-5">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 space-y-3">
-                    <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full uppercase tracking-wider">
-                      {msg.content.topic}
+                  <div className="flex-1 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="inline-block px-4 py-1.5 bg-gradient-to-r from-primary/20 to-primary/10 text-primary text-xs font-bold rounded-full uppercase tracking-widest shadow-sm">
+                        {msg.content.topic}
+                      </div>
+                      {msg.content.subtopic && (
+                        <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wide">
+                          {msg.content.subtopic}
+                        </span>
+                      )}
                     </div>
-                    <h3 className="text-xl font-bold text-foreground">{msg.content.titulo}</h3>
-                    {msg.content.subtopic && (
-                      <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                        {msg.content.subtopic}
-                      </p>
-                    )}
+                    <h3 className="text-2xl font-bold text-foreground leading-tight">
+                      {msg.content.titulo}
+                    </h3>
                   </div>
                 </div>
-                <p className="text-sm text-card-foreground leading-relaxed">
+                <p className="text-base text-card-foreground/90 leading-relaxed">
                   {msg.content.contenido}
                 </p>
+              </div>
+            )}
+
+            {msg.type === 'grupo_buttons' && (
+              <div className="flex flex-wrap gap-3 ml-11">
+                {msg.content.map((grupo: string, idx: number) => (
+                  <button
+                    key={idx}
+                    onClick={() => selectGrupo(grupo)}
+                    className="px-6 py-3 bg-gradient-to-r from-primary/20 to-primary/10 hover:from-primary/30 hover:to-primary/20 border-2 border-primary/40 hover:border-primary text-primary rounded-xl text-sm font-semibold transition-all cursor-pointer hover:scale-105 shadow-md"
+                  >
+                    {grupo}
+                  </button>
+                ))}
               </div>
             )}
 
@@ -289,7 +421,7 @@ export default function DemoPage() {
 
             {msg.sender === 'user' && msg.type === 'text' && (
               <div className="flex justify-end">
-                <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-none px-5 py-3.5 text-sm leading-relaxed shadow-md max-w-[85%] font-medium">
+                <div className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-2xl rounded-tr-none px-6 py-4 text-sm leading-relaxed shadow-lg max-w-[85%] font-medium">
                   {msg.content}
                 </div>
               </div>
@@ -298,14 +430,14 @@ export default function DemoPage() {
         ))}
 
         {isTyping && (
-          <div className="flex gap-3 items-start">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#003744] text-white shadow-md">
-              <Logo className="h-4 w-auto text-white" />
+          <div className="flex gap-4 items-start">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#003744] to-[#004d5c] text-white shadow-lg">
+              <Logo className="h-5 w-auto text-white" />
             </div>
-            <div className="bg-card/60 backdrop-blur-sm rounded-2xl rounded-tl-none px-5 py-3.5 flex gap-1 items-center shadow-md">
-              <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
-              <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-              <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+            <div className="bg-card/80 backdrop-blur-sm rounded-2xl rounded-tl-none px-6 py-4 flex gap-1.5 items-center shadow-lg border border-border/30">
+              <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+              <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+              <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
             </div>
           </div>
         )}
@@ -315,9 +447,15 @@ export default function DemoPage() {
 
       {/* Footer Info */}
       <footer className="bg-card/50 backdrop-blur-sm border-t border-border py-4">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+        <div className="max-w-4xl mx-auto px-6 text-center">
           <p className="text-xs text-muted-foreground">
-            Demo basada en datos reales de microsite-faqs.xlsx • Conversación {currentConvoIndex + 1} de {profile?.conversations.filter(c => c.intro).length}
+            {waitingForGrupoSelection ? (
+              '🎯 Personalizando tu experiencia...'
+            ) : profile ? (
+              `Conversación ${currentConvoIndex + 1} de ${profile.conversations.length} • ${mainProfile?.name} - ${selectedGrupo}`
+            ) : (
+              'Demo conversacional interactiva'
+            )}
           </p>
         </div>
       </footer>
