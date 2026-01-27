@@ -307,30 +307,42 @@ export default function DemoPage() {
 
   const generateSuggestions = (aiResponse: string) => {
     const lower = aiResponse.toLowerCase()
-    const suggestions: string[] = []
+    let suggestions: string[] = []
 
-    if (lower.includes('habitación') || lower.includes('habitacion') || lower.includes('suite')) {
-      suggestions.push('Ver habitaciones')
+    // 1. If we are in the middle of a JSON flow, prioritize those buttons
+    // so the user can "return to path"
+    if (selectedProfile !== null && !isAIMode) {
+      const profile = profiles[selectedProfile]
+      const convo = profile.conversations[currentConvoIndex]
+      if (convo.ctas) {
+        const ctaButtons = convo.ctas.split('/').map(cta => cta.trim()).filter(cta => cta)
+        suggestions = [...ctaButtons]
+      }
     }
-    if (lower.includes('transfer') || lower.includes('aeropuerto') || lower.includes('aeropuerto')) {
-      suggestions.push('Transfer aeropuerto')
+
+    // 2. Add Smart Suggestions based on AI response keywords
+    if (lower.includes('habitación') || lower.includes('habitacion') || lower.includes('suite')) {
+      if (!suggestions.includes('Ver habitaciones')) suggestions.push('Ver habitaciones')
+    }
+    if (lower.includes('transfer') || lower.includes('aeropuerto')) {
+      if (!suggestions.includes('Transfer aeropuerto')) suggestions.push('Transfer aeropuerto')
     }
     if (lower.includes('reserva')) {
-      suggestions.push('Hacer reserva')
+      if (!suggestions.includes('Hacer reserva')) suggestions.push('Hacer reserva')
     }
-    if (lower.includes('precio') || lower.includes('tarifa') || lower.includes('costo')) {
-      suggestions.push('Ver tarifas')
+    if (lower.includes('precio') || lower.includes('tarifa')) {
+      if (!suggestions.includes('Ver tarifas')) suggestions.push('Ver tarifas')
     }
-    if (lower.includes('ubicación') || lower.includes('llegar') || lower.includes('miraflores')) {
-      suggestions.push('Ver ubicación')
+    if (lower.includes('ubicación') || lower.includes('llegar')) {
+      if (!suggestions.includes('Ver ubicación')) suggestions.push('Ver ubicación')
     }
-    if (lower.includes('contacto') || lower.includes('asesor') || lower.includes('hablar')) {
-      suggestions.push('Hablar con asesor')
+    if (lower.includes('contacto') || lower.includes('asesor')) {
+      if (!suggestions.includes('Hablar con asesor')) suggestions.push('Hablar con asesor')
     }
 
-    // Default if none match
+    // Default if none match and no JSON CTAs
     if (suggestions.length === 0) {
-      suggestions.push('Ver más opciones', 'Consultar disponibilidad', 'Hablar con un asesor')
+      suggestions.push('Ver habitaciones', 'Consultar disponibilidad', 'Hablar con un asesor')
     }
 
     // Delay suggestions slightly for better UX
@@ -339,7 +351,7 @@ export default function DemoPage() {
         id: generateId(),
         sender: 'agent',
         type: 'suggestions',
-        content: suggestions.slice(0, 3) // Limit to 3 most relevant
+        content: suggestions.slice(0, 3) // Limit to top 3
       }])
     }, 1000)
   }
@@ -377,7 +389,7 @@ export default function DemoPage() {
       return
     }
 
-    // Predefined flow check for simple intents
+    // Predefined flow check for simple intents (step 1)
     if (!selectedCaracteristica) {
       let carac = 'trabajo'
       if (lower.includes('descanso') || lower.includes('relax')) carac = 'descanso'
@@ -401,12 +413,10 @@ export default function DemoPage() {
       setTimeout(() => {
         handleGrupoSelection(grupo)
       }, 500)
-    } else if (selectedProfile !== null) {
-      // Continue predefined conversation flow OR switch to AI if predefined ends
-      continueConversation()
     } else {
-      // Fallback: if we are here and not in AI mode, maybe we should be
-      setIsAIMode(true)
+      // If we are in the middle of a JSON flow (selectedProfile !== null),
+      // we DON'T want to advance the flow via text box (unless it's an exact match).
+      // Instead, we use AI to handle it as a side-question.
       sendMessageToAI(messageText)
     }
   }
@@ -415,15 +425,7 @@ export default function DemoPage() {
     setSelectedGrupo(grupo)
     setWaitingForGrupoSelection(false)
 
-    // Switch to AI mode immediately after group selection
-    setIsAIMode(true)
-
-    // Send a system message or just start the AI conversation
-    const greetingMessage = `Hola, viajo ${grupo} por ${selectedCaracteristica}.`
-    sendMessageToAI(greetingMessage)
-
-    /* 
-    Legacy predefined flow:
+    // Buscar el perfil específico en el JSON
     const grupoKey = grupo === 'Solo' ? 'solo' : grupo === 'En pareja' ? 'pareja' : 'grupo'
     const profileIndex = profiles.findIndex(
       p => p.caracteristica === selectedCaracteristica && p.grupo === grupoKey
@@ -432,12 +434,18 @@ export default function DemoPage() {
     if (profileIndex !== -1) {
       setSelectedProfile(profileIndex)
       setCurrentConvoIndex(0)
+      setIsAIMode(false) // Asegurarse de estar en modo predefinido
 
+      // Iniciar primera conversación del JSON
       setTimeout(() => {
         showConversation(profileIndex, 0)
       }, 1000)
+    } else {
+      // Si no hay perfil, usar IA como fallback
+      setIsAIMode(true)
+      const greetingMessage = `Hola, viajo ${grupo} por ${selectedCaracteristica}.`
+      sendMessageToAI(greetingMessage)
     }
-    */
   }
 
   const continueConversation = () => {
@@ -485,13 +493,13 @@ export default function DemoPage() {
       content: suggestion
     }])
 
-    // AI Mode logic
+    // AI Mode logic (permanent once activated)
     if (isAIMode) {
       sendMessageToAI(suggestion)
       return
     }
 
-    // Initial intent selection (Trabajo/Descanso/Aventura)
+    // 1. Initial intent selection (Trabajo/Descanso/Aventura)
     if (!selectedCaracteristica && (lower.includes('trabajo') || lower.includes('descanso') || lower.includes('aventura'))) {
       let caracteristica = 'trabajo'
       if (lower.includes('descanso')) caracteristica = 'descanso'
@@ -500,23 +508,34 @@ export default function DemoPage() {
       setTimeout(() => {
         startConversation(caracteristica)
       }, 500)
+      return
     }
-    // Free text link-like support (not a button anymore but just in case)
-    else if (lower.includes('libremente')) {
-      setIsAIMode(true)
-      sendMessageToAI("Hola, quiero contarte mis planes libremente.")
-    }
-    // Group selection
-    else if (waitingForGrupoSelection) {
+
+    // 2. Group selection
+    if (waitingForGrupoSelection) {
       setTimeout(() => {
         handleGrupoSelection(suggestion)
       }, 500)
+      return
     }
-    // Predefined flow (unlikely to be hit now but kept for safety)
-    else if (selectedProfile !== null) {
-      setTimeout(() => {
-        continueConversation()
-      }, 500)
+
+    // 3. Check if the suggestion exists in the CURRENT JSON conversation CTAs
+    if (selectedProfile !== null) {
+      const profile = profiles[selectedProfile]
+      const convo = profile.conversations[currentConvoIndex]
+      const ctas = convo.ctas?.split('/').map((c: any) => c.trim().toLowerCase()) || []
+
+      if (ctas.includes(lower)) {
+        setTimeout(() => {
+          continueConversation()
+        }, 500)
+      } else {
+        setIsAIMode(true)
+        sendMessageToAI(suggestion)
+      }
+    } else {
+      setIsAIMode(true)
+      sendMessageToAI(suggestion)
     }
   }
 
