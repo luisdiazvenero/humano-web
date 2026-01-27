@@ -74,6 +74,18 @@ export default function DemoPage() {
   const [userInput, setUserInput] = useState("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  // AI-related state
+  const [chatHistory, setChatHistory] = useState<Array<{ role: string, content: string }>>([])
+  const [isAIMode, setIsAIMode] = useState(false)
+  const [isAIResponding, setIsAIResponding] = useState(false)
+
+  // Robust ID generation for React keys
+  const idCounter = useRef(0)
+  const generateId = () => {
+    idCounter.current += 1
+    return `${Date.now()}-${idCounter.current}`
+  }
+
   // Get icon for suggestion based on text
   const getSuggestionIcon = (suggestion: string) => {
     const lower = suggestion.toLowerCase()
@@ -162,7 +174,7 @@ export default function DemoPage() {
       setTimeout(() => {
         setMessages([
           {
-            id: Date.now(),
+            id: generateId(),
             sender: 'agent',
             type: 'text',
             content: 'Hola, soy tu anfitrión en Humano, Miraflores.'
@@ -178,19 +190,19 @@ export default function DemoPage() {
       setTimeout(() => {
         setMessages(prev => [...prev,
         {
-          id: Date.now() + 1,
+          id: generateId(),
           sender: 'agent',
           type: 'text',
           content: '¿Vienes por trabajo, descanso o aventura?'
         },
         {
-          id: Date.now() + 2,
+          id: generateId(),
           sender: 'agent',
           type: 'suggestions',
           content: ['Trabajo', 'Descanso', 'Aventura']
         },
         {
-          id: Date.now() + 3,
+          id: generateId(),
           sender: 'agent',
           type: 'freetext',
           content: 'O cuéntame tu plan libremente'
@@ -210,19 +222,170 @@ export default function DemoPage() {
     else startListening()
   }
 
+  // --- AI INTEGRATION FUNCTIONS ---
+
+  const sendMessageToAI = async (userMessage: string) => {
+    setIsAIResponding(true)
+    setIsTyping(true)
+
+    // Add message to OpenAI history (internal role-based)
+    const newHistory = [
+      ...chatHistory,
+      { role: 'user', content: userMessage }
+    ]
+    setChatHistory(newHistory)
+
+    // Create a temporary message in the UI to stream into
+    const aiMessageId = generateId()
+    let fullText = ""
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newHistory,
+          caracteristica: selectedCaracteristica,
+          grupo: selectedGrupo
+        })
+      })
+
+      if (!response.ok) throw new Error('API request failed')
+
+      // Reading the stream
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No reader')
+
+      const decoder = new TextEncoder().encode("").constructor === Uint8Array ? new TextDecoder() : null;
+      if (!decoder) throw new Error('No decoder')
+
+      // Pre-add empty message to UI
+      setMessages(prev => [...prev, {
+        id: aiMessageId,
+        sender: 'agent',
+        type: 'text',
+        content: ""
+      }])
+
+      setIsTyping(false) // Stop initial typing indicator, we are now streaming
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunkText = decoder.decode(value, { stream: true })
+        fullText += chunkText
+
+        // Update the last message in UI
+        setMessages(prev => prev.map(msg =>
+          msg.id === aiMessageId ? { ...msg, content: fullText } : msg
+        ))
+      }
+
+      // Add assistant response to history
+      setChatHistory([
+        ...newHistory,
+        { role: 'assistant', content: fullText }
+      ])
+
+      // Smart suggestions after full response
+      generateSuggestions(fullText)
+
+    } catch (error) {
+      console.error('Error in sendMessageToAI:', error)
+      setMessages(prev => [...prev, {
+        id: generateId(),
+        sender: 'agent',
+        type: 'text',
+        content: 'Disculpa, hubo un error al conectar con el asistente. ¿Podrías intentar de nuevo?'
+      }])
+    } finally {
+      setIsAIResponding(false)
+      setIsTyping(false)
+    }
+  }
+
+  const generateSuggestions = (aiResponse: string) => {
+    const lower = aiResponse.toLowerCase()
+    const suggestions: string[] = []
+
+    if (lower.includes('habitación') || lower.includes('habitacion') || lower.includes('suite')) {
+      suggestions.push('Ver habitaciones')
+    }
+    if (lower.includes('transfer') || lower.includes('aeropuerto') || lower.includes('aeropuerto')) {
+      suggestions.push('Transfer aeropuerto')
+    }
+    if (lower.includes('reserva')) {
+      suggestions.push('Hacer reserva')
+    }
+    if (lower.includes('precio') || lower.includes('tarifa') || lower.includes('costo')) {
+      suggestions.push('Ver tarifas')
+    }
+    if (lower.includes('ubicación') || lower.includes('llegar') || lower.includes('miraflores')) {
+      suggestions.push('Ver ubicación')
+    }
+    if (lower.includes('contacto') || lower.includes('asesor') || lower.includes('hablar')) {
+      suggestions.push('Hablar con asesor')
+    }
+
+    // Default if none match
+    if (suggestions.length === 0) {
+      suggestions.push('Ver más opciones', 'Consultar disponibilidad', 'Hablar con un asesor')
+    }
+
+    // Delay suggestions slightly for better UX
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        id: generateId(),
+        sender: 'agent',
+        type: 'suggestions',
+        content: suggestions.slice(0, 3) // Limit to 3 most relevant
+      }])
+    }, 1000)
+  }
+
+  // --- END AI INTEGRATION FUNCTIONS ---
+
   const handleSendMessage = () => {
     const messageText = userInput || transcript
-    if (!messageText.trim()) return
+    if (!messageText.trim() || isAIResponding) return
 
     // Add user message to chat
     setMessages(prev => [...prev, {
-      id: Date.now(),
+      id: generateId(),
       sender: 'user',
       type: 'text',
       content: messageText
     }])
 
     setUserInput("")
+
+    // Handle AI mode vs Predefined mode
+    if (isAIMode) {
+      sendMessageToAI(messageText)
+      return
+    }
+
+    // NEW: If the user types a specific or complex query in the first step,
+    // let AI handle it immediately instead of forcing the guided flow.
+    const isDetailedQuery = messageText.trim().split(/\s+/).length > 2
+    const lower = messageText.toLowerCase()
+
+    if (!selectedCaracteristica && isDetailedQuery) {
+      setIsAIMode(true)
+      sendMessageToAI(messageText)
+      return
+    }
+
+    // Predefined flow check for simple intents
+    if (!selectedCaracteristica) {
+      let carac = 'trabajo'
+      if (lower.includes('descanso') || lower.includes('relax')) carac = 'descanso'
+      else if (lower.includes('aventura') || lower.includes('conocer')) carac = 'aventura'
+
+      startConversation(carac)
+      return
+    }
 
     // Handle different conversation states
     if (waitingForGrupoSelection) {
@@ -239,8 +402,12 @@ export default function DemoPage() {
         handleGrupoSelection(grupo)
       }, 500)
     } else if (selectedProfile !== null) {
-      // Continue conversation flow
+      // Continue predefined conversation flow OR switch to AI if predefined ends
       continueConversation()
+    } else {
+      // Fallback: if we are here and not in AI mode, maybe we should be
+      setIsAIMode(true)
+      sendMessageToAI(messageText)
     }
   }
 
@@ -248,7 +415,15 @@ export default function DemoPage() {
     setSelectedGrupo(grupo)
     setWaitingForGrupoSelection(false)
 
-    // Buscar el perfil específico
+    // Switch to AI mode immediately after group selection
+    setIsAIMode(true)
+
+    // Send a system message or just start the AI conversation
+    const greetingMessage = `Hola, viajo ${grupo} por ${selectedCaracteristica}.`
+    sendMessageToAI(greetingMessage)
+
+    /* 
+    Legacy predefined flow:
     const grupoKey = grupo === 'Solo' ? 'solo' : grupo === 'En pareja' ? 'pareja' : 'grupo'
     const profileIndex = profiles.findIndex(
       p => p.caracteristica === selectedCaracteristica && p.grupo === grupoKey
@@ -258,11 +433,11 @@ export default function DemoPage() {
       setSelectedProfile(profileIndex)
       setCurrentConvoIndex(0)
 
-      // Iniciar primera conversación
       setTimeout(() => {
         showConversation(profileIndex, 0)
       }, 1000)
     }
+    */
   }
 
   const continueConversation = () => {
@@ -281,13 +456,13 @@ export default function DemoPage() {
         setTimeout(() => {
           setMessages(prev => [...prev,
           {
-            id: Date.now() + 1,
+            id: generateId(),
             sender: 'agent',
             type: 'text',
             content: '¡Genial! ¿Te gustaría que te ayude a reservar tu habitación o tienes alguna otra pregunta?'
           },
           {
-            id: Date.now() + 2,
+            id: generateId(),
             sender: 'agent',
             type: 'suggestions',
             content: ['Ver habitaciones', 'Hacer reserva', 'Hablar con un asesor']
@@ -300,18 +475,23 @@ export default function DemoPage() {
   }
 
   const handleSuggestionClick = (suggestion: string) => {
-    // Add user message
+    const lower = suggestion.toLowerCase()
+
+    // Add user message to chat UI
     setMessages(prev => [...prev, {
-      id: Date.now(),
+      id: generateId(),
       sender: 'user',
       type: 'text',
       content: suggestion
     }])
 
-    // Handle response based on context
-    const lower = suggestion.toLowerCase()
+    // AI Mode logic
+    if (isAIMode) {
+      sendMessageToAI(suggestion)
+      return
+    }
 
-    // Check if it's an initial intent selection (Trabajo/Descanso/Aventura)
+    // Initial intent selection (Trabajo/Descanso/Aventura)
     if (!selectedCaracteristica && (lower.includes('trabajo') || lower.includes('descanso') || lower.includes('aventura'))) {
       let caracteristica = 'trabajo'
       if (lower.includes('descanso')) caracteristica = 'descanso'
@@ -320,11 +500,20 @@ export default function DemoPage() {
       setTimeout(() => {
         startConversation(caracteristica)
       }, 500)
-    } else if (waitingForGrupoSelection) {
+    }
+    // Free text link-like support (not a button anymore but just in case)
+    else if (lower.includes('libremente')) {
+      setIsAIMode(true)
+      sendMessageToAI("Hola, quiero contarte mis planes libremente.")
+    }
+    // Group selection
+    else if (waitingForGrupoSelection) {
       setTimeout(() => {
         handleGrupoSelection(suggestion)
       }, 500)
-    } else if (selectedProfile !== null) {
+    }
+    // Predefined flow (unlikely to be hit now but kept for safety)
+    else if (selectedProfile !== null) {
       setTimeout(() => {
         continueConversation()
       }, 500)
@@ -343,13 +532,13 @@ export default function DemoPage() {
     setTimeout(() => {
       setMessages(prev => [...prev,
       {
-        id: Date.now(),
+        id: generateId(),
         sender: 'agent',
         type: 'text',
         content: `¡Genial! Veo que vienes por ${caracteristica}. Cuéntame, ¿viajas solo, en pareja o en grupo?`
       },
       {
-        id: Date.now() + 1,
+        id: generateId(),
         sender: 'agent',
         type: 'suggestions',
         content: ['Solo', 'En pareja', 'En grupo']
@@ -377,7 +566,7 @@ export default function DemoPage() {
     // Show intro
     setTimeout(() => {
       setMessages(prev => [...prev, {
-        id: Date.now(),
+        id: generateId(),
         sender: 'agent',
         type: 'text',
         content: convo.intro
@@ -388,7 +577,7 @@ export default function DemoPage() {
     // Show fase + titulo
     setTimeout(() => {
       setMessages(prev => [...prev, {
-        id: Date.now() + 1,
+        id: generateId(),
         sender: 'agent',
         type: 'header',
         content: convo.fase
@@ -398,7 +587,7 @@ export default function DemoPage() {
     // Show content card
     setTimeout(() => {
       setMessages(prev => [...prev, {
-        id: Date.now() + 2,
+        id: generateId(),
         sender: 'agent',
         type: 'card',
         content: {
@@ -418,7 +607,7 @@ export default function DemoPage() {
 
       setTimeout(() => {
         setMessages(prev => [...prev, {
-          id: Date.now() + 3,
+          id: generateId(),
           sender: 'agent',
           type: 'text',
           content: convo.cierre
@@ -432,7 +621,7 @@ export default function DemoPage() {
       setTimeout(() => {
         const ctaButtons = convo.ctas.split('/').map((cta: string) => cta.trim()).filter((cta: string) => cta)
         setMessages(prev => [...prev, {
-          id: Date.now() + 5,
+          id: generateId(),
           sender: 'agent',
           type: 'suggestions',
           content: ctaButtons
@@ -448,8 +637,13 @@ export default function DemoPage() {
     setSelectedProfile(null)
     setCurrentConvoIndex(0)
     setMessages([])
-    setShowIntro(true)
+    setShowIntro(false)
     setWaitingForGrupoSelection(false)
+
+    // Reset AI state
+    setChatHistory([])
+    setIsAIMode(false)
+    setIsAIResponding(false)
   }
 
   if (showIntro) {
