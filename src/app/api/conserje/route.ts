@@ -1437,12 +1437,13 @@ INSTRUCCIONES:
     }
 
     if (matchedItem) {
+      const resolvedMatchedItem = matchedItem as ConserjeItem
       if (isNegative(message)) {
         return NextResponse.json({
           reply: "Entiendo. ¿Quieres revisar otras opciones?",
           suggestions: [],
           items: [],
-          menu: buildCategoryMenu(matchedItem.tipo),
+          menu: buildCategoryMenu(resolvedMatchedItem.tipo),
           intent: null,
           profile: null,
           tipo: null,
@@ -1450,39 +1451,39 @@ INSTRUCCIONES:
         })
       }
       const reply =
-        matchedItem.tipo === "Habitaciones"
+        resolvedMatchedItem.tipo === "Habitaciones"
           ? (freeformReasoning
               ? (await generateContextualReply({
                   message,
-                  items: [matchedItem],
+                  items: [resolvedMatchedItem],
                   history: safeHistory,
                   state,
-                })) || buildItemReply(matchedItem, message, state)
-              : buildItemReply(matchedItem, message, state))
-          : matchedItem.tipo === "Servicios"
+                })) || buildItemReply(resolvedMatchedItem, message, state)
+              : buildItemReply(resolvedMatchedItem, message, state))
+          : resolvedMatchedItem.tipo === "Servicios"
             ? (freeformReasoning && !mentionsAnimal
                 ? (await generateContextualReply({
                     message,
-                    items: [matchedItem],
+                    items: [resolvedMatchedItem],
                     history: safeHistory,
                     state,
-                  })) || (await buildServiceReply(matchedItem, message, state, safeHistory))
-                : await buildServiceReply(matchedItem, message, state, safeHistory))
+                  })) || (await buildServiceReply(resolvedMatchedItem, message, state, safeHistory))
+                : await buildServiceReply(resolvedMatchedItem, message, state, safeHistory))
             : (await generateContextualReply({
                 message,
-                items: [matchedItem],
+                items: [resolvedMatchedItem],
                 history: safeHistory,
                 state,
-              })) || buildItemReply(matchedItem, message, state)
+              })) || buildItemReply(resolvedMatchedItem, message, state)
       return NextResponse.json({
         reply,
-        suggestions: buildCTAs({ message, item: matchedItem, state, reply }),
+        suggestions: buildCTAs({ message, item: resolvedMatchedItem, state, reply }),
         items: [],
         menu: [],
         intent: null,
         profile: null,
-        tipo: matchedItem.tipo,
-        activeItemId: matchedItem.id,
+        tipo: resolvedMatchedItem.tipo,
+        activeItemId: resolvedMatchedItem.id,
       })
     }
 
