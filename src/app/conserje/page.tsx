@@ -27,7 +27,7 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid"
-import { useSpeech } from "@/hooks/useSpeech"
+import { useMicrophone } from "@/hooks/useMicrophone"
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -122,6 +122,38 @@ const extractIntentHint = (text: string): string | null => {
   return null
 }
 
+const normalizeShortInput = (text: string): string => {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+const mapInputToSuggestion = (text: string): string | null => {
+  const normalized = normalizeShortInput(text)
+  if (!normalized) return null
+  const words = normalized.split(/\s+/).filter(Boolean)
+  if (words.length > 4) return null
+
+  if (normalized.includes("trabajo")) return "Trabajo"
+  if (normalized.includes("descanso") || normalized.includes("relax")) return "Descanso"
+  if (normalized.includes("aventura") || normalized.includes("explorar")) return "Aventura"
+  if (normalized.includes("solo") || normalized.includes("sola")) return "Solo"
+  if (normalized.includes("pareja")) return "En pareja"
+  if (normalized.includes("grupo") || normalized.includes("familia") || normalized.includes("amigos")) {
+    return "En grupo"
+  }
+  if (normalized.includes("habitacion")) return "Habitaciones"
+  if (normalized.includes("servicio")) return "Servicios"
+  if (normalized.includes("recomendacion")) return "Recomendaciones locales"
+  if (normalized.includes("instalacion")) return "Instalaciones"
+
+  return null
+}
+
 export default function ConserjePage() {
   const [messages, setMessages] = useState<any[]>([])
   const [isTyping, setIsTyping] = useState(false)
@@ -145,11 +177,15 @@ export default function ConserjePage() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const queueRef = useRef(Promise.resolve())
 
-  const speech: any = useSpeech?.() ?? {}
-  const transcript: string = speech.transcript ?? ""
-  const isListening: boolean = speech.isListening ?? false
-  const startListening = speech.startListening ?? (() => {})
-  const stopListening = speech.stopListening ?? (() => {})
+  const mic = useMicrophone({ lang: "es-PE" })
+  const transcript: string = mic.transcript ?? ""
+  const isListening: boolean = mic.isListening ?? false
+  const isTranscribing: boolean = mic.isTranscribing ?? false
+  const micError: string | null = mic.error ?? null
+  const isMicSupported: boolean = mic.isSupported ?? false
+  const startListening = mic.startListening ?? (() => {})
+  const stopListening = mic.stopListening ?? (() => {})
+  const resetTranscript = mic.resetTranscript ?? (() => {})
 
   const idCounter = useRef(0)
   const generateId = () => {
@@ -262,8 +298,9 @@ export default function ConserjePage() {
   }, [messages])
 
   const handleMicToggle = () => {
+    if (!isMicSupported) return
     if (isListening) stopListening()
-    else startListening()
+    else if (!isTranscribing) startListening()
   }
 
   const getSuggestionIcon = (suggestion: string) => {
@@ -458,6 +495,15 @@ export default function ConserjePage() {
   const handleSendMessage = () => {
     const messageText = userInput || transcript
     if (!messageText.trim() || isAIResponding) return
+    if (isListening) stopListening()
+
+    const mappedSuggestion = mapInputToSuggestion(messageText)
+    if (mappedSuggestion) {
+      setUserInput("")
+      resetTranscript()
+      handleSuggestionClick(mappedSuggestion)
+      return
+    }
 
     setMessages((prev) => [
       ...prev,
@@ -470,6 +516,7 @@ export default function ConserjePage() {
     ])
 
     setUserInput("")
+    resetTranscript()
     const lower = messageText.toLowerCase()
     if (lower.includes("reservar habitación") || lower.includes("coordinar servicio")) {
       handleCtaAction(messageText)
@@ -880,10 +927,10 @@ export default function ConserjePage() {
               />
               <div className="flex gap-2">
                 <button
-                  disabled={isTyping}
+                  disabled={isTyping || !isMicSupported || (isTranscribing && !isListening)}
                   onClick={handleMicToggle}
                   className={`h-12 w-12 rounded-xl transition-all duration-300 flex items-center justify-center group ${
-                    isTyping
+                    isTyping || !isMicSupported || (isTranscribing && !isListening)
                       ? "bg-muted/30 cursor-not-allowed opacity-50 border border-border"
                       : isListening
                         ? "bg-red-500/20 border border-red-500/50 scale-105 cursor-pointer"
@@ -901,10 +948,10 @@ export default function ConserjePage() {
                   )}
                 </button>
                 <button
-                  disabled={isTyping}
+                  disabled={isTyping || isTranscribing}
                   onClick={handleSendMessage}
                   className={`h-12 w-12 rounded-xl transition-all shadow-sm flex items-center justify-center ${
-                    isTyping
+                    isTyping || isTranscribing
                       ? "bg-muted/30 cursor-not-allowed opacity-50"
                       : "bg-[#ffce5c] hover:bg-[#ffce5c]/90 text-[#003744] hover:scale-105 cursor-pointer"
                   }`}
@@ -914,6 +961,14 @@ export default function ConserjePage() {
                 </button>
               </div>
             </div>
+            {micError && (
+              <p className="mt-2 text-sm text-red-600">{micError}</p>
+            )}
+            {!isMicSupported && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Tu navegador no soporta micrófono.
+              </p>
+            )}
           </div>
         </div>
       </div>
