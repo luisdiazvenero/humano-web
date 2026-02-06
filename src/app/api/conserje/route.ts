@@ -19,12 +19,26 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
+type ChatRole = "system" | "user" | "assistant" | "developer"
+type ChatHistoryItem = { role: ChatRole; content: string }
+
 const EMBEDDING_MODEL = "text-embedding-3-small"
 const CHAT_MODEL = "gpt-4o"
 const CLASSIFY_MODEL = "gpt-4o-mini"
 
 const embeddingCache = new Map<string, number[]>()
 const itemTextCache = new Map<string, string>()
+
+const ALLOWED_ROLES = new Set<ChatRole>(["system", "user", "assistant", "developer"])
+
+function sanitizeHistory(history: Array<{ role?: string; content?: string }>): ChatHistoryItem[] {
+  return history
+    .filter((entry) => entry && typeof entry.role === "string" && ALLOWED_ROLES.has(entry.role as ChatRole))
+    .map((entry) => ({
+      role: entry.role as ChatRole,
+      content: String(entry.content ?? ""),
+    }))
+}
 
 function buildItemText(item: ConserjeItem): string {
   const cached = itemTextCache.get(item.id)
@@ -454,7 +468,7 @@ function parseGuestCount(value: string | null | undefined): number | null {
 
 function shouldTreatAsGuests(
   message: string,
-  history: Array<{ role: string; content: string }>
+  history: ChatHistoryItem[]
 ): number | null {
   const normalized = normalizeText(message).trim()
   if (!/^\d{1,2}$/.test(normalized)) return null
@@ -657,7 +671,7 @@ async function buildServiceReply(
   item: ConserjeItem,
   message: string,
   state?: { dates?: string | null; guests?: string | null; profile?: string | null },
-  history?: Array<{ role: string; content: string }>
+  history?: ChatHistoryItem[]
 ): Promise<string> {
   const isPetService = item.id.toLowerCase().includes("mascotas") || item.id.toLowerCase().includes("pet")
   const short = buildDetailReply(item)
@@ -839,7 +853,7 @@ function buildCTAs(options: {
 async function generateContextualReply(options: {
   message: string
   items: ConserjeItem[]
-  history: Array<{ role: string; content: string }>
+  history: ChatHistoryItem[]
   state?: { dates?: string | null; guests?: string | null; profile?: string | null; intent?: string | null }
 }) {
   try {
@@ -907,7 +921,8 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const message: string = body?.message || ""
-    const history: Array<{ role: string; content: string }> = body?.history || []
+    const history: Array<{ role?: string; content?: string }> = body?.history || []
+    const safeHistory = sanitizeHistory(history)
     const activeItemId: string | null = body?.activeItemId || null
     const state = body?.state || null
     const mode: string | null = body?.mode || null
@@ -953,7 +968,7 @@ INSTRUCCIONES:
         max_tokens: 80,
         messages: [
           { role: "system", content: systemPrompt },
-          ...history.slice(-4),
+          ...safeHistory.slice(-4),
           {
             role: "user",
             content: context ? `Contexto:\n${context}` : "Sin contexto adicional.",
@@ -990,7 +1005,7 @@ INSTRUCCIONES:
     const semanticBestScore = semanticRanked[0]?.score ?? 0
 
     const dateHint = extractDateHint(message)
-    const askedGuestsCount = shouldTreatAsGuests(message, history)
+    const askedGuestsCount = shouldTreatAsGuests(message, safeHistory)
     const guestsHint =
       extractGuestsHint(message) || (askedGuestsCount ? `${askedGuestsCount} personas` : null)
     const petSize = extractPetSize(message)
@@ -1090,7 +1105,7 @@ INSTRUCCIONES:
           (await generateContextualReply({
             message,
             items: topItems.length > 0 ? topItems : filteredRooms.slice(0, 3),
-            history,
+            history: safeHistory,
             state,
           })) || "Tengo opciones que podrían encajar. ¿Qué prefieres: cama, tamaño o vista?"
         return NextResponse.json({
@@ -1167,7 +1182,7 @@ INSTRUCCIONES:
           (await generateContextualReply({
             message,
             items: topItems.length > 0 ? topItems : filtered.slice(0, 3),
-            history,
+            history: safeHistory,
             state,
           })) || "Tengo algunas opciones cerca. ¿Qué tipo de café prefieres?"
         return NextResponse.json({
@@ -1242,7 +1257,7 @@ INSTRUCCIONES:
           (await generateContextualReply({
             message,
             items: topItems.length > 0 ? topItems : filtered.slice(0, 3),
-            history,
+            history: safeHistory,
             state,
           })) || "Tenemos varias instalaciones. ¿Qué te interesa usar?"
         return NextResponse.json({
@@ -1340,7 +1355,7 @@ INSTRUCCIONES:
           reply = detail ? `${detail} ${followUp}` : followUp
         }
         if (currentItem.tipo === "Servicios") {
-          reply = await buildServiceReply(currentItem, message, state, history)
+          reply = await buildServiceReply(currentItem, message, state, safeHistory)
         }
         return NextResponse.json({
           reply,
@@ -1390,7 +1405,7 @@ INSTRUCCIONES:
               ? (await generateContextualReply({
                   message,
                   items: [currentItem],
-                  history,
+                  history: safeHistory,
                   state,
                 })) || buildItemReply(currentItem, message, state)
               : buildItemReply(currentItem, message, state))
@@ -1399,14 +1414,14 @@ INSTRUCCIONES:
                 ? (await generateContextualReply({
                     message,
                     items: [currentItem],
-                    history,
+                    history: safeHistory,
                     state,
-                  })) || (await buildServiceReply(currentItem, message, state, history))
-                : await buildServiceReply(currentItem, message, state, history))
+                  })) || (await buildServiceReply(currentItem, message, state, safeHistory))
+                : await buildServiceReply(currentItem, message, state, safeHistory))
             : (await generateContextualReply({
                 message,
                 items: [currentItem],
-                history,
+                history: safeHistory,
                 state,
               })) || buildItemReply(currentItem, message, state)
       return NextResponse.json({
@@ -1440,7 +1455,7 @@ INSTRUCCIONES:
               ? (await generateContextualReply({
                   message,
                   items: [matchedItem],
-                  history,
+                  history: safeHistory,
                   state,
                 })) || buildItemReply(matchedItem, message, state)
               : buildItemReply(matchedItem, message, state))
@@ -1449,14 +1464,14 @@ INSTRUCCIONES:
                 ? (await generateContextualReply({
                     message,
                     items: [matchedItem],
-                    history,
+                    history: safeHistory,
                     state,
-                  })) || (await buildServiceReply(matchedItem, message, state, history))
-                : await buildServiceReply(matchedItem, message, state, history))
+                  })) || (await buildServiceReply(matchedItem, message, state, safeHistory))
+                : await buildServiceReply(matchedItem, message, state, safeHistory))
             : (await generateContextualReply({
                 message,
                 items: [matchedItem],
-                history,
+                history: safeHistory,
                 state,
               })) || buildItemReply(matchedItem, message, state)
       return NextResponse.json({
@@ -1488,7 +1503,7 @@ INSTRUCCIONES:
           (await generateContextualReply({
             message,
             items: topItems.length > 0 ? topItems : serviciosItems.slice(0, 3),
-            history,
+            history: safeHistory,
             state,
           })) || "Tenemos varios servicios disponibles. ¿Cuál te interesa?"
         return NextResponse.json({
@@ -1562,7 +1577,7 @@ INSTRUCCIONES:
       ? await generateContextualReply({
           message,
           items: topItems,
-          history,
+          history: safeHistory,
           state,
         })
       : "No tengo ese dato en este momento. Si quieres, puedo confirmarlo con el hotel."
