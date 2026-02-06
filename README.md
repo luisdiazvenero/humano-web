@@ -73,3 +73,11 @@ Despliega en Vercel o tu proveedor preferido. Asegura `OPENAI_API_KEY` en variab
 - `/conserje` es independiente de `/demoai`.
 - El Excel es la fuente factual. La IA solo completa tono o conecta piezas.
 - Si cambias el Excel, regenera el JSON antes de probar.
+
+## Últimos ajustes (conversación)
+
+- Corrección de detección de fechas para evitar falsos positivos (ej. “Junior Suite”).
+- Respuestas libres ahora usan IA en Habitaciones/Servicios/Instalaciones/Recomendaciones.
+- Seguimiento de contexto para respuestas cortas (“sí”, tamaños, números de personas).
+- Validación de restricciones por grupo/familia basada en el Excel.
+- Pet friendly: respuesta natural con condiciones normalizadas.
