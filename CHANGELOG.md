@@ -16,3 +16,6 @@
 - Falsos positivos en detección de fechas (ej. “Junior Suite”).
 - Loops al responder cantidad de personas y restricciones por grupo.
 - Respuestas repetidas en pet friendly y normalización de condiciones.
+- Seguimiento de contexto en respuestas cortas (evita saltos entre servicios).
+- Loop en recomendaciones al responder “sí/caminando/taxi”.
+- Detección de preguntas por “?” y parseo robusto de JSON en enrutamiento LLM.
