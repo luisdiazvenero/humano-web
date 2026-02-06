@@ -1,0 +1,1008 @@
+{
+  "items": [
+    {
+      "id": "HAB_SUPERIOR_KING",
+      "nombre_publico": "Superior King",
+      "categoria": "Habitación",
+      "desc_factual": "Habitación de 24 m² con 1 cama King, minirefrigerador, escritorio, ventanas insonorizadas y Wi‑Fi.",
+      "desc_experiencial": "Ideal si quieres una base cómoda y silenciosa para descansar y moverte por Miraflores con ritmo ligero.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja"
+      ],
+      "restricciones_requisitos": [
+        "familias",
+        "grupos"
+      ],
+      "condiciones_servicio": [
+        "Habitación desde $XX"
+      ],
+      "imagenes_url": [
+        "LINK_IMAGENES_SUPERIOR_KING"
+      ],
+      "frases_sugeridas": [
+        "Cómoda y directa, sin complicarte",
+        "Ideal si vas a pasar el día fuera explorando"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "HAB_SUPERIOR_DOUBLE",
+      "nombre_publico": "Superior double",
+      "categoria": "Habitación",
+      "desc_factual": "Habitación de 25 m² con 2 camas dobles, minirefrigerador, escritorio, ventanas insonorizadas y Wi‑Fi.",
+      "desc_experiencial": "Buena opción si vienes acompañado y quieres camas separadas sin complicarte.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [
+        "grupos"
+      ],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_SUPERIOR_DOUBLE"
+      ],
+      "frases_sugeridas": [
+        "Cómoda y directa, sin complicarte",
+        "Ideal si vas a pasar el día fuera explorando"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "HAB_DELUXE_KING",
+      "nombre_publico": "Deluxe king",
+      "categoria": "Habitación",
+      "desc_factual": "Habitación de 24 m² con 1 cama King, minirefrigerador, escritorio, Wi‑Fi, e incluye bata y pantuflas.",
+      "desc_experiencial": "Un plus de confort para cerrar el día con calma, sin subir a una suite.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [
+        "familias",
+        "grupos",
+        "presupuesto_bajo"
+      ],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_DELUXE_KING"
+      ],
+      "frases_sugeridas": [
+        "Un plus de confort para cerrar el día",
+        "Buena para viajes de trabajo con descanso"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "HAB_ACCESIBLE_ROOM",
+      "nombre_publico": "Accesible room",
+      "categoria": "Habitación",
+      "desc_factual": "Habitación de 32 m² con 1 cama King, minirefrigerador, escritorio y baño con ducha accesible para silla de ruedas.",
+      "desc_experiencial": "Diseñada para una estadía más cómoda si necesitas accesibilidad en la ducha y circulación.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [
+        "grupos",
+        "familias"
+      ],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_ACCESIBLE_ROOM"
+      ],
+      "frases_sugeridas": [
+        "Pensada para una estadía más cómoda",
+        "Si necesitas ducha accesible, esta es la opción"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "HAB_FAMILY_ROOM",
+      "nombre_publico": "Family room",
+      "categoria": "Habitación",
+      "desc_factual": "Habitación de 32 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
+      "desc_experiencial": "Cómoda para venir en familia y tener un espacio extra para estar juntos sin apretarse.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_FAMILY_ROOM"
+      ],
+      "frases_sugeridas": [
+        "Para venir con niños y tener espacio extra",
+        "Perfecta para plan de ciudad en familia"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "HAB_FAMILY_DELUXE",
+      "nombre_publico": "Family deluxe",
+      "categoria": "Habitación",
+      "desc_factual": "Habitación de 47 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
+      "desc_experiencial": "Más amplitud para la familia y para esos ratos de pausa entre planes en la ciudad.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_FAMILY_DELUXE"
+      ],
+      "frases_sugeridas": [
+        "Para venir con niños y tener espacio extra",
+        "Perfecta para plan de ciudad en familia"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "HAB_JUNIOR_SUITE",
+      "nombre_publico": "Junior Suite",
+      "categoria": "Habitación",
+      "desc_factual": "Suite de 32 m² con cama King, área de estar, escritorio, Wi‑Fi y baño con bañera y ducha por separado.",
+      "desc_experiencial": "Un espacio que te da un poco más de aire y comodidad, ideal para combinar descanso real con foco.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja"
+      ],
+      "restricciones_requisitos": [
+        "grupos",
+        "familias",
+        "presupuesto_bajo"
+      ],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_JUNIOR_SUITE"
+      ],
+      "frases_sugeridas": [
+        "Más espacio para estar cómodo",
+        "Funciona muy bien para estancias de varios días"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "HAB_SIGNATURE_SUITE",
+      "nombre_publico": "Signature Suite",
+      "categoria": "Habitación",
+      "desc_factual": "Suite de 64 m² con cama King y sofá cama, sala de estar separada, cocina separada, escritorio y Wi‑Fi.",
+      "desc_experiencial": "Para quedarte con espacio de sobra: trabajar, recibir a alguien o simplemente vivir Lima con más calma.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja"
+      ],
+      "restricciones_requisitos": [
+        "presupuesto_bajo",
+        "grupos"
+      ],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_SIGNATURE_SUITE"
+      ],
+      "frases_sugeridas": [
+        "Espacio de sobra para vivir la estadía",
+        "Ideal si mezclas trabajo y descanso"
+      ],
+      "ctas": [
+        "Ver otras habitaciones",
+        "Reservar ahora"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Habitaciones"
+    },
+    {
+      "id": "SERV_TRANSFER_AEROPUERTO",
+      "nombre_publico": "Transfer aeropuerto",
+      "categoria": "Servicio",
+      "desc_factual": "Servicio de traslado privado desde o hacia el aeropuerto Jorge Chávez, con costo adicional.",
+      "desc_experiencial": "Llegar o salir de Lima sin preocuparte por taxis ni rutas.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [
+        "coordinacion_previa"
+      ],
+      "condiciones_servicio": [
+        "con_costo",
+        "tercerizado",
+        "disponibilidad_variable"
+      ],
+      "imagenes_url": [
+        "LINK_IMAGENES_TRANSFER"
+      ],
+      "frases_sugeridas": [
+        "Cómodo si llegas tarde o de madrugada",
+        "Evita complicaciones al llegar"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_MASCOTAS",
+      "nombre_publico": "Pet friendly",
+      "categoria": "Servicio",
+      "desc_factual": "Servicio que permite hospedarse con mascotas bajo condiciones y costo adicional.",
+      "desc_experiencial": "Viajar con tu mascota sin dejarla atrás.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "familia",
+        "pareja"
+      ],
+      "restricciones_requisitos": [
+        "coordinacion_previa"
+      ],
+      "condiciones_servicio": [
+        "con_costo",
+        "condiciones_especiales"
+      ],
+      "imagenes_url": [
+        "LINK_IMAGENES_MASCOTAS"
+      ],
+      "frases_sugeridas": [
+        "Si viajas con mascota, es buena opción",
+        "Conviene coordinar antes"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_ROOM_SERVICE",
+      "nombre_publico": "Room service",
+      "categoria": "Servicio",
+      "desc_factual": "Servicio de alimentos y bebidas en la habitación.",
+      "desc_experiencial": "Comer con calma y privacidad sin salir.",
+      "intenciones": [
+        "Descanso",
+        "Trabajo"
+      ],
+      "perfil_ideal": [
+        "comodidad",
+        "trabajo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [
+        "con_costo",
+        "disponibilidad_variable"
+      ],
+      "imagenes_url": [
+        "LINK_IMAGENES_ROOM_SERVICE"
+      ],
+      "frases_sugeridas": [
+        "Útil para días tranquilos",
+        "Práctico si no quieres salir"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_LAVANDERIA",
+      "nombre_publico": "Lavandería",
+      "categoria": "Servicio",
+      "desc_factual": "Servicio de lavado y planchado de prendas, con costo adicional.",
+      "desc_experiencial": "Resolver lo práctico durante estadías largas.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "larga_estancia",
+        "trabajo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [
+        "con_costo",
+        "disponibilidad_variable"
+      ],
+      "imagenes_url": [
+        "LINK_IMAGENES_LAVANDERIA"
+      ],
+      "frases_sugeridas": [
+        "Útil para estadías largas",
+        "Práctico y sin complicaciones"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_ESTACIONAMIENTO",
+      "nombre_publico": "Estacionamiento",
+      "categoria": "Servicio",
+      "desc_factual": "Servicio de estacionamiento para huéspedes, sujeto a disponibilidad.",
+      "desc_experiencial": "Moverte con auto propio con mayor comodidad.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "familia",
+        "comodidad",
+        "trabajo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [
+        "con_costo",
+        "disponibilidad_variable"
+      ],
+      "imagenes_url": [
+        "LINK_IMAGENES_ESTACIONAMIENTO"
+      ],
+      "frases_sugeridas": [
+        "Práctico si vienes en auto",
+        "Conviene confirmar disponibilidad"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_WIFI",
+      "nombre_publico": "Wi‑Fi",
+      "categoria": "Servicio",
+      "desc_factual": "Conexión Wi‑Fi disponible en todo el hotel.",
+      "desc_experiencial": "Mantenerte conectado sin fricción.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "trabajo",
+        "solo",
+        "familia",
+        "comodidad"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_WIFI"
+      ],
+      "frases_sugeridas": [
+        "Es parte de la estadía",
+        "Funciona bien para trabajo y ocio"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_LIMPIEZA",
+      "nombre_publico": "Limpieza de habitación",
+      "categoria": "Servicio",
+      "desc_factual": "Servicio regular de limpieza de habitaciones.",
+      "desc_experiencial": "Llegar a una habitación ordenada y cómoda.",
+      "intenciones": [
+        "Descanso",
+        "Trabajo"
+      ],
+      "perfil_ideal": [
+        "comodidad",
+        "familia",
+        "trabajo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_LIMPIEZA"
+      ],
+      "frases_sugeridas": [
+        "Incluido durante la estadía",
+        "Mantiene todo en orden"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_CONCIERGE",
+      "nombre_publico": "Asistencia y concierge",
+      "categoria": "Servicio",
+      "desc_factual": "Asistencia en recepción para información general y apoyo durante la estadía.",
+      "desc_experiencial": "Tener a alguien que te ayude a orientarte cuando lo necesitas.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "primera_vez",
+        "comodidad",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_CONCIERGE"
+      ],
+      "frases_sugeridas": [
+        "Útil si es tu primera vez",
+        "Te ayudan a orientarte"
+      ],
+      "ctas": [
+        "Solicitar información",
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Servicios"
+    },
+    {
+      "id": "INST_LOBBY",
+      "nombre_publico": "Lobby",
+      "categoria": "Instalación",
+      "desc_factual": "Espacio central del hotel con recepción y áreas de espera.",
+      "desc_experiencial": "Un punto tranquilo para llegar, orientarte o esperar con calma.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_LOBBY"
+      ],
+      "frases_sugeridas": [
+        "Buen lugar para ubicarse al llegar",
+        "Funciona para esperas cortas"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "24h",
+      "horario_cierre": "24h",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_DESAYUNO",
+      "nombre_publico": "Desayuno",
+      "categoria": "Instalación",
+      "desc_factual": "Área de desayuno del hotel.",
+      "desc_experiencial": "Empezar el día con calma sin salir del hotel.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "familia",
+        "trabajo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_DESAYUNO"
+      ],
+      "frases_sugeridas": [
+        "Práctico para empezar temprano",
+        "Cómodo si no quieres salir"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "06:30",
+      "horario_cierre": "10:30",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_RESTAURANTE_ENT",
+      "nombre_publico": "Restaurante",
+      "categoria": "Instalación",
+      "desc_factual": "Restaurante del hotel para almuerzos y cenas.",
+      "desc_experiencial": "Comer con calma entre planes del día.",
+      "intenciones": [
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "pareja",
+        "familia",
+        "comodidad"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_RESTAURANTE"
+      ],
+      "frases_sugeridas": [
+        "Cómodo para almorzar o cenar",
+        "Sin tener que salir"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "12:30",
+      "horario_cierre": "22:00",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_RESTAURANTE_CDL",
+      "nombre_publico": "Restaurante",
+      "categoria": "Instalación",
+      "desc_factual": "Bar del hotel con servicio de bebidas.",
+      "desc_experiencial": "Un cierre relajado para el día.",
+      "intenciones": [
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "pareja",
+        "solo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_BAR"
+      ],
+      "frases_sugeridas": [
+        "Ideal para terminar el día",
+        "Ambiente relajado"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "17:00",
+      "horario_cierre": "23:00",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_COWORKING",
+      "nombre_publico": "Coworking",
+      "categoria": "Instalación",
+      "desc_factual": "Espacio de trabajo compartido dentro del hotel.",
+      "desc_experiencial": "Trabajar con foco sin salir del hotel.",
+      "intenciones": [
+        "Trabajo"
+      ],
+      "perfil_ideal": [
+        "trabajo",
+        "solo",
+        "larga_estancia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_COWORKING"
+      ],
+      "frases_sugeridas": [
+        "Funciona muy bien para trabajar",
+        "Espacio tranquilo"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "24h",
+      "horario_cierre": "24h",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_GIMNASIO",
+      "nombre_publico": "Gimnasio",
+      "categoria": "Instalación",
+      "desc_factual": "Gimnasio equipado para entrenamiento básico.",
+      "desc_experiencial": "Mantener la rutina de forma práctica.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "activo",
+        "bienestar",
+        "solo",
+        "pareja"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_GIMNASIO"
+      ],
+      "frases_sugeridas": [
+        "Útil para mantener la rutina",
+        "Fácil de usar"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "06:00",
+      "horario_cierre": "22:00",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_PISCINA",
+      "nombre_publico": "Piscina",
+      "categoria": "Instalación",
+      "desc_factual": "Piscina del hotel para uso recreativo.",
+      "desc_experiencial": "Un espacio para bajar el ritmo.",
+      "intenciones": [
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "pareja",
+        "familia",
+        "descanso"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_PISCINA"
+      ],
+      "frases_sugeridas": [
+        "Buena para relajarse",
+        "Ideal en días tranquilos"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "08:00",
+      "horario_cierre": "20:00",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_SALAS_REUNIONES",
+      "nombre_publico": "Salas de reuniones",
+      "categoria": "Instalación",
+      "desc_factual": "Salas equipadas para reuniones y eventos.",
+      "desc_experiencial": "Espacios formales para encuentros de trabajo.",
+      "intenciones": [
+        "Trabajo"
+      ],
+      "perfil_ideal": [
+        "trabajo",
+        "empresa"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_SALAS"
+      ],
+      "frases_sugeridas": [
+        "Prácticas para reuniones",
+        "Equipadas y funcionales"
+      ],
+      "ctas": [
+        "¿Te gustaría usar este espacio?",
+        "Te cuento cómo funciona"
+      ],
+      "horario_apertura": "08:00",
+      "horario_cierre": "22:00",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "REC_MALECON_MIRAFLORES",
+      "nombre_publico": "Malecón de Miraflores",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Circuito peatonal frente al mar que recorre Miraflores, ideal para caminar o correr.",
+      "desc_experiencial": "Una forma simple de conectar con la ciudad y el océano desde temprano.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_MALECON"
+      ],
+      "frases_sugeridas": [
+        "Perfecto para caminar o correr",
+        "Muy usado al amanecer y al atardecer"
+      ],
+      "ctas": [
+        "¿Te gustaría incluirlo en tu plan?",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PARQUE_KENNEDY",
+      "nombre_publico": "Parque Kennedy",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Parque céntrico de Miraflores, punto de encuentro con cafés y movimiento local.",
+      "desc_experiencial": "Un buen lugar para sentir el pulso del barrio.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "familia",
+        "primera_vez"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_PARQUE_KENNEDY"
+      ],
+      "frases_sugeridas": [
+        "Buen punto para empezar a explorar",
+        "Siempre hay movimiento"
+      ],
+      "ctas": [
+        "¿Te gustaría incluirlo en tu plan?",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_LARCOMAR",
+      "nombre_publico": "Larcomar",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Centro comercial frente al mar con tiendas, restaurantes y vistas al océano.",
+      "desc_experiencial": "Un paseo fácil con vistas y opciones para comer.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "pareja",
+        "familia",
+        "comodidad"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_LARCOMAR"
+      ],
+      "frases_sugeridas": [
+        "Combina paseo y comida",
+        "Buenas vistas al atardecer"
+      ],
+      "ctas": [
+        "¿Te gustaría incluirlo en tu plan?",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_RUNNING_MALECON",
+      "nombre_publico": "Running por el malecón",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Ruta plana y continua a lo largo del malecón, muy usada para running.",
+      "desc_experiencial": "Correr con vista al mar para empezar el día con energía.",
+      "intenciones": [
+        "Aventura",
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "activo",
+        "bienestar",
+        "solo"
+      ],
+      "restricciones_requisitos": [
+        "clima_adverso"
+      ],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_RUNNING_MALECON"
+      ],
+      "frases_sugeridas": [
+        "Ideal para rutinas matinales",
+        "Muy accesible desde el hotel"
+      ],
+      "ctas": [
+        "¿Te gustaría incluirlo en tu plan?",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CAFES_MIRAFLORES",
+      "nombre_publico": "Cafés de Miraflores",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Zona con variedad de cafeterías a corta distancia del hotel.",
+      "desc_experiencial": "Tomarte un café con calma y ritmo local.",
+      "intenciones": [
+        "Descanso"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "trabajo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_CAFES"
+      ],
+      "frases_sugeridas": [
+        "Fácil para una pausa",
+        "Buena oferta cerca"
+      ],
+      "ctas": [
+        "¿Te gustaría incluirlo en tu plan?",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "tipo": "Recomendaciones_Locales"
+    }
+  ],
+  "reglas": [
+    {
+      "regla_id": "GOV_01",
+      "regla_clave": "Fuente de verdad",
+      "descripcion_practica": "Este Excel es la única fuente de información que consume la IA. No se corrige información desde prompts."
+    },
+    {
+      "regla_id": "GOV_02",
+      "regla_clave": "Consistencia de vocabulario",
+      "descripcion_practica": "Usar siempre las mismas palabras clave en perfil_ideal, requisitos y restricciones. Separar valores con |."
+    },
+    {
+      "regla_id": "GOV_03",
+      "regla_clave": "Textos breves",
+      "descripcion_practica": "Las descripciones deben ser cortas, claras y sin promesas comerciales."
+    },
+    {
+      "regla_id": "GOV_04",
+      "regla_clave": "Servicios con cuidado",
+      "descripcion_practica": "Todo servicio con costo, coordinación o tercerización debe indicarse en condiciones_servicio."
+    },
+    {
+      "regla_id": "GOV_05",
+      "regla_clave": "Actualización operativa",
+      "descripcion_practica": "Si algo cambia en la operación real del hotel, se actualiza aquí el mismo día."
+    }
+  ]
+}

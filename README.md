@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Humano Web
 
-## Getting Started
+Plataforma conversacional del Hotel Humano (Miraflores). Incluye demos y el conserje basado en Excel como fuente de verdad.
 
-First, run the development server:
+## Rutas principales
+
+1. `/conserje`  
+Conserje conversacional basado en `SOURCE OF TRUTH.xlsx`. Responde con IA pero valida todo con el Excel.
+
+2. `/demoai`  
+Demo de IA previa (se mantiene para comparación).
+
+3. `/demo`  
+Demo conversacional con contenidos predefinidos desde `doc/microsite-faqs.xlsx`.
+
+## Datos y scripts
+
+**Conserje (Excel → JSON)**
+
+- Fuente: `SOURCE OF TRUTH.xlsx` (ruta libre, se pasa como argumento).
+- Script: `scripts/excel-to-conserje-json.py`
+- Output: `src/data/conserje.json`
+
+```bash
+python3 scripts/excel-to-conserje-json.py /ruta/a/SOURCE\ OF\ TRUTH.xlsx
+```
+
+**Demo (Excel → JSON/TS)**
+
+- Fuente: `doc/microsite-faqs.xlsx`
+- Script: `scripts/excel-to-json.py`
+- Output: `src/app/demo/conversations-data.json` y `src/app/demo/conversations-data.ts`
+
+```bash
+python3 scripts/excel-to-json.py
+```
+
+## API
+
+1. `POST /api/conserje`
+   - Usa embeddings + recuperación semántica.
+   - “Planner LLM” decide intención y siguiente paso.
+   - “Validador Excel” corrige conflictos (restricciones, perfiles, etc.).
+   - Nunca inventa datos fuera del Excel.
+
+2. `POST /api/chat`
+   - Endpoint histórico de la demo AI (se mantiene si se requiere).
+
+## Desarrollo local
+
+```bash
+npm install
+```
+
+Crear `.env.local`:
+
+```env
+OPENAI_API_KEY=tu_api_key
+```
+
+Arrancar:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Despliegue
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Despliega en Vercel o tu proveedor preferido. Asegura `OPENAI_API_KEY` en variables de entorno.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Notas importantes
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/conserje` es independiente de `/demoai`.
+- El Excel es la fuente factual. La IA solo completa tono o conecta piezas.
+- Si cambias el Excel, regenera el JSON antes de probar.
