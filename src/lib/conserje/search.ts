@@ -146,20 +146,3 @@ export function matchItemByName(message: string, items: ConserjeItem[]): Conserj
   if (best && best.score >= 2) return best.item
   return null
 }
-
-export function isServiciosMenuQuery(message: string): boolean {
-  const normalized = normalizeText(message)
-  const phrases = [
-    "servicios",
-    "servicios del hotel",
-    "lista de servicios",
-    "que servicios tienen",
-    "qué servicios tienen",
-    "servicios disponibles",
-    "menu de servicios",
-    "menú de servicios",
-  ]
-  if (phrases.some((p) => normalized === normalizeText(p))) return true
-  if (normalized.includes("servicios") || normalized.includes("servicio")) return true
-  return false
-}

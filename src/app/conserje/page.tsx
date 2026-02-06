@@ -354,9 +354,33 @@ export default function ConserjePage() {
 
   const sendMessageToConserje = async (
     userMessage: string,
-    options?: { activeItemIdOverride?: string | null; source?: "menu" | "user" }
+    options?: {
+      activeItemIdOverride?: string | null
+      activeItemLabelOverride?: string | null
+      source?: "menu" | "user"
+    }
   ) => {
     setIsAIResponding(true)
+
+    const lowerMessage = userMessage.trim().toLowerCase()
+    const lastAssistant = [...messages].reverse().find((msg) => msg.sender === "agent" && msg.type === "text")
+    const lastAssistantText = lastAssistant?.content?.toLowerCase() || ""
+    const isInitialIntentStep =
+      !conversationState.intent &&
+      !conversationState.profile &&
+      !activeItemId &&
+      !contextTopic &&
+      (lastAssistantText.includes("vienes por trabajo") ||
+        lastAssistantText.includes("trabajo, descanso o aventura") ||
+        lastAssistantText.includes("vienes por trabajo, descanso o aventura"))
+    const isInitialProfileStep =
+      conversationState.intent &&
+      !conversationState.profile &&
+      !activeItemId &&
+      !contextTopic &&
+      (lastAssistantText.includes("viajas solo") ||
+        lastAssistantText.includes("viajas solo, en pareja o en grupo") ||
+        lastAssistantText.includes("solo, en pareja o en grupo"))
 
     const newHistory = [...chatHistory, { role: "user", content: userMessage }]
     setChatHistory(newHistory)
@@ -374,9 +398,19 @@ export default function ConserjePage() {
     }
     if (guestsHint) nextState.guests = guestsHint
     const profileHint = extractProfileHint(userMessage)
-    if (profileHint) nextState.profile = profileHint
+    if (profileHint) {
+      const isStandaloneProfile =
+        (lowerMessage === "solo" || lowerMessage === "en pareja" || lowerMessage === "en grupo") &&
+        !isInitialProfileStep
+      if (!isStandaloneProfile) nextState.profile = profileHint
+    }
     const intentHint = extractIntentHint(userMessage)
-    if (intentHint) nextState.intent = intentHint
+    if (intentHint) {
+      const isStandaloneIntent =
+        (lowerMessage === "trabajo" || lowerMessage === "descanso" || lowerMessage === "aventura") &&
+        !isInitialIntentStep
+      if (!isStandaloneIntent) nextState.intent = intentHint
+    }
     setConversationState(nextState)
 
     try {
@@ -388,6 +422,7 @@ export default function ConserjePage() {
           history: newHistory.slice(-6),
           contextTopic,
           activeItemId: options?.activeItemIdOverride ?? activeItemId,
+          activeItemLabel: options?.activeItemLabelOverride ?? activeItemLabel,
           source: options?.source ?? "user",
           state: nextState,
         }),
@@ -537,11 +572,30 @@ export default function ConserjePage() {
     ])
 
     const lower = suggestion.toLowerCase()
+    const lastAssistant = [...messages].reverse().find((msg) => msg.sender === "agent" && msg.type === "text")
+    const lastAssistantText = lastAssistant?.content?.toLowerCase() || ""
+    const isInitialIntentStep =
+      !conversationState.intent &&
+      !conversationState.profile &&
+      !activeItemId &&
+      !contextTopic &&
+      (lastAssistantText.includes("vienes por trabajo") ||
+        lastAssistantText.includes("trabajo, descanso o aventura") ||
+        lastAssistantText.includes("vienes por trabajo, descanso o aventura"))
+    const isInitialProfileStep =
+      conversationState.intent &&
+      !conversationState.profile &&
+      !activeItemId &&
+      !contextTopic &&
+      (lastAssistantText.includes("viajas solo") ||
+        lastAssistantText.includes("viajas solo, en pareja o en grupo") ||
+        lastAssistantText.includes("solo, en pareja o en grupo"))
+
     if (lower.includes("reservar habitación") || lower.includes("coordinar servicio")) {
       handleCtaAction(suggestion)
       return
     }
-    if (["trabajo", "descanso", "aventura"].includes(lower)) {
+    if (["trabajo", "descanso", "aventura"].includes(lower) && isInitialIntentStep) {
       const nextState = { ...conversationState, intent: lower }
       setConversationState(nextState)
       enqueueAgentSequence([
@@ -553,7 +607,7 @@ export default function ConserjePage() {
       ])
       return
     }
-    if (lower === "solo" || lower === "en pareja" || lower === "en grupo") {
+    if ((lower === "solo" || lower === "en pareja" || lower === "en grupo") && isInitialProfileStep) {
       const profile = lower.includes("pareja") ? "pareja" : lower.includes("grupo") ? "grupo" : "solo"
       const nextState = { ...conversationState, profile }
       setConversationState(nextState)
@@ -602,7 +656,11 @@ export default function ConserjePage() {
         content: item.label,
       },
     ])
-    sendMessageToConserje(item.label, { activeItemIdOverride: item.id, source: "menu" })
+    sendMessageToConserje(item.label, {
+      activeItemIdOverride: item.id,
+      activeItemLabelOverride: item.label,
+      source: "menu",
+    })
   }
 
   const resetDemo = () => {

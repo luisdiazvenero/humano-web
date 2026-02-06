@@ -7,7 +7,6 @@ import {
   detectProfile,
   detectTipo,
   filterItems,
-  isServiciosMenuQuery,
   keywordScore,
   matchItemByName,
   normalizeText,
@@ -133,7 +132,20 @@ ${formatted}`
       max_tokens: 80,
     })
     const raw = response.choices[0]?.message?.content?.trim() || "{}"
-    const parsed = JSON.parse(raw)
+    let parsed: any = null
+    try {
+      parsed = JSON.parse(raw)
+    } catch {
+      const match = raw.match(/\{[\s\S]*\}/)
+      if (match) {
+        try {
+          parsed = JSON.parse(match[0])
+        } catch {
+          parsed = null
+        }
+      }
+    }
+    if (!parsed) return null
     const choice = parsed.choice as string | undefined
     if (!choice) return null
     if (choice === "active") return options.activeItem
@@ -679,6 +691,13 @@ async function buildServiceReply(
   const affirmative = isAffirmative(message)
   const lastAssistant = [...(history || [])].reverse().find((h) => h.role === "assistant")?.content || ""
   const normalizedLast = normalizeText(lastAssistant)
+  const normalizedMessage = normalizeText(message)
+  const isShortFollowup = normalizedMessage.split(/\s+/).filter(Boolean).length <= 3
+  const lastAssistantIsQuestion = lastAssistant.includes("?")
+  const dateHint = extractDateHint(message)
+  const guestsHint = extractGuestsHint(message)
+  const choiceOptions = extractChoiceOptions(lastAssistant)
+  const matchedChoice = choiceOptions.find((opt) => opt === normalizedMessage) || null
 
   if (isPetService) {
     if (affirmative) {
@@ -710,6 +729,10 @@ async function buildServiceReply(
       const body = short ? `${intro} ${short}` : intro
       return petContext.needsSize ? `${body} ¿Qué tamaño tiene?` : `${body} Puedo coordinarlo cuando quieras.`
     }
+  }
+
+  if (lastAssistantIsQuestion && (matchedChoice || isShortFollowup) && !dateHint && !guestsHint && !petSize) {
+    return buildSafeFollowup(item, message)
   }
 
   return buildItemReply(item, message, state)
@@ -910,6 +933,123 @@ INSTRUCCIONES:
   }
 }
 
+async function generateFollowupReply(options: {
+  message: string
+  lastAssistant: string
+  item: ConserjeItem
+  history: ChatHistoryItem[]
+  state?: { dates?: string | null; guests?: string | null; profile?: string | null; intent?: string | null }
+}) {
+  if (!process.env.OPENAI_API_KEY) return ""
+  try {
+    const rulesText = conserjeData.reglas
+      .map((r) => `${r.regla_clave}: ${r.descripcion_practica}`)
+      .join("\n")
+
+    const stateSummary = options.state
+      ? [
+          options.state.dates ? `Fechas: ${options.state.dates}` : "",
+          options.state.guests ? `Personas: ${options.state.guests}` : "",
+          options.state.profile ? `Perfil: ${options.state.profile}` : "",
+          options.state.intent ? `Motivo: ${options.state.intent}` : "",
+        ]
+          .filter(Boolean)
+          .join(" | ")
+      : ""
+
+    const systemPrompt = `Eres el conserje virtual del Hotel Humano en Miraflores, Lima, Perú.
+REGLAS:\n${rulesText}
+
+INSTRUCCIONES:
+- Responde a la PREGUNTA PREVIA usando la RESPUESTA DEL HUÉSPED y el CONTEXTO.
+- No cambies de tema ni sugieras otros servicios.
+- No repitas la misma pregunta previa.
+- Usa SOLO la información factual del CONTEXTO.
+- Responde en español claro y natural.
+- Máximo 2 oraciones y una pregunta breve.`
+
+    const context = buildContext([options.item])
+    const userMessage = [
+      `Pregunta previa: ${options.lastAssistant}`,
+      `Respuesta del huésped: ${options.message}`,
+      stateSummary ? `Estado: ${stateSummary}` : "",
+      `Contexto:\n${context}`,
+    ]
+      .filter(Boolean)
+      .join("\n\n")
+
+    const response = await openai.chat.completions.create({
+      model: CHAT_MODEL,
+      temperature: 0.3,
+      max_tokens: 200,
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...options.history.slice(-4),
+        { role: "user", content: userMessage },
+      ],
+    })
+
+    return response.choices[0]?.message?.content?.trim() || ""
+  } catch (error) {
+    console.warn("generateFollowupReply failed:", error)
+    return ""
+  }
+}
+
+function isReplyContaminated(reply: string, currentItem: ConserjeItem): boolean {
+  const normalized = normalizeText(reply)
+  const currentName = normalizeText(currentItem.nombre_publico)
+  for (const item of conserjeData.items) {
+    const name = normalizeText(item.nombre_publico)
+    if (!name || name === currentName) continue
+    if (normalized.includes(name)) return true
+  }
+  return false
+}
+
+function pickSuggestedPhrase(item: ConserjeItem, message: string): string | null {
+  const normalizedMessage = normalizeText(message)
+  const phrases = item.frases_sugeridas || []
+  if (phrases.length === 0) return null
+  for (const phrase of phrases) {
+    const normalizedPhrase = normalizeText(phrase)
+    const terms = normalizedMessage.split(/\s+/).filter((t) => t.length >= 4)
+    if (terms.some((term) => normalizedPhrase.includes(term))) return phrase
+  }
+  return phrases[0] || null
+}
+
+function buildSafeFollowup(item: ConserjeItem, message: string): string {
+  const detail = buildDetailReply(item)
+  const phrase = pickSuggestedPhrase(item, message)
+  const parts = [detail, phrase].filter(Boolean)
+  const base = parts.join(" ")
+  const suffix = item.nombre_publico ? ` ¿Necesitas algo más del ${item.nombre_publico}?` : " ¿Necesitas algo más?"
+  return base ? `${base}${suffix}` : `Perfecto.${suffix}`
+}
+
+function extractChoiceOptions(text: string): string[] {
+  const normalized = normalizeText(text)
+  const match = /(?:\?|^)([^?]+)\?/.exec(normalized)
+  const question = match ? match[1] : normalized
+  const parts = question.split(" o ")
+  if (parts.length < 2) return []
+  const lastTwo = parts.slice(-2)
+  return lastTwo.map((part) => part.trim().split(/\s+/).slice(-1)[0]).filter(Boolean)
+}
+
+function buildDirectionalFollowup(choice: string, item: ConserjeItem): string {
+  const normalizedChoice = normalizeText(choice)
+  const detail = buildDetailReply(item)
+  if (normalizedChoice.includes("camina")) {
+    return `${detail ? `${detail} ` : ""}Caminando es una buena opción y suele estar cerca. ¿Quieres una ruta aproximada desde el hotel?`
+  }
+  if (normalizedChoice.includes("taxi")) {
+    return `${detail ? `${detail} ` : ""}En taxi es rápido y directo. ¿Quieres que te ayude a pedir uno?`
+  }
+  return `${detail ? `${detail} ` : ""}¿Quieres que te comparta una ruta aproximada?`
+}
+
 export async function POST(request: NextRequest) {
   try {
     if (!process.env.OPENAI_API_KEY) {
@@ -924,6 +1064,7 @@ export async function POST(request: NextRequest) {
     const history: Array<{ role?: string; content?: string }> = body?.history || []
     const safeHistory = sanitizeHistory(history)
     const activeItemId: string | null = body?.activeItemId || null
+    const activeItemLabel: string | null = body?.activeItemLabel || null
     const state = body?.state || null
     const mode: string | null = body?.mode || null
     const missingField: string | null = body?.missingField || null
@@ -995,10 +1136,37 @@ INSTRUCCIONES:
 
     const normalizedMessage = normalizeText(message)
     const serviciosItems = conserjeData.items.filter((item) => item.tipo === "Servicios")
-    const activeItem = activeItemId
+    const tipoHint = (detectTipo(message) || (contextTopic as ConserjeItemType | null)) ?? null
+    const lastAssistantContent =
+      [...safeHistory].reverse().find((entry) => entry.role === "assistant")?.content || ""
+    const previousUserContent =
+      [...safeHistory]
+        .slice(0, -1)
+        .reverse()
+        .find((entry) => entry.role === "user")?.content || ""
+    const historyItemMatch = previousUserContent
+      ? matchItemByName(previousUserContent, conserjeData.items)
+      : null
+    const fallbackActiveItem = activeItemLabel
+      ? conserjeData.items.find(
+          (item) => normalizeText(item.nombre_publico) === normalizeText(activeItemLabel)
+        ) || null
+      : historyItemMatch
+      ? historyItemMatch
+      : (lastAssistantContent.includes("Nombre:")
+          ? (() => {
+              const match = /Nombre:\s*([^\n]+)/.exec(lastAssistantContent)
+              if (!match) return null
+              const name = match[1].trim()
+              return conserjeData.items.find(
+                (item) => normalizeText(item.nombre_publico) === normalizeText(name)
+              ) || null
+            })()
+          : matchItemByName(lastAssistantContent, conserjeData.items))
+    const resolvedActiveItem = activeItemId
       ? conserjeData.items.find((item) => item.id === activeItemId) || null
       : null
-    const nameMatch = matchItemByName(message, conserjeData.items)
+    const activeItem = resolvedActiveItem || fallbackActiveItem
     const { ranked: semanticRanked, usedEmbeddings: usedSemanticEmbeddings } =
       await rankItemsBySemantic(message, conserjeData.items)
     const semanticBest = semanticRanked[0]?.item || null
@@ -1023,9 +1191,9 @@ INSTRUCCIONES:
       "condición",
       "requisito",
       "disponible",
-      "?",
     ]
-    const isQuestion = questionSignals.some((signal) => normalizedMessage.includes(normalizeText(signal)))
+    const hasQuestionMark = message.includes("?")
+    const isQuestion = hasQuestionMark || questionSignals.some((signal) => normalizedMessage.includes(normalizeText(signal)))
     const tokenCount = normalizedMessage.split(/\s+/).filter(Boolean).length
     const isPureAffirmative =
       isAffirmative(message) && tokenCount <= 2
@@ -1036,6 +1204,94 @@ INSTRUCCIONES:
     const freeformReasoning =
       isQuestion && !dateHint && !guestsHint && !isPureAffirmative && !hasActionIntent(message)
     const mentionsAnimal = mentionsPetOrAnimal(message)
+
+    const explicitNameMatch =
+      conserjeData.items.find((item) => {
+        const name = normalizeText(item.nombre_publico)
+        if (!name) return false
+        return (
+          normalizedMessage.replace(/\s+/g, " ").trim() === name ||
+          normalizedMessage.includes(name)
+        )
+      }) || null
+    const nameMatch =
+      activeItem && lowInfoFollowup && !explicitNameMatch
+        ? null
+        : matchItemByName(message, conserjeData.items)
+
+    if (activeItem && isShortFollowup && !explicitNameMatch) {
+      const lastAssistantContent =
+        [...safeHistory].reverse().find((entry) => entry.role === "assistant")?.content || ""
+      const lastAssistantNormalized = normalizeText(lastAssistantContent)
+      const affirmative = isAffirmative(message)
+      const choiceOptions = extractChoiceOptions(lastAssistantContent)
+      const matchedChoice = choiceOptions.find((opt) => normalizeText(message).includes(opt)) || null
+
+      if (activeItem.tipo === "Recomendaciones_Locales" && affirmative) {
+        if (lastAssistantNormalized.includes("como llegar") || lastAssistantNormalized.includes("cómo llegar")) {
+          const reply = "Perfecto. ¿Prefieres llegar caminando o en taxi?"
+          return NextResponse.json({
+            reply,
+            suggestions: buildCTAs({ message, item: activeItem, state, reply }),
+            items: [],
+            menu: [],
+            intent: null,
+            profile: null,
+            tipo: activeItem.tipo,
+            activeItemId: activeItem.id,
+          })
+        }
+      }
+
+      if (activeItem.tipo === "Recomendaciones_Locales" && matchedChoice) {
+        const reply = buildDirectionalFollowup(matchedChoice, activeItem)
+        return NextResponse.json({
+          reply,
+          suggestions: buildCTAs({ message, item: activeItem, state, reply }),
+          items: [],
+          menu: [],
+          intent: null,
+          profile: null,
+          tipo: activeItem.tipo,
+          activeItemId: activeItem.id,
+        })
+      }
+
+      if (activeItem.tipo === "Instalaciones" && affirmative) {
+        if (
+          lastAssistantNormalized.includes("usarla") ||
+          lastAssistantNormalized.includes("usar") ||
+          lastAssistantNormalized.includes("informacion")
+        ) {
+          const reply = "Genial. ¿En qué horario te gustaría usarla?"
+          return NextResponse.json({
+            reply,
+            suggestions: buildCTAs({ message, item: activeItem, state, reply }),
+            items: [],
+            menu: [],
+            intent: null,
+            profile: null,
+            tipo: activeItem.tipo,
+            activeItemId: activeItem.id,
+          })
+        }
+      }
+
+      const reply =
+        activeItem.tipo === "Servicios"
+          ? await buildServiceReply(activeItem, message, state, safeHistory)
+          : buildItemReply(activeItem, message, state)
+      return NextResponse.json({
+        reply,
+        suggestions: buildCTAs({ message, item: activeItem, state, reply }),
+        items: [],
+        menu: [],
+        intent: null,
+        profile: null,
+        tipo: activeItem.tipo,
+        activeItemId: activeItem.id,
+      })
+    }
 
     const semanticThreshold = usedSemanticEmbeddings ? 0.22 : 2
     const semanticCandidate =
@@ -1053,16 +1309,9 @@ INSTRUCCIONES:
     const matchedItem = nameMatch || llmResolved || (lowInfoFollowup ? null : semanticCandidate)
     const currentItem = matchedItem || activeItem
 
-    if (isHabitacionesQuery(message)) {
-      const stripped = normalizedMessage.replace(/\?/g, "").trim()
-      let isCategoryOnly =
-        source === "menu" ||
-        stripped === "habitaciones" ||
-        stripped === "habitacion" ||
-        (!isQuestion && normalizedMessage.split(/\s+/).filter(Boolean).length <= 2)
-      if (!isCategoryOnly) {
-        isCategoryOnly = await inferListIntent(message, "Habitaciones")
-      }
+    if (isHabitacionesQuery(message) && !(source === "menu" && activeItem?.tipo === "Habitaciones")) {
+      let isCategoryOnly = source === "menu"
+      if (!isCategoryOnly) isCategoryOnly = await inferListIntent(message, "Habitaciones")
       const profileHint = detectProfile(message) || state?.profile || null
       const intentHint = detectIntent(message) || state?.intent || null
       const guestsCount =
@@ -1136,16 +1385,9 @@ INSTRUCCIONES:
       })
     }
 
-    if (isRecomendacionesQuery(message)) {
-      const stripped = normalizedMessage.replace(/\?/g, "").trim()
-      let isCategoryOnly =
-        source === "menu" ||
-        stripped === "recomendaciones" ||
-        stripped === "recomendaciones locales" ||
-        (!isQuestion && normalizedMessage.split(/\s+/).filter(Boolean).length <= 2)
-      if (!isCategoryOnly) {
-        isCategoryOnly = await inferListIntent(message, "Recomendaciones_Locales")
-      }
+    if (isRecomendacionesQuery(message) && !(source === "menu" && activeItem?.tipo === "Recomendaciones_Locales")) {
+      let isCategoryOnly = source === "menu"
+      if (!isCategoryOnly) isCategoryOnly = await inferListIntent(message, "Recomendaciones_Locales")
       const profileHint = detectProfile(message) || state?.profile || null
       const intentHint = detectIntent(message) || state?.intent || null
       const recomendaciones = conserjeData.items.filter(
@@ -1213,16 +1455,9 @@ INSTRUCCIONES:
       })
     }
 
-    if (isInstalacionesQuery(message)) {
-      const stripped = normalizedMessage.replace(/\?/g, "").trim()
-      let isCategoryOnly =
-        source === "menu" ||
-        stripped === "instalaciones" ||
-        stripped === "instalacion" ||
-        (!isQuestion && normalizedMessage.split(/\s+/).filter(Boolean).length <= 2)
-      if (!isCategoryOnly) {
-        isCategoryOnly = await inferListIntent(message, "Instalaciones")
-      }
+    if (isInstalacionesQuery(message) && !(source === "menu" && activeItem?.tipo === "Instalaciones")) {
+      let isCategoryOnly = source === "menu"
+      if (!isCategoryOnly) isCategoryOnly = await inferListIntent(message, "Instalaciones")
       const profileHint = detectProfile(message) || state?.profile || null
       const intentHint = detectIntent(message) || state?.intent || null
       const instalaciones = conserjeData.items.filter((item) => item.tipo === "Instalaciones")
@@ -1286,6 +1521,58 @@ INSTRUCCIONES:
         tipo: "Instalaciones",
         activeItemId: null,
       })
+    }
+
+    if (tipoHint === "Servicios") {
+      const isMenuItemSelection = source === "menu" && activeItem?.tipo === "Servicios"
+      const isDirectItemMention = Boolean(nameMatch) && nameMatch.tipo === "Servicios"
+      const isGenericServicesRequest =
+        source === "menu" ||
+        normalizedMessage.includes("servicios") ||
+        normalizedMessage.includes("servicio")
+      if (isMenuItemSelection || isDirectItemMention || !isGenericServicesRequest) {
+        // Skip list handling; fall through to item/semantic resolution
+      } else {
+        let isCategoryOnly = source === "menu" && !isMenuItemSelection
+      if (!isCategoryOnly) isCategoryOnly = await inferListIntent(message, "Servicios")
+      if (!isCategoryOnly) {
+        const { ranked } = await rankItemsBySemantic(message, serviciosItems)
+        const topItems = ranked.slice(0, 3).map((entry) => entry.item)
+        const reply =
+          (await generateContextualReply({
+            message,
+            items: topItems.length > 0 ? topItems : serviciosItems.slice(0, 3),
+            history: safeHistory,
+            state,
+          })) || "Tenemos varios servicios disponibles. ¿Cuál te interesa?"
+        return NextResponse.json({
+          reply,
+          suggestions: buildCTAs({ message, tipo: "Servicios", state, reply }),
+          items: [],
+          menu: topItems.map((item) => ({ id: item.id, label: item.nombre_publico })),
+          intent: null,
+          profile: null,
+          tipo: "Servicios",
+          activeItemId: null,
+        })
+      }
+
+      const menu = serviciosItems.map((item) => ({
+        id: item.id,
+        label: item.nombre_publico,
+      }))
+      const reply = "Servicios disponibles. Puedes elegir entre:"
+      return NextResponse.json({
+        reply,
+        suggestions: [],
+        items: [],
+        menu,
+        intent: null,
+        profile: null,
+        tipo: "Servicios",
+        activeItemId: null,
+      })
+      }
     }
 
     if (currentItem) {
@@ -1484,55 +1771,6 @@ INSTRUCCIONES:
         profile: null,
         tipo: resolvedMatchedItem.tipo,
         activeItemId: resolvedMatchedItem.id,
-      })
-    }
-
-    if (isServiciosMenuQuery(normalizedMessage)) {
-      const stripped = normalizedMessage.replace(/\?/g, "").trim()
-      let isCategoryOnly =
-        source === "menu" ||
-        stripped === "servicios" ||
-        stripped === "servicio" ||
-        (!isQuestion && normalizedMessage.split(/\s+/).filter(Boolean).length <= 2)
-      if (!isCategoryOnly) {
-        isCategoryOnly = await inferListIntent(message, "Servicios")
-      }
-      if (!isCategoryOnly) {
-        const { ranked } = await rankItemsBySemantic(message, serviciosItems)
-        const topItems = ranked.slice(0, 3).map((entry) => entry.item)
-        const reply =
-          (await generateContextualReply({
-            message,
-            items: topItems.length > 0 ? topItems : serviciosItems.slice(0, 3),
-            history: safeHistory,
-            state,
-          })) || "Tenemos varios servicios disponibles. ¿Cuál te interesa?"
-        return NextResponse.json({
-          reply,
-          suggestions: buildCTAs({ message, tipo: "Servicios", state, reply }),
-          items: [],
-          menu: topItems.map((item) => ({ id: item.id, label: item.nombre_publico })),
-          intent: null,
-          profile: null,
-          tipo: "Servicios",
-          activeItemId: null,
-        })
-      }
-
-      const menu = serviciosItems.map((item) => ({
-        id: item.id,
-        label: item.nombre_publico,
-      }))
-      const reply = "Servicios disponibles. Puedes elegir entre:"
-      return NextResponse.json({
-        reply,
-        suggestions: [],
-        items: [],
-        menu,
-        intent: null,
-        profile: null,
-        tipo: "Servicios",
-        activeItemId: null,
       })
     }
 
