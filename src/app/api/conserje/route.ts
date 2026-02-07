@@ -1,7 +1,7 @@
 import { OpenAI } from "openai"
 import { NextRequest, NextResponse } from "next/server"
 import conserjeDataRaw from "@/data/conserje.json"
-import type { ConserjeData, ConserjeItem } from "@/lib/conserje/types"
+import type { ConserjeData, ConserjeItem, ConserjeItemType } from "@/lib/conserje/types"
 import {
   detectIntent,
   detectProfile,
@@ -1530,7 +1530,7 @@ INSTRUCCIONES:
 
     if (tipoHint === "Servicios") {
       const isMenuItemSelection = source === "menu" && activeItem?.tipo === "Servicios"
-      const isDirectItemMention = Boolean(nameMatch) && nameMatch.tipo === "Servicios"
+      const isDirectItemMention = nameMatch?.tipo === "Servicios"
       const isGenericServicesRequest =
         source === "menu" ||
         normalizedMessage.includes("servicios") ||
