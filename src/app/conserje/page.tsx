@@ -4,7 +4,30 @@ import { useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { Figtree } from "next/font/google"
 import { Logo } from "@/components/humano/Logo"
-import { ArrowLeft, Briefcase, Palmtree, Compass } from "lucide-react"
+import {
+  ArrowLeft,
+  Briefcase,
+  Palmtree,
+  Compass,
+  Building2,
+  Coffee,
+  Dumbbell,
+  UtensilsCrossed,
+  WavesLadder,
+  BedDouble,
+  BedSingle,
+  Bed,
+  Accessibility,
+  Users as LucideUsers,
+  CarTaxiFront,
+  Dog,
+  Shirt,
+  ParkingCircle,
+  BrushCleaning,
+  ConciergeBell,
+  Headset,
+  Wifi,
+} from "lucide-react"
 import {
   PaperAirplaneIcon,
   MicrophoneIcon,
@@ -19,9 +42,6 @@ import {
   CalendarIcon,
   BuildingStorefrontIcon,
   HeartIcon,
-  SparklesIcon,
-  TruckIcon,
-  WifiIcon,
   UserIcon,
   UsersIcon,
   UserGroupIcon,
@@ -51,7 +71,8 @@ type ConserjeItem = {
 const defaultSuggestions = [
   "Habitaciones",
   "Servicios",
-  "Recomendaciones locales",
+  "Instalaciones",
+  "Recomendaciones",
 ]
 
 const intentSuggestions = [
@@ -306,7 +327,8 @@ export default function ConserjePage() {
   const getSuggestionIcon = (suggestion: string) => {
     const lower = suggestion.toLowerCase()
     if (lower.includes("habit")) return <HomeIcon className="h-5 w-5" />
-    if (lower.includes("serv")) return <BuildingOfficeIcon className="h-5 w-5" />
+    if (lower.includes("serv")) return <ConciergeBell className="h-5 w-5" />
+    if (lower.includes("instal")) return <Building2 className="h-5 w-5" />
     if (lower.includes("recomend") || lower.includes("local")) return <MapPinIcon className="h-5 w-5" />
     if (lower.includes("tarifa") || lower.includes("precio")) return <CurrencyDollarIcon className="h-5 w-5" />
     if (lower.includes("dispon")) return <ClipboardDocumentCheckIcon className="h-5 w-5" />
@@ -316,16 +338,38 @@ export default function ConserjePage() {
     return <ChatBubbleLeftIcon className="h-5 w-5" />
   }
 
+  const normalizeIconLabel = (label: string) =>
+    label
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "")
+
   const getServiceMenuIcon = (label: string) => {
     const lower = label.toLowerCase()
-    if (lower.includes("transfer")) return <TruckIcon className="h-5 w-5" />
-    if (lower.includes("pet") || lower.includes("mascota")) return <HeartIcon className="h-5 w-5" />
-    if (lower.includes("room service")) return <BuildingStorefrontIcon className="h-5 w-5" />
-    if (lower.includes("lavander")) return <SparklesIcon className="h-5 w-5" />
-    if (lower.includes("estacion")) return <MapPinIcon className="h-5 w-5" />
-    if (lower.includes("wifi")) return <WifiIcon className="h-5 w-5" />
-    if (lower.includes("limpieza")) return <HomeIcon className="h-5 w-5" />
-    if (lower.includes("concierge") || lower.includes("asistencia")) return <PhoneIcon className="h-5 w-5" />
+    const normalized = normalizeIconLabel(label)
+    if (normalized.includes("transfer")) return <CarTaxiFront className="h-5 w-5" />
+    if (normalized.includes("pet") || normalized.includes("mascota")) return <Dog className="h-5 w-5" />
+    if (normalized.includes("roomservice")) return <ConciergeBell className="h-5 w-5" />
+    if (normalized.includes("lavander")) return <Shirt className="h-5 w-5" />
+    if (normalized.includes("estacion")) return <ParkingCircle className="h-5 w-5" />
+    if (normalized.includes("wifi")) return <Wifi className="h-5 w-5" />
+    if (normalized.includes("limpieza")) return <BrushCleaning className="h-5 w-5" />
+    if (normalized.includes("concierge") || normalized.includes("asistencia")) return <Headset className="h-5 w-5" />
+    if (normalized.includes("lobby")) return <Building2 className="h-5 w-5" />
+    if (normalized.includes("desayuno")) return <Coffee className="h-5 w-5" />
+    if (normalized.includes("restaurante")) return <UtensilsCrossed className="h-5 w-5" />
+    if (normalized.includes("gimnasio")) return <Dumbbell className="h-5 w-5" />
+    if (normalized.includes("piscina")) return <WavesLadder className="h-5 w-5" />
+    if (normalized.includes("coworking")) return <Building2 className="h-5 w-5" />
+    if (normalized.includes("cafe")) return <Coffee className="h-5 w-5" />
+    if (normalized.includes("family") || normalized.includes("familiar")) return <LucideUsers className="h-5 w-5" />
+    if (normalized.includes("accessible") || normalized.includes("accesible")) return <Accessibility className="h-5 w-5" />
+    if (normalized.includes("suite")) return <BedDouble className="h-5 w-5" />
+    if (normalized.includes("king") || normalized.includes("double")) return <BedDouble className="h-5 w-5" />
+    if (normalized.includes("room") || normalized.includes("habit")) return <BedSingle className="h-5 w-5" />
+    if (normalized.includes("deluxe")) return <Bed className="h-5 w-5" />
+    if (lower.includes("room service")) return <ConciergeBell className="h-5 w-5" />
     return <BuildingOfficeIcon className="h-5 w-5" />
   }
 
@@ -342,7 +386,8 @@ export default function ConserjePage() {
     }
     if (lower.includes("habit")) return "Opciones y disponibilidad"
     if (lower.includes("serv")) return "Traslados, pet friendly y más"
-    if (lower.includes("recomend") || lower.includes("local")) return "Lugares cerca del hotel"
+    if (lower.includes("instal")) return "Lobby, piscina, gym y más"
+    if (lower.includes("recomend") || lower.includes("local")) return "Cafés, restaurantes y más"
     return null
   }
 

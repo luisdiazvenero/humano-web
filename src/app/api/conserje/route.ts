@@ -1332,8 +1332,10 @@ INSTRUCCIONES:
         const restrictionsOk = !isRoomRestrictedForGroup(item, guestsCount, effectiveProfile)
         return profileOk && intentOk && restrictionsOk
       })
+      const isGroupProfile = effectiveProfile === "grupo" || (guestsCount != null && guestsCount >= 3)
+      const listRooms = isCategoryOnly && !isGroupProfile ? habitaciones : filteredRooms
 
-      if (filteredRooms.length === 0) {
+      if (listRooms.length === 0) {
         return NextResponse.json({
           reply:
             "No tengo habitaciones para ese perfil en este momento. ¿Prefieres algo específico (cama, tamaño o vista)?",
@@ -1369,15 +1371,18 @@ INSTRUCCIONES:
         })
       }
 
-      const names = filteredRooms.map((item) => item.nombre_publico).join(", ")
-      const reply = effectiveProfile
-        ? `Para ${effectiveProfile}, tengo estas opciones: ${names}. ¿Te interesa alguna en particular?`
-        : `Tengo estas opciones de habitaciones: ${names}. ¿Te interesa alguna en particular?`
+      const names = listRooms.map((item) => item.nombre_publico).join(", ")
+      const showAll = listRooms.length === habitaciones.length
+      const reply = showAll
+        ? `Tengo estas opciones de habitaciones: ${names}. ¿Te interesa alguna en particular?`
+        : effectiveProfile
+          ? `Para ${effectiveProfile}, tengo estas opciones: ${names}. ¿Te interesa alguna en particular?`
+          : `Tengo estas opciones de habitaciones: ${names}. ¿Te interesa alguna en particular?`
       return NextResponse.json({
         reply,
         suggestions: buildCTAs({ message, tipo: "Habitaciones", state, reply }),
         items: [],
-        menu: filteredRooms.map((item) => ({ id: item.id, label: item.nombre_publico })),
+        menu: listRooms.map((item) => ({ id: item.id, label: item.nombre_publico })),
         intent: null,
         profile: effectiveProfile || null,
         tipo: "Habitaciones",

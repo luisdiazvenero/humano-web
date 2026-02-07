@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-02-07
+
+### Changed
+- Iconografía del onboarding y menús (Servicios, Instalaciones, Recomendaciones).
+- Iconos específicos para servicios (room service, Wi‑Fi, concierge).
+- Listado de habitaciones muestra todas las opciones para perfiles no grupales.
+
 ## 2026-02-06
 
 ### Added
