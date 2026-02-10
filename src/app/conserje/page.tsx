@@ -48,6 +48,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/solid"
 import { useMicrophone } from "@/hooks/useMicrophone"
+import conserjeDataRaw from "@/data/conserje.json"
+import type { ConserjeData } from "@/lib/conserje/types"
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -65,8 +67,15 @@ type ConserjeItem = {
   ctas: string[]
   horario_apertura: string | null
   horario_cierre: string | null
+  precio_desde: string
+  check_in: string
+  check_out: string
+  redirigir: string
+  link_ubicacion_mapa: string
   tipo: string
 }
+
+const conserjeData = conserjeDataRaw as ConserjeData
 
 const defaultSuggestions = [
   "Habitaciones",
@@ -157,20 +166,29 @@ const mapInputToSuggestion = (text: string): string | null => {
   const normalized = normalizeShortInput(text)
   if (!normalized) return null
   const words = normalized.split(/\s+/).filter(Boolean)
-  if (words.length > 4) return null
+  if (words.length > 2) return null
 
-  if (normalized.includes("trabajo")) return "Trabajo"
-  if (normalized.includes("descanso") || normalized.includes("relax")) return "Descanso"
-  if (normalized.includes("aventura") || normalized.includes("explorar")) return "Aventura"
-  if (normalized.includes("solo") || normalized.includes("sola")) return "Solo"
-  if (normalized.includes("pareja")) return "En pareja"
-  if (normalized.includes("grupo") || normalized.includes("familia") || normalized.includes("amigos")) {
-    return "En grupo"
+  const exactMap: Record<string, string> = {
+    trabajo: "Trabajo",
+    descanso: "Descanso",
+    aventura: "Aventura",
+    solo: "Solo",
+    "en pareja": "En pareja",
+    pareja: "En pareja",
+    "en grupo": "En grupo",
+    grupo: "En grupo",
+    familia: "En grupo",
+    habitaciones: "Habitaciones",
+    habitacion: "Habitaciones",
+    servicios: "Servicios",
+    servicio: "Servicios",
+    instalaciones: "Instalaciones",
+    instalacion: "Instalaciones",
+    recomendaciones: "Recomendaciones locales",
+    "recomendaciones locales": "Recomendaciones locales",
   }
-  if (normalized.includes("habitacion")) return "Habitaciones"
-  if (normalized.includes("servicio")) return "Servicios"
-  if (normalized.includes("recomendacion")) return "Recomendaciones locales"
-  if (normalized.includes("instalacion")) return "Instalaciones"
+
+  if (exactMap[normalized]) return exactMap[normalized]
 
   return null
 }
@@ -280,16 +298,83 @@ export default function ConserjePage() {
     return `https://www.google.com/search?q=${encodeURIComponent(query)}`
   }
 
+  const normalizeExternalUrl = (value: string) => {
+    const trimmed = (value || "").trim()
+    if (!trimmed) return ""
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("mailto:")) {
+      return trimmed
+    }
+    if (trimmed.includes("@")) return `mailto:${trimmed}`
+    return `https://${trimmed}`
+  }
+
+  const resolveActiveItem = () => {
+    if (activeItemId) {
+      return conserjeData.items.find((item) => item.id === activeItemId) || null
+    }
+    if (activeItemLabel) {
+      const normalized = activeItemLabel.trim().toLowerCase()
+      return (
+        conserjeData.items.find((item) => item.nombre_publico.trim().toLowerCase() === normalized) || null
+      )
+    }
+    return null
+  }
+
+  const buildServiceMailto = (email: string, item: ConserjeItem, actionLabel: string) => {
+    const action = actionLabel.toLowerCase().includes("reservar") ? "reservar" : "coordinar"
+    const subject = `${action === "reservar" ? "Reserva" : "Coordinación"} ${item.nombre_publico} - Hotel Humano`
+    const bodyLines = [
+      "Hola equipo de Humano,",
+      "",
+      `Quisiera ${action} ${item.nombre_publico}.`,
+      conversationState.intent ? `Motivo del viaje: ${conversationState.intent}` : "",
+      conversationState.profile ? `Perfil: ${conversationState.profile}` : "",
+      conversationState.guests ? `Personas: ${conversationState.guests}` : "",
+      conversationState.dates ? `Fechas: ${conversationState.dates}` : "",
+      "",
+      "Nombre:",
+      "Teléfono:",
+      "Comentarios:",
+      "",
+      "Gracias.",
+    ].filter(Boolean)
+    return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`
+  }
+
   const handleCtaAction = (label: string) => {
     const lower = label.toLowerCase()
+    const activeItem = resolveActiveItem()
+    let url = ""
+    let replyText = "Abrí una ventana nueva con lo que pediste. Clic aquí para revisarlo."
+
+    if (
+      (lower.includes("ubicación") || lower.includes("ubicacion") || lower.includes("mapa")) &&
+      activeItem?.link_ubicacion_mapa
+    ) {
+      url = normalizeExternalUrl(activeItem.link_ubicacion_mapa)
+    } else if (activeItem?.tipo === "Servicios" && activeItem.redirigir && activeItem.redirigir.includes("@")) {
+      url = buildServiceMailto(activeItem.redirigir, activeItem as ConserjeItem, label)
+      replyText = "Abrí tu correo con un borrador listo para que lo edites y envíes."
+    } else if ((lower.includes("reservar") || lower.includes("coordinar")) && activeItem?.redirigir) {
+      const redirectTarget = normalizeExternalUrl(activeItem.redirigir)
+      if (redirectTarget.startsWith("mailto:")) {
+        url = buildServiceMailto(activeItem.redirigir, activeItem as ConserjeItem, label)
+        replyText = "Abrí tu correo con un borrador listo para que lo edites y envíes."
+      } else {
+        url = redirectTarget
+      }
+    }
+
     const action = lower.includes("reservar") ? "reservar" : "coordinar"
-    const url = buildSearchUrl(action as "reservar" | "coordinar")
+    if (!url) {
+      url = buildSearchUrl(action as "reservar" | "coordinar")
+    }
 
     if (typeof window !== "undefined") {
       window.open(url, "_blank", "noopener,noreferrer")
     }
 
-    const replyText = "Abrí una ventana nueva con lo que pediste. Clic aquí para revisarlo."
     enqueueAgentSequence([
       { type: "text", content: replyText, link: url },
       { type: "text", content: "¿Necesitas algo más?" },
@@ -511,6 +596,12 @@ export default function ConserjePage() {
       }
       if (typeof data.activeItemId !== "undefined") {
         setActiveItemId(data.activeItemId || null)
+        if (data.activeItemId) {
+          const current = conserjeData.items.find((item) => item.id === data.activeItemId)
+          setActiveItemLabel(current?.nombre_publico || null)
+        } else {
+          setActiveItemLabel(null)
+        }
       }
 
       setChatHistory([...newHistory, { role: "assistant", content: data.reply }])
@@ -577,14 +668,6 @@ export default function ConserjePage() {
     if (!messageText.trim() || isAIResponding) return
     if (isListening) stopListening()
 
-    const mappedSuggestion = mapInputToSuggestion(messageText)
-    if (mappedSuggestion) {
-      setUserInput("")
-      resetTranscript()
-      handleSuggestionClick(mappedSuggestion)
-      return
-    }
-
     setMessages((prev) => [
       ...prev,
       {
@@ -598,7 +681,13 @@ export default function ConserjePage() {
     setUserInput("")
     resetTranscript()
     const lower = messageText.toLowerCase()
-    if (lower.includes("reservar habitación") || lower.includes("coordinar servicio")) {
+    if (
+      lower.includes("reservar habitación") ||
+      lower.includes("coordinar servicio") ||
+      lower.includes("ver ubicación") ||
+      lower.includes("ver ubicacion") ||
+      lower.includes("mapa")
+    ) {
       handleCtaAction(messageText)
       return
     }
@@ -636,7 +725,13 @@ export default function ConserjePage() {
         lastAssistantText.includes("viajas solo, en pareja o en grupo") ||
         lastAssistantText.includes("solo, en pareja o en grupo"))
 
-    if (lower.includes("reservar habitación") || lower.includes("coordinar servicio")) {
+    if (
+      lower.includes("reservar") ||
+      lower.includes("coordinar") ||
+      lower.includes("ubicación") ||
+      lower.includes("ubicacion") ||
+      lower.includes("mapa")
+    ) {
       handleCtaAction(suggestion)
       return
     }
@@ -800,6 +895,16 @@ export default function ConserjePage() {
                           {(item.horario_apertura || item.horario_cierre) && (
                             <p className="text-xs text-muted-foreground">
                               Horario: {item.horario_apertura || "-"} a {item.horario_cierre || "-"}
+                            </p>
+                          )}
+                          {(item.check_in || item.check_out) && (
+                            <p className="text-xs text-muted-foreground">
+                              Check-in/out: {item.check_in || "-"} / {item.check_out || "-"}
+                            </p>
+                          )}
+                          {item.precio_desde && (
+                            <p className="text-xs text-muted-foreground">
+                              Desde: {item.precio_desde}
                             </p>
                           )}
                         </div>

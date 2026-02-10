@@ -9,6 +9,8 @@ import json
 import sys
 import zipfile
 import xml.etree.ElementTree as ET
+import unicodedata
+from urllib.parse import quote_plus
 
 SHEETS = [
     "Habitaciones",
@@ -26,6 +28,20 @@ ARRAY_FIELDS = {
     "imagenes_url",
     "frases_sugeridas",
     "ctas",
+}
+
+HEADER_ALIASES = {
+    "check_in": "check_in",
+    "checkin": "check_in",
+    "check_out": "check_out",
+    "checkout": "check_out",
+    "precio_desde": "precio_desde",
+    "preciodesde": "precio_desde",
+    "link_ubicacion_mapa": "link_ubicacion_mapa",
+    "linkubicacionmapa": "link_ubicacion_mapa",
+    "descripcion_practica": "descripcion_practica",
+    "regla_id": "regla_id",
+    "regla_clave": "regla_clave",
 }
 
 
@@ -131,15 +147,74 @@ def _split_array(value: str) -> list[str]:
     return [p for p in parts if p]
 
 
+def _normalize_time_value(value: str) -> str:
+    raw = value.strip()
+    if not raw:
+        return ""
+    lower = raw.lower()
+    if "am" in lower or "pm" in lower or "h" in lower or ":" in lower:
+        return raw
+    try:
+        num = float(raw)
+    except Exception:
+        return raw
+    if num < 0 or num >= 1:
+        return raw
+    total_minutes = round(num * 24 * 60)
+    hour = total_minutes // 60
+    minute = total_minutes % 60
+    return f"{hour:02d}:{minute:02d}"
+
+
+def _normalize_header(value: str) -> str:
+    base = value.strip().replace(" ", "_")
+    normalized = unicodedata.normalize("NFD", base)
+    normalized = "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
+    normalized = normalized.lower()
+    normalized = "".join(ch if (ch.isalnum() or ch == "_") else "" for ch in normalized)
+    normalized = normalized.strip("_")
+    collapsed = normalized.replace("__", "_")
+    return HEADER_ALIASES.get(collapsed, collapsed)
+
+
+def _fix_known_typos(values: list[str]) -> list[str]:
+    fixed = []
+    for value in values:
+        clean = value.replace("Reomendaciones", "Recomendaciones")
+        fixed.append(clean)
+    return fixed
+
+
+def _default_map_link(row: dict) -> str:
+    existing = row.get("link_ubicacion_mapa", "")
+    if existing:
+        return existing
+    if row.get("tipo") != "Recomendaciones_Locales":
+        return ""
+    nombre = (row.get("nombre_publico", "") or "").strip()
+    if not nombre:
+        return ""
+    query = f"{nombre} Miraflores Lima"
+    return f"https://www.google.com/maps/search/?api=1&query={quote_plus(query)}"
+
+
 def _normalize_row(row: dict) -> dict:
     out = {}
     for k, v in row.items():
         if k in ARRAY_FIELDS:
-            out[k] = _split_array(v) if v else []
+            values = _split_array(v) if v else []
+            out[k] = _fix_known_typos(values)
         elif k in {"horario_apertura", "horario_cierre"}:
-            out[k] = v if v else None
+            normalized = _normalize_time_value(v) if v else ""
+            out[k] = normalized if normalized else None
         else:
             out[k] = v if v else ""
+    for key in ARRAY_FIELDS:
+        if key not in out:
+            out[key] = []
+    for key in {"horario_apertura", "horario_cierre", "precio_desde", "check_in", "check_out", "redirigir", "link_ubicacion_mapa"}:
+        if key not in out:
+            out[key] = None if key in {"horario_apertura", "horario_cierre"} else ""
     return out
 
 
@@ -164,7 +239,7 @@ def main() -> int:
             if not rows:
                 continue
             headers = rows[0]
-            headers = [h.strip() if isinstance(h, str) else "" for h in headers]
+            headers = [_normalize_header(h) if isinstance(h, str) else "" for h in headers]
 
             for row in rows[1:]:
                 if not row or all((not str(v).strip()) for v in row):
@@ -189,6 +264,7 @@ def main() -> int:
 
                 normalized = _normalize_row(row_dict)
                 normalized["tipo"] = sheet
+                normalized["link_ubicacion_mapa"] = _default_map_link(normalized)
                 data_items.append(normalized)
 
     output = {

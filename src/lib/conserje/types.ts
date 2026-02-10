@@ -19,6 +19,11 @@ export interface ConserjeItem {
   ctas: string[]
   horario_apertura: string | null
   horario_cierre: string | null
+  precio_desde: string
+  check_in: string
+  check_out: string
+  redirigir: string
+  link_ubicacion_mapa: string
   tipo: ConserjeItemType
 }
 

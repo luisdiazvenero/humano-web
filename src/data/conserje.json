@@ -19,9 +19,7 @@
         "familias",
         "grupos"
       ],
-      "condiciones_servicio": [
-        "Habitación desde $XX"
-      ],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_SUPERIOR_KING"
       ],
@@ -33,13 +31,18 @@
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_SUPERIOR_DOUBLE",
-      "nombre_publico": "Superior double",
+      "nombre_publico": "Superior Double",
       "categoria": "Habitación",
       "desc_factual": "Habitación de 25 m² con 2 camas dobles, minirefrigerador, escritorio, ventanas insonorizadas y Wi‑Fi.",
       "desc_experiencial": "Buena opción si vienes acompañado y quieres camas separadas sin complicarte.",
@@ -56,7 +59,7 @@
       "restricciones_requisitos": [
         "grupos"
       ],
-      "condiciones_servicio": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_SUPERIOR_DOUBLE"
       ],
@@ -68,16 +71,21 @@
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_DELUXE_KING",
-      "nombre_publico": "Deluxe king",
+      "nombre_publico": "Deluxe King",
       "categoria": "Habitación",
       "desc_factual": "Habitación de 24 m² con 1 cama King, minirefrigerador, escritorio, Wi‑Fi, e incluye bata y pantuflas.",
-      "desc_experiencial": "Un plus de confort para cerrar el día con calma, sin subir a una suite.",
+      "desc_experiencial": "Un plus de confort y gran vista para cerrar el día con calma, sin subir a una suite.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -91,28 +99,32 @@
       ],
       "restricciones_requisitos": [
         "familias",
-        "grupos",
-        "presupuesto_bajo"
+        "grupos"
       ],
-      "condiciones_servicio": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_DELUXE_KING"
       ],
       "frases_sugeridas": [
-        "Un plus de confort para cerrar el día",
+        "Gran vista",
         "Buena para viajes de trabajo con descanso"
       ],
       "ctas": [
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_ACCESIBLE_ROOM",
-      "nombre_publico": "Accesible room",
+      "nombre_publico": "Accesible Room",
       "categoria": "Habitación",
       "desc_factual": "Habitación de 32 m² con 1 cama King, minirefrigerador, escritorio y baño con ducha accesible para silla de ruedas.",
       "desc_experiencial": "Diseñada para una estadía más cómoda si necesitas accesibilidad en la ducha y circulación.",
@@ -127,11 +139,8 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [
-        "grupos",
-        "familias"
-      ],
-      "condiciones_servicio": [],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_ACCESIBLE_ROOM"
       ],
@@ -143,16 +152,21 @@
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_FAMILY_ROOM",
-      "nombre_publico": "Family room",
+      "nombre_publico": "Family Room",
       "categoria": "Habitación",
       "desc_factual": "Habitación de 32 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
-      "desc_experiencial": "Cómoda para venir en familia y tener un espacio extra para estar juntos sin apretarse.",
+      "desc_experiencial": "Ideal para venir en familia y tener un espacio extra para estar juntos y cómodos.",
       "intenciones": [
         "Descanso",
         "Aventura"
@@ -161,8 +175,11 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [],
-      "condiciones_servicio": [],
+      "restricciones_requisitos": [
+        "solo",
+        "pareja"
+      ],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_FAMILY_ROOM"
       ],
@@ -174,13 +191,18 @@
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_FAMILY_DELUXE",
-      "nombre_publico": "Family deluxe",
+      "nombre_publico": "Family Deluxe",
       "categoria": "Habitación",
       "desc_factual": "Habitación de 47 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
       "desc_experiencial": "Más amplitud para la familia y para esos ratos de pausa entre planes en la ciudad.",
@@ -192,8 +214,11 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [],
-      "condiciones_servicio": [],
+      "restricciones_requisitos": [
+        "solo",
+        "pareja"
+      ],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_FAMILY_DELUXE"
       ],
@@ -205,6 +230,11 @@
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
@@ -226,10 +256,9 @@
       ],
       "restricciones_requisitos": [
         "grupos",
-        "familias",
-        "presupuesto_bajo"
+        "familias"
       ],
-      "condiciones_servicio": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_JUNIOR_SUITE"
       ],
@@ -241,6 +270,11 @@
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
@@ -261,10 +295,9 @@
         "pareja"
       ],
       "restricciones_requisitos": [
-        "presupuesto_bajo",
         "grupos"
       ],
-      "condiciones_servicio": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "LINK_IMAGENES_SIGNATURE_SUITE"
       ],
@@ -276,6 +309,11 @@
         "Ver otras habitaciones",
         "Reservar ahora"
       ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones"
@@ -300,6 +338,7 @@
       "restricciones_requisitos": [
         "coordinacion_previa"
       ],
+      "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [
         "con_costo",
         "tercerizado",
@@ -313,11 +352,15 @@
         "Evita complicaciones al llegar"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -327,16 +370,20 @@
       "desc_factual": "Servicio que permite hospedarse con mascotas bajo condiciones y costo adicional.",
       "desc_experiencial": "Viajar con tu mascota sin dejarla atrás.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
         "Aventura"
       ],
       "perfil_ideal": [
-        "familia",
-        "pareja"
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [
         "coordinacion_previa"
       ],
+      "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [
         "con_costo",
         "condiciones_especiales"
@@ -349,11 +396,15 @@
         "Conviene coordinar antes"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -363,19 +414,19 @@
       "desc_factual": "Servicio de alimentos y bebidas en la habitación.",
       "desc_experiencial": "Comer con calma y privacidad sin salir.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
-        "Trabajo"
+        "Aventura"
       ],
       "perfil_ideal": [
-        "comodidad",
-        "trabajo",
+        "solo",
+        "pareja",
+        "grupo",
         "familia"
       ],
       "restricciones_requisitos": [],
-      "condiciones_servicio": [
-        "con_costo",
-        "disponibilidad_variable"
-      ],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [],
       "imagenes_url": [
         "LINK_IMAGENES_ROOM_SERVICE"
       ],
@@ -384,11 +435,15 @@
         "Práctico si no quieres salir"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -399,17 +454,19 @@
       "desc_experiencial": "Resolver lo práctico durante estadías largas.",
       "intenciones": [
         "Trabajo",
-        "Descanso"
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
-        "larga_estancia",
-        "trabajo",
+        "solo",
+        "pareja",
+        "grupo",
         "familia"
       ],
       "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [
-        "con_costo",
-        "disponibilidad_variable"
+        "con_costo"
       ],
       "imagenes_url": [
         "LINK_IMAGENES_LAVANDERIA"
@@ -419,11 +476,15 @@
         "Práctico y sin complicaciones"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -434,14 +495,17 @@
       "desc_experiencial": "Moverte con auto propio con mayor comodidad.",
       "intenciones": [
         "Trabajo",
-        "Descanso"
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
-        "familia",
-        "comodidad",
-        "trabajo"
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [
         "con_costo",
         "disponibilidad_variable"
@@ -454,11 +518,15 @@
         "Conviene confirmar disponibilidad"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -473,12 +541,13 @@
         "Aventura"
       ],
       "perfil_ideal": [
-        "trabajo",
         "solo",
-        "familia",
-        "comodidad"
+        "pareja",
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
         "LINK_IMAGENES_WIFI"
@@ -488,11 +557,15 @@
         "Funciona bien para trabajo y ocio"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -502,15 +575,18 @@
       "desc_factual": "Servicio regular de limpieza de habitaciones.",
       "desc_experiencial": "Llegar a una habitación ordenada y cómoda.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
-        "Trabajo"
+        "Aventura"
       ],
       "perfil_ideal": [
-        "comodidad",
-        "familia",
-        "trabajo"
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
         "LINK_IMAGENES_LIMPIEZA"
@@ -520,11 +596,15 @@
         "Mantiene todo en orden"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -539,11 +619,13 @@
         "Aventura"
       ],
       "perfil_ideal": [
-        "primera_vez",
-        "comodidad",
+        "solo",
+        "pareja",
+        "grupo",
         "familia"
       ],
       "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
         "LINK_IMAGENES_CONCIERGE"
@@ -553,11 +635,15 @@
         "Te ayudan a orientarte"
       ],
       "ctas": [
-        "Solicitar información",
+        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
       "tipo": "Servicios"
     },
     {
@@ -587,11 +673,16 @@
         "Funciona para esperas cortas"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "24h",
       "horario_cierre": "24h",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
@@ -602,13 +693,14 @@
       "desc_experiencial": "Empezar el día con calma sin salir del hotel.",
       "intenciones": [
         "Trabajo",
-        "Descanso"
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
         "solo",
         "pareja",
-        "familia",
-        "trabajo"
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -620,72 +712,94 @@
         "Cómodo si no quieres salir"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "06:30",
       "horario_cierre": "10:30",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
       "id": "INST_RESTAURANTE_ENT",
-      "nombre_publico": "Restaurante",
+      "nombre_publico": "Restaurante Entrañable",
       "categoria": "Instalación",
-      "desc_factual": "Restaurante del hotel para almuerzos y cenas.",
-      "desc_experiencial": "Comer con calma entre planes del día.",
+      "desc_factual": "Restaurante del hotel en el rooftop del 18, especializado en parrillas.",
+      "desc_experiencial": "Un cierre relajado para el día.",
       "intenciones": [
-        "Descanso"
+        "Trabajo",
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
+        "solo",
         "pareja",
-        "familia",
-        "comodidad"
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_RESTAURANTE"
+        "LINK_IMAGENES_RESTAURANTE_ENT"
       ],
       "frases_sugeridas": [
         "Cómodo para almorzar o cenar",
         "Sin tener que salir"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "12:30",
       "horario_cierre": "22:00",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
       "id": "INST_RESTAURANTE_CDL",
-      "nombre_publico": "Restaurante",
+      "nombre_publico": "Restaurante Café de Lima",
       "categoria": "Instalación",
-      "desc_factual": "Bar del hotel con servicio de bebidas.",
-      "desc_experiencial": "Un cierre relajado para el día.",
+      "desc_factual": "Restaurante en el primer piso del hotel, con platos clásicos y peruanos.",
+      "desc_experiencial": "Comer con calma entre planes del día.",
       "intenciones": [
-        "Descanso"
+        "Trabajo",
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
+        "solo",
         "pareja",
-        "solo"
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_BAR"
+        "LINK_IMAGENES_CDL"
       ],
       "frases_sugeridas": [
-        "Ideal para terminar el día",
+        "Ideal para cualquier momento del día",
         "Ambiente relajado"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "17:00",
       "horario_cierre": "23:00",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
@@ -695,12 +809,14 @@
       "desc_factual": "Espacio de trabajo compartido dentro del hotel.",
       "desc_experiencial": "Trabajar con foco sin salir del hotel.",
       "intenciones": [
-        "Trabajo"
+        "Trabajo",
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
-        "trabajo",
         "solo",
-        "larga_estancia"
+        "pareja",
+        "grupo"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -712,11 +828,16 @@
         "Espacio tranquilo"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "24h",
       "horario_cierre": "24h",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
@@ -726,14 +847,15 @@
       "desc_factual": "Gimnasio equipado para entrenamiento básico.",
       "desc_experiencial": "Mantener la rutina de forma práctica.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
         "Aventura"
       ],
       "perfil_ideal": [
-        "activo",
-        "bienestar",
         "solo",
-        "pareja"
+        "pareja",
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -745,11 +867,16 @@
         "Fácil de usar"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "06:00",
       "horario_cierre": "22:00",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
@@ -759,12 +886,15 @@
       "desc_factual": "Piscina del hotel para uso recreativo.",
       "desc_experiencial": "Un espacio para bajar el ritmo.",
       "intenciones": [
-        "Descanso"
+        "Trabajo",
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
+        "solo",
         "pareja",
-        "familia",
-        "descanso"
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -776,11 +906,16 @@
         "Ideal en días tranquilos"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "08:00",
       "horario_cierre": "20:00",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
@@ -793,8 +928,8 @@
         "Trabajo"
       ],
       "perfil_ideal": [
-        "trabajo",
-        "empresa"
+        "solo",
+        "grupo"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -806,11 +941,16 @@
         "Equipadas y funcionales"
       ],
       "ctas": [
-        "¿Te gustaría usar este espacio?",
-        "Te cuento cómo funciona"
+        "Reservar Habitación",
+        "Conocer más ambientes"
       ],
       "horario_apertura": "08:00",
       "horario_cierre": "22:00",
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Instalaciones"
     },
     {
@@ -840,11 +980,16 @@
         "Muy usado al amanecer y al atardecer"
       ],
       "ctas": [
-        "¿Te gustaría incluirlo en tu plan?",
+        "Más Recomendaciones",
         "Te cuento cómo llegar"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Malec%C3%B3n+de+Miraflores+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -854,14 +999,15 @@
       "desc_factual": "Parque céntrico de Miraflores, punto de encuentro con cafés y movimiento local.",
       "desc_experiencial": "Un buen lugar para sentir el pulso del barrio.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
         "Aventura"
       ],
       "perfil_ideal": [
         "solo",
         "pareja",
-        "familia",
-        "primera_vez"
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -873,11 +1019,16 @@
         "Siempre hay movimiento"
       ],
       "ctas": [
-        "¿Te gustaría incluirlo en tu plan?",
+        "Más Recomendaciones",
         "Te cuento cómo llegar"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parque+Kennedy+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -887,13 +1038,15 @@
       "desc_factual": "Centro comercial frente al mar con tiendas, restaurantes y vistas al océano.",
       "desc_experiencial": "Un paseo fácil con vistas y opciones para comer.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
         "Aventura"
       ],
       "perfil_ideal": [
+        "solo",
         "pareja",
-        "familia",
-        "comodidad"
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -905,11 +1058,16 @@
         "Buenas vistas al atardecer"
       ],
       "ctas": [
-        "¿Te gustaría incluirlo en tu plan?",
+        "Más Recomendaciones",
         "Te cuento cómo llegar"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Larcomar+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -919,17 +1077,17 @@
       "desc_factual": "Ruta plana y continua a lo largo del malecón, muy usada para running.",
       "desc_experiencial": "Correr con vista al mar para empezar el día con energía.",
       "intenciones": [
-        "Aventura",
-        "Descanso"
+        "Trabajo",
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
-        "activo",
-        "bienestar",
-        "solo"
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
       ],
-      "restricciones_requisitos": [
-        "clima_adverso"
-      ],
+      "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
         "LINK_IMAGENES_RUNNING_MALECON"
@@ -939,11 +1097,16 @@
         "Muy accesible desde el hotel"
       ],
       "ctas": [
-        "¿Te gustaría incluirlo en tu plan?",
+        "Más Recomendaciones",
         "Te cuento cómo llegar"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Running+por+el+malec%C3%B3n+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -953,12 +1116,15 @@
       "desc_factual": "Zona con variedad de cafeterías a corta distancia del hotel.",
       "desc_experiencial": "Tomarte un café con calma y ritmo local.",
       "intenciones": [
-        "Descanso"
+        "Trabajo",
+        "Descanso",
+        "Aventura"
       ],
       "perfil_ideal": [
         "solo",
         "pareja",
-        "trabajo"
+        "grupo",
+        "familia"
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
@@ -970,11 +1136,129 @@
         "Buena oferta cerca"
       ],
       "ctas": [
-        "¿Te gustaría incluirlo en tu plan?",
+        "Más Recomendaciones",
         "Te cuento cómo llegar"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Caf%C3%A9s+de+Miraflores+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_HUACA",
+      "nombre_publico": "Museo de Sitio Pucllana",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Sitio arqueológico y centro ceremonial de la cultura Lima, construido entre el 450 y 650 d. C.",
+      "desc_experiencial": "Viaja en el tiempo y descubre la esencia de la Lima ancestral en un recorrido único.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_HUACA"
+      ],
+      "frases_sugeridas": [
+        "Conecta con la historia"
+      ],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+de+Sitio+Pucllana+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PARAPENTE",
+      "nombre_publico": "Parapente",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Vuela sobre los acantilados de Miraflores con vistas panorámicas del océano y la ciudad en un vuelo de parapente.",
+      "desc_experiencial": "Siente la libertad del viento mientras disfrutas de una perspectiva única de Lima desde las alturas.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_PARAPENTE"
+      ],
+      "frases_sugeridas": [
+        "El plan para aventureros"
+      ],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parapente+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_TEATROS",
+      "nombre_publico": "Teatros",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Teatros cercanos entre sí, con una variada oferta de espectáculos locales e internacionales.",
+      "desc_experiencial": "Vive la magia del teatro, donde cada función te invita a un nuevo mundo de emociones.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "LINK_IMAGENES_TEATROS"
+      ],
+      "frases_sugeridas": [
+        "Para todos los gustos",
+        "A pasos del hotel"
+      ],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Teatros+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
       "tipo": "Recomendaciones_Locales"
     }
   ],

@@ -516,6 +516,91 @@ function extractPetSize(message: string): string | null {
   return null
 }
 
+function extractTimePreference(message: string): string | null {
+  const normalized = normalizeText(message)
+  if (normalized.includes("manana")) return "por la mañana"
+  if (normalized.includes("tarde")) return "por la tarde"
+  if (normalized.includes("noche")) return "por la noche"
+  const timeMatch = normalized.match(/\b([01]?\d|2[0-3])(?::[0-5]\d)?\b/)
+  if (timeMatch) return `a las ${timeMatch[0]}`
+  return null
+}
+
+function parseHour(value: string | null | undefined): number | null {
+  if (!value) return null
+  const raw = value
+    .toLowerCase()
+    .replace(/\./g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+
+  const withMinutes = raw.match(/\b([0-1]?\d|2[0-3])\s*:\s*([0-5]\d)\s*(am|pm)?\b/)
+  if (withMinutes) {
+    let hour = Number(withMinutes[1])
+    const minute = Number(withMinutes[2])
+    const suffix = withMinutes[3] || null
+    if (suffix === "pm" && hour < 12) hour += 12
+    if (suffix === "am" && hour === 12) hour = 0
+    if (Number.isNaN(hour) || Number.isNaN(minute)) return null
+    return hour + minute / 60
+  }
+
+  const withSuffix = raw.match(/\b([0-1]?\d|2[0-3])\s*(am|pm)\b/)
+  if (withSuffix) {
+    let hour = Number(withSuffix[1])
+    const suffix = withSuffix[2]
+    if (suffix === "pm" && hour < 12) hour += 12
+    if (suffix === "am" && hour === 12) hour = 0
+    if (Number.isNaN(hour)) return null
+    return hour
+  }
+
+  const twentyFour = raw.match(/\b([0-1]?\d|2[0-3])(?::([0-5]\d))?\b/)
+  if (twentyFour) {
+    const hour = Number(twentyFour[1])
+    const minute = twentyFour[2] ? Number(twentyFour[2]) : 0
+    if (Number.isNaN(hour) || Number.isNaN(minute)) return null
+    return hour + minute / 60
+  }
+
+  return null
+}
+
+function getPreferenceSlot(preference: string): "morning" | "afternoon" | "night" | null {
+  const normalized = normalizeText(preference)
+  if (normalized.includes("manana")) return "morning"
+  if (normalized.includes("tarde")) return "afternoon"
+  if (normalized.includes("noche")) return "night"
+  const hour = parseHour(preference)
+  if (hour == null) return null
+  if (hour < 12) return "morning"
+  if (hour < 18) return "afternoon"
+  return "night"
+}
+
+function getScheduleInfo(item: ConserjeItem) {
+  const openHour = parseHour(item.horario_apertura)
+  const closeHour = parseHour(item.horario_cierre)
+  const hasHorario = Boolean(item.horario_apertura || item.horario_cierre)
+  const is24h =
+    hasHorario &&
+    ((openHour === 0 && (closeHour === 0 || closeHour === 24)) ||
+      normalizeText(item.horario_apertura || "").includes("24") ||
+      normalizeText(item.horario_cierre || "").includes("24"))
+
+  const morningOnly = hasHorario && !is24h && openHour != null && closeHour != null && closeHour <= 12.5
+  const nightOnly = hasHorario && !is24h && openHour != null && openHour >= 18
+
+  const allowsSlot = (slot: "morning" | "afternoon" | "night"): boolean => {
+    if (!hasHorario || is24h || openHour == null || closeHour == null) return true
+    if (slot === "morning") return openHour < 12 && closeHour > 6
+    if (slot === "afternoon") return openHour < 18 && closeHour > 12
+    return openHour < 24 && closeHour > 18
+  }
+
+  return { hasHorario, is24h, morningOnly, nightOnly, allowsSlot }
+}
+
 function isSmallAnimalMention(message: string): boolean {
   const normalized = normalizeText(message)
   const smallAnimals = [
@@ -603,6 +688,11 @@ function buildItemReply(
     normalized.includes("disponibilidad")
 
   if (askHorario) {
+    if (item.tipo === "Habitaciones" && (item.check_in || item.check_out)) {
+      const checkIn = item.check_in || "por confirmar"
+      const checkOut = item.check_out || "por confirmar"
+      return `Check-in: ${checkIn}. Check-out: ${checkOut}.`
+    }
     if (item.horario_apertura || item.horario_cierre) {
       return `Horario: ${item.horario_apertura || "-"} a ${item.horario_cierre || "-"}.`
     }
@@ -610,6 +700,9 @@ function buildItemReply(
   }
 
   if (askPrecio || askCondicion) {
+    if (item.tipo === "Habitaciones" && item.precio_desde) {
+      return `La tarifa referencial es desde ${item.precio_desde}. ¿Quieres que te ayude a reservar?`
+    }
     const condiciones = item.condiciones_servicio?.length
       ? item.condiciones_servicio.join(", ")
       : ""
@@ -626,6 +719,7 @@ function buildItemReply(
   const dateHint = extractDateHint(message)
   const guestsHint = extractGuestsHint(message) || guestsFromProfile(state?.profile)
   const affirmative = isAffirmative(message)
+  const timePreference = extractTimePreference(message)
   const confirmDatesGuests = (dateValue: string, guestsValue: string) =>
     `Perfecto, ${dateValue} (${guestsValue}). ¿Es correcto?`
 
@@ -671,6 +765,36 @@ function buildItemReply(
     return short || "¿Qué fechas tienes en mente?"
   }
   if (item.tipo === "Instalaciones") {
+    const schedule = getScheduleInfo(item)
+    const horarioText = schedule.hasHorario
+      ? `Horario: ${item.horario_apertura || "-"} a ${item.horario_cierre || "-"}.`
+      : null
+    if (affirmative) {
+      if (schedule.hasHorario && horarioText) {
+        if (schedule.is24h) {
+          return `Genial. ${horarioText} Está disponible durante todo el día. ¿Quieres que lo coordinemos?`
+        }
+        if (schedule.morningOnly) {
+          return `Genial. ${horarioText} Funciona en la mañana. ¿Quieres que lo coordinemos?`
+        }
+        if (schedule.nightOnly) {
+          return `Genial. ${horarioText} Funciona en horario nocturno. ¿Quieres que lo coordinemos?`
+        }
+        return `Genial. ${horarioText} ¿Te va mejor mañana, tarde o noche dentro de ese rango?`
+      }
+      return "Genial. ¿En qué horario te gustaría usarla?"
+    }
+    if (timePreference) {
+      if (schedule.hasHorario && horarioText) {
+        const slot = getPreferenceSlot(timePreference)
+        const slotAllowed = slot ? schedule.allowsSlot(slot) : true
+        if (!slotAllowed) {
+          return `Perfecto, ${timePreference}. ${horarioText} Ese horario no está disponible; ¿te va bien dentro de ese rango?`
+        }
+        return `Perfecto, ${timePreference}. ${horarioText} ¿Quieres que lo coordinemos?`
+      }
+      return `Perfecto, ${timePreference}. ¿Quieres que lo coordinemos?`
+    }
     return short ? `${short} ¿Te gustaría usarla?` : "¿Te gustaría usarla?"
   }
   if (item.tipo === "Recomendaciones_Locales") {
@@ -697,7 +821,8 @@ async function buildServiceReply(
   const dateHint = extractDateHint(message)
   const guestsHint = extractGuestsHint(message)
   const choiceOptions = extractChoiceOptions(lastAssistant)
-  const matchedChoice = choiceOptions.find((opt) => opt === normalizedMessage) || null
+  const matchedChoice =
+    choiceOptions.find((opt) => normalizeText(message).includes(normalizeText(opt))) || null
 
   if (isPetService) {
     if (affirmative) {
@@ -731,11 +856,69 @@ async function buildServiceReply(
     }
   }
 
-  if (lastAssistantIsQuestion && (matchedChoice || isShortFollowup) && !dateHint && !guestsHint && !petSize) {
+  if (normalizeText(item.id).includes("wifi") && lastAssistantIsQuestion && isShortFollowup) {
+    const inferred = await inferWifiUseCase(message)
+    if (inferred) {
+      return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${inferred}. ¿Necesitas algo más del Wi‑Fi?`
+    }
+  }
+
+  if (lastAssistantIsQuestion && isShortFollowup && !dateHint && !guestsHint && !petSize) {
+    if (matchedChoice) {
+      const shortName = item.nombre_publico || "servicio"
+      if (normalizeText(item.id).includes("wifi")) {
+        return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${matchedChoice}. ¿Necesitas algo más del Wi‑Fi?`
+      }
+      return `${short || "Perfecto."} Tomo nota: ${matchedChoice}. ¿Quieres que lo coordinemos para ${shortName}?`
+    }
     return buildSafeFollowup(item, message)
   }
 
   return buildItemReply(item, message, state)
+}
+
+async function inferWifiUseCase(message: string): Promise<string | null> {
+  if (!process.env.OPENAI_API_KEY) return null
+  const normalized = normalizeText(message)
+  if (normalized.includes("trabaj") || normalized.includes("zoom") || normalized.includes("reunion")) {
+    return "trabajo"
+  }
+  if (normalized.includes("stream") || normalized.includes("netflix") || normalized.includes("pelicula")) {
+    return "streaming"
+  }
+  try {
+    const systemPrompt =
+      "Clasifica el uso del Wi‑Fi. Devuelve SOLO JSON válido con {\"use\":\"trabajo\"|\"streaming\"|\"otro\"}."
+    const userPrompt = `Respuesta del huésped: "${message}"`
+    const response = await openai.chat.completions.create({
+      model: CLASSIFY_MODEL,
+      temperature: 0,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+      max_tokens: 30,
+    })
+    const raw = response.choices[0]?.message?.content?.trim() || "{}"
+    let parsed: any = null
+    try {
+      parsed = JSON.parse(raw)
+    } catch {
+      const match = raw.match(/\{[\s\S]*\}/)
+      if (match) {
+        try {
+          parsed = JSON.parse(match[0])
+        } catch {
+          parsed = null
+        }
+      }
+    }
+    const use = parsed?.use as string | undefined
+    if (use === "trabajo" || use === "streaming") return use
+    return null
+  } catch {
+    return null
+  }
 }
 
 function buildContext(items: ConserjeItem[]): string {
@@ -744,6 +927,13 @@ function buildContext(items: ConserjeItem[]): string {
       const horario = item.horario_apertura || item.horario_cierre
         ? `Horario: ${item.horario_apertura || "-"} a ${item.horario_cierre || "-"}.`
         : ""
+      const checkInOut =
+        item.check_in || item.check_out
+          ? `Check-in/out: ${item.check_in || "-"} / ${item.check_out || "-"}`
+          : ""
+      const precio = item.precio_desde ? `Precio desde: ${item.precio_desde}` : ""
+      const redirigir = item.redirigir ? `Redirigir: ${item.redirigir}` : ""
+      const mapa = item.link_ubicacion_mapa ? `Mapa: ${item.link_ubicacion_mapa}` : ""
       return [
         `Nombre: ${item.nombre_publico}`,
         `Tipo: ${item.tipo}`,
@@ -756,6 +946,10 @@ function buildContext(items: ConserjeItem[]): string {
           ? `Condiciones: ${item.condiciones_servicio.join(", ")}`
           : "",
         horario,
+        checkInOut,
+        precio,
+        redirigir,
+        mapa,
       ]
         .filter(Boolean)
         .join("\n")
@@ -835,22 +1029,44 @@ function buildCTAs(options: {
   reply?: string | null
 }): string[] {
   const { message, item, tipo, state, reply } = options
+  const actionableFromItem = (targetItem: ConserjeItem | null | undefined) => {
+    if (!targetItem?.ctas?.length) return []
+    return targetItem.ctas.filter((cta) => {
+      const ctaNorm = normalizeText(cta)
+      return (
+        ctaNorm.includes("reserv") ||
+        ctaNorm.includes("coordinar") ||
+        ctaNorm.includes("ubicacion") ||
+        ctaNorm.includes("mapa")
+      )
+    })
+  }
   const action = hasActionIntent(message)
   const affirmative = isAffirmative(message)
   const replyHasQuestion = reply ? reply.includes("?") || reply.includes("¿") : false
-  if (replyHasQuestion) return []
+  if (replyHasQuestion && item?.tipo !== "Habitaciones" && tipo !== "Habitaciones") return []
 
   if (item?.tipo === "Servicios") {
-    if (action || affirmative || state?.dates) return ["Coordinar servicio"]
+    if (action || affirmative || state?.dates) {
+      const fromSheet = actionableFromItem(item)
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Coordinar servicio"]
+    }
     return []
   }
 
   if (item?.tipo === "Habitaciones") {
     if (affirmative && (state?.dates || state?.guests || state?.profile)) {
-      return ["Reservar habitación"]
+      const fromSheet = actionableFromItem(item)
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Reservar habitación"]
     }
-    if (state?.dates && (state?.guests || state?.profile)) return ["Reservar habitación"]
-    if (action) return ["Reservar habitación"]
+    if (state?.dates && (state?.guests || state?.profile)) {
+      const fromSheet = actionableFromItem(item)
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Reservar habitación"]
+    }
+    if (action) {
+      const fromSheet = actionableFromItem(item)
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Reservar habitación"]
+    }
     return []
   }
 
@@ -863,6 +1079,21 @@ function buildCTAs(options: {
   }
 
   if (item?.tipo === "Recomendaciones_Locales") {
+    const normalizedMessage = normalizeText(message)
+    const wantsMap =
+      normalizedMessage.includes("mapa") ||
+      normalizedMessage.includes("ubicacion") ||
+      normalizedMessage.includes("llegar") ||
+      normalizedMessage.includes("caminand") ||
+      normalizedMessage.includes("taxi") ||
+      affirmative
+    if (wantsMap && item.link_ubicacion_mapa) {
+      const fromSheet = actionableFromItem(item).filter((cta) => {
+        const ctaNorm = normalizeText(cta)
+        return ctaNorm.includes("ubicacion") || ctaNorm.includes("mapa")
+      })
+      return fromSheet.length > 0 ? fromSheet.slice(0, 1) : ["Ver ubicación en mapa"]
+    }
     if (action || affirmative) return ["Solicitar información"]
   }
 
@@ -1042,12 +1273,12 @@ function buildDirectionalFollowup(choice: string, item: ConserjeItem): string {
   const normalizedChoice = normalizeText(choice)
   const detail = buildDetailReply(item)
   if (normalizedChoice.includes("camina")) {
-    return `${detail ? `${detail} ` : ""}Caminando es una buena opción y suele estar cerca. ¿Quieres una ruta aproximada desde el hotel?`
+    return `${detail ? `${detail} ` : ""}Caminando es una buena opción y suele estar cerca. Te comparto la ubicación en mapa.`
   }
   if (normalizedChoice.includes("taxi")) {
-    return `${detail ? `${detail} ` : ""}En taxi es rápido y directo. ¿Quieres que te ayude a pedir uno?`
+    return `${detail ? `${detail} ` : ""}En taxi es rápido y directo. Te comparto la ubicación en mapa.`
   }
-  return `${detail ? `${detail} ` : ""}¿Quieres que te comparta una ruta aproximada?`
+  return `${detail ? `${detail} ` : ""}Te comparto la ubicación en mapa para que llegues fácilmente.`
 }
 
 export async function POST(request: NextRequest) {
@@ -1144,6 +1375,7 @@ INSTRUCCIONES:
         .slice(0, -1)
         .reverse()
         .find((entry) => entry.role === "user")?.content || ""
+    const previousUserNormalized = previousUserContent ? normalizeText(previousUserContent) : ""
     const historyItemMatch = previousUserContent
       ? matchItemByName(previousUserContent, conserjeData.items)
       : null
@@ -1198,6 +1430,8 @@ INSTRUCCIONES:
     const isPureAffirmative =
       isAffirmative(message) && tokenCount <= 2
     const isShortFollowup = tokenCount <= 3 && !isQuestion
+    const isRepeatUserMessage =
+      Boolean(previousUserNormalized) && previousUserNormalized === normalizedMessage && isShortFollowup
     const lowInfoFollowup =
       Boolean(activeItem) &&
       (Boolean(dateHint) || Boolean(guestsHint) || Boolean(petSize) || isPureAffirmative || isShortFollowup)
@@ -1219,10 +1453,32 @@ INSTRUCCIONES:
         ? null
         : matchItemByName(message, conserjeData.items)
 
-    if (activeItem && isShortFollowup && !explicitNameMatch) {
+    const wantsCategorySwitch =
+      isHabitacionesQuery(message) ||
+      isInstalacionesQuery(message) ||
+      isRecomendacionesQuery(message) ||
+      normalizedMessage.includes("servicio") ||
+      normalizedMessage.includes("servicios")
+
+    if (activeItem && isRepeatUserMessage && !wantsCategorySwitch) {
+      const reply = "Ya lo tengo. Si quieres, puedo ayudarte con algo más."
+      return NextResponse.json({
+        reply,
+        suggestions: [],
+        items: [],
+        menu: [],
+        intent: null,
+        profile: null,
+        tipo: activeItem.tipo,
+        activeItemId: activeItem.id,
+      })
+    }
+
+    if (activeItem && isShortFollowup && !explicitNameMatch && !wantsCategorySwitch) {
       const lastAssistantContent =
         [...safeHistory].reverse().find((entry) => entry.role === "assistant")?.content || ""
       const lastAssistantNormalized = normalizeText(lastAssistantContent)
+      const lastAssistantIsQuestion = lastAssistantContent.includes("?")
       const affirmative = isAffirmative(message)
       const choiceOptions = extractChoiceOptions(lastAssistantContent)
       const matchedChoice = choiceOptions.find((opt) => normalizeText(message).includes(opt)) || null
@@ -1258,6 +1514,22 @@ INSTRUCCIONES:
       }
 
       if (activeItem.tipo === "Instalaciones" && affirmative) {
+        if (
+          lastAssistantNormalized.includes("coordin") ||
+          lastAssistantNormalized.includes("coordinar")
+        ) {
+          const reply = "Perfecto, lo coordinamos."
+          return NextResponse.json({
+            reply,
+            suggestions: buildCTAs({ message, item: activeItem, state, reply }),
+            items: [],
+            menu: [],
+            intent: null,
+            profile: null,
+            tipo: activeItem.tipo,
+            activeItemId: activeItem.id,
+          })
+        }
         if (
           lastAssistantNormalized.includes("usarla") ||
           lastAssistantNormalized.includes("usar") ||
