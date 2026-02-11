@@ -41,6 +41,7 @@ python3 scripts/excel-to-json.py
    - Usa embeddings + recuperación semántica.
    - “Planner LLM” decide intención y siguiente paso.
    - “Validador Excel” corrige conflictos (restricciones, perfiles, etc.).
+   - Expone `decision` por turno (`mode`, `reason`, `required_slots`) para orquestación UI.
    - Nunca inventa datos fuera del Excel.
 
 2. `POST /api/chat`
@@ -73,6 +74,7 @@ Despliega en Vercel o tu proveedor preferido. Asegura `OPENAI_API_KEY` en variab
 - `/conserje` es independiente de `/demoai`.
 - El Excel es la fuente factual. La IA solo completa tono o conecta piezas.
 - Si cambias el Excel, regenera el JSON antes de probar.
+- Contrato conversacional operativo: `doc/conserje-policy-contract.md`.
 
 ## Últimos ajustes (conversación)
 

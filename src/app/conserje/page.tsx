@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { Figtree } from "next/font/google"
+import { ConserjeItemsMessage } from "@/components/humano/ConserjeItemsMessage"
 import { Logo } from "@/components/humano/Logo"
 import {
   ArrowLeft,
@@ -41,7 +42,6 @@ import {
   PhoneIcon,
   CalendarIcon,
   BuildingStorefrontIcon,
-  HeartIcon,
   UserIcon,
   UsersIcon,
   UserGroupIcon,
@@ -49,7 +49,7 @@ import {
 } from "@heroicons/react/24/solid"
 import { useMicrophone } from "@/hooks/useMicrophone"
 import conserjeDataRaw from "@/data/conserje.json"
-import type { ConserjeData } from "@/lib/conserje/types"
+import type { ConserjeData, ConserjeItem } from "@/lib/conserje/types"
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -57,25 +57,10 @@ const figtree = Figtree({
   variable: "--font-figtree",
 })
 
-type ConserjeItem = {
-  id: string
-  nombre_publico: string
-  categoria: string
-  desc_factual: string
-  desc_experiencial: string
-  imagenes_url: string[]
-  ctas: string[]
-  horario_apertura: string | null
-  horario_cierre: string | null
-  precio_desde: string
-  check_in: string
-  check_out: string
-  redirigir: string
-  link_ubicacion_mapa: string
-  tipo: string
-}
-
 const conserjeData = conserjeDataRaw as ConserjeData
+const MARRIOTT_ROOMS_URL =
+  "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
+const HUMAN_ESCALATION_EMAIL = "recepcion@humanohoteles.com"
 
 const defaultSuggestions = [
   "Habitaciones",
@@ -95,6 +80,40 @@ const groupSuggestions = [
   { label: "En pareja", icon: <UsersIcon className="h-5 w-5" /> },
   { label: "En grupo", icon: <UserGroupIcon className="h-5 w-5" /> },
 ]
+
+type IntentOption = { label: string; description: string; icon: ReactNode }
+type GroupOption = { label: string; icon: ReactNode }
+type MenuOption = { id: string; label: string }
+
+type AgentTextMessage = {
+  id: string
+  sender: "agent"
+  type: "text"
+  content: string
+  link?: string
+}
+
+type UserTextMessage = {
+  id: string
+  sender: "user"
+  type: "text"
+  content: string
+}
+
+type AgentMessage =
+  | AgentTextMessage
+  | { id: string; sender: "agent"; type: "intent"; content: IntentOption[] }
+  | { id: string; sender: "agent"; type: "group"; content: GroupOption[] }
+  | { id: string; sender: "agent"; type: "suggestions"; content: string[] }
+  | { id: string; sender: "agent"; type: "menu"; content: MenuOption[] }
+  | { id: string; sender: "agent"; type: "items"; content: ConserjeItem[] }
+  | { id: string; sender: "agent"; type: "freetext"; content: string }
+  | { id: string; sender: "agent"; type: "link"; content: { url: string } }
+
+type ChatMessage = AgentMessage | UserTextMessage
+
+const isAgentTextMessage = (message: ChatMessage): message is AgentTextMessage =>
+  message.sender === "agent" && message.type === "text"
 
 const extractDateHint = (text: string): string | null => {
   const normalized = text.toLowerCase()
@@ -152,49 +171,8 @@ const extractIntentHint = (text: string): string | null => {
   return null
 }
 
-const normalizeShortInput = (text: string): string => {
-  return text
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-}
-
-const mapInputToSuggestion = (text: string): string | null => {
-  const normalized = normalizeShortInput(text)
-  if (!normalized) return null
-  const words = normalized.split(/\s+/).filter(Boolean)
-  if (words.length > 2) return null
-
-  const exactMap: Record<string, string> = {
-    trabajo: "Trabajo",
-    descanso: "Descanso",
-    aventura: "Aventura",
-    solo: "Solo",
-    "en pareja": "En pareja",
-    pareja: "En pareja",
-    "en grupo": "En grupo",
-    grupo: "En grupo",
-    familia: "En grupo",
-    habitaciones: "Habitaciones",
-    habitacion: "Habitaciones",
-    servicios: "Servicios",
-    servicio: "Servicios",
-    instalaciones: "Instalaciones",
-    instalacion: "Instalaciones",
-    recomendaciones: "Recomendaciones locales",
-    "recomendaciones locales": "Recomendaciones locales",
-  }
-
-  if (exactMap[normalized]) return exactMap[normalized]
-
-  return null
-}
-
 export default function ConserjePage() {
-  const [messages, setMessages] = useState<any[]>([])
+  const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [userInput, setUserInput] = useState("")
   const [isAIResponding, setIsAIResponding] = useState(false)
@@ -246,10 +224,10 @@ export default function ConserjePage() {
 
   type AgentSequenceItem =
     | { type: "text"; content: string; link?: string }
-    | { type: "intent"; content: Array<{ label: string; description: string; icon: ReactNode }> }
-    | { type: "group"; content: Array<{ label: string; icon: ReactNode }> }
+    | { type: "intent"; content: IntentOption[] }
+    | { type: "group"; content: GroupOption[] }
     | { type: "suggestions"; content: string[] }
-    | { type: "menu"; content: Array<{ id: string; label: string }> }
+    | { type: "menu"; content: MenuOption[] }
     | { type: "items"; content: ConserjeItem[] }
     | { type: "freetext"; content: string }
     | { type: "link"; content: { url: string } }
@@ -267,7 +245,9 @@ export default function ConserjePage() {
           if (item.link) {
             setMessages((prev) =>
               prev.map((msg, index) =>
-                index === prev.length - 1 ? { ...msg, link: item.link } : msg
+                index === prev.length - 1 && msg.sender === "agent" && msg.type === "text"
+                  ? { ...msg, link: item.link }
+                  : msg
               )
             )
           }
@@ -277,25 +257,18 @@ export default function ConserjePage() {
         }
 
         await sleep(200)
+        const nextMessage = {
+          id: generateId(),
+          sender: "agent" as const,
+          type: item.type,
+          content: item.content,
+        } as AgentMessage
         setMessages((prev) => [
           ...prev,
-          { id: generateId(), sender: "agent", type: item.type, content: item.content },
+          nextMessage,
         ])
       }
     })
-  }
-
-  const buildSearchUrl = (action: "reservar" | "coordinar") => {
-    const parts: string[] = ["Hotel Humano Miraflores"]
-    if (action === "reservar") parts.push("reservar habitación")
-    if (action === "coordinar") parts.push("coordinar servicio")
-    if (activeItemLabel) parts.push(activeItemLabel)
-    if (conversationState.intent) parts.push(conversationState.intent)
-    if (conversationState.profile) parts.push(conversationState.profile)
-    if (conversationState.guests) parts.push(conversationState.guests)
-    if (conversationState.dates) parts.push(conversationState.dates)
-    const query = parts.filter(Boolean).join(" ")
-    return `https://www.google.com/search?q=${encodeURIComponent(query)}`
   }
 
   const normalizeExternalUrl = (value: string) => {
@@ -342,9 +315,51 @@ export default function ConserjePage() {
     return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`
   }
 
-  const handleCtaAction = (label: string) => {
+  const buildGenericMailto = (actionLabel: string) => {
+    const subject = `${actionLabel} - Hotel Humano`
+    const bodyLines = [
+      "Hola equipo de Humano,",
+      "",
+      `Quisiera ${actionLabel.toLowerCase()}.`,
+      conversationState.intent ? `Motivo del viaje: ${conversationState.intent}` : "",
+      conversationState.profile ? `Perfil: ${conversationState.profile}` : "",
+      conversationState.guests ? `Personas: ${conversationState.guests}` : "",
+      conversationState.dates ? `Fechas: ${conversationState.dates}` : "",
+      "",
+      "Nombre:",
+      "Teléfono:",
+      "Comentarios:",
+      "",
+      "Gracias.",
+    ].filter(Boolean)
+    return `mailto:${HUMAN_ESCALATION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`
+  }
+
+  const handleCtaAction = (label: string, itemOverride?: ConserjeItem | null) => {
     const lower = label.toLowerCase()
-    const activeItem = resolveActiveItem()
+    const activeItem = itemOverride || resolveActiveItem()
+
+    if (lower.includes("ver otras habitaciones") || lower.includes("otras habitaciones")) {
+      setActiveItemId(null)
+      setActiveItemLabel(null)
+      setContextTopic("Habitaciones")
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: generateId(),
+          sender: "user",
+          type: "text",
+          content: label,
+        },
+      ])
+      sendMessageToConserje("Habitaciones", {
+        activeItemIdOverride: null,
+        activeItemLabelOverride: null,
+        source: "user",
+      })
+      return
+    }
+
     let url = ""
     let replyText = "Abrí una ventana nueva con lo que pediste. Clic aquí para revisarlo."
 
@@ -368,7 +383,12 @@ export default function ConserjePage() {
 
     const action = lower.includes("reservar") ? "reservar" : "coordinar"
     if (!url) {
-      url = buildSearchUrl(action as "reservar" | "coordinar")
+      if (action === "reservar") {
+        url = MARRIOTT_ROOMS_URL
+      } else {
+        url = buildGenericMailto(label)
+        replyText = "Abrí tu correo con un borrador listo para que lo edites y envíes."
+      }
     }
 
     if (typeof window !== "undefined") {
@@ -476,12 +496,6 @@ export default function ConserjePage() {
     return null
   }
 
-  const getItemImage = (item: ConserjeItem) => {
-    if (!item.imagenes_url || item.imagenes_url.length === 0) return null
-    const valid = item.imagenes_url.find((url) => url.startsWith("http"))
-    return valid || null
-  }
-
   const sendMessageToConserje = async (
     userMessage: string,
     options?: {
@@ -493,7 +507,7 @@ export default function ConserjePage() {
     setIsAIResponding(true)
 
     const lowerMessage = userMessage.trim().toLowerCase()
-    const lastAssistant = [...messages].reverse().find((msg) => msg.sender === "agent" && msg.type === "text")
+    const lastAssistant = [...messages].reverse().find(isAgentTextMessage)
     const lastAssistantText = lastAssistant?.content?.toLowerCase() || ""
     const isInitialIntentStep =
       !conversationState.intent &&
@@ -521,7 +535,7 @@ export default function ConserjePage() {
     let guestsHint = extractGuestsHint(userMessage)
     if (!guestsHint) {
       const numericOnly = /^\d{1,2}$/.test(userMessage.trim())
-      const lastAssistant = [...messages].reverse().find((msg) => msg.sender === "agent" && msg.type === "text")
+      const lastAssistant = [...messages].reverse().find(isAgentTextMessage)
       if (numericOnly && lastAssistant?.content?.toLowerCase().includes("personas")) {
         guestsHint = `${userMessage.trim()} personas`
       }
@@ -575,13 +589,44 @@ export default function ConserjePage() {
       }
 
       const data = await response.json()
+      const decisionMode = data?.decision?.mode as
+        | "inform"
+        | "clarify"
+        | "redirect_reservation"
+        | "escalate_human"
+        | "show_menu"
+        | undefined
+      const normalizedReply = typeof data.reply === "string" ? data.reply.trim().toLowerCase() : ""
+      const lastAssistant = [...messages].reverse().find(isAgentTextMessage)
+      const normalizedLastAssistant = lastAssistant?.content?.trim().toLowerCase() || ""
+      if (
+        normalizedReply &&
+        normalizedReply === normalizedLastAssistant &&
+        decisionMode !== "show_menu"
+      ) {
+        data.reply = "Entendido. Si quieres, seguimos con otro detalle de tu estadía."
+      }
+      if (decisionMode === "redirect_reservation" && (!Array.isArray(data.suggestions) || data.suggestions.length === 0)) {
+        data.suggestions = ["Reservar ahora"]
+      }
+      if (decisionMode === "escalate_human") {
+        data.suggestions = []
+        if (!data.reply || !String(data.reply).includes(HUMAN_ESCALATION_EMAIL)) {
+          data.reply = `Para gestionarlo correctamente, prefiero que escribas directamente a nuestro equipo: ${HUMAN_ESCALATION_EMAIL}.`
+        }
+      }
 
       const sequence: AgentSequenceItem[] = []
+      const hasItems = Array.isArray(data.items) && data.items.length > 0
+      const prioritizeItems = hasItems && Boolean(data.activeItemId)
+      if (prioritizeItems) {
+        sequence.push({ type: "items", content: data.items })
+      }
       if (data.reply) sequence.push({ type: "text", content: data.reply })
       if (Array.isArray(data.menu) && data.menu.length > 0) {
         sequence.push({ type: "menu", content: data.menu })
       }
-      if (Array.isArray(data.items) && data.items.length > 0) {
+      if (hasItems && !prioritizeItems) {
         sequence.push({ type: "items", content: data.items })
       }
       if (Array.isArray(data.suggestions) && data.suggestions.length > 0) {
@@ -706,7 +751,7 @@ export default function ConserjePage() {
     ])
 
     const lower = suggestion.toLowerCase()
-    const lastAssistant = [...messages].reverse().find((msg) => msg.sender === "agent" && msg.type === "text")
+    const lastAssistant = [...messages].reverse().find(isAgentTextMessage)
     const lastAssistantText = lastAssistant?.content?.toLowerCase() || ""
     const isInitialIntentStep =
       !conversationState.intent &&
@@ -870,49 +915,10 @@ export default function ConserjePage() {
             )}
 
             {msg.type === "items" && (
-              <div className="bg-white dark:bg-card border border-border/30 rounded-2xl p-4 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {msg.content.map((item: ConserjeItem) => {
-                    const imageUrl = getItemImage(item)
-                    const description = item.desc_factual || item.desc_experiencial
-                    return (
-                      <div key={item.id} className="border border-border/30 rounded-2xl overflow-hidden">
-                        {imageUrl && (
-                          <div className="h-32 w-full overflow-hidden">
-                            <img src={imageUrl} alt={item.nombre_publico} className="w-full h-full object-cover" />
-                          </div>
-                        )}
-                        <div className="p-4 space-y-2">
-                          <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center px-2.5 py-1 bg-[#ffce5c]/20 text-[#ffce5c] text-xs font-semibold rounded-md uppercase tracking-wide">
-                              {item.tipo}
-                            </span>
-                          </div>
-                          <h3 className="text-base font-bold text-foreground">{item.nombre_publico}</h3>
-                          {description && (
-                            <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
-                          )}
-                          {(item.horario_apertura || item.horario_cierre) && (
-                            <p className="text-xs text-muted-foreground">
-                              Horario: {item.horario_apertura || "-"} a {item.horario_cierre || "-"}
-                            </p>
-                          )}
-                          {(item.check_in || item.check_out) && (
-                            <p className="text-xs text-muted-foreground">
-                              Check-in/out: {item.check_in || "-"} / {item.check_out || "-"}
-                            </p>
-                          )}
-                          {item.precio_desde && (
-                            <p className="text-xs text-muted-foreground">
-                              Desde: {item.precio_desde}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
+              <ConserjeItemsMessage
+                items={msg.content}
+                onAction={(action, item) => handleCtaAction(action, item)}
+              />
             )}
 
             {msg.type === "suggestions" && (

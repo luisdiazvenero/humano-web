@@ -24,11 +24,131 @@ type ChatHistoryItem = { role: ChatRole; content: string }
 const EMBEDDING_MODEL = "text-embedding-3-small"
 const CHAT_MODEL = "gpt-4o"
 const CLASSIFY_MODEL = "gpt-4o-mini"
+const MARRIOTT_ROOMS_URL =
+  "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
+const HUMAN_ESCALATION_EMAIL = "recepcion@humanohoteles.com"
 
 const embeddingCache = new Map<string, number[]>()
 const itemTextCache = new Map<string, string>()
 
 const ALLOWED_ROLES = new Set<ChatRole>(["system", "user", "assistant", "developer"])
+
+type DecisionMode =
+  | "inform"
+  | "clarify"
+  | "redirect_reservation"
+  | "escalate_human"
+  | "show_menu"
+
+type Decision = {
+  mode: DecisionMode
+  reason: string
+  required_slots: Array<"dates" | "guests">
+}
+
+function hasReservationIntent(message: string): boolean {
+  const normalized = normalizeText(message)
+  const cues = [
+    "reserv",
+    "disponibilidad",
+    "fecha",
+    "fechas",
+    "precio",
+    "tarifa",
+    "habitacion",
+    "habitaciones",
+    "check in",
+    "check out",
+  ]
+  return cues.some((cue) => normalized.includes(cue))
+}
+
+function requiresHumanEscalation(message: string): boolean {
+  const normalized = normalizeText(message)
+  const escalationCues = [
+    "reclamo",
+    "queja",
+    "denuncia",
+    "tarjeta",
+    "fraude",
+    "cobro",
+    "reembolso",
+    "devolucion",
+    "cancelar reserva",
+    "modificar reserva",
+    "factura",
+    "comprobante",
+    "problema legal",
+  ]
+  return escalationCues.some((cue) => normalized.includes(cue))
+}
+
+function applyConversationPolicy(reply: string): string {
+  if (!reply) return reply
+  let output = reply
+  output = output.replace(/te ayudo a reservar\.?/gi, "")
+  output = output.replace(/reserva ahora/gi, "puedes revisar disponibilidad")
+  output = output.replace(/\s{2,}/g, " ").trim()
+  return output
+}
+
+function inferDecision(options: {
+  message: string
+  reply?: string | null
+  tipo?: string | null
+  menu?: Array<{ id: string; label: string }>
+  state?: { dates?: string | null; guests?: string | null } | null
+}): Decision {
+  const reply = options.reply || ""
+  const hasQuestion = reply.includes("?") || reply.includes("¿")
+  const hasMenu = Array.isArray(options.menu) && options.menu.length > 0
+  const reservationIntent = hasReservationIntent(options.message)
+  const reservationReplySignal = normalizeText(reply).includes("marriott")
+  const requiredSlots: Array<"dates" | "guests"> = []
+
+  if (reservationIntent || reservationReplySignal) {
+    if (!options.state?.dates) requiredSlots.push("dates")
+    if (!options.state?.guests) requiredSlots.push("guests")
+  }
+
+  if (normalizeText(reply).includes(HUMAN_ESCALATION_EMAIL)) {
+    return {
+      mode: "escalate_human",
+      reason: "La consulta requiere gestión humana o confirmación operativa.",
+      required_slots: [],
+    }
+  }
+
+  if ((reservationIntent || reservationReplySignal) && requiredSlots.length === 0) {
+    return {
+      mode: "redirect_reservation",
+      reason: "Hay intención de reserva con datos suficientes.",
+      required_slots: [],
+    }
+  }
+
+  if (hasMenu) {
+    return {
+      mode: "show_menu",
+      reason: "La respuesta requiere selección entre opciones disponibles.",
+      required_slots: requiredSlots,
+    }
+  }
+
+  if (hasQuestion) {
+    return {
+      mode: "clarify",
+      reason: "Falta al menos un dato para avanzar con precisión.",
+      required_slots: requiredSlots,
+    }
+  }
+
+  return {
+    mode: "inform",
+    reason: "La respuesta entrega información contextual suficiente.",
+    required_slots: requiredSlots,
+  }
+}
 
 function sanitizeHistory(history: Array<{ role?: string; content?: string }>): ChatHistoryItem[] {
   return history
@@ -701,7 +821,7 @@ function buildItemReply(
 
   if (askPrecio || askCondicion) {
     if (item.tipo === "Habitaciones" && item.precio_desde) {
-      return `La tarifa referencial es desde ${item.precio_desde}. ¿Quieres que te ayude a reservar?`
+      return `La tarifa referencial es desde ${item.precio_desde}. Puedes revisar disponibilidad en ${MARRIOTT_ROOMS_URL}.`
     }
     const condiciones = item.condiciones_servicio?.length
       ? item.condiciones_servicio.join(", ")
@@ -740,7 +860,7 @@ function buildItemReply(
     const stateGuests = state?.guests || guestsFromProfile(state?.profile)
     if (affirmative) {
       if (stateDates && stateGuests) {
-        return `Perfecto, ${stateDates} (${stateGuests}). Te ayudo a reservar.`
+        return `Perfecto, ${stateDates} (${stateGuests}). Puedes revisar disponibilidad directamente en ${MARRIOTT_ROOMS_URL}.`
       }
       if (stateDates && !stateGuests) {
         return `Perfecto, para ${stateDates}. ¿Para cuántas personas?`
@@ -772,17 +892,17 @@ function buildItemReply(
     if (affirmative) {
       if (schedule.hasHorario && horarioText) {
         if (schedule.is24h) {
-          return `Genial. ${horarioText} Está disponible durante todo el día. ¿Quieres que lo coordinemos?`
+          return `Genial. ${horarioText} Está disponible durante todo el día. ¿Te comparto más detalles de uso?`
         }
         if (schedule.morningOnly) {
-          return `Genial. ${horarioText} Funciona en la mañana. ¿Quieres que lo coordinemos?`
+          return `Genial. ${horarioText} Funciona en la mañana. ¿Te comparto más detalles de uso?`
         }
         if (schedule.nightOnly) {
-          return `Genial. ${horarioText} Funciona en horario nocturno. ¿Quieres que lo coordinemos?`
+          return `Genial. ${horarioText} Funciona en horario nocturno. ¿Te comparto más detalles de uso?`
         }
         return `Genial. ${horarioText} ¿Te va mejor mañana, tarde o noche dentro de ese rango?`
       }
-      return "Genial. ¿En qué horario te gustaría usarla?"
+      return "Genial. ¿Te comparto recomendaciones para aprovecharla mejor?"
     }
     if (timePreference) {
       if (schedule.hasHorario && horarioText) {
@@ -791,9 +911,9 @@ function buildItemReply(
         if (!slotAllowed) {
           return `Perfecto, ${timePreference}. ${horarioText} Ese horario no está disponible; ¿te va bien dentro de ese rango?`
         }
-        return `Perfecto, ${timePreference}. ${horarioText} ¿Quieres que lo coordinemos?`
+        return `Perfecto, ${timePreference}. ${horarioText} ¿Quieres más detalles de uso?`
       }
-      return `Perfecto, ${timePreference}. ¿Quieres que lo coordinemos?`
+      return `Perfecto, ${timePreference}. ¿Quieres más detalles de uso?`
     }
     return short ? `${short} ¿Te gustaría usarla?` : "¿Te gustaría usarla?"
   }
@@ -832,34 +952,37 @@ async function buildServiceReply(
         normalizedLast.includes("especial")
       if (item.condiciones_servicio && item.condiciones_servicio.length > 0) {
         const details = await formatConditionsText(item.condiciones_servicio, item.nombre_publico)
-        if (alreadyShared) return "Perfecto, lo coordinamos."
-        return `${details}. Puedo coordinarlo cuando quieras.`
+        if (alreadyShared) return "Perfecto, te comparto esas condiciones para que lo evalúes con calma."
+        return `${details}. Si quieres, te ayudo a coordinarlo por correo.`
       }
       if (item.restricciones_requisitos && item.restricciones_requisitos.length > 0) {
         const details = await formatConditionsText(item.restricciones_requisitos, item.nombre_publico)
-        if (alreadyShared) return "Perfecto, lo coordinamos."
-        return `${details}. Puedo coordinarlo cuando quieras.`
+        if (alreadyShared) return "Perfecto, te comparto esas condiciones para que lo evalúes con calma."
+        return `${details}. Si quieres, te ayudo a coordinarlo por correo.`
       }
       return alreadyShared
-        ? "Perfecto, lo coordinamos."
-        : "Puedo compartirte las condiciones del servicio pet friendly. Puedo coordinarlo cuando quieras."
+        ? "Perfecto, te comparto esas condiciones para que lo evalúes con calma."
+        : "Puedo compartirte las condiciones del servicio pet friendly. Si quieres, te ayudo a coordinarlo por correo."
     }
     if (petSize) {
       const detail = short ? ` ${short}` : ""
-      return `Perfecto, tamaño ${petSize}.${detail} Puedo coordinarlo cuando quieras.`
+      return `Perfecto, tamaño ${petSize}.${detail} Si quieres, te ayudo a coordinarlo por correo.`
     }
     const petContext = await inferPetContext(message, petSize)
     if (petContext.hasPet) {
       const intro = "Sí, contamos con pet friendly."
       const body = short ? `${intro} ${short}` : intro
-      return petContext.needsSize ? `${body} ¿Qué tamaño tiene?` : `${body} Puedo coordinarlo cuando quieras.`
+      return petContext.needsSize ? `${body} ¿Qué tamaño tiene?` : `${body} Si quieres, te ayudo a coordinarlo por correo.`
     }
   }
 
   if (normalizeText(item.id).includes("wifi") && lastAssistantIsQuestion && isShortFollowup) {
     const inferred = await inferWifiUseCase(message)
     if (inferred) {
-      return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${inferred}. ¿Necesitas algo más del Wi‑Fi?`
+      if (normalizedLast.includes("necesitas algo mas del wi")) {
+        return `Perfecto, queda anotado para ${inferred}. Si quieres, también puedo ayudarte con otro tema de tu estadía.`
+      }
+      return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${inferred}. ¿Te sirve ese uso durante toda la estadía?`
     }
   }
 
@@ -867,9 +990,9 @@ async function buildServiceReply(
     if (matchedChoice) {
       const shortName = item.nombre_publico || "servicio"
       if (normalizeText(item.id).includes("wifi")) {
-        return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${matchedChoice}. ¿Necesitas algo más del Wi‑Fi?`
+        return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${matchedChoice}. ¿Te sirve ese uso durante toda la estadía?`
       }
-      return `${short || "Perfecto."} Tomo nota: ${matchedChoice}. ¿Quieres que lo coordinemos para ${shortName}?`
+      return `${short || "Perfecto."} Tomo nota: ${matchedChoice}. ¿Quieres que te comparta el siguiente paso para ${shortName}?`
     }
     return buildSafeFollowup(item, message)
   }
@@ -1133,6 +1256,10 @@ INSTRUCCIONES:
 - Usa SOLO la información factual del CONTEXTO.
 - No inventes datos que no estén en el contexto.
 - Si falta un dato, dilo y ofrece confirmarlo.
+- Tono: anfitrión cercano, curado y natural. No tono vendedor.
+- Evita urgencia comercial o presión de compra.
+- Si detectas intención de reserva/disponibilidad/precio/tarifa, redirige suavemente a:
+  ${MARRIOTT_ROOMS_URL}
 - Responde en español claro y natural.
 - Máximo 2 oraciones y una pregunta breve.
 - No menciones fuentes internas ni archivos.`
@@ -1196,6 +1323,8 @@ INSTRUCCIONES:
 - No cambies de tema ni sugieras otros servicios.
 - No repitas la misma pregunta previa.
 - Usa SOLO la información factual del CONTEXTO.
+- Si hay intención de reserva/disponibilidad/precio/tarifa, redirige suavemente a ${MARRIOTT_ROOMS_URL}.
+- Tono anfitrión, cercano y sin presión comercial.
 - Responde en español claro y natural.
 - Máximo 2 oraciones y una pregunta breve.`
 
@@ -1302,6 +1431,55 @@ export async function POST(request: NextRequest) {
     const contextTopic: string | null = body?.contextTopic || null
     const source: string | null = body?.source || null
 
+    const respond = (
+      payload: {
+        reply?: string
+        suggestions?: string[]
+        items?: ConserjeItem[]
+        menu?: Array<{ id: string; label: string }>
+        intent?: string | null
+        profile?: string | null
+        tipo?: string | null
+        activeItemId?: string | null
+        decision?: Decision
+        [key: string]: any
+      },
+      init?: { status?: number }
+    ) => {
+      const nextPayload = { ...payload }
+      const rawReply = typeof nextPayload.reply === "string" ? nextPayload.reply : ""
+      let finalReply = applyConversationPolicy(rawReply)
+
+      if (requiresHumanEscalation(message)) {
+        finalReply = `Para gestionarlo correctamente, prefiero que escribas directamente a nuestro equipo: ${HUMAN_ESCALATION_EMAIL}.`
+      }
+
+      const reservationMode = inferDecision({
+        message,
+        reply: finalReply,
+        tipo: nextPayload.tipo || null,
+        menu: nextPayload.menu || [],
+        state: state || null,
+      }).mode === "redirect_reservation"
+
+      if (reservationMode && !normalizeText(finalReply).includes("marriott")) {
+        finalReply = `${finalReply ? `${finalReply} ` : ""}Puedes revisar fechas y disponibilidad directamente en nuestro sitio oficial de Marriott: ${MARRIOTT_ROOMS_URL}`
+      }
+
+      if (finalReply) nextPayload.reply = finalReply.trim()
+      nextPayload.decision =
+        nextPayload.decision ||
+        inferDecision({
+          message,
+          reply: nextPayload.reply || "",
+          tipo: nextPayload.tipo || null,
+          menu: nextPayload.menu || [],
+          state: state || null,
+        })
+
+      return NextResponse.json(nextPayload, init)
+    }
+
     if (mode === "followup" && missingField) {
       const activeItem = activeItemId
         ? conserjeData.items.find((item) => item.id === activeItemId) || null
@@ -1349,7 +1527,7 @@ INSTRUCCIONES:
       })
 
       const reply = response.choices[0]?.message?.content?.trim() || ""
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: [],
         items: [],
@@ -1366,6 +1544,18 @@ INSTRUCCIONES:
     }
 
     const normalizedMessage = normalizeText(message)
+    if (requiresHumanEscalation(message)) {
+      return respond({
+        reply: `Para gestionarlo correctamente, prefiero que escribas directamente a nuestro equipo: ${HUMAN_ESCALATION_EMAIL}.`,
+        suggestions: [],
+        items: [],
+        menu: [],
+        intent: null,
+        profile: null,
+        tipo: null,
+        activeItemId: null,
+      })
+    }
     const serviciosItems = conserjeData.items.filter((item) => item.tipo === "Servicios")
     const tipoHint = (detectTipo(message) || (contextTopic as ConserjeItemType | null)) ?? null
     const lastAssistantContent =
@@ -1462,7 +1652,7 @@ INSTRUCCIONES:
 
     if (activeItem && isRepeatUserMessage && !wantsCategorySwitch) {
       const reply = "Ya lo tengo. Si quieres, puedo ayudarte con algo más."
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: [],
         items: [],
@@ -1486,7 +1676,7 @@ INSTRUCCIONES:
       if (activeItem.tipo === "Recomendaciones_Locales" && affirmative) {
         if (lastAssistantNormalized.includes("como llegar") || lastAssistantNormalized.includes("cómo llegar")) {
           const reply = "Perfecto. ¿Prefieres llegar caminando o en taxi?"
-          return NextResponse.json({
+          return respond({
             reply,
             suggestions: buildCTAs({ message, item: activeItem, state, reply }),
             items: [],
@@ -1501,7 +1691,7 @@ INSTRUCCIONES:
 
       if (activeItem.tipo === "Recomendaciones_Locales" && matchedChoice) {
         const reply = buildDirectionalFollowup(matchedChoice, activeItem)
-        return NextResponse.json({
+        return respond({
           reply,
           suggestions: buildCTAs({ message, item: activeItem, state, reply }),
           items: [],
@@ -1519,7 +1709,7 @@ INSTRUCCIONES:
           lastAssistantNormalized.includes("coordinar")
         ) {
           const reply = "Perfecto, lo coordinamos."
-          return NextResponse.json({
+          return respond({
             reply,
             suggestions: buildCTAs({ message, item: activeItem, state, reply }),
             items: [],
@@ -1535,10 +1725,32 @@ INSTRUCCIONES:
           lastAssistantNormalized.includes("usar") ||
           lastAssistantNormalized.includes("informacion")
         ) {
-          const reply = "Genial. ¿En qué horario te gustaría usarla?"
-          return NextResponse.json({
+          const reply = "Genial. ¿Te comparto más detalles de uso y horarios?"
+          return respond({
             reply,
             suggestions: buildCTAs({ message, item: activeItem, state, reply }),
+            items: [],
+            menu: [],
+            intent: null,
+            profile: null,
+            tipo: activeItem.tipo,
+            activeItemId: activeItem.id,
+          })
+        }
+      }
+
+      if (lastAssistantIsQuestion) {
+        const llmFollowup = await generateFollowupReply({
+          message,
+          lastAssistant: lastAssistantContent,
+          item: activeItem,
+          history: safeHistory,
+          state,
+        })
+        if (llmFollowup && !isReplyContaminated(llmFollowup, activeItem)) {
+          return respond({
+            reply: llmFollowup,
+            suggestions: buildCTAs({ message, item: activeItem, state, reply: llmFollowup }),
             items: [],
             menu: [],
             intent: null,
@@ -1553,7 +1765,7 @@ INSTRUCCIONES:
         activeItem.tipo === "Servicios"
           ? await buildServiceReply(activeItem, message, state, safeHistory)
           : buildItemReply(activeItem, message, state)
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: buildCTAs({ message, item: activeItem, state, reply }),
         items: [],
@@ -1608,7 +1820,7 @@ INSTRUCCIONES:
       const listRooms = isCategoryOnly && !isGroupProfile ? habitaciones : filteredRooms
 
       if (listRooms.length === 0) {
-        return NextResponse.json({
+        return respond({
           reply:
             "No tengo habitaciones para ese perfil en este momento. ¿Prefieres algo específico (cama, tamaño o vista)?",
           suggestions: [],
@@ -1631,7 +1843,7 @@ INSTRUCCIONES:
             history: safeHistory,
             state,
           })) || "Tengo opciones que podrían encajar. ¿Qué prefieres: cama, tamaño o vista?"
-        return NextResponse.json({
+        return respond({
           reply,
           suggestions: buildCTAs({ message, tipo: "Habitaciones", state, reply }),
           items: [],
@@ -1650,7 +1862,7 @@ INSTRUCCIONES:
         : effectiveProfile
           ? `Para ${effectiveProfile}, tengo estas opciones: ${names}. ¿Te interesa alguna en particular?`
           : `Tengo estas opciones de habitaciones: ${names}. ¿Te interesa alguna en particular?`
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: buildCTAs({ message, tipo: "Habitaciones", state, reply }),
         items: [],
@@ -1681,7 +1893,7 @@ INSTRUCCIONES:
       })
 
       if (filtered.length === 0) {
-        return NextResponse.json({
+        return respond({
           reply:
             "No tengo recomendaciones para ese perfil en este momento. ¿Prefieres algo específico?",
           suggestions: [],
@@ -1704,7 +1916,7 @@ INSTRUCCIONES:
             history: safeHistory,
             state,
           })) || "Tengo algunas opciones cerca. ¿Qué tipo de café prefieres?"
-        return NextResponse.json({
+        return respond({
           reply,
           suggestions: buildCTAs({ message, tipo: "Recomendaciones_Locales", state, reply }),
           items: [],
@@ -1720,7 +1932,7 @@ INSTRUCCIONES:
       const reply = profileHint
         ? `Para ${profileHint}, tengo estas opciones: ${names}. ¿Cuál te interesa?`
         : `Tengo estas recomendaciones: ${names}. ¿Cuál te interesa?`
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: [],
         items: [],
@@ -1749,7 +1961,7 @@ INSTRUCCIONES:
       })
 
       if (filtered.length === 0) {
-        return NextResponse.json({
+        return respond({
           reply:
             "No tengo instalaciones para ese perfil en este momento. ¿Prefieres algo específico?",
           suggestions: [],
@@ -1772,7 +1984,7 @@ INSTRUCCIONES:
             history: safeHistory,
             state,
           })) || "Tenemos varias instalaciones. ¿Qué te interesa usar?"
-        return NextResponse.json({
+        return respond({
           reply,
           suggestions: buildCTAs({ message, tipo: "Instalaciones", state, reply }),
           items: [],
@@ -1788,7 +2000,7 @@ INSTRUCCIONES:
       const reply = profileHint
         ? `Para ${profileHint}, tengo estas opciones: ${names}. ¿Cuál te interesa?`
         : `Tengo estas instalaciones: ${names}. ¿Cuál te interesa?`
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: [],
         items: [],
@@ -1822,7 +2034,7 @@ INSTRUCCIONES:
             history: safeHistory,
             state,
           })) || "Tenemos varios servicios disponibles. ¿Cuál te interesa?"
-        return NextResponse.json({
+        return respond({
           reply,
           suggestions: buildCTAs({ message, tipo: "Servicios", state, reply }),
           items: [],
@@ -1839,7 +2051,7 @@ INSTRUCCIONES:
         label: item.nombre_publico,
       }))
       const reply = "Servicios disponibles. Puedes elegir entre:"
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: [],
         items: [],
@@ -1863,7 +2075,7 @@ INSTRUCCIONES:
             itemName.includes(normalizedMessage)))
 
       if (isNegative(message)) {
-        return NextResponse.json({
+        return respond({
           reply: "Entiendo. ¿Quieres revisar otras opciones?",
           suggestions: [],
           items: [],
@@ -1896,7 +2108,7 @@ INSTRUCCIONES:
               const restrictionsOk = !isRoomRestrictedForGroup(item, guestsCount, effectiveProfile)
               return profileOk && restrictionsOk
             })
-            return NextResponse.json({
+            return respond({
               reply:
                 "Esta habitación no es adecuada para grupos. Te comparto opciones más cómodas para ustedes.",
               suggestions: [],
@@ -1921,10 +2133,10 @@ INSTRUCCIONES:
         if (currentItem.tipo === "Servicios") {
           reply = await buildServiceReply(currentItem, message, state, safeHistory)
         }
-        return NextResponse.json({
+        return respond({
           reply,
           suggestions: buildCTAs({ message, item: currentItem, state, reply }),
-          items: [],
+          items: [currentItem],
           menu: [],
           intent: null,
           profile: null,
@@ -1949,7 +2161,7 @@ INSTRUCCIONES:
             const restrictionsOk = !isRoomRestrictedForGroup(item, guestsCount, effectiveProfile)
             return profileOk && restrictionsOk
           })
-          return NextResponse.json({
+          return respond({
             reply:
               "Esta habitación no es adecuada para grupos. Te comparto opciones más cómodas para ustedes.",
             suggestions: [],
@@ -1988,7 +2200,7 @@ INSTRUCCIONES:
                 history: safeHistory,
                 state,
               })) || buildItemReply(currentItem, message, state)
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: buildCTAs({ message, item: currentItem, state, reply }),
         items: [],
@@ -2003,7 +2215,7 @@ INSTRUCCIONES:
     if (matchedItem) {
       const resolvedMatchedItem = matchedItem as ConserjeItem
       if (isNegative(message)) {
-        return NextResponse.json({
+        return respond({
           reply: "Entiendo. ¿Quieres revisar otras opciones?",
           suggestions: [],
           items: [],
@@ -2039,7 +2251,7 @@ INSTRUCCIONES:
                 history: safeHistory,
                 state,
               })) || buildItemReply(resolvedMatchedItem, message, state)
-      return NextResponse.json({
+      return respond({
         reply,
         suggestions: buildCTAs({ message, item: resolvedMatchedItem, state, reply }),
         items: [],
@@ -2076,9 +2288,9 @@ INSTRUCCIONES:
 
     const threshold = usedEmbeddings ? 0.2 : 1
     if (bestScore < threshold || topKeywordScore === 0) {
-      return NextResponse.json({
+      return respond({
         reply:
-          "No tengo ese dato en este momento. Si quieres, puedo confirmarlo con el hotel.",
+          `No tengo ese dato confirmado en este momento. Para validarlo con precisión, puedes escribir a ${HUMAN_ESCALATION_EMAIL}.`,
         suggestions: [],
         items: [],
         menu: buildCategoryMenu(),
@@ -2096,9 +2308,9 @@ INSTRUCCIONES:
           history: safeHistory,
           state,
         })
-      : "No tengo ese dato en este momento. Si quieres, puedo confirmarlo con el hotel."
+      : `No tengo ese dato confirmado en este momento. Para validarlo con precisión, puedes escribir a ${HUMAN_ESCALATION_EMAIL}.`
 
-    return NextResponse.json({
+    return respond({
       reply,
       suggestions: buildCTAs({ message, tipo: tipo || null, state, reply }),
       items: [],
