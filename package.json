@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:conserje": "node scripts/conserje-regression.mjs",
+    "images:chatbot": "node scripts/process-chatbot-images.mjs",
+    "images:chatbot:dry-run": "node scripts/process-chatbot-images.mjs --dry-run"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -18,6 +21,7 @@
     "openai": "^6.16.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "sharp": "^0.34.4",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7"
   },

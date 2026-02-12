@@ -17,7 +17,7 @@ const PROFILE_KEYWORDS: Record<string, string[]> = {
 const TIPO_KEYWORDS: Array<{ tipo: ConserjeItemType; keywords: string[] }> = [
   { tipo: "Habitaciones", keywords: ["habitacion", "habitación", "suite", "cama"] },
   { tipo: "Servicios", keywords: ["servicio", "servicios", "transfer", "traslado", "pet", "mascota"] },
-  { tipo: "Instalaciones", keywords: ["instalacion", "instalaciones", "lobby", "gym", "gimnasio", "desayuno", "piscina", "spa"] },
+  { tipo: "Instalaciones", keywords: ["instalacion", "instalaciones", "lobby", "gym", "gimnasio", "desayuno", "piscina", "spa", "restaurante", "restaurantes"] },
   { tipo: "Recomendaciones_Locales", keywords: ["recomendacion", "recomendaciones", "cerca", "alrededor", "lugares", "miraflores", "barrio"] },
 ]
 

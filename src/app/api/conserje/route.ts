@@ -51,12 +51,12 @@ function hasReservationIntent(message: string): boolean {
   const cues = [
     "reserv",
     "disponibilidad",
+    "disponible",
+    "disponibles",
     "fecha",
     "fechas",
     "precio",
     "tarifa",
-    "habitacion",
-    "habitaciones",
     "check in",
     "check out",
   ]
@@ -92,6 +92,23 @@ function applyConversationPolicy(reply: string): string {
   return output
 }
 
+function removeReservationCopyWhenNotAsked(reply: string): string {
+  if (!reply) return reply
+  const sentences = reply
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+  const filtered = sentences.filter((sentence) => {
+    const normalized = normalizeText(sentence)
+    if (normalized.includes("marriott")) return false
+    if (normalized.includes("disponibilidad") && normalized.includes("pagina web")) return false
+    if (normalized.includes("disponibilidad") && normalized.includes("sitio oficial")) return false
+    if (normalized.includes("puedes visitar nuestra pagina web")) return false
+    return true
+  })
+  return filtered.join(" ").replace(/\s{2,}/g, " ").trim()
+}
+
 function inferDecision(options: {
   message: string
   reply?: string | null
@@ -103,10 +120,15 @@ function inferDecision(options: {
   const hasQuestion = reply.includes("?") || reply.includes("¿")
   const hasMenu = Array.isArray(options.menu) && options.menu.length > 0
   const reservationIntent = hasReservationIntent(options.message)
+  const actionIntent = hasActionIntent(options.message)
   const reservationReplySignal = normalizeText(reply).includes("marriott")
+  const reservationTrigger =
+    reservationIntent ||
+    (reservationReplySignal &&
+      (actionIntent || Boolean(options.state?.dates) || Boolean(options.state?.guests)))
   const requiredSlots: Array<"dates" | "guests"> = []
 
-  if (reservationIntent || reservationReplySignal) {
+  if (reservationTrigger) {
     if (!options.state?.dates) requiredSlots.push("dates")
     if (!options.state?.guests) requiredSlots.push("guests")
   }
@@ -119,7 +141,7 @@ function inferDecision(options: {
     }
   }
 
-  if ((reservationIntent || reservationReplySignal) && requiredSlots.length === 0) {
+  if (reservationTrigger && requiredSlots.length === 0) {
     return {
       mode: "redirect_reservation",
       reason: "Hay intención de reserva con datos suficientes.",
@@ -494,25 +516,6 @@ function buildDetailReply(item: ConserjeItem): string | null {
   return parts.slice(0, 2).join(" ")
 }
 
-function getServiceFollowUp(item: ConserjeItem, message?: string): string {
-  const id = item.id.toLowerCase()
-  const mentionsPet = message ? mentionsPetOrAnimal(message) : false
-  const smallAnimal = message ? isSmallAnimalMention(message) : false
-  if (id.includes("transfer")) return "¿Fecha y hora de vuelo?"
-  if (id.includes("mascotas") || id.includes("pet")) {
-    if (mentionsPet && smallAnimal) return "¿Quieres que lo coordinemos?"
-    return mentionsPet ? "¿Qué tamaño tiene?" : "¿Viajas con mascota? ¿Qué tamaño?"
-  }
-  if (id.includes("room_service")) return "¿Para qué hora lo necesitas?"
-  if (id.includes("lavanderia")) return "¿Para cuándo y cuántas prendas?"
-  if (id.includes("estacion")) return "¿Llegas en auto? ¿Qué día?"
-  if (id.includes("wifi")) return "¿Lo necesitas para trabajo o streaming?"
-  if (id.includes("limpieza")) return "¿Prefieres un horario específico?"
-  if (id.includes("concierge")) return "¿En qué te puedo ayudar hoy?"
-  if (id.includes("asistencia")) return "¿Qué necesitas coordinar?"
-  return "¿Para qué día lo necesitas?"
-}
-
 function isHabitacionesQuery(message: string): boolean {
   const normalized = normalizeText(message)
   return normalized.includes("habitacion") || normalized.includes("habitaciones")
@@ -528,6 +531,117 @@ function isRecomendacionesQuery(message: string): boolean {
     normalized.includes("lugares") ||
     normalized.includes("local")
   )
+}
+
+function isInsideHotelRequest(message: string): boolean {
+  const normalized = normalizeText(message)
+  const hasInsideCue =
+    normalized.includes("dentro del hotel") ||
+    normalized.includes("en el hotel") ||
+    normalized.includes("del hotel")
+  const hasDiscoveryCue =
+    normalized.includes("recomienda") ||
+    normalized.includes("recomendame") ||
+    normalized.includes("recomiendame") ||
+    normalized.includes("cuentame") ||
+    normalized.includes("mostrar") ||
+    normalized.includes("opciones") ||
+    normalized.includes("que hay") ||
+    normalized.includes("algo dentro")
+  return hasInsideCue || (normalized.includes("hotel") && hasDiscoveryCue)
+}
+
+function shouldOpenInsideHotelExploration(options: {
+  message: string
+  activeItem: ConserjeItem | null
+  lastAssistant: string
+}): boolean {
+  const normalized = normalizeText(options.message)
+  const lastAssistantNormalized = normalizeText(options.lastAssistant || "")
+  const explicitCategorySwitch =
+    isHabitacionesQuery(options.message) ||
+    isInstalacionesQuery(options.message) ||
+    isRecomendacionesQuery(options.message) ||
+    normalized.includes("servicio") ||
+    normalized.includes("servicios")
+
+  if (explicitCategorySwitch) return false
+  if (isInsideHotelRequest(options.message)) return true
+
+  const openDiscoveryCue =
+    normalized.includes("recomienda") ||
+    normalized.includes("recomiendame") ||
+    normalized.includes("muest") ||
+    normalized.includes("que mas") ||
+    normalized.includes("que otra") ||
+    normalized.includes("alguna opcion")
+
+  if (options.activeItem?.tipo === "Habitaciones" && openDiscoveryCue) return true
+
+  const bridgeOfferedHotel =
+    lastAssistantNormalized.includes("servicios del hotel") ||
+    lastAssistantNormalized.includes("dentro del hotel") ||
+    lastAssistantNormalized.includes("espacios del hotel") ||
+    lastAssistantNormalized.includes("ambiente del hotel")
+
+  if (bridgeOfferedHotel && (isAffirmative(options.message) || openDiscoveryCue)) return true
+
+  return false
+}
+
+function getExplicitItemMention(message: string): ConserjeItem | null {
+  const normalized = normalizeText(message).replace(/\s+/g, " ").trim()
+  if (!normalized) return null
+  return (
+    conserjeData.items.find((item) => {
+      const itemName = normalizeText(item.nombre_publico).replace(/\s+/g, " ").trim()
+      if (!itemName) return false
+      return normalized === itemName || normalized.includes(itemName)
+    }) || null
+  )
+}
+
+function isRestaurantGenericRequest(message: string): boolean {
+  const normalized = normalizeText(message)
+  return normalized.includes("restaurante") || normalized.includes("restaurantes")
+}
+
+function selectInHotelItems(options: {
+  message: string
+  intent: string | null
+  profile: string | null
+}): ConserjeItem[] {
+  const normalizedMessage = normalizeText(options.message)
+  const hotelItems = conserjeData.items.filter(
+    (item) => item.tipo === "Servicios" || item.tipo === "Instalaciones"
+  )
+  const filtered = hotelItems.filter((item) => {
+    const profileOk = options.profile
+      ? item.perfil_ideal.map(normalizeText).includes(normalizeText(options.profile))
+      : true
+    const intentOk = options.intent
+      ? item.intenciones.map(normalizeText).includes(normalizeText(options.intent))
+      : true
+    return profileOk && intentOk
+  })
+
+  let base = filtered.length > 0 ? filtered : hotelItems
+  if (isRestaurantGenericRequest(options.message)) {
+    const restaurantes = base.filter((item) =>
+      normalizeText(item.nombre_publico).includes("restaurante")
+    )
+    if (restaurantes.length > 0) return restaurantes.slice(0, 4)
+  }
+
+  const instalaciones = base.filter((item) => item.tipo === "Instalaciones")
+  const servicios = base.filter((item) => item.tipo === "Servicios")
+  const mixed: ConserjeItem[] = []
+  for (let i = 0; i < 4; i += 1) {
+    if (instalaciones[i]) mixed.push(instalaciones[i])
+    if (servicios[i]) mixed.push(servicios[i])
+  }
+  base = mixed.length > 0 ? mixed : base
+  return base.slice(0, 8)
 }
 
 function isInstalacionesQuery(message: string): boolean {
@@ -784,13 +898,6 @@ function mentionsPetOrAnimal(message: string): boolean {
   return (hasPossessive && (hasBring || hasAllow)) || hasOwnAnimal
 }
 
-function guestsFromProfile(profile: string | null | undefined): string | null {
-  if (!profile) return null
-  if (profile === "pareja") return "2 personas"
-  if (profile === "solo") return "1 persona"
-  return null
-}
-
 function buildItemReply(
   item: ConserjeItem,
   message: string,
@@ -837,7 +944,7 @@ function buildItemReply(
   }
 
   const dateHint = extractDateHint(message)
-  const guestsHint = extractGuestsHint(message) || guestsFromProfile(state?.profile)
+  const guestsHint = extractGuestsHint(message)
   const affirmative = isAffirmative(message)
   const timePreference = extractTimePreference(message)
   const confirmDatesGuests = (dateValue: string, guestsValue: string) =>
@@ -846,43 +953,60 @@ function buildItemReply(
   const short = buildDetailReply(item)
   if (item.tipo === "Servicios") {
     if (affirmative) {
-      const followUp = getServiceFollowUp(item, message)
-      return short ? `${short} ${followUp}` : followUp
+      return "Perfecto, lo dejamos encaminado desde el botón de la tarjeta."
     }
     if (dateHint) {
-      return `Perfecto, para ${dateHint}. ${getServiceFollowUp(item, message)}`
+      return "Perfecto, queda anotado. Podemos coordinarlo desde el botón de la tarjeta."
     }
-    const followUp = getServiceFollowUp(item, message)
-    return short ? `${short} ${followUp}` : followUp
+    return short
+      ? `${short} Cuando te acomode, lo coordinamos desde la tarjeta.`
+      : "Cuando te acomode, lo coordinamos desde la tarjeta."
   }
   if (item.tipo === "Habitaciones") {
     const stateDates = state?.dates || null
-    const stateGuests = state?.guests || guestsFromProfile(state?.profile)
+    const stateGuests = state?.guests || null
+    const hasReservationSignals =
+      hasReservationIntent(message) ||
+      hasActionIntent(message) ||
+      Boolean(dateHint) ||
+      Boolean(guestsHint) ||
+      Boolean(stateDates) ||
+      Boolean(stateGuests)
+
     if (affirmative) {
-      if (stateDates && stateGuests) {
+      if (hasReservationSignals && stateDates && stateGuests) {
         return `Perfecto, ${stateDates} (${stateGuests}). Puedes revisar disponibilidad directamente en ${MARRIOTT_ROOMS_URL}.`
       }
-      if (stateDates && !stateGuests) {
+      if (hasReservationSignals && stateDates && !stateGuests) {
         return `Perfecto, para ${stateDates}. ¿Para cuántas personas?`
       }
-      if (!stateDates && stateGuests) {
+      if (hasReservationSignals && !stateDates && stateGuests) {
         return `Perfecto, ${stateGuests}. ¿Qué fechas tienes en mente?`
       }
-      if (dateHint && guestsHint) {
+      if (hasReservationSignals && dateHint && guestsHint) {
         return confirmDatesGuests(dateHint, guestsHint)
       }
-      return short ? `${short} ¿Te gustaría reservarla?` : "¿Te gustaría reservarla?"
+      return short
+        ? `${short} También puedo seguir con servicios del hotel o recomendaciones cercanas para completar tu estadía.`
+        : "También puedo seguir con servicios del hotel o recomendaciones cercanas para completar tu estadía."
     }
-    if (dateHint && guestsHint) {
+
+    if (hasReservationSignals && !dateHint && !guestsHint && !stateDates && !stateGuests) {
+      return `Puedes revisar fechas y disponibilidad directamente desde nuestro sitio oficial de Marriott: ${MARRIOTT_ROOMS_URL}`
+    }
+
+    if (hasReservationSignals && dateHint && guestsHint) {
       return confirmDatesGuests(dateHint, guestsHint)
     }
-    if (dateHint) {
+    if (hasReservationSignals && dateHint) {
       return `Perfecto, para ${dateHint}. ¿Para cuántas personas?`
     }
-    if (guestsHint) {
+    if (hasReservationSignals && guestsHint) {
       return `Perfecto, ${guestsHint}. ¿Qué fechas tienes en mente?`
     }
-    return short || "¿Qué fechas tienes en mente?"
+    return short
+      ? `${short} Si te interesa, seguimos con servicios del hotel o lugares cercanos para completar tu estadía.`
+      : "Si te interesa, seguimos con servicios del hotel o lugares cercanos para completar tu estadía."
   }
   if (item.tipo === "Instalaciones") {
     const schedule = getScheduleInfo(item)
@@ -892,30 +1016,33 @@ function buildItemReply(
     if (affirmative) {
       if (schedule.hasHorario && horarioText) {
         if (schedule.is24h) {
-          return `Genial. ${horarioText} Está disponible durante todo el día. ¿Te comparto más detalles de uso?`
+          return `Perfecto. ${horarioText} Está disponible todo el día.`
         }
         if (schedule.morningOnly) {
-          return `Genial. ${horarioText} Funciona en la mañana. ¿Te comparto más detalles de uso?`
+          return `Perfecto. ${horarioText} Funciona en la mañana.`
         }
         if (schedule.nightOnly) {
-          return `Genial. ${horarioText} Funciona en horario nocturno. ¿Te comparto más detalles de uso?`
+          return `Perfecto. ${horarioText} Funciona en la noche.`
         }
-        return `Genial. ${horarioText} ¿Te va mejor mañana, tarde o noche dentro de ese rango?`
+        return `Perfecto. ${horarioText}`
       }
-      return "Genial. ¿Te comparto recomendaciones para aprovecharla mejor?"
+      return "Perfecto. Si te interesa, seguimos con otro espacio del hotel o recomendaciones cercanas."
     }
     if (timePreference) {
       if (schedule.hasHorario && horarioText) {
         const slot = getPreferenceSlot(timePreference)
         const slotAllowed = slot ? schedule.allowsSlot(slot) : true
         if (!slotAllowed) {
-          return `Perfecto, ${timePreference}. ${horarioText} Ese horario no está disponible; ¿te va bien dentro de ese rango?`
+          return `Perfecto, ${timePreference}. ${horarioText} Ese horario no está disponible.`
         }
-        return `Perfecto, ${timePreference}. ${horarioText} ¿Quieres más detalles de uso?`
+        return `Perfecto, ${timePreference}. ${horarioText}`
       }
-      return `Perfecto, ${timePreference}. ¿Quieres más detalles de uso?`
+      return `Perfecto, ${timePreference}.`
     }
-    return short ? `${short} ¿Te gustaría usarla?` : "¿Te gustaría usarla?"
+    if (horarioText) {
+      return short ? `${short} ${horarioText}` : horarioText
+    }
+    return short || "Puedo compartirte más detalles de este espacio."
   }
   if (item.tipo === "Recomendaciones_Locales") {
     return short ? `${short} ¿Quieres que te indique cómo llegar?` : "¿Quieres que te indique cómo llegar?"
@@ -953,26 +1080,26 @@ async function buildServiceReply(
       if (item.condiciones_servicio && item.condiciones_servicio.length > 0) {
         const details = await formatConditionsText(item.condiciones_servicio, item.nombre_publico)
         if (alreadyShared) return "Perfecto, te comparto esas condiciones para que lo evalúes con calma."
-        return `${details}. Si quieres, te ayudo a coordinarlo por correo.`
+        return `${details}. Te ayudo a coordinarlo por correo cuando lo decidas.`
       }
       if (item.restricciones_requisitos && item.restricciones_requisitos.length > 0) {
         const details = await formatConditionsText(item.restricciones_requisitos, item.nombre_publico)
         if (alreadyShared) return "Perfecto, te comparto esas condiciones para que lo evalúes con calma."
-        return `${details}. Si quieres, te ayudo a coordinarlo por correo.`
+        return `${details}. Te ayudo a coordinarlo por correo cuando lo decidas.`
       }
       return alreadyShared
         ? "Perfecto, te comparto esas condiciones para que lo evalúes con calma."
-        : "Puedo compartirte las condiciones del servicio pet friendly. Si quieres, te ayudo a coordinarlo por correo."
+        : "Puedo compartirte las condiciones del servicio pet friendly. Cuando quieras, lo coordinamos por correo."
     }
     if (petSize) {
       const detail = short ? ` ${short}` : ""
-      return `Perfecto, tamaño ${petSize}.${detail} Si quieres, te ayudo a coordinarlo por correo.`
+      return `Perfecto, tamaño ${petSize}.${detail} Si te parece, avanzamos con la coordinación por correo.`
     }
     const petContext = await inferPetContext(message, petSize)
     if (petContext.hasPet) {
       const intro = "Sí, contamos con pet friendly."
       const body = short ? `${intro} ${short}` : intro
-      return petContext.needsSize ? `${body} ¿Qué tamaño tiene?` : `${body} Si quieres, te ayudo a coordinarlo por correo.`
+      return petContext.needsSize ? `${body} ¿Qué tamaño tiene?` : `${body} Si te parece, avanzamos con la coordinación por correo.`
     }
   }
 
@@ -980,9 +1107,9 @@ async function buildServiceReply(
     const inferred = await inferWifiUseCase(message)
     if (inferred) {
       if (normalizedLast.includes("necesitas algo mas del wi")) {
-        return `Perfecto, queda anotado para ${inferred}. Si quieres, también puedo ayudarte con otro tema de tu estadía.`
+        return `Perfecto, queda anotado para ${inferred}. También puedo ayudarte con otro detalle de tu estadía.`
       }
-      return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${inferred}. ¿Te sirve ese uso durante toda la estadía?`
+      return `Perfecto, para ${inferred}. La conexión cubre todo el hotel y suele funcionar bien para ese uso.`
     }
   }
 
@@ -990,11 +1117,15 @@ async function buildServiceReply(
     if (matchedChoice) {
       const shortName = item.nombre_publico || "servicio"
       if (normalizeText(item.id).includes("wifi")) {
-        return `${short || "Conexión Wi‑Fi disponible en todo el hotel."} Perfecto, para ${matchedChoice}. ¿Te sirve ese uso durante toda la estadía?`
+        return `Perfecto, para ${matchedChoice}. La conexión cubre todo el hotel y suele funcionar bien para ese uso.`
       }
-      return `${short || "Perfecto."} Tomo nota: ${matchedChoice}. ¿Quieres que te comparta el siguiente paso para ${shortName}?`
+      return `Perfecto, tomo nota: ${matchedChoice}. Seguimos con ${shortName} desde la tarjeta cuando quieras.`
     }
     return buildSafeFollowup(item, message)
+  }
+
+  if (affirmative || hasActionIntent(message) || dateHint || guestsHint) {
+    return "Perfecto, lo coordinamos desde el botón de la tarjeta."
   }
 
   return buildItemReply(item, message, state)
@@ -1115,6 +1246,10 @@ function hasActionIntent(message: string): boolean {
     "coordinar",
     "solicitar",
     "disponibilidad",
+    "disponible",
+    "disponibles",
+    "fecha",
+    "fechas",
     "precio",
     "tarifa",
     "cotizar",
@@ -1144,6 +1279,58 @@ function buildCategoryMenu(excludeTipo?: string | null): Array<{ id: string; lab
     }))
 }
 
+function buildCategoryListIntro(
+  tipo: ConserjeItemType,
+  state?: { profile?: string | null; intent?: string | null }
+): string {
+  const seed = `${tipo}-${state?.profile || "na"}-${state?.intent || "na"}`
+  if (tipo === "Servicios") {
+    return pickVariant(
+      [
+        "Claro, aquí tienes los servicios del hotel. Elige el que más te acomode y lo vemos juntos.",
+        "Te comparto los servicios disponibles para tu estadía. Dime con cuál quieres empezar.",
+        "Estas son las opciones de servicio en Humano. Escoge una y seguimos desde ahí.",
+      ],
+      seed
+    )
+  }
+  if (tipo === "Instalaciones") {
+    return pickVariant(
+      [
+        "Estas son las instalaciones del hotel. Elige la que quieras conocer primero.",
+        "Te muestro los espacios disponibles en Humano. Dime cuál te interesa revisar.",
+        "Aquí tienes las instalaciones. Escoge una y te cuento lo esencial.",
+      ],
+      seed
+    )
+  }
+  if (tipo === "Recomendaciones_Locales") {
+    return pickVariant(
+      [
+        "Te comparto recomendaciones cercanas en Miraflores. Elige la que más te provoque.",
+        "Aquí tienes opciones para salir cerca del hotel. Dime cuál quieres revisar primero.",
+        "Estas son recomendaciones alrededor de Humano. Escoge una y te guío.",
+      ],
+      seed
+    )
+  }
+  return "Aquí tienes opciones disponibles."
+}
+
+function normalizeActionLabel(label: string, item?: ConserjeItem | null): string {
+  const normalized = normalizeText(label)
+  if (item?.tipo === "Habitaciones" && normalized.includes("reserv")) return "Revisar disponibilidad"
+  if (item?.tipo === "Servicios" && (normalized.includes("coordinar") || normalized.includes("reserv"))) {
+    return "Coordinar servicio"
+  }
+  if (item?.tipo === "Instalaciones" && normalized.includes("reserv")) return "Conocer más ambientes"
+  if (normalized.includes("coordinar")) {
+    return "Coordinar"
+  }
+  if (normalized.includes("ubicacion") || normalized.includes("mapa")) return "Ver ubicación en mapa"
+  return label
+}
+
 function buildCTAs(options: {
   message: string
   item?: ConserjeItem | null
@@ -1154,15 +1341,30 @@ function buildCTAs(options: {
   const { message, item, tipo, state, reply } = options
   const actionableFromItem = (targetItem: ConserjeItem | null | undefined) => {
     if (!targetItem?.ctas?.length) return []
-    return targetItem.ctas.filter((cta) => {
+    const filtered = targetItem.ctas.filter((cta) => {
       const ctaNorm = normalizeText(cta)
-      return (
-        ctaNorm.includes("reserv") ||
-        ctaNorm.includes("coordinar") ||
-        ctaNorm.includes("ubicacion") ||
-        ctaNorm.includes("mapa")
-      )
+      if (targetItem.tipo === "Habitaciones") return ctaNorm.includes("reserv")
+      if (targetItem.tipo === "Servicios") {
+        if (ctaNorm.includes("reservar habitacion")) return false
+        return ctaNorm.includes("coordinar") || ctaNorm.includes("solicitar") || ctaNorm.includes("correo")
+      }
+      if (targetItem.tipo === "Instalaciones") {
+        if (ctaNorm.includes("reservar habitacion")) return false
+        return ctaNorm.includes("conocer") || ctaNorm.includes("instal") || ctaNorm.includes("ambientes")
+      }
+      if (targetItem.tipo === "Recomendaciones_Locales") {
+        return ctaNorm.includes("ubicacion") || ctaNorm.includes("mapa") || ctaNorm.includes("llegar")
+      }
+      return false
     })
+    const normalized = filtered.map((cta) => normalizeActionLabel(cta, targetItem))
+    const deduped = Array.from(new Set(normalized))
+    if (deduped.length > 0) return deduped
+    if (targetItem.tipo === "Servicios") return ["Coordinar servicio"]
+    if (targetItem.tipo === "Instalaciones") return ["Conocer más ambientes"]
+    if (targetItem.tipo === "Recomendaciones_Locales") return ["Ver ubicación en mapa"]
+    if (targetItem.tipo === "Habitaciones") return ["Revisar disponibilidad"]
+    return []
   }
   const action = hasActionIntent(message)
   const affirmative = isAffirmative(message)
@@ -1170,9 +1372,12 @@ function buildCTAs(options: {
   if (replyHasQuestion && item?.tipo !== "Habitaciones" && tipo !== "Habitaciones") return []
 
   if (item?.tipo === "Servicios") {
+    if (reply && normalizeText(reply).includes("boton de la tarjeta")) {
+      return []
+    }
     if (action || affirmative || state?.dates) {
       const fromSheet = actionableFromItem(item)
-      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Coordinar servicio"]
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Coordinar por correo"]
     }
     return []
   }
@@ -1180,25 +1385,25 @@ function buildCTAs(options: {
   if (item?.tipo === "Habitaciones") {
     if (affirmative && (state?.dates || state?.guests || state?.profile)) {
       const fromSheet = actionableFromItem(item)
-      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Reservar habitación"]
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Revisar disponibilidad"]
     }
     if (state?.dates && (state?.guests || state?.profile)) {
       const fromSheet = actionableFromItem(item)
-      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Reservar habitación"]
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Revisar disponibilidad"]
     }
     if (action) {
       const fromSheet = actionableFromItem(item)
-      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Reservar habitación"]
+      return fromSheet.length > 0 ? fromSheet.slice(0, 2) : ["Revisar disponibilidad"]
     }
     return []
   }
 
   if (tipo === "Habitaciones") {
     if (affirmative && (state?.dates || state?.guests || state?.profile)) {
-      return ["Reservar habitación"]
+      return ["Revisar disponibilidad"]
     }
-    if (state?.dates && (state?.guests || state?.profile)) return ["Reservar habitación"]
-    if (action) return ["Reservar habitación"]
+    if (state?.dates && (state?.guests || state?.profile)) return ["Revisar disponibilidad"]
+    if (action) return ["Revisar disponibilidad"]
   }
 
   if (item?.tipo === "Recomendaciones_Locales") {
@@ -1217,11 +1422,17 @@ function buildCTAs(options: {
       })
       return fromSheet.length > 0 ? fromSheet.slice(0, 1) : ["Ver ubicación en mapa"]
     }
-    if (action || affirmative) return ["Solicitar información"]
+    if (action || affirmative) {
+      const fromSheet = actionableFromItem(item)
+      return fromSheet.length > 0 ? fromSheet.slice(0, 1) : []
+    }
   }
 
   if (item?.tipo === "Instalaciones") {
-    if (action || affirmative) return ["Solicitar información"]
+    if (action || affirmative) {
+      const fromSheet = actionableFromItem(item)
+      return fromSheet.length > 0 ? fromSheet.slice(0, 1) : ["Conocer más ambientes"]
+    }
   }
 
   return []
@@ -1356,6 +1567,80 @@ INSTRUCCIONES:
   }
 }
 
+type AffirmativeFollowupMode = "show_card" | "needs_data" | "other"
+
+async function inferAffirmativeFollowupMode(options: {
+  lastAssistant: string
+  userMessage: string
+  item: ConserjeItem
+}): Promise<AffirmativeFollowupMode> {
+  const lastNormalized = normalizeText(options.lastAssistant)
+  const heuristicNeedsDataCues = [
+    "fecha",
+    "fechas",
+    "cuantas personas",
+    "hora",
+    "horario",
+    "tamano",
+    "tamaño",
+    "vuelo",
+    "caminando",
+    "taxi",
+    "mapa",
+    "como llegar",
+    "correo",
+    "email",
+  ]
+  if (heuristicNeedsDataCues.some((cue) => lastNormalized.includes(normalizeText(cue)))) {
+    return "needs_data"
+  }
+  if (!process.env.OPENAI_API_KEY) return "show_card"
+  try {
+    const systemPrompt = `Clasifica el siguiente turno conversacional.
+Devuelve SOLO JSON válido: {"mode":"show_card"|"needs_data"|"other"}.
+
+Reglas:
+- show_card: cuando el conserje preguntó si quería saber más, ver más, conocer el espacio o continuar.
+- needs_data: cuando el conserje pidió un dato operativo concreto (fecha, personas, hora, tamaño, vuelo, modo de traslado, etc.).
+- other: cualquier otro caso.`
+
+    const userPrompt = [
+      `Item: ${options.item.nombre_publico} (${options.item.tipo})`,
+      `Pregunta previa del conserje: "${options.lastAssistant}"`,
+      `Respuesta del huésped: "${options.userMessage}"`,
+    ].join("\n")
+
+    const response = await openai.chat.completions.create({
+      model: CLASSIFY_MODEL,
+      temperature: 0,
+      max_tokens: 40,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+    })
+    const raw = response.choices[0]?.message?.content?.trim() || "{}"
+    let parsed: any = null
+    try {
+      parsed = JSON.parse(raw)
+    } catch {
+      const match = raw.match(/\{[\s\S]*\}/)
+      if (match) {
+        try {
+          parsed = JSON.parse(match[0])
+        } catch {
+          parsed = null
+        }
+      }
+    }
+    const mode = parsed?.mode as AffirmativeFollowupMode | undefined
+    if (mode === "show_card" || mode === "needs_data" || mode === "other") return mode
+    return "show_card"
+  } catch {
+    return "show_card"
+  }
+}
+
 function isReplyContaminated(reply: string, currentItem: ConserjeItem): boolean {
   const normalized = normalizeText(reply)
   const currentName = normalizeText(currentItem.nombre_publico)
@@ -1363,6 +1648,211 @@ function isReplyContaminated(reply: string, currentItem: ConserjeItem): boolean 
     const name = normalizeText(item.nombre_publico)
     if (!name || name === currentName) continue
     if (normalized.includes(name)) return true
+  }
+  return false
+}
+
+function tokenOverlapRatio(a: string, b: string): number {
+  const tokensA = normalizeText(a)
+    .split(/\s+/)
+    .filter((t) => t.length >= 3)
+  const tokensB = new Set(
+    normalizeText(b)
+      .split(/\s+/)
+      .filter((t) => t.length >= 3)
+  )
+  if (tokensA.length === 0 || tokensB.size === 0) return 0
+  let overlap = 0
+  for (const token of tokensA) {
+    if (tokensB.has(token)) overlap += 1
+  }
+  return overlap / Math.max(tokensA.length, 1)
+}
+
+function isOperationalQuestionText(text: string): boolean {
+  const normalized = normalizeText(text)
+  const cues = [
+    "fecha",
+    "fechas",
+    "cuantas personas",
+    "para cuantas",
+    "hora",
+    "horario",
+    "vuelo",
+    "tamano",
+    "tamaño",
+    "precio",
+    "tarifa",
+    "disponibilidad",
+    "caminando",
+    "taxi",
+    "como llegar",
+    "mapa",
+    "correo",
+    "email",
+  ]
+  return cues.some((cue) => normalized.includes(normalizeText(cue)))
+}
+
+function isExplorationQuestionText(text: string): boolean {
+  const normalized = normalizeText(text)
+  const cues = [
+    "mas informacion",
+    "más informacion",
+    "saber mas",
+    "quieres que te muestre",
+    "te muestro",
+    "te cuento",
+    "verlo en detalle",
+    "verla en detalle",
+    "sobre el espacio",
+    "sobre esta opcion",
+    "sobre esta opción",
+  ]
+  return cues.some((cue) => normalized.includes(normalizeText(cue)))
+}
+
+function isLikelyLoopReply(reply: string, lastAssistant: string): boolean {
+  const normalizedReply = normalizeText(reply || "")
+  const normalizedLast = normalizeText(lastAssistant || "")
+  if (!normalizedReply || !normalizedLast) return false
+  if (normalizedReply === normalizedLast) return true
+  const overlap = tokenOverlapRatio(normalizedReply, normalizedLast)
+  return overlap >= 0.9
+}
+
+const BRIDGE_STOPWORDS = new Set([
+  "para",
+  "con",
+  "sin",
+  "del",
+  "desde",
+  "hasta",
+  "muy",
+  "mas",
+  "por",
+  "que",
+  "como",
+  "una",
+  "uno",
+  "unas",
+  "unos",
+  "este",
+  "esta",
+  "estas",
+  "estos",
+  "hotel",
+  "humano",
+  "miraflores",
+  "ideal",
+  "opcion",
+  "opciones",
+  "servicio",
+  "habitacion",
+  "instalacion",
+  "recomendacion",
+])
+
+function extractBridgeTokens(text: string): string[] {
+  return normalizeText(text)
+    .split(/\s+/)
+    .filter((token) => token.length >= 4 && !BRIDGE_STOPWORDS.has(token))
+}
+
+function isBridgeReplyEchoingCard(reply: string, item: ConserjeItem): boolean {
+  const cardCorpus = [
+    item.desc_factual || "",
+    item.desc_experiencial || "",
+    item.check_in ? `check in ${item.check_in}` : "",
+    item.check_out ? `check out ${item.check_out}` : "",
+    item.horario_apertura ? `horario apertura ${item.horario_apertura}` : "",
+    item.horario_cierre ? `horario cierre ${item.horario_cierre}` : "",
+    item.precio_desde || "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+
+  if (!cardCorpus) return false
+
+  const overlapReplyToCard = tokenOverlapRatio(reply, cardCorpus)
+  const overlapCardToReply = tokenOverlapRatio(cardCorpus, reply)
+  if (overlapReplyToCard >= 0.45 || overlapCardToReply >= 0.45) return true
+
+  const replyTokens = new Set(extractBridgeTokens(reply))
+  const cardTokens = Array.from(new Set(extractBridgeTokens(cardCorpus)))
+  const keywordHits = cardTokens.filter((token) => replyTokens.has(token)).length
+  return keywordHits >= 4
+}
+
+function sanitizePostCardBridgeReply(options: {
+  reply: string
+  item: ConserjeItem
+  message: string
+  state?: { dates?: string | null; guests?: string | null; profile?: string | null; intent?: string | null }
+  lastAssistant: string
+}): string {
+  let output = applyConversationPolicy(options.reply || "").trim()
+  const fallback = buildContextualBridgeReply(options.item, options.state)
+  if (!output) return fallback
+
+  const explicitOperationalRequest =
+    hasReservationIntent(options.message) ||
+    hasActionIntent(options.message) ||
+    /\b(precio|tarifa|disponibilidad|fecha|fechas|check in|check out|hora|horario)\b/i.test(
+      normalizeText(options.message)
+    )
+
+  if (!explicitOperationalRequest) {
+    output = removeReservationCopyWhenNotAsked(output)
+  }
+
+  if (!output) return fallback
+
+  const normalizedOutput = normalizeText(output)
+  const bridgeNeedsFallback =
+    isReplyContaminated(output, options.item) ||
+    isLowValueFollowup(output, options.lastAssistant, options.item) ||
+    isBridgeReplyEchoingCard(output, options.item) ||
+    (!explicitOperationalRequest &&
+      (normalizedOutput.includes("marriott") ||
+        normalizedOutput.includes("disponibilidad") ||
+        normalizedOutput.includes("precio") ||
+        normalizedOutput.includes("tarifa") ||
+        normalizedOutput.includes("que fechas tienes en mente") ||
+        normalizedOutput.includes("para cuantas personas") ||
+        normalizedOutput.includes("fecha y hora")))
+
+  return bridgeNeedsFallback ? fallback : output
+}
+
+function hasProgressSignal(text: string): boolean {
+  const normalized = normalizeText(text)
+  const cues = [
+    "horario",
+    "check in",
+    "check out",
+    "marriott",
+    "correo",
+    "mapa",
+    "caminando",
+    "taxi",
+    "perfecto",
+    "dentro de ese rango",
+    "si quieres",
+    "puedes revisar",
+  ]
+  return cues.some((cue) => normalized.includes(cue))
+}
+
+function isLowValueFollowup(reply: string, lastAssistant: string, item: ConserjeItem): boolean {
+  const normalizedReply = normalizeText(reply)
+  if (!normalizedReply) return true
+  if (normalizedReply === normalizeText(lastAssistant)) return true
+  if (normalizedReply === normalizeText(item.desc_factual || "")) return true
+  const overlapWithDetail = tokenOverlapRatio(normalizedReply, item.desc_factual || "")
+  const overlapWithLastAssistant = tokenOverlapRatio(normalizedReply, lastAssistant || "")
+  if ((overlapWithDetail >= 0.75 || overlapWithLastAssistant >= 0.8) && !hasProgressSignal(reply)) {
+    return true
   }
   return false
 }
@@ -1386,6 +1876,162 @@ function buildSafeFollowup(item: ConserjeItem, message: string): string {
   const base = parts.join(" ")
   const suffix = item.nombre_publico ? ` ¿Necesitas algo más del ${item.nombre_publico}?` : " ¿Necesitas algo más?"
   return base ? `${base}${suffix}` : `Perfecto.${suffix}`
+}
+
+function buildCardBridgeFallback(item: ConserjeItem): string {
+  if (item.tipo === "Habitaciones") {
+    return `${item.nombre_publico} ya quedó mapeada en tu plan. Desde aquí también puedo mostrarte servicios del hotel o lugares cercanos para completar la estadía.`
+  }
+  if (item.tipo === "Servicios") {
+    return `${item.nombre_publico} quedó listo dentro de tu plan. También puedo mostrarte espacios del hotel o rincones cercanos de Miraflores para seguir armando la experiencia.`
+  }
+  if (item.tipo === "Instalaciones") {
+    return `${item.nombre_publico} es un buen punto de partida dentro del hotel. Si te interesa, te muestro otros espacios para que recorras Humano con calma.`
+  }
+  if (item.tipo === "Recomendaciones_Locales") {
+    return `${item.nombre_publico} encaja bien con el plan. Cuando quieras, te comparto una ruta simple desde el hotel.`
+  }
+  return "Listo. Puedo continuar con el siguiente paso cuando lo prefieras."
+}
+
+function hashText(text: string): number {
+  let hash = 0
+  for (let i = 0; i < text.length; i += 1) {
+    hash = (hash * 31 + text.charCodeAt(i)) >>> 0
+  }
+  return hash
+}
+
+function pickVariant(variants: string[], seed: string): string {
+  if (variants.length === 0) return ""
+  const index = hashText(seed) % variants.length
+  return variants[index]
+}
+
+function buildContextualBridgeReply(
+  item: ConserjeItem,
+  state?: { dates?: string | null; guests?: string | null; profile?: string | null; intent?: string | null }
+): string {
+  const profile = state?.profile || null
+  const intent = state?.intent || null
+
+  if (item.tipo === "Habitaciones") {
+    const contextBits: string[] = []
+    if (profile === "pareja") contextBits.push("si viajan en pareja")
+    if (profile === "solo") contextBits.push("si viajas solo")
+    if (profile === "grupo") contextBits.push("si vienen en grupo")
+    if (intent === "trabajo") contextBits.push("cuando el viaje es por trabajo")
+    if (intent === "descanso") contextBits.push("cuando el viaje es por descanso")
+    if (intent === "aventura") contextBits.push("cuando el viaje es por aventura")
+    const contextLine =
+      contextBits.length > 0
+        ? `${item.nombre_publico} funciona muy bien ${contextBits.join(" y ")}.`
+        : `${item.nombre_publico} se acomoda muy bien al ritmo de la estadía.`
+
+    const variants = [
+      `${contextLine} Si quieres, ahora te muestro servicios del hotel o rincones cercanos que valgan la pena.`,
+      `${contextLine} Cuando les provoque, les recomiendo algo dentro del hotel o un plan corto por Miraflores.`,
+      `${contextLine} Desde aquí te puedo sugerir un servicio del hotel o un lugar cercano para seguir el día.`,
+    ]
+    return pickVariant(variants, `${item.id}-${profile || "na"}-${intent || "na"}`)
+  }
+
+  if (item.tipo === "Servicios") {
+    return pickVariant(
+      [
+        `Con ${item.nombre_publico} ya tienes esa parte cubierta. Si quieres, te sugiero un ambiente del hotel o un plan cercano.`,
+        `${item.nombre_publico} va muy bien para la estadía. También puedo recomendarte qué ver dentro del hotel o alrededor de Miraflores.`,
+        `${item.nombre_publico} ya quedó listo en tu plan. Cuando quieras, seguimos con instalaciones o recomendaciones cerca.`,
+      ],
+      `${item.id}-${profile || "na"}-${intent || "na"}`
+    )
+  }
+
+  if (item.tipo === "Instalaciones") {
+    return pickVariant(
+      [
+        `${item.nombre_publico} suma muy bien al recorrido dentro del hotel. Si te provoca, te muestro otro ambiente que combine con su plan.`,
+        `${item.nombre_publico} ya quedó contemplado para la estadía. También puedo sugerirte otro espacio del hotel o algo cercano para salir.`,
+        `${item.nombre_publico} es un buen punto de partida en Humano. Cuando quieras, seguimos con el siguiente ambiente.`,
+      ],
+      `${item.id}-${profile || "na"}-${intent || "na"}`
+    )
+  }
+
+  if (item.tipo === "Recomendaciones_Locales") {
+    return pickVariant(
+      [
+        `Perfecto. Te indico una forma simple de llegar desde el hotel.`,
+        `Listo. Te comparto la ruta más práctica para llegar.`,
+        `Hecho. Te paso una referencia clara para llegar sin vueltas.`,
+      ],
+      `${item.id}-${profile || "na"}-${intent || "na"}`
+    )
+  }
+
+  return buildCardBridgeFallback(item)
+}
+
+async function generateCardBridgeReply(options: {
+  item: ConserjeItem
+  message: string
+  history: ChatHistoryItem[]
+  state?: { dates?: string | null; guests?: string | null; profile?: string | null; intent?: string | null }
+}): Promise<string> {
+  if (!process.env.OPENAI_API_KEY) return buildCardBridgeFallback(options.item)
+  try {
+    const rulesText = conserjeData.reglas
+      .map((r) => `${r.regla_clave}: ${r.descripcion_practica}`)
+      .join("\n")
+
+    const stateSummary = options.state
+      ? [
+          options.state.dates ? `Fechas: ${options.state.dates}` : "",
+          options.state.guests ? `Personas: ${options.state.guests}` : "",
+          options.state.profile ? `Perfil: ${options.state.profile}` : "",
+          options.state.intent ? `Motivo: ${options.state.intent}` : "",
+        ]
+          .filter(Boolean)
+          .join(" | ")
+      : ""
+
+    const systemPrompt = `Eres el anfitrión digital del Hotel Humano en Miraflores.
+REGLAS:\n${rulesText}
+
+INSTRUCCIONES:
+- Ya se mostró una card con datos factual/experiencial; NO repitas ese contenido.
+- Responde con una micro-capa humana y criterio local (1-2 líneas).
+- Usa tono cercano, curado, sin arrogancia y sin vender.
+- Haz máximo UNA pregunta breve.
+- Evita cierres genéricos como: "¿Algo más en lo que pueda ayudarte?"
+- Evita frases robotizadas como "Buena elección", "Si te sirve", "Conectamos esto", "planes".
+- No preguntes por fechas ni disponibilidad salvo que el huésped lo pida explícitamente.
+- Si el huésped pide reserva/precio/disponibilidad, redirige suavemente a ${MARRIOTT_ROOMS_URL}.`
+
+    const context = buildContext([options.item])
+    const userPrompt = [
+      `Último mensaje del huésped: "${options.message}"`,
+      stateSummary ? `Estado: ${stateSummary}` : "",
+      `Contexto:\n${context}`,
+    ]
+      .filter(Boolean)
+      .join("\n\n")
+
+    const response = await openai.chat.completions.create({
+      model: CHAT_MODEL,
+      temperature: 0.4,
+      max_tokens: 130,
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...options.history.slice(-4),
+        { role: "user", content: userPrompt },
+      ],
+    })
+    const reply = response.choices[0]?.message?.content?.trim() || ""
+    return reply || buildCardBridgeFallback(options.item)
+  } catch {
+    return buildCardBridgeFallback(options.item)
+  }
 }
 
 function extractChoiceOptions(text: string): string[] {
@@ -1420,6 +2066,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
+    const debug = Boolean(body?.debug)
+    const trace: string[] = []
+    const mark = (step: string) => {
+      if (debug) trace.push(step)
+    }
     const message: string = body?.message || ""
     const history: Array<{ role?: string; content?: string }> = body?.history || []
     const safeHistory = sanitizeHistory(history)
@@ -1449,9 +2100,51 @@ export async function POST(request: NextRequest) {
       const nextPayload = { ...payload }
       const rawReply = typeof nextPayload.reply === "string" ? nextPayload.reply : ""
       let finalReply = applyConversationPolicy(rawReply)
+      const lastAssistantReply =
+        [...safeHistory].reverse().find((entry) => entry.role === "assistant")?.content || ""
+      const activePayloadItem = nextPayload.activeItemId
+        ? conserjeData.items.find((item) => item.id === nextPayload.activeItemId) || null
+        : null
 
       if (requiresHumanEscalation(message)) {
         finalReply = `Para gestionarlo correctamente, prefiero que escribas directamente a nuestro equipo: ${HUMAN_ESCALATION_EMAIL}.`
+      }
+
+      if (
+        activePayloadItem &&
+        isAffirmative(message) &&
+        lastAssistantReply.includes("?") &&
+        !isOperationalQuestionText(lastAssistantReply) &&
+        (!Array.isArray(nextPayload.items) || nextPayload.items.length === 0) &&
+        (!Array.isArray(nextPayload.menu) || nextPayload.menu.length === 0)
+      ) {
+        nextPayload.items = [activePayloadItem]
+        finalReply = pickVariant(
+          ["Perfecto, te la muestro aquí.", "Claro, aquí la tienes.", "Listo, te la dejo aquí."],
+          `${activePayloadItem.id}-${state?.profile || "na"}-${state?.intent || "na"}`
+        )
+      }
+
+      if (
+        finalReply &&
+        isLikelyLoopReply(finalReply, lastAssistantReply) &&
+        !hasReservationIntent(message) &&
+        !hasActionIntent(message)
+      ) {
+        if (
+          activePayloadItem &&
+          (!Array.isArray(nextPayload.items) || nextPayload.items.length === 0)
+        ) {
+          nextPayload.items = [activePayloadItem]
+          finalReply = pickVariant(
+            ["Vamos con esto en detalle.", "Te la muestro para avanzar.", "Aquí la tienes para seguir."],
+            `${activePayloadItem.id}-${message}-${state?.profile || "na"}`
+          )
+        } else if (Array.isArray(nextPayload.menu) && nextPayload.menu.length > 0) {
+          finalReply = "Te dejo opciones para elegir el siguiente paso."
+        } else {
+          finalReply = "Sigamos con algo más concreto. ¿Prefieres opciones del hotel o lugares cercanos?"
+        }
       }
 
       const reservationMode = inferDecision({
@@ -1463,7 +2156,11 @@ export async function POST(request: NextRequest) {
       }).mode === "redirect_reservation"
 
       if (reservationMode && !normalizeText(finalReply).includes("marriott")) {
-        finalReply = `${finalReply ? `${finalReply} ` : ""}Puedes revisar fechas y disponibilidad directamente en nuestro sitio oficial de Marriott: ${MARRIOTT_ROOMS_URL}`
+        const reservationLine = `Puedes revisar fechas y disponibilidad directamente desde nuestro sitio oficial de Marriott: ${MARRIOTT_ROOMS_URL}`
+        finalReply = finalReply ? `${finalReply} ${reservationLine}` : reservationLine
+      }
+      if (!reservationMode) {
+        finalReply = removeReservationCopyWhenNotAsked(finalReply)
       }
 
       if (finalReply) nextPayload.reply = finalReply.trim()
@@ -1476,6 +2173,13 @@ export async function POST(request: NextRequest) {
           menu: nextPayload.menu || [],
           state: state || null,
         })
+      if (debug) {
+        nextPayload._debug = {
+          trace,
+          message,
+          activeItemId: nextPayload.activeItemId || null,
+        }
+      }
 
       return NextResponse.json(nextPayload, init)
     }
@@ -1589,6 +2293,35 @@ INSTRUCCIONES:
       ? conserjeData.items.find((item) => item.id === activeItemId) || null
       : null
     const activeItem = resolvedActiveItem || fallbackActiveItem
+    const intentForHotel = detectIntent(message) || state?.intent || null
+    const profileForHotel = detectProfile(message) || state?.profile || null
+    const explicitMentionForHotel = getExplicitItemMention(message)
+    if (
+      shouldOpenInsideHotelExploration({
+        message,
+        activeItem,
+        lastAssistant: lastAssistantContent,
+      }) &&
+      !(explicitMentionForHotel && explicitMentionForHotel.tipo !== "Recomendaciones_Locales")
+    ) {
+      mark("inside_hotel_exploration")
+      const insideItems = selectInHotelItems({
+        message,
+        intent: intentForHotel,
+        profile: profileForHotel,
+      })
+      return respond({
+        reply:
+          "Dentro de Humano tengo varias opciones para ti. Te dejo una selección para que elijas la que más te provoque.",
+        suggestions: [],
+        items: [],
+        menu: insideItems.map((item) => ({ id: item.id, label: item.nombre_publico })),
+        intent: intentForHotel,
+        profile: profileForHotel,
+        tipo: null,
+        activeItemId: null,
+      })
+    }
     const { ranked: semanticRanked, usedEmbeddings: usedSemanticEmbeddings } =
       await rankItemsBySemantic(message, conserjeData.items)
     const semanticBest = semanticRanked[0]?.item || null
@@ -1628,6 +2361,31 @@ INSTRUCCIONES:
     const freeformReasoning =
       isQuestion && !dateHint && !guestsHint && !isPureAffirmative && !hasActionIntent(message)
     const mentionsAnimal = mentionsPetOrAnimal(message)
+    const lastAssistantNormalized = normalizeText(lastAssistantContent)
+    if (
+      isPureAffirmative &&
+      !activeItem &&
+      (lastAssistantNormalized.includes("dentro de humano") ||
+        lastAssistantNormalized.includes("dentro del hotel") ||
+        (lastAssistantNormalized.includes("seleccion") &&
+          lastAssistantNormalized.includes("elijas")))
+    ) {
+      const insideItems = selectInHotelItems({
+        message: "dentro del hotel",
+        intent: intentForHotel,
+        profile: profileForHotel,
+      })
+      return respond({
+        reply: "Perfecto. Elige una opción y te la muestro en detalle.",
+        suggestions: [],
+        items: [],
+        menu: insideItems.map((item) => ({ id: item.id, label: item.nombre_publico })),
+        intent: intentForHotel,
+        profile: profileForHotel,
+        tipo: null,
+        activeItemId: null,
+      })
+    }
 
     const explicitNameMatch =
       conserjeData.items.find((item) => {
@@ -1651,7 +2409,8 @@ INSTRUCCIONES:
       normalizedMessage.includes("servicios")
 
     if (activeItem && isRepeatUserMessage && !wantsCategorySwitch) {
-      const reply = "Ya lo tengo. Si quieres, puedo ayudarte con algo más."
+      mark("repeat_user_message_guard")
+      const reply = "Ya lo tengo. Cuando quieras, continuamos con otro detalle."
       return respond({
         reply,
         suggestions: [],
@@ -1665,6 +2424,7 @@ INSTRUCCIONES:
     }
 
     if (activeItem && isShortFollowup && !explicitNameMatch && !wantsCategorySwitch) {
+      mark("active_item_short_followup")
       const lastAssistantContent =
         [...safeHistory].reverse().find((entry) => entry.role === "assistant")?.content || ""
       const lastAssistantNormalized = normalizeText(lastAssistantContent)
@@ -1672,6 +2432,7 @@ INSTRUCCIONES:
       const affirmative = isAffirmative(message)
       const choiceOptions = extractChoiceOptions(lastAssistantContent)
       const matchedChoice = choiceOptions.find((opt) => normalizeText(message).includes(opt)) || null
+      const isWifi = activeItem.tipo === "Servicios" && normalizeText(activeItem.id).includes("wifi")
 
       if (activeItem.tipo === "Recomendaciones_Locales" && affirmative) {
         if (lastAssistantNormalized.includes("como llegar") || lastAssistantNormalized.includes("cómo llegar")) {
@@ -1703,12 +2464,10 @@ INSTRUCCIONES:
         })
       }
 
-      if (activeItem.tipo === "Instalaciones" && affirmative) {
-        if (
-          lastAssistantNormalized.includes("coordin") ||
-          lastAssistantNormalized.includes("coordinar")
-        ) {
-          const reply = "Perfecto, lo coordinamos."
+      if (isWifi && lastAssistantNormalized.includes("trabajo o streaming")) {
+        const wifiUse = await inferWifiUseCase(message)
+        if (wifiUse) {
+          const reply = `Perfecto, para ${wifiUse}. La conexión cubre todo el hotel y suele funcionar bien para ese uso.`
           return respond({
             reply,
             suggestions: buildCTAs({ message, item: activeItem, state, reply }),
@@ -1720,16 +2479,34 @@ INSTRUCCIONES:
             activeItemId: activeItem.id,
           })
         }
-        if (
-          lastAssistantNormalized.includes("usarla") ||
-          lastAssistantNormalized.includes("usar") ||
-          lastAssistantNormalized.includes("informacion")
-        ) {
-          const reply = "Genial. ¿Te comparto más detalles de uso y horarios?"
+      }
+
+      if (affirmative && lastAssistantIsQuestion) {
+        mark("affirmative_followup_question")
+        const mode = isExplorationQuestionText(lastAssistantContent)
+          ? "show_card"
+          : isOperationalQuestionText(lastAssistantContent)
+          ? await inferAffirmativeFollowupMode({
+              lastAssistant: lastAssistantContent,
+              userMessage: message,
+              item: activeItem,
+            })
+          : "show_card"
+        mark(`affirmative_followup_mode:${mode}`)
+        if (mode === "show_card") {
+          mark("affirmative_show_card")
+          const reply = pickVariant(
+            [
+              `Perfecto, te la muestro aquí.`,
+              `Claro, te la dejo aquí para que la revises.`,
+              `Listo, aquí la tienes.`,
+            ],
+            `${activeItem.id}-${state?.profile || "na"}-${state?.intent || "na"}`
+          )
           return respond({
             reply,
             suggestions: buildCTAs({ message, item: activeItem, state, reply }),
-            items: [],
+            items: [activeItem],
             menu: [],
             intent: null,
             profile: null,
@@ -1747,7 +2524,11 @@ INSTRUCCIONES:
           history: safeHistory,
           state,
         })
-        if (llmFollowup && !isReplyContaminated(llmFollowup, activeItem)) {
+        if (
+          llmFollowup &&
+          !isReplyContaminated(llmFollowup, activeItem) &&
+          !isLowValueFollowup(llmFollowup, lastAssistantContent, activeItem)
+        ) {
           return respond({
             reply: llmFollowup,
             suggestions: buildCTAs({ message, item: activeItem, state, reply: llmFollowup }),
@@ -1790,7 +2571,16 @@ INSTRUCCIONES:
           })
         : null
 
-    const matchedItem = nameMatch || llmResolved || (lowInfoFollowup ? null : semanticCandidate)
+    const activeReservationContext =
+      Boolean(activeItem) &&
+      activeItem?.tipo === "Habitaciones" &&
+      !wantsCategorySwitch &&
+      !explicitNameMatch &&
+      (hasReservationIntent(message) || hasActionIntent(message))
+
+    const matchedItem = activeReservationContext
+      ? activeItem
+      : nameMatch || llmResolved || (lowInfoFollowup ? null : semanticCandidate)
     const currentItem = matchedItem || activeItem
 
     if (isHabitacionesQuery(message) && !(source === "menu" && activeItem?.tipo === "Habitaciones")) {
@@ -1929,9 +2719,10 @@ INSTRUCCIONES:
       }
 
       const names = filtered.map((item) => item.nombre_publico).join(", ")
-      const reply = profileHint
-        ? `Para ${profileHint}, tengo estas opciones: ${names}. ¿Cuál te interesa?`
-        : `Tengo estas recomendaciones: ${names}. ¿Cuál te interesa?`
+      const reply = `${buildCategoryListIntro("Recomendaciones_Locales", {
+        profile: profileHint || null,
+        intent: intentHint || null,
+      })} ${profileHint ? `Para ${profileHint},` : ""} ${names}.`
       return respond({
         reply,
         suggestions: [],
@@ -1997,9 +2788,10 @@ INSTRUCCIONES:
       }
 
       const names = filtered.map((item) => item.nombre_publico).join(", ")
-      const reply = profileHint
-        ? `Para ${profileHint}, tengo estas opciones: ${names}. ¿Cuál te interesa?`
-        : `Tengo estas instalaciones: ${names}. ¿Cuál te interesa?`
+      const reply = `${buildCategoryListIntro("Instalaciones", {
+        profile: profileHint || null,
+        intent: intentHint || null,
+      })} ${profileHint ? `Para ${profileHint},` : ""} ${names}.`
       return respond({
         reply,
         suggestions: [],
@@ -2050,7 +2842,10 @@ INSTRUCCIONES:
         id: item.id,
         label: item.nombre_publico,
       }))
-      const reply = "Servicios disponibles. Puedes elegir entre:"
+      const reply = buildCategoryListIntro("Servicios", {
+        profile: state?.profile || null,
+        intent: state?.intent || null,
+      })
       return respond({
         reply,
         suggestions: [],
@@ -2088,11 +2883,17 @@ INSTRUCCIONES:
       }
 
       if (isSelectionOnly) {
-        let reply = buildItemReply(currentItem, message, state)
+        const lastAssistantForSelectionRaw =
+          [...safeHistory].reverse().find((entry) => entry.role === "assistant")?.content || ""
+        let reply = buildContextualBridgeReply(currentItem, state)
         if (currentItem.tipo === "Habitaciones") {
-          const detail = buildDetailReply(currentItem)
+          const lastAssistantForSelection = normalizeText(lastAssistantForSelectionRaw)
           const dates = state?.dates || null
           const guests = state?.guests || guestsHint || null
+          const reservationFlowRequested =
+            hasReservationIntent(message) ||
+            hasActionIntent(message) ||
+            (isAffirmative(message) && lastAssistantForSelection.includes("reserv"))
           const guestsCount =
             parseGuestCount(guests) || parseGuestCount(state?.guests) || null
           const effectiveProfile =
@@ -2120,17 +2921,19 @@ INSTRUCCIONES:
               activeItemId: null,
             })
           }
-          let followUp = "¿Qué fechas tienes en mente?"
-          if (dates && guests) {
-            followUp = `Perfecto, ${dates} (${guests}). ¿Es correcto?`
-          } else if (dates) {
-            followUp = `Perfecto, para ${dates}. ¿Para cuántas personas?`
-          } else if (guests) {
-            followUp = `Perfecto, ${guests}. ¿Qué fechas tienes en mente?`
+          if (reservationFlowRequested) {
+            let followUp = "Si quieres revisar disponibilidad, te comparto el enlace oficial."
+            if (dates && guests) {
+              followUp = `Perfecto, ${dates} (${guests}). Puedes revisar disponibilidad en ${MARRIOTT_ROOMS_URL}.`
+            } else if (dates) {
+              followUp = `Perfecto, para ${dates}. ¿Para cuántas personas?`
+            } else if (guests) {
+              followUp = `Perfecto, ${guests}. ¿Qué fechas tienes en mente?`
+            }
+            reply = followUp
           }
-          reply = detail ? `${detail} ${followUp}` : followUp
         }
-        if (currentItem.tipo === "Servicios") {
+        if (currentItem.tipo === "Servicios" && hasActionIntent(message)) {
           reply = await buildServiceReply(currentItem, message, state, safeHistory)
         }
         return respond({
@@ -2224,6 +3027,30 @@ INSTRUCCIONES:
           profile: null,
           tipo: null,
           activeItemId: null,
+        })
+      }
+      const normalizedMatchedMessage = normalizeText(message).replace(/\s+/g, " ").trim()
+      const matchedItemName = normalizeText(resolvedMatchedItem.nombre_publico)
+        .replace(/\s+/g, " ")
+        .trim()
+      const isMatchedSelectionOnly =
+        source === "menu" ||
+        (!isQuestion &&
+          (normalizedMatchedMessage === matchedItemName ||
+            normalizedMatchedMessage.includes(matchedItemName) ||
+            matchedItemName.includes(normalizedMatchedMessage)))
+
+      if (isMatchedSelectionOnly) {
+        const reply = buildContextualBridgeReply(resolvedMatchedItem, state)
+        return respond({
+          reply,
+          suggestions: buildCTAs({ message, item: resolvedMatchedItem, state, reply }),
+          items: [resolvedMatchedItem],
+          menu: [],
+          intent: null,
+          profile: null,
+          tipo: resolvedMatchedItem.tipo,
+          activeItemId: resolvedMatchedItem.id,
         })
       }
       const reply =
