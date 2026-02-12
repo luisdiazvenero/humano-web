@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { Figtree } from "next/font/google"
-import { ConserjeItemsMessage } from "@/components/humano/ConserjeItemsMessage"
+import { ConserjeItemsMessage } from "@/components/humano/conserje-items-message"
 import { Logo } from "@/components/humano/Logo"
 import {
   ArrowLeft,
