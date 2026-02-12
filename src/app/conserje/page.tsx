@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { Figtree } from "next/font/google"
 import { ConserjeItemsMessage } from "@/components/humano/ConserjeItemsMessage"
@@ -79,6 +79,132 @@ const groupSuggestions = [
   { label: "Solo", icon: <UserIcon className="h-5 w-5" /> },
   { label: "En pareja", icon: <UsersIcon className="h-5 w-5" /> },
   { label: "En grupo", icon: <UserGroupIcon className="h-5 w-5" /> },
+]
+
+const initialHostLines = [
+  "Bienvenido a Humano. Soy tu anfitrión.",
+  "Hola, soy tu anfitrión en Humano.",
+  "Qué gusto tenerte aquí. Soy tu anfitrión en Humano.",
+  "Bienvenido a Humano, encantado de recibirte.",
+  "Hola, bienvenido a Humano. Estoy por aquí para ayudarte.",
+  "Qué bueno tenerte en Humano. Soy tu anfitrión.",
+  "Bienvenido. Si quieres, empezamos con tu plan de viaje.",
+  "Hola, gracias por pasar por Humano. Te acompaño en lo que necesites.",
+  "Bienvenido a Humano. ¿Listo para que veamos opciones?",
+  "Hola, qué gusto saludarte. Soy tu anfitrión en Humano.",
+  "Bienvenido, estás en Humano. Vamos viendo lo que te convenga más.",
+  "Hola, bienvenido a Humano. Empezamos cuando quieras.",
+  "Qué tal, bienvenido a Humano.",
+  "Bienvenido. Cuéntame y te voy guiando.",
+  "Hola, ya estamos en Humano. Te acompaño durante tu búsqueda.",
+]
+
+const initialIntentQuestion = [
+  "Para ubicarte mejor: ¿vienes por trabajo, descanso o aventura?",
+  "¿Qué plan te trae hoy a Miraflores: trabajo, descanso o aventura?",
+  "Empecemos por tu viaje: ¿trabajo, descanso o aventura?",
+  "¿Tu viaje esta vez es más trabajo, descanso o aventura?",
+  "Para orientarte bien, dime: ¿trabajo, descanso o aventura?",
+  "¿Cómo viene tu viaje: trabajo, descanso o aventura?",
+  "¿Qué estás buscando en esta estadía: trabajo, descanso o aventura?",
+  "Para empezar, ¿tu plan es trabajo, descanso o aventura?",
+  "¿Qué ritmo trae tu viaje hoy: trabajo, descanso o aventura?",
+  "¿Vienes en modo trabajo, descanso o aventura?",
+  "Si te parece, arrancamos por aquí: ¿trabajo, descanso o aventura?",
+  "¿Cuál describe mejor tu viaje: trabajo, descanso o aventura?",
+  "Cuéntame el enfoque del viaje: ¿trabajo, descanso o aventura?",
+  "¿Qué tipo de estadía quieres hoy: trabajo, descanso o aventura?",
+  "Para guiarte mejor, ¿te mueve trabajo, descanso o aventura?",
+]
+
+const intentToProfilePrompt: Record<string, string[]> = {
+  trabajo: [
+    "Perfecto, vamos por trabajo. ¿Viajas solo, en pareja o en grupo?",
+    "Buenísimo, enfoque trabajo. ¿Viajas solo, en pareja o en grupo?",
+    "Genial, lo tomamos en clave trabajo. ¿Viajas solo, en pareja o en grupo?",
+    "Listo, vamos por un viaje de trabajo. ¿Vienes solo, en pareja o en grupo?",
+    "Entendido. Para afinarlo: ¿viajas solo, en pareja o en grupo?",
+    "Perfecto, gracias. ¿Tu viaje es solo, en pareja o en grupo?",
+    "Queda claro, viaje de trabajo. ¿Solo, en pareja o en grupo?",
+    "Excelente. ¿Cómo vienes: solo, en pareja o en grupo?",
+    "Bien, entonces priorizamos trabajo. ¿Viajas solo, en pareja o en grupo?",
+    "Anotado. ¿Te hospedas solo, en pareja o en grupo?",
+    "Perfecto, ya lo tengo. ¿Viajas solo, en pareja o en grupo?",
+    "Gracias, eso ayuda mucho. ¿Vienes solo, en pareja o en grupo?",
+    "Súper. Para continuar: ¿solo, en pareja o en grupo?",
+    "Muy bien. ¿Tu viaje es solo, en pareja o en grupo?",
+    "Con eso me ubico mejor. ¿Viajas solo, en pareja o en grupo?",
+  ],
+  descanso: [
+    "Perfecto, vamos con plan de descanso. ¿Viajas solo, en pareja o en grupo?",
+    "Buen plan. ¿Vienes solo, en pareja o en grupo?",
+    "Excelente, descanso entonces. ¿Viajas solo, en pareja o en grupo?",
+    "Genial, ya voy entendiendo tu viaje. ¿Solo, en pareja o en grupo?",
+    "Me encanta ese plan. ¿Tu viaje es solo, en pareja o en grupo?",
+    "Perfecto, gracias. ¿Te hospedas solo, en pareja o en grupo?",
+    "Listo, descanso en mente. ¿Viajas solo, en pareja o en grupo?",
+    "Buenísimo. Para afinarlo: ¿solo, en pareja o en grupo?",
+    "Queda claro. ¿Vienes solo, en pareja o en grupo?",
+    "Muy bien. ¿Cómo viajas: solo, en pareja o en grupo?",
+    "Excelente. ¿Tu estadía será solo, en pareja o en grupo?",
+    "Perfecto, sigamos. ¿Viajas solo, en pareja o en grupo?",
+    "Anotado. ¿Vienes solo, en pareja o en grupo?",
+    "Qué bien. ¿Solo, en pareja o en grupo?",
+    "Con eso me ubico. ¿Viajas solo, en pareja o en grupo?",
+  ],
+  aventura: [
+    "Perfecto, vamos por aventura. ¿Viajas solo, en pareja o en grupo?",
+    "Buen plan. ¿Vienes solo, en pareja o en grupo?",
+    "Excelente, aventura entonces. ¿Solo, en pareja o en grupo?",
+    "Genial, ya me ubico mejor. ¿Viajas solo, en pareja o en grupo?",
+    "Qué buen plan. ¿Tu viaje es solo, en pareja o en grupo?",
+    "Perfecto, gracias. ¿Te hospedas solo, en pareja o en grupo?",
+    "Listo, con plan de aventura. ¿Viajas solo, en pareja o en grupo?",
+    "Buenísimo. Para afinarlo: ¿solo, en pareja o en grupo?",
+    "Anotado. ¿Vienes solo, en pareja o en grupo?",
+    "Muy bien. ¿Cómo viajas: solo, en pareja o en grupo?",
+    "Excelente. ¿Tu estadía será solo, en pareja o en grupo?",
+    "Perfecto, sigamos. ¿Viajas solo, en pareja o en grupo?",
+    "Gracias, eso ayuda. ¿Vienes solo, en pareja o en grupo?",
+    "Súper. ¿Solo, en pareja o en grupo?",
+    "Con eso me ubico mejor. ¿Viajas solo, en pareja o en grupo?",
+  ],
+}
+
+const profileCompletionPrompt = [
+  "Listo, ya tengo contexto para recomendarte con criterio. ¿Qué quieres explorar primero?",
+  "Perfecto, con eso puedo orientarte mejor. ¿Qué te gustaría revisar primero?",
+  "Genial, ya tengo una base clara de tu viaje. ¿Por dónde empezamos?",
+  "Perfecto, ya te ubico mejor. ¿Quieres empezar por habitaciones, servicios, instalaciones o recomendaciones?",
+  "Gracias, con eso puedo guiarte mejor. ¿Qué te gustaría ver primero?",
+  "Listo. ¿Empezamos por habitaciones, servicios, instalaciones o recomendaciones?",
+  "Excelente, ya tengo contexto. ¿Por dónde te gustaría empezar?",
+  "Perfecto, ya estamos alineados. ¿Qué quieres revisar primero?",
+  "Muy bien. ¿Te muestro habitaciones, servicios, instalaciones o recomendaciones?",
+  "Genial, gracias. ¿Cuál prefieres explorar primero?",
+  "Listo, ya tengo una buena base. ¿Con qué tema empezamos?",
+  "Perfecto, ya entiendo tu viaje. ¿Qué quieres ver primero?",
+  "Anotado. ¿Arrancamos por habitaciones, servicios, instalaciones o recomendaciones?",
+  "Súper, gracias. ¿Por dónde prefieres que empecemos?",
+  "Con eso basta para orientarte bien. ¿Qué revisamos primero?",
+]
+
+const freeTextPrompts = [
+  "O cuéntame tu plan libremente",
+  "También puedes contármelo con tus palabras",
+  "Si prefieres, cuéntame tu plan de forma libre",
+  "También puedes escribir lo que estás buscando",
+  "Si quieres, dime directamente qué necesitas",
+  "También puedes contarme tu idea de viaje",
+  "Si prefieres, describe tu plan en una frase",
+  "También puedes decirme qué te gustaría hacer",
+  "O simplemente cuéntame cómo vienes",
+  "También puedes contarme qué esperas de tu estadía",
+  "Si te sirve más, escríbeme tu plan tal cual",
+  "También puedes empezar con una pregunta directa",
+  "Si prefieres, dime qué te gustaría resolver primero",
+  "También puedes contarme qué tienes en mente",
+  "O si quieres, arrancamos con lo que más te importa",
 ]
 
 type IntentOption = { label: string; description: string; icon: ReactNode }
@@ -171,6 +297,140 @@ const extractIntentHint = (text: string): string | null => {
   return null
 }
 
+const pickVariant = (variants: string[], seed: string) => {
+  if (variants.length === 0) return ""
+  const hash = seed.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)
+  return variants[hash % variants.length]
+}
+
+const normalizeForCompare = (value: string) =>
+  (value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+
+const overlapRatio = (a: string, b: string) => {
+  const tokensA = normalizeForCompare(a).split(" ").filter((t) => t.length >= 4)
+  const tokensB = new Set(normalizeForCompare(b).split(" ").filter((t) => t.length >= 4))
+  if (tokensA.length === 0 || tokensB.size === 0) return 0
+  let overlap = 0
+  for (const token of tokensA) {
+    if (tokensB.has(token)) overlap += 1
+  }
+  return overlap / tokensA.length
+}
+
+const CARD_ECHO_STOPWORDS = new Set([
+  "hotel",
+  "humano",
+  "miraflores",
+  "ideal",
+  "opcion",
+  "opciones",
+  "habitacion",
+  "servicio",
+  "instalacion",
+  "recomendacion",
+  "para",
+  "como",
+  "desde",
+  "hasta",
+  "con",
+  "sin",
+])
+
+const meaningfulTokens = (text: string) =>
+  normalizeForCompare(text)
+    .split(" ")
+    .filter((token) => token.length >= 4 && !CARD_ECHO_STOPWORDS.has(token))
+
+const replyEchoesItemCard = (reply: string, items: ConserjeItem[]) => {
+  if (!reply || !items.length) return false
+  const first = items[0]
+  const cardCorpus = [
+    first.desc_factual || "",
+    first.desc_experiencial || "",
+    first.check_in ? `check in ${first.check_in}` : "",
+    first.check_out ? `check out ${first.check_out}` : "",
+    first.horario_apertura ? `horario ${first.horario_apertura}` : "",
+    first.horario_cierre ? `horario ${first.horario_cierre}` : "",
+    first.precio_desde || "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+  if (!cardCorpus) return false
+  const overlapForward = overlapRatio(reply, cardCorpus)
+  const overlapBackward = overlapRatio(cardCorpus, reply)
+  if (overlapForward >= 0.45 || overlapBackward >= 0.45) return true
+  const replyTokens = new Set(meaningfulTokens(reply))
+  const cardTokens = Array.from(new Set(meaningfulTokens(cardCorpus)))
+  const keywordHits = cardTokens.filter((token) => replyTokens.has(token)).length
+  return keywordHits >= 4
+}
+
+const renderTextWithLinks = (text: string) => {
+  if (!text) return null
+
+  const markdownRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g
+  const parts: Array<{ type: "text" | "link"; value: string; href?: string }> = []
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = markdownRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: "text", value: text.slice(lastIndex, match.index) })
+    }
+    parts.push({ type: "link", value: match[1], href: match[2] })
+    lastIndex = match.index + match[0].length
+  }
+  if (lastIndex < text.length) {
+    parts.push({ type: "text", value: text.slice(lastIndex) })
+  }
+
+  const fallbackParts = parts.length > 0 ? parts : [{ type: "text" as const, value: text }]
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  const rendered: Array<{ type: "text" | "link"; value: string; href?: string }> = []
+
+  for (const part of fallbackParts) {
+    if (part.type === "link") {
+      rendered.push(part)
+      continue
+    }
+    let pointer = 0
+    let urlMatch: RegExpExecArray | null
+    while ((urlMatch = urlRegex.exec(part.value)) !== null) {
+      if (urlMatch.index > pointer) {
+        rendered.push({ type: "text", value: part.value.slice(pointer, urlMatch.index) })
+      }
+      rendered.push({ type: "link", value: urlMatch[0], href: urlMatch[0] })
+      pointer = urlMatch.index + urlMatch[0].length
+    }
+    if (pointer < part.value.length) {
+      rendered.push({ type: "text", value: part.value.slice(pointer) })
+    }
+    urlRegex.lastIndex = 0
+  }
+
+  return rendered.map((part, index) =>
+    part.type === "link" ? (
+      <a
+        key={`link-${index}`}
+        href={part.href}
+        target="_blank"
+        rel="noreferrer"
+        className="text-[#003744] underline underline-offset-4"
+      >
+        {part.value}
+      </a>
+    ) : (
+      <Fragment key={`text-${index}`}>{part.value}</Fragment>
+    )
+  )
+}
+
 export default function ConserjePage() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isTyping, setIsTyping] = useState(false)
@@ -193,6 +453,7 @@ export default function ConserjePage() {
   })
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const queueRef = useRef(Promise.resolve())
+  const sessionSeedRef = useRef(`${Date.now()}-${Math.random().toString(36).slice(2, 8)}`)
 
   const mic = useMicrophone({ lang: "es-PE" })
   const transcript: string = mic.transcript ?? ""
@@ -295,7 +556,10 @@ export default function ConserjePage() {
   }
 
   const buildServiceMailto = (email: string, item: ConserjeItem, actionLabel: string) => {
-    const action = actionLabel.toLowerCase().includes("reservar") ? "reservar" : "coordinar"
+    const action =
+      actionLabel.toLowerCase().includes("reservar") || actionLabel.toLowerCase().includes("disponibilidad")
+        ? "reservar"
+        : "coordinar"
     const subject = `${action === "reservar" ? "Reserva" : "Coordinación"} ${item.nombre_publico} - Hotel Humano`
     const bodyLines = [
       "Hola equipo de Humano,",
@@ -371,7 +635,10 @@ export default function ConserjePage() {
     } else if (activeItem?.tipo === "Servicios" && activeItem.redirigir && activeItem.redirigir.includes("@")) {
       url = buildServiceMailto(activeItem.redirigir, activeItem as ConserjeItem, label)
       replyText = "Abrí tu correo con un borrador listo para que lo edites y envíes."
-    } else if ((lower.includes("reservar") || lower.includes("coordinar")) && activeItem?.redirigir) {
+    } else if (
+      (lower.includes("reservar") || lower.includes("disponibilidad") || lower.includes("coordinar")) &&
+      activeItem?.redirigir
+    ) {
       const redirectTarget = normalizeExternalUrl(activeItem.redirigir)
       if (redirectTarget.startsWith("mailto:")) {
         url = buildServiceMailto(activeItem.redirigir, activeItem as ConserjeItem, label)
@@ -381,7 +648,7 @@ export default function ConserjePage() {
       }
     }
 
-    const action = lower.includes("reservar") ? "reservar" : "coordinar"
+    const action = lower.includes("reservar") || lower.includes("disponibilidad") ? "reservar" : "coordinar"
     if (!url) {
       if (action === "reservar") {
         url = MARRIOTT_ROOMS_URL
@@ -410,11 +677,12 @@ export default function ConserjePage() {
 
   useEffect(() => {
     if (messages.length === 0) {
+      const seed = sessionSeedRef.current
       enqueueAgentSequence([
-        { type: "text", content: "Hola, soy tu conserje en Humano Miraflores." },
-        { type: "text", content: "¿Vienes por trabajo, descanso o aventura?" },
+        { type: "text", content: pickVariant(initialHostLines, seed) },
+        { type: "text", content: pickVariant(initialIntentQuestion, `${seed}-intent`) },
         { type: "intent", content: intentSuggestions },
-        { type: "freetext", content: "O cuéntame tu plan libremente" },
+        { type: "freetext", content: pickVariant(freeTextPrompts, `${seed}-freetext`) },
       ])
     }
   }, [messages.length])
@@ -604,15 +872,21 @@ export default function ConserjePage() {
         normalizedReply === normalizedLastAssistant &&
         decisionMode !== "show_menu"
       ) {
-        data.reply = "Entendido. Si quieres, seguimos con otro detalle de tu estadía."
+        data.reply = "Entendido. Podemos seguir con otro detalle de tu estadía."
       }
       if (decisionMode === "redirect_reservation" && (!Array.isArray(data.suggestions) || data.suggestions.length === 0)) {
-        data.suggestions = ["Reservar ahora"]
+        data.suggestions = ["Revisar disponibilidad"]
       }
       if (decisionMode === "escalate_human") {
         data.suggestions = []
         if (!data.reply || !String(data.reply).includes(HUMAN_ESCALATION_EMAIL)) {
           data.reply = `Para gestionarlo correctamente, prefiero que escribas directamente a nuestro equipo: ${HUMAN_ESCALATION_EMAIL}.`
+        }
+      }
+
+      if (Array.isArray(data.items) && data.items.length > 0 && typeof data.reply === "string") {
+        if (replyEchoesItemCard(data.reply, data.items)) {
+          data.reply = ""
         }
       }
 
@@ -728,7 +1002,9 @@ export default function ConserjePage() {
     const lower = messageText.toLowerCase()
     if (
       lower.includes("reservar habitación") ||
+      lower.includes("revisar disponibilidad") ||
       lower.includes("coordinar servicio") ||
+      lower.includes("coordinar por correo") ||
       lower.includes("ver ubicación") ||
       lower.includes("ver ubicacion") ||
       lower.includes("mapa")
@@ -772,6 +1048,7 @@ export default function ConserjePage() {
 
     if (
       lower.includes("reservar") ||
+      lower.includes("disponibilidad") ||
       lower.includes("coordinar") ||
       lower.includes("ubicación") ||
       lower.includes("ubicacion") ||
@@ -783,10 +1060,13 @@ export default function ConserjePage() {
     if (["trabajo", "descanso", "aventura"].includes(lower) && isInitialIntentStep) {
       const nextState = { ...conversationState, intent: lower }
       setConversationState(nextState)
+      const variants = intentToProfilePrompt[lower] || []
       enqueueAgentSequence([
         {
           type: "text",
-          content: `¡Genial! Veo que vienes por ${lower}. Cuéntame, ¿viajas solo, en pareja o en grupo?`,
+          content: variants.length
+            ? pickVariant(variants, `${sessionSeedRef.current}-${lower}-${messages.length}`)
+            : "Perfecto. ¿Viajas solo, en pareja o en grupo?",
         },
         { type: "group", content: groupSuggestions },
       ])
@@ -797,7 +1077,7 @@ export default function ConserjePage() {
       const nextState = { ...conversationState, profile }
       setConversationState(nextState)
       enqueueAgentSequence([
-        { type: "text", content: "Perfecto. ¿En qué puedo ayudarte hoy?" },
+        { type: "text", content: pickVariant(profileCompletionPrompt, `${sessionSeedRef.current}-${profile}-${messages.length}`) },
         { type: "suggestions", content: defaultSuggestions },
       ])
       return
@@ -908,7 +1188,7 @@ export default function ConserjePage() {
                       {msg.content.split("Clic aquí")[1] || ""}
                     </>
                   ) : (
-                    msg.content
+                    renderTextWithLinks(msg.content)
                   )}
                 </div>
               </div>

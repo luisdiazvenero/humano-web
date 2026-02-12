@@ -21,7 +21,7 @@
       ],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_SUPERIOR_KING"
+        "/chatbot/imagenes/hab/superior_king/superior_king_1.webp"
       ],
       "frases_sugeridas": [
         "Cómoda y directa, sin complicarte",
@@ -61,7 +61,7 @@
       ],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_SUPERIOR_DOUBLE"
+        "/chatbot/imagenes/hab/superior_doble/superior_double_1.webp"
       ],
       "frases_sugeridas": [
         "Cómoda y directa, sin complicarte",
@@ -103,7 +103,7 @@
       ],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_DELUXE_KING"
+        "/chatbot/imagenes/hab/deluxe_king/deluxe_king_1.webp"
       ],
       "frases_sugeridas": [
         "Gran vista",
@@ -142,7 +142,7 @@
       "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_ACCESIBLE_ROOM"
+        "/chatbot/imagenes/hab/accesible_room/accesible_room_1.webp"
       ],
       "frases_sugeridas": [
         "Pensada para una estadía más cómoda",
@@ -181,7 +181,7 @@
       ],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_FAMILY_ROOM"
+        "/chatbot/imagenes/hab/family_room/family_room_1.webp"
       ],
       "frases_sugeridas": [
         "Para venir con niños y tener espacio extra",
@@ -220,7 +220,7 @@
       ],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_FAMILY_DELUXE"
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_1.webp"
       ],
       "frases_sugeridas": [
         "Para venir con niños y tener espacio extra",
@@ -260,7 +260,7 @@
       ],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_JUNIOR_SUITE"
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_1.webp"
       ],
       "frases_sugeridas": [
         "Más espacio para estar cómodo",
@@ -299,7 +299,7 @@
       ],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "LINK_IMAGENES_SIGNATURE_SUITE"
+        "/chatbot/imagenes/hab/signature_suite/signature_suite_1.webp"
       ],
       "frases_sugeridas": [
         "Espacio de sobra para vivir la estadía",
@@ -389,7 +389,7 @@
         "condiciones_especiales"
       ],
       "imagenes_url": [
-        "LINK_IMAGENES_MASCOTAS"
+        "/chatbot/imagenes/serv/mascotas/mascotas_1.webp"
       ],
       "frases_sugeridas": [
         "Si viajas con mascota, es buena opción",
@@ -428,7 +428,7 @@
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_ROOM_SERVICE"
+        "/chatbot/imagenes/serv/room_service/room_service_1.webp"
       ],
       "frases_sugeridas": [
         "Útil para días tranquilos",
@@ -511,7 +511,7 @@
         "disponibilidad_variable"
       ],
       "imagenes_url": [
-        "LINK_IMAGENES_ESTACIONAMIENTO"
+        "/chatbot/imagenes/serv/estacionamiento/estacionamiento_1.webp"
       ],
       "frases_sugeridas": [
         "Práctico si vienes en auto",
@@ -666,7 +666,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_LOBBY"
+        "/chatbot/imagenes/inst/lobby/lobby_1.webp"
       ],
       "frases_sugeridas": [
         "Buen lugar para ubicarse al llegar",
@@ -705,7 +705,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_DESAYUNO"
+        "/chatbot/imagenes/inst/desayuno/desayuno_1.webp"
       ],
       "frases_sugeridas": [
         "Práctico para empezar temprano",
@@ -744,7 +744,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_RESTAURANTE_ENT"
+        "/chatbot/imagenes/inst/restaurante_entranable/entranable_1.webp"
       ],
       "frases_sugeridas": [
         "Cómodo para almorzar o cenar",
@@ -783,7 +783,8 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_CDL"
+        "/chatbot/imagenes/inst/restaurante_cdl/cdl_1.webp",
+        "/chatbot/imagenes/inst/restaurante_cdl/cdl_2.webp"
       ],
       "frases_sugeridas": [
         "Ideal para cualquier momento del día",
@@ -821,7 +822,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_COWORKING"
+        "/chatbot/imagenes/inst/coworking/coworking_1.webp"
       ],
       "frases_sugeridas": [
         "Funciona muy bien para trabajar",
@@ -860,7 +861,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_GIMNASIO"
+        "/chatbot/imagenes/inst/gimnasio/gimnasio_1.webp"
       ],
       "frases_sugeridas": [
         "Útil para mantener la rutina",
@@ -899,7 +900,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_PISCINA"
+        "/chatbot/imagenes/inst/piscina/piscina_1.webp"
       ],
       "frases_sugeridas": [
         "Buena para relajarse",
@@ -934,7 +935,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_SALAS"
+        "/chatbot/imagenes/inst/salas_de_reuniones/salas_de_reuniones_1.webp"
       ],
       "frases_sugeridas": [
         "Prácticas para reuniones",
@@ -973,7 +974,8 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_MALECON"
+        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_1.webp",
+        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_2.webp"
       ],
       "frases_sugeridas": [
         "Perfecto para caminar o correr",
@@ -1012,7 +1014,8 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_PARQUE_KENNEDY"
+        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_1.webp",
+        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_2.webp"
       ],
       "frases_sugeridas": [
         "Buen punto para empezar a explorar",
@@ -1051,7 +1054,8 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_LARCOMAR"
+        "/chatbot/imagenes/rec/larcomar/larcomar_1.webp",
+        "/chatbot/imagenes/rec/larcomar/larcomar_2.webp"
       ],
       "frases_sugeridas": [
         "Combina paseo y comida",
@@ -1090,7 +1094,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_RUNNING_MALECON"
+        "/chatbot/imagenes/rec/running_malecon/running_malecon_1.webp"
       ],
       "frases_sugeridas": [
         "Ideal para rutinas matinales",
@@ -1168,7 +1172,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_HUACA"
+        "/chatbot/imagenes/rec/huaca/huaca_1.webp"
       ],
       "frases_sugeridas": [
         "Conecta con la historia"
@@ -1205,7 +1209,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_PARAPENTE"
+        "/chatbot/imagenes/rec/parapente/parapente_1.webp"
       ],
       "frases_sugeridas": [
         "El plan para aventureros"
@@ -1242,7 +1246,9 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_TEATROS"
+        "/chatbot/imagenes/rec/teatros/teatro_1.webp",
+        "/chatbot/imagenes/rec/teatros/teatro_2.webp",
+        "/chatbot/imagenes/rec/teatros/teatro_3.webp"
       ],
       "frases_sugeridas": [
         "Para todos los gustos",
