@@ -25,11 +25,18 @@ type VersionCard = {
 
 const versions: VersionCard[] = [
   {
+    id: "V09",
+    title: "V09 · Humano",
+    subtitle: "Nueva principal: intro inmersivo de anfitrión + flujo completo de conserje.",
+    href: "/humano",
+    featured: true,
+    icon: ConciergeBell,
+  },
+  {
     id: "V08",
     title: "V08 · Conserje",
     subtitle: "Asistente conversacional avanzado con catalogo, contexto y acciones.",
     href: "/conserje",
-    featured: true,
     icon: ConciergeBell,
   },
   {
