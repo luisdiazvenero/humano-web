@@ -1265,16 +1265,16 @@ export default function HumanoPage() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg border-b border-border/30">
         <div className="max-w-4xl mx-auto px-6 py-3 sm:py-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div className="text-[#003744]">
+          <div className="flex items-start justify-between gap-4">
+            <div className="shrink-0 text-[#003744]">
               <FullLogo className="h-24 w-auto" />
             </div>
 
-            <div className="flex flex-col items-start sm:items-end">
+            <div className="flex min-w-0 flex-col items-end text-right">
               <button
                 type="button"
                 onClick={handleModeSwitch}
-                className="mb-6 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-foreground hover:text-foreground/75 transition-colors"
+                className="mb-4 sm:mb-6 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-foreground hover:text-foreground/75 transition-colors"
               >
                 <Repeat2 className="h-3.5 w-3.5" />
                 {switchLabel}
@@ -1282,7 +1282,7 @@ export default function HumanoPage() {
               <button
                 type="button"
                 onClick={() => router.push("/ubicacion")}
-                className="flex items-center gap-2 text-xs font-medium text-foreground bg-card/40 px-3 py-1.5 rounded-full border border-border backdrop-blur-sm hover:bg-card/60 transition-colors group"
+                className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-foreground bg-card/40 px-3 py-1.5 rounded-full border border-border backdrop-blur-sm hover:bg-card/60 transition-colors group"
               >
                 <CloudSun className="h-3.5 w-3.5 text-primary" />
                 <span>{weather?.tempLabel ?? "--°C"}</span>
@@ -1290,7 +1290,7 @@ export default function HumanoPage() {
                 <span className="text-[10px] uppercase tracking-wider">Miraflores</span>
                 <ChevronRight className="h-3 w-3 text-muted-foreground group-hover:text-primary transition-colors ml-1" />
               </button>
-              <p className="text-[10px] text-muted-foreground mt-1 sm:pr-2">
+              <p className="text-[10px] text-muted-foreground mt-1">
                 {weather?.description ?? "Clima no disponible"}
               </p>
             </div>
