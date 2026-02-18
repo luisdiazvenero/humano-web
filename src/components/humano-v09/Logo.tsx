@@ -12,7 +12,7 @@ export function Logo({ className, ...props }: LogoProps) {
             viewBox="0 0 35 40"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className={cn("text-[#003744] dark:text-foreground", className)}
+            className={cn("text-[var(--color-azul-rgb)] dark:text-foreground", className)}
             {...props}
         >
             <path

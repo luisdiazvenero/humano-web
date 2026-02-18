@@ -453,7 +453,7 @@ const renderTextWithLinks = (text: string) => {
         href={part.href}
         target="_blank"
         rel="noreferrer"
-        className="text-[#003744] underline underline-offset-4"
+        className="text-[var(--color-azul-rgb)] underline underline-offset-4"
       >
         {part.value}
       </a>
@@ -1248,7 +1248,7 @@ export default function HumanoPage() {
             <div className="pt-12">
               <button
                 onClick={() => setView("chat")}
-                className="h-16 w-16 rounded-full bg-[#E8B931] hover:bg-[#E8B931]/90 text-[#003744] flex items-center justify-center mx-auto transition-all hover:scale-110 shadow-lg cursor-pointer"
+                className="h-16 w-16 rounded-full bg-[var(--color-amarillo-strong)] hover:brightness-95 text-[var(--color-azul-rgb)] flex items-center justify-center mx-auto transition-all hover:scale-110 shadow-lg cursor-pointer"
               >
                 <Fingerprint className="h-8 w-8" />
               </button>
@@ -1266,7 +1266,7 @@ export default function HumanoPage() {
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg border-b border-border/30">
         <div className="max-w-4xl mx-auto px-6 py-3 sm:py-4">
           <div className="flex items-start justify-between gap-4">
-            <div className="shrink-0 text-[#003744]">
+            <div className="shrink-0 text-[var(--color-azul-rgb)]">
               <FullLogo className="h-24 w-auto" />
             </div>
 
@@ -1304,7 +1304,7 @@ export default function HumanoPage() {
           <div key={msg.id} className="animate-fade-in-up">
             {msg.sender === "agent" && msg.type === "text" && (
               <div className="flex gap-4 items-start">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#003035] text-white shadow-md">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-azul)] text-white shadow-md">
                   <Logo className="h-5 w-auto text-white" />
                 </div>
                 <div className="bg-white dark:bg-card rounded-2xl rounded-tl-none px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
@@ -1315,7 +1315,7 @@ export default function HumanoPage() {
                         href={msg.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-[#003744] underline underline-offset-4"
+                        className="text-[var(--color-azul-rgb)] underline underline-offset-4"
                       >
                         Clic aquí
                       </a>
@@ -1359,7 +1359,7 @@ export default function HumanoPage() {
                         className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                       >
                         <div className="flex items-start gap-4">
-                          <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003744]">
+                          <div className="flex-shrink-0 p-2.5 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
                             {getSuggestionIcon(suggestion)}
                           </div>
                           <div className="flex-1 min-w-0 text-left">
@@ -1388,7 +1388,7 @@ export default function HumanoPage() {
                       className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003744]">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
                           {intent.icon}
                         </div>
                         <div className="flex-1 min-w-0 text-left">
@@ -1414,7 +1414,7 @@ export default function HumanoPage() {
                       className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003744]">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
                           {group.icon}
                         </div>
                         <div className="flex-1 min-w-0 text-left">
@@ -1462,7 +1462,7 @@ export default function HumanoPage() {
                           className="group bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-xl px-3 py-3 text-left text-sm font-semibold text-foreground shadow-sm transition-all cursor-pointer"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="p-2 rounded-full bg-[#ffce5c] text-[#003744]">
+                            <div className="p-2 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
                               {getServiceMenuIcon(item.label)}
                             </div>
                             <span className="line-clamp-2">{item.label}</span>
@@ -1477,7 +1477,7 @@ export default function HumanoPage() {
 
             {msg.sender === "user" && msg.type === "text" && (
               <div className="flex justify-end">
-                <div className="bg-[#ffce5c] text-[#003744] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
+                <div className="bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
                   {msg.content}
                 </div>
               </div>
@@ -1487,7 +1487,7 @@ export default function HumanoPage() {
 
         {isTyping && (
           <div className="flex gap-4 items-start">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#003035] text-white shadow-md">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-azul)] text-white shadow-md">
               <Logo className="h-5 w-auto text-white" />
             </div>
             <div className="bg-white dark:bg-card rounded-2xl rounded-tl-none px-5 py-3 flex gap-1 items-center shadow-sm">
@@ -1589,7 +1589,7 @@ export default function HumanoPage() {
                       ? "bg-muted/30 cursor-not-allowed opacity-50 border border-border"
                       : isListening
                         ? "bg-red-500/20 border border-red-500/50 scale-105 cursor-pointer"
-                        : "bg-white border-2 border-[#ffce5c] hover:bg-[#ffce5c]/5 hover:scale-105 cursor-pointer"
+                        : "bg-white border-2 border-[var(--color-amarillo)] hover:bg-[var(--color-amarillo-pale)] hover:scale-105 cursor-pointer"
                   }`}
                   aria-label={isListening ? "Detener grabación" : "Iniciar grabación"}
                 >
@@ -1599,7 +1599,7 @@ export default function HumanoPage() {
                   {isListening ? (
                     <MicrophoneIcon className="h-5 w-5 text-red-600" />
                   ) : (
-                    <MicrophoneIcon className="h-5 w-5 text-[#ffce5c]" />
+                    <MicrophoneIcon className="h-5 w-5 text-[var(--color-amarillo)]" />
                   )}
                 </button>
                 <button
@@ -1608,7 +1608,7 @@ export default function HumanoPage() {
                   className={`h-12 w-12 rounded-xl transition-all shadow-sm flex items-center justify-center ${
                     isTyping || isTranscribing
                       ? "bg-muted/30 cursor-not-allowed opacity-50"
-                      : "bg-[#ffce5c] hover:bg-[#ffce5c]/90 text-[#003744] hover:scale-105 cursor-pointer"
+                      : "bg-[var(--color-amarillo)] hover:brightness-95 text-[var(--color-azul-rgb)] hover:scale-105 cursor-pointer"
                   }`}
                   aria-label="Enviar mensaje"
                 >

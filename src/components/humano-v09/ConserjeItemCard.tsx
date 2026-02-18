@@ -428,7 +428,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
               className="mx-auto flex min-h-full w-full items-center justify-center p-4 md:p-8"
             >
               <div
-                className="relative w-full max-w-6xl overflow-hidden rounded-2xl border border-white/20 bg-[#0f1113] shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
+                className="relative w-full max-w-6xl overflow-hidden rounded-2xl border border-white/20 bg-[var(--color-overlay)] shadow-[var(--shadow-brand-lg)]"
                 onClick={(event) => event.stopPropagation()}
               >
                 <div className="flex items-center justify-between border-b border-white/10 bg-black/25 px-4 py-3">
@@ -442,7 +442,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
                     <X className="h-5 w-5" />
                   </button>
                 </div>
-                <div className="flex items-center justify-center bg-[#0f1113]">
+                <div className="flex items-center justify-center bg-[var(--color-overlay)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageUrl}

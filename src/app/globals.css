@@ -10,109 +10,143 @@
   /* HUMANO Brand Colors - Official Guidelines */
   /* Azul (50%) - Primary Color */
   --color-azul: #003035;
+  /* RGB reference from brandbook (0/55/68) */
+  --color-azul-rgb: #003744;
+  --color-azul-soft: #004D5C;
+  --color-azul-deep: #00262A;
   /* Crema (45%) - Secondary Color */
   --color-crema: #ECE7D0;
+  --color-crema-soft: #F5F5DC;
+  --color-crema-muted: #C9C4B1;
   /* Amarillo (5%) - Accent Color */
   --color-amarillo: #FFC85D;
+  --color-amarillo-strong: #E8B931;
+  --color-amarillo-soft: #F8D478;
+  --color-amarillo-pale: #F9EBC8;
+
+  --color-overlay: #0F1113;
+  --shadow-brand-sm: 0 10px 24px rgba(0, 48, 53, 0.18);
+  --shadow-brand-lg: 0 24px 80px rgba(0, 0, 0, 0.55);
+
+  --hsl-azul: 186 100% 10%;
+  --hsl-azul-rgb: 191 100% 13%;
+  --hsl-azul-soft: 189 100% 18%;
+  --hsl-azul-deep: 186 100% 8%;
+  --hsl-crema: 48 44% 88%;
+  --hsl-crema-soft: 60 56% 92%;
+  --hsl-crema-muted: 49 17% 74%;
+  --hsl-amarillo: 42 100% 68%;
+  --hsl-amarillo-strong: 45 79% 55%;
 
   /* Light Mode (Default) */
-  --background: hsl(48 44% 94%);
+  --background: hsl(var(--hsl-crema));
   /* Light cream background */
-  --foreground: hsl(186 100% 10%);
+  --foreground: hsl(var(--hsl-azul));
   /* Deep teal text */
 
-  --card: hsl(48 30% 98%);
+  --card: hsl(var(--hsl-crema-soft));
   /* Very light cream for cards */
-  --card-foreground: hsl(186 100% 10%);
+  --card-foreground: hsl(var(--hsl-azul));
   /* Deep teal */
 
-  --popover: hsl(48 30% 98%);
-  --popover-foreground: hsl(186 100% 10%);
+  --popover: hsl(var(--hsl-crema-soft));
+  --popover-foreground: hsl(var(--hsl-azul));
 
-  --primary: hsl(42 100% 68%);
+  --primary: hsl(var(--hsl-amarillo));
   /* Amarillo - for CTAs */
-  --primary-foreground: hsl(186 100% 10%);
+  --primary-foreground: hsl(var(--hsl-azul));
   /* Azul on Amarillo */
 
-  --secondary: hsl(186 80% 95%);
-  /* Very light teal */
-  --secondary-foreground: hsl(186 100% 10%);
+  --secondary: hsl(var(--hsl-crema-soft));
+  --secondary-foreground: hsl(var(--hsl-azul));
   /* Deep teal */
 
-  --muted: hsl(48 20% 85%);
-  --muted-foreground: hsl(186 30% 40%);
+  --muted: hsl(var(--hsl-crema-muted));
+  --muted-foreground: hsl(189 40% 33%);
 
-  --accent: hsl(42 100% 68%);
+  --accent: hsl(var(--hsl-amarillo));
   /* Amarillo */
-  --accent-foreground: hsl(186 100% 10%);
+  --accent-foreground: hsl(var(--hsl-azul));
 
   --destructive: hsl(0 84% 60%);
   --destructive-foreground: hsl(0 0% 98%);
 
-  --border: hsl(186 30% 85%);
-  --input: hsl(186 30% 85%);
-  --ring: hsl(42 100% 68%);
+  --border: hsl(188 27% 80%);
+  --input: hsl(188 27% 80%);
+  --ring: hsl(var(--hsl-amarillo-strong));
 
   /* Custom sidebar color */
-  --sidebar-bg: 186 100% 10%;
+  --sidebar-bg: var(--hsl-azul);
   /* Verde/Teal for light mode */
-  --sidebar-text: 48 44% 88%;
+  --sidebar-text: var(--hsl-crema);
   /* Crema for light mode */
 
   /* Radios */
-  --radius-lg: 1rem;
-  --radius-md: 0.75rem;
-  --radius-sm: 0.5rem;
+  --radius-base-lg: 1rem;
+  --radius-base-md: 0.75rem;
+  --radius-base-sm: 0.5rem;
 }
 
 /* Dark Mode */
 .dark {
-  --background: hsl(186 100% 10%);
+  --background: hsl(var(--hsl-azul));
   /* Azul base */
-  --foreground: hsl(48 44% 88%);
+  --foreground: hsl(var(--hsl-crema));
   /* Crema */
 
-  --card: hsl(186 80% 12%);
+  --card: hsl(var(--hsl-azul-rgb));
   /* Azul ligeramente más claro */
-  --card-foreground: hsl(48 44% 88%);
+  --card-foreground: hsl(var(--hsl-crema));
   /* Crema */
 
-  --popover: hsl(186 80% 12%);
-  --popover-foreground: hsl(48 44% 88%);
+  --popover: hsl(var(--hsl-azul-rgb));
+  --popover-foreground: hsl(var(--hsl-crema));
 
-  --primary: hsl(42 100% 68%);
+  --primary: hsl(var(--hsl-amarillo));
   /* Amarillo - for CTAs */
-  --primary-foreground: hsl(186 100% 10%);
+  --primary-foreground: hsl(var(--hsl-azul));
   /* Azul on Amarillo */
 
-  --secondary: hsl(48 44% 88%);
-  /* Crema */
-  --secondary-foreground: hsl(186 100% 10%);
+  --secondary: hsl(var(--hsl-azul-soft));
+  --secondary-foreground: hsl(var(--hsl-crema-soft));
   /* Azul */
 
-  --muted: hsl(186 30% 15%);
-  --muted-foreground: hsl(186 20% 60%);
+  --muted: hsl(186 38% 16%);
+  --muted-foreground: hsl(var(--hsl-crema-muted));
 
-  --accent: hsl(42 100% 68%);
+  --accent: hsl(var(--hsl-amarillo));
   /* Amarillo */
-  --accent-foreground: hsl(186 100% 10%);
+  --accent-foreground: hsl(var(--hsl-azul));
 
   --destructive: hsl(0 84% 60%);
   --destructive-foreground: hsl(0 0% 98%);
 
-  --border: hsl(186 30% 25%);
-  --input: hsl(186 30% 25%);
-  --ring: hsl(42 100% 68%);
+  --border: hsl(187 28% 30%);
+  --input: hsl(187 28% 30%);
+  --ring: hsl(var(--hsl-amarillo));
 
   /* Custom sidebar color */
-  --sidebar-bg: 48 44% 88%;
+  --sidebar-bg: var(--hsl-crema);
   /* Crema for dark mode */
-  --sidebar-text: 186 100% 10%;
+  --sidebar-text: var(--hsl-azul);
   /* Verde/Teal for dark mode */
 }
 
 /* 3. Mapear a tokens de Tailwind/shadcn usando @theme inline */
 @theme inline {
+  --color-brand-azul: var(--color-azul);
+  --color-brand-azul-rgb: var(--color-azul-rgb);
+  --color-brand-azul-soft: var(--color-azul-soft);
+  --color-brand-azul-deep: var(--color-azul-deep);
+  --color-brand-crema: var(--color-crema);
+  --color-brand-crema-soft: var(--color-crema-soft);
+  --color-brand-crema-muted: var(--color-crema-muted);
+  --color-brand-amarillo: var(--color-amarillo);
+  --color-brand-amarillo-strong: var(--color-amarillo-strong);
+  --color-brand-amarillo-soft: var(--color-amarillo-soft);
+  --color-brand-amarillo-pale: var(--color-amarillo-pale);
+  --color-brand-overlay: var(--color-overlay);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -144,10 +178,12 @@
   --color-sidebar-bg: var(--sidebar-bg);
   --color-sidebar-text: var(--sidebar-text);
 
-  --radius-lg: var(--radius-lg);
-  --radius-lg: var(--radius-lg);
-  --radius-md: var(--radius-md);
-  --radius-sm: var(--radius-sm);
+  --shadow-brand-token-sm: var(--shadow-brand-sm);
+  --shadow-brand-token-lg: var(--shadow-brand-lg);
+
+  --radius-lg: var(--radius-base-lg);
+  --radius-md: var(--radius-base-md);
+  --radius-sm: var(--radius-base-sm);
 }
 
 /* Utilities personalizados */

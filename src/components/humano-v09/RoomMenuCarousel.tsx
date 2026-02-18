@@ -225,7 +225,7 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
               onClick={() => goToLogicalIndex(index)}
               className={cn(
                 "h-2 rounded-full transition-all cursor-pointer",
-                index === logicalIndex ? "w-7 bg-[#ffce5c]" : "w-2 bg-foreground/25 hover:bg-foreground/40"
+                index === logicalIndex ? "w-7 bg-[var(--color-amarillo)]" : "w-2 bg-foreground/25 hover:bg-foreground/40"
               )}
               aria-label={`Ir a habitación ${index + 1}`}
             />

@@ -87,7 +87,7 @@ export function ImageSlider({ images, intervalMs = 4000 }: ImageSliderProps) {
                 onClick={() => setCurrentIndex(index)}
                 className={cn(
                   "h-1.5 rounded-full transition-all",
-                  index === currentIndex ? "w-6 bg-[#ffce5c]" : "w-1.5 bg-white/50 hover:bg-white/70"
+                  index === currentIndex ? "w-6 bg-[var(--color-amarillo)]" : "w-1.5 bg-white/50 hover:bg-white/70"
                 )}
                 aria-label={`Ir a imagen ${index + 1}`}
               />

@@ -13,6 +13,9 @@ Demo de IA previa (se mantiene para comparación).
 3. `/demo`  
 Demo conversacional con contenidos predefinidos desde `doc/microsite-faqs.xlsx`.
 
+4. `/design-system`  
+Catálogo vivo del sistema visual actual: paleta oficial HUMANO, tokens semánticos, escalas, sombras y componentes activos de `/humano`.
+
 ## Datos y scripts
 
 **Conserje (Excel → JSON)**
@@ -72,6 +75,7 @@ Despliega en Vercel o tu proveedor preferido. Asegura `OPENAI_API_KEY` en variab
 ## Notas importantes
 
 - `/conserje` es independiente de `/demoai`.
+- `/design-system` documenta solo la versión activa; actualizar `src/lib/design-system/component-registry.ts` al agregar/quitar componentes del flujo actual.
 - El Excel es la fuente factual. La IA solo completa tono o conecta piezas.
 - Si cambias el Excel, regenera el JSON antes de probar.
 - Contrato conversacional operativo: `doc/conserje-policy-contract.md`.

@@ -9,6 +9,7 @@ import {
   ConciergeBell,
   Mic,
   Sparkles,
+  SwatchBook,
   ArrowRight,
 } from "lucide-react"
 
@@ -80,6 +81,13 @@ const versions: VersionCard[] = [
     subtitle: "Base integral de propuesta institucional y experiencia principal.",
     href: "/propuesta",
     icon: BedDouble,
+  },
+  {
+    id: "DS",
+    title: "Design System",
+    subtitle: "Paleta, tokens, escalas y catálogo vivo de componentes activos.",
+    href: "/design-system",
+    icon: SwatchBook,
   },
   {
     id: "V01",
