@@ -48,20 +48,24 @@ export async function GET() {
     const isDay = data.current?.is_day
 
     if (
+      typeof temperature !== "number" ||
       !Number.isFinite(temperature) ||
+      typeof weatherCode !== "number" ||
       !Number.isFinite(weatherCode) ||
       (isDay !== 0 && isDay !== 1)
     ) {
       throw new Error("Open-Meteo payload inválido")
     }
 
+    const isDayFlag = isDay === 1
+
     const payload: WeatherApiResponse = {
       location: "Miraflores",
       tempC: temperature,
       tempLabel: formatTemperature(temperature),
-      description: mapWeatherCodeToSpanish(weatherCode, Boolean(isDay)),
+      description: mapWeatherCodeToSpanish(weatherCode, isDayFlag),
       weatherCode,
-      isDay: Boolean(isDay),
+      isDay: isDayFlag,
       source: "live",
       updatedAt: new Date().toISOString(),
     }
