@@ -26,6 +26,13 @@ type VersionCard = {
 
 const versions: VersionCard[] = [
   {
+    id: "DS",
+    title: "Design System",
+    subtitle: "Paleta, tokens, escalas y catálogo vivo de componentes activos.",
+    href: "/design-system",
+    icon: SwatchBook,
+  },
+  {
     id: "V09",
     title: "V09 · Humano",
     subtitle: "Nueva principal: intro inmersivo de anfitrión + flujo completo de conserje.",
@@ -81,13 +88,6 @@ const versions: VersionCard[] = [
     subtitle: "Base integral de propuesta institucional y experiencia principal.",
     href: "/propuesta",
     icon: BedDouble,
-  },
-  {
-    id: "DS",
-    title: "Design System",
-    subtitle: "Paleta, tokens, escalas y catálogo vivo de componentes activos.",
-    href: "/design-system",
-    icon: SwatchBook,
   },
   {
     id: "V01",
