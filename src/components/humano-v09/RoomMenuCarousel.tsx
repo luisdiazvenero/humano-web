@@ -2,7 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { BedDouble, ChevronLeft, ChevronRight } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import {
+  DEFAULT_VIEWPORT,
+  createRevealTransition,
+  createRevealVariants,
+} from "@/components/motion/variants"
 
 export type RoomCarouselItem = {
   id: string
@@ -15,11 +21,24 @@ interface RoomMenuCarouselProps {
   items: RoomCarouselItem[]
   onSelect: (item: { id: string; label: string }) => void
   autoPlayMs?: number
+  slideGapPx?: number
+  dotsMarginTopPx?: number
+  enableReveal?: boolean
 }
 
 const GAP_PX = 16
 
-export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMenuCarouselProps) {
+export function RoomMenuCarousel({
+  items,
+  onSelect,
+  autoPlayMs = 4200,
+  slideGapPx = GAP_PX,
+  dotsMarginTopPx = 16,
+  enableReveal = false,
+}: RoomMenuCarouselProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const shouldAnimateSlides = enableReveal && !prefersReducedMotion
+
   const hasLoop = items.length > 1
   const trackItems = useMemo(() => {
     if (!hasLoop) return items
@@ -71,7 +90,7 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
     const measure = () => {
       const firstSlide = slideRefs.current[0]
       if (!firstSlide) return
-      setSlideStride(firstSlide.offsetWidth + GAP_PX)
+      setSlideStride(firstSlide.offsetWidth + slideGapPx)
     }
 
     const raf = window.requestAnimationFrame(measure)
@@ -82,7 +101,7 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
       window.cancelAnimationFrame(raf)
       observer.disconnect()
     }
-  }, [trackItems.length])
+  }, [trackItems.length, slideGapPx])
 
   useEffect(() => {
     if (!hasLoop) return
@@ -140,7 +159,7 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
 
   return (
     <div
-      className="w-full space-y-4"
+      className="group w-full space-y-4"
       onMouseEnter={pauseAutoplay}
       onMouseLeave={resumeAutoplay}
     >
@@ -149,31 +168,45 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
           <button
             type="button"
             onClick={goPrev}
-            className="absolute left-2 sm:left-3 top-1/2 z-20 -translate-y-1/2 h-9 w-9 rounded-full bg-white/92 text-foreground border border-border/60 shadow-sm flex items-center justify-center cursor-pointer"
+            className="absolute left-3 top-1/2 z-20 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-black/45 text-white backdrop-blur-sm opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100"
             aria-label="Habitación anterior"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
         )}
 
-        <div ref={viewportRef} className="overflow-hidden pl-0 pr-2 sm:pr-3">
+        <div ref={viewportRef} className="overflow-hidden pr-0 sm:pr-3">
           <div
-            className="flex gap-4"
+            className="flex"
             onTransitionEnd={handleTransitionEnd}
             style={{
+              gap: `${slideGapPx}px`,
               transform: `translate3d(-${currentIndex * slideStride}px, 0, 0)`,
               transition: isTransitionEnabled ? "transform 500ms ease" : "none",
             }}
           >
             {trackItems.map((item, index) => (
-              <button
+              <motion.button
                 key={`${item.id}-${index}`}
                 ref={(node) => {
                   slideRefs.current[index] = node
                 }}
                 type="button"
                 onClick={() => onSelect({ id: item.id, label: item.label })}
-                className="group w-[84vw] sm:w-[560px] max-w-[560px] min-w-[300px] shrink-0 overflow-hidden rounded-2xl border border-border/35 bg-white dark:bg-card shadow-sm text-left transition hover:shadow-md cursor-pointer"
+                className="group w-full sm:w-[560px] max-w-[560px] shrink-0 overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition hover:shadow-md cursor-pointer dark:bg-card"
+                initial={shouldAnimateSlides ? "hidden" : false}
+                whileInView={shouldAnimateSlides ? "visible" : undefined}
+                viewport={
+                  shouldAnimateSlides
+                    ? { once: DEFAULT_VIEWPORT.once, amount: 0.35 }
+                    : undefined
+                }
+                variants={shouldAnimateSlides ? createRevealVariants() : undefined}
+                transition={
+                  shouldAnimateSlides
+                    ? createRevealTransition(Math.min(index, 4) * 0.08)
+                    : undefined
+                }
               >
                 <div className="relative aspect-[4/5] sm:aspect-[16/10] overflow-hidden">
                   {item.imageSrc ? (
@@ -199,7 +232,7 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
                     </p>
                   </div>
                 </div>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -208,7 +241,7 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
           <button
             type="button"
             onClick={goNext}
-            className="absolute right-2 sm:right-3 top-1/2 z-20 -translate-y-1/2 h-9 w-9 rounded-full bg-white/92 text-foreground border border-border/60 shadow-sm flex items-center justify-center cursor-pointer"
+            className="absolute right-3 top-1/2 z-20 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-black/45 text-white backdrop-blur-sm opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100"
             aria-label="Siguiente habitación"
           >
             <ChevronRight className="h-4 w-4" />
@@ -217,7 +250,7 @@ export function RoomMenuCarousel({ items, onSelect, autoPlayMs = 4200 }: RoomMen
       </div>
 
       {hasLoop && (
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-2" style={{ marginTop: `${dotsMarginTopPx}px` }}>
           {items.map((_, index) => (
             <button
               key={index}
