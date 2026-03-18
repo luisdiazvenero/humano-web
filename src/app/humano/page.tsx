@@ -36,7 +36,7 @@ export default function HumanoPage() {
           <div className="pt-12">
             <button
               type="button"
-              onClick={() => router.push("/humano/conserje")}
+              onClick={() => router.push("/humano/web")}
               className="h-16 w-16 rounded-full bg-[var(--color-amarillo-strong)] hover:brightness-95 text-[var(--color-azul-rgb)] flex items-center justify-center mx-auto transition-all hover:scale-110 shadow-lg cursor-pointer"
             >
               <Fingerprint className="h-8 w-8" />
