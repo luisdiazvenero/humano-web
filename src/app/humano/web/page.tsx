@@ -14,11 +14,13 @@ import {
 } from "lucide-react"
 
 import { WebRoomsCarousel } from "@/components/humano-web/WebRoomsCarousel"
+import { WebSectionEyebrow } from "@/components/humano-web/WebSectionEyebrow"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { Reveal } from "@/components/motion/Reveal"
 import { StaggerGroup } from "@/components/motion/StaggerGroup"
 import { getHumanoRooms } from "@/lib/humano/rooms"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
+import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 
 const headingFont = Playfair_Display_SC({
   subsets: ["latin"],
@@ -41,6 +43,9 @@ export default function HumanoWebPage() {
     id: room.slug,
     label: room.nombre,
     description: room.descripcion,
+    shortDescription: room.descripcionCorta,
+    categoryLabel: room.categoria,
+    meta: room.meta,
     imageSrc: room.imagen,
   }))
 
@@ -87,9 +92,7 @@ export default function HumanoWebPage() {
           <Reveal>
             <div className="grid items-start gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-24">
               <div className="pt-2">
-                <span className="inline-flex rounded-full border border-[var(--color-azul-rgb)] px-6 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-azul-rgb)]">
-                  EXPERIENCIA HUMANO
-                </span>
+                <WebSectionEyebrow label="Experiencia Humano" />
               </div>
               <p className="max-w-[980px] text-[32px] leading-[1.45] text-[var(--color-azul-rgb)]">
                 <span className="font-medium">Hospitalidad consciente en Lima.</span> En Humano creemos que la hospitalidad va más allá del servicio. Es crear espacios donde las personas puedan reconectar consigo mismas y con los demás, en el corazón de Miraflores.
@@ -163,11 +166,12 @@ export default function HumanoWebPage() {
             <Reveal>
               <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <span className="mb-5 inline-flex rounded-full border border-[var(--color-azul-rgb)] px-6 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-azul-rgb)]">
-                    EXPERIENCIA HUMANO
-                  </span>
+                  <WebSectionEyebrow
+                    label="Experiencia Humano"
+                    className="mb-5"
+                  />
                   <p className="max-w-[980px] text-[32px] leading-[1.45] text-[var(--color-azul-rgb)]">
-                    <span className="font-medium">Nuestra Habitaciones.</span>{" "}
+                    <span className="font-medium">Nuestras habitaciones.</span>{" "}
                     Cada habitación está diseñada para diferentes necesidades.
                     Desde el viajero solo hasta familias completas, encuentra el
                     espacio perfecto para tu estadía.
@@ -175,7 +179,7 @@ export default function HumanoWebPage() {
                 </div>
                 <Link
                   href="#habitaciones-carousel"
-                  className="inline-flex min-h-14 items-center gap-3 rounded-2xl bg-[var(--color-amarillo)] px-6 py-3 text-base font-semibold text-[var(--color-azul-rgb)] shadow-sm transition hover:brightness-95"
+                  className={`${webPrimaryButtonClass} bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]`}
                 >
                   Ver todas
                   <ArrowUpRight className="h-5 w-5" />
@@ -204,9 +208,11 @@ export default function HumanoWebPage() {
         <section id="experiencias" className="w-full bg-[var(--color-azul-rgb)] py-28 text-white sm:py-32">
           <div className="mx-auto w-full max-w-[1280px] px-4 text-center sm:px-6 lg:px-8">
             <Reveal>
-              <span className="inline-flex rounded-full border border-white/70 px-6 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-white">
-                EXPERIENCIA HUMANO
-              </span>
+              <WebSectionEyebrow
+                label="Experiencia Humano"
+                tone="light"
+                centered
+              />
             </Reveal>
             <Reveal delay={0.05}>
               <p className="mx-auto mt-6 max-w-[980px] text-[32px] leading-[1.45] text-white">

@@ -1,9 +1,17 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { BedDouble, ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  ArrowUpRight,
+  BedDouble,
+  ChevronLeft,
+  ChevronRight,
+  Maximize,
+  Sparkles,
+} from "lucide-react"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { webMediaBadgeClass } from "@/components/humano-web/webStyles"
 import {
   DEFAULT_VIEWPORT,
   createRevealTransition,
@@ -14,6 +22,12 @@ export type RoomCarouselItem = {
   id: string
   label: string
   description: string
+  shortDescription?: string
+  categoryLabel?: string
+  meta?: Array<{
+    label: string
+    kind: "size" | "bed" | "feature"
+  }>
   imageSrc: string | null
 }
 
@@ -27,6 +41,17 @@ interface RoomMenuCarouselProps {
 }
 
 const GAP_PX = 16
+
+function getMetaIcon(kind: "size" | "bed" | "feature") {
+  switch (kind) {
+    case "size":
+      return Maximize
+    case "bed":
+      return BedDouble
+    case "feature":
+      return Sparkles
+  }
+}
 
 export function RoomMenuCarousel({
   items,
@@ -218,19 +243,41 @@ export function RoomMenuCarousel({
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                  <span className="absolute left-7 top-7 inline-flex items-center gap-1.5 rounded-full border border-white/35 bg-black/35 px-3.5 py-2 text-[11px] font-semibold text-white backdrop-blur-sm">
-                    <BedDouble className="h-3.5 w-3.5" />
-                    Habitaciones
+                  <span className={cn("absolute left-7 top-7", webMediaBadgeClass)}>
+                    {item.categoryLabel ?? "Habitaciones"}
                   </span>
 
-                  <div className="absolute left-8 right-8 bottom-8">
+                  <div className="absolute left-8 right-24 bottom-8">
                     <h4 className="text-white text-[30px] sm:text-[26px] font-serif leading-[1.02] drop-shadow-md">
                       {item.label}
                     </h4>
-                    <p className="mt-4 text-white/88 text-sm leading-tight overflow-hidden text-ellipsis whitespace-nowrap drop-shadow-sm">
-                      {item.description}
+                    {item.meta?.length ? (
+                      <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white/86">
+                        {item.meta.slice(0, 3).map((entry) => {
+                          const Icon = getMetaIcon(entry.kind)
+                          return (
+                            <span
+                              key={`${item.id}-${entry.label}`}
+                              className="inline-flex items-center gap-1.5 whitespace-nowrap"
+                            >
+                              <Icon className="h-4 w-4 text-white/72" strokeWidth={1.8} />
+                              <span>{entry.label}</span>
+                            </span>
+                          )
+                        })}
+                      </div>
+                    ) : null}
+                    <p className="mt-3 max-w-[34ch] text-white/88 text-sm leading-relaxed drop-shadow-sm line-clamp-2">
+                      {item.shortDescription ?? item.description}
                     </p>
                   </div>
+
+                  <span
+                    aria-hidden="true"
+                    className="absolute bottom-8 right-8 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-white/88 backdrop-blur-sm transition-all duration-200 group-hover:bg-white/18 group-hover:text-white"
+                  >
+                    <ArrowUpRight className="h-4.5 w-4.5" strokeWidth={1.9} />
+                  </span>
                 </div>
               </motion.button>
             ))}

@@ -2,13 +2,21 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeftRight, CalendarDays, Menu } from "lucide-react"
+import { UserSwitch } from "@phosphor-icons/react"
+import { CalendarDays, Menu } from "lucide-react"
 import { useEffect, useState } from "react"
 
 import { FullLogo } from "@/components/humano-v09/FullLogo"
 import { cn } from "@/lib/utils"
+import { webHeaderShellRadiusClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 
-const navItems = ["Hotel", "Habitaciones", "Servicios", "Experiencia"]
+const navItems = [
+  { label: "Hotel", href: "#inicio" },
+  { label: "Habitaciones", href: "#habitaciones" },
+  { label: "Servicios", href: "#experiencias" },
+  { label: "Experiencia", href: "#experiencias" },
+  { label: "Contacto", href: "#contacto" },
+]
 
 export function WebStickyHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -34,26 +42,42 @@ export function WebStickyHeader() {
         <div
           className={cn(
             "relative grid grid-cols-[1fr_auto_1fr] transition-all duration-300",
+            webHeaderShellRadiusClass,
             isScrolled ? "items-center" : "items-start",
             isScrolled &&
-              "rounded-2xl border border-black/5 bg-white/92 px-4 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-md sm:px-6"
+              "border border-black/5 bg-white/92 py-3 pl-5 pr-4 shadow-[0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-md sm:pl-7 sm:pr-6"
           )}
         >
           <Link
             href="#inicio"
             className={cn(
-              "justify-self-start transition-colors",
+              "inline-flex min-h-11 items-center justify-self-start transition-colors",
               isScrolled ? "text-[var(--color-azul-rgb)]" : "text-white"
             )}
           >
-            <FullLogo
+            <span
               className={cn(
-                "w-auto transition-all duration-300",
+                "relative block overflow-hidden transition-all duration-300",
                 isScrolled
-                  ? "h-14 !text-[var(--color-azul-rgb)] sm:h-16"
-                  : "h-20 !text-white sm:h-24"
+                  ? "h-7 w-[24px] sm:h-8 sm:w-[28px]"
+                  : "h-20 w-[92px] sm:h-24 sm:w-[110px]"
               )}
-            />
+            >
+              {isScrolled ? (
+                <Image
+                  src="/logo-humano.svg"
+                  alt="Humano Hotel"
+                  width={35}
+                  height={40}
+                  className="h-full w-full transition-transform duration-300"
+                  priority
+                />
+              ) : (
+                <FullLogo
+                  className="h-full w-auto !text-white transition-transform duration-300"
+                />
+              )}
+            </span>
           </Link>
 
           <div
@@ -63,17 +87,24 @@ export function WebStickyHeader() {
             )}
           >
             {navItems.map((item) => (
-              <span
-                key={item}
+              <Link
+                key={item.label}
+                href={item.href}
                 className={cn(
-                  "inline-flex h-9 items-center rounded-full px-3 text-sm font-medium leading-none transition-colors",
+                  "group relative inline-flex h-9 items-center px-2 text-sm font-medium leading-none transition-colors",
                   isScrolled
-                    ? "bg-transparent text-[var(--color-azul-rgb)]"
-                    : "bg-white/15 text-white backdrop-blur"
+                    ? "bg-transparent text-[var(--color-azul-rgb)] hover:text-[var(--color-amarillo-strong)]"
+                    : "bg-transparent text-white hover:text-white/75"
                 )}
               >
-                {item}
-              </span>
+                {item.label}
+                <span
+                  className={cn(
+                    "pointer-events-none absolute inset-x-2 bottom-1 h-px origin-left scale-x-0 transition-transform duration-200 group-hover:scale-x-100",
+                    isScrolled ? "bg-[var(--color-amarillo-strong)]" : "bg-white/75"
+                  )}
+                />
+              </Link>
             ))}
           </div>
 
@@ -100,28 +131,29 @@ export function WebStickyHeader() {
               href="https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex cursor-pointer items-center gap-2 rounded-full px-2 py-1 transition-colors hover:text-[var(--color-amarillo)]"
+              className={cn(
+                "group !min-h-11 cursor-pointer !px-5 !py-2.5 shadow-none hover:translate-y-0 hover:shadow-none",
+                webPrimaryButtonClass,
+                isScrolled
+                  ? "bg-[#003744] text-white hover:text-[#FFC85D]"
+                  : "bg-white/15 text-white backdrop-blur hover:bg-[#003744] hover:text-white"
+              )}
               aria-label="Reservar en Marriott"
             >
               <span className="hidden text-sm font-semibold sm:inline">Reserva</span>
-              <span
-                className={cn(
-                  "inline-flex h-9 w-9 items-center justify-center rounded-full backdrop-blur transition-colors",
-                  isScrolled ? "bg-[var(--color-crema)]" : "bg-white/15"
-                )}
-              >
+              <span className="inline-flex h-5 w-5 items-center justify-center">
                 <CalendarDays className="h-4 w-4" />
               </span>
             </Link>
             <Link
               href="/humano/conserje"
               className={cn(
-                "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full backdrop-blur transition-colors hover:text-[var(--color-amarillo)]",
-                isScrolled ? "bg-[var(--color-crema)]" : "bg-white/15"
+                "inline-flex h-10 w-10 cursor-pointer items-center justify-center transition-colors",
+                isScrolled ? "text-[var(--color-azul-rgb)]" : "text-white"
               )}
               aria-label="Ir al conserje"
             >
-              <ArrowLeftRight className="h-4 w-4" />
+              <UserSwitch size={24} weight="regular" />
             </Link>
             <button
               type="button"

@@ -11,6 +11,7 @@ import { ImageSlider } from "@/components/humano-v09/ImageSlider"
 import type { SliderImage } from "@/components/humano-v09/ImageSlider"
 import { RoomMenuCarousel } from "@/components/humano-v09/RoomMenuCarousel"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
+import { getHumanoRoomById } from "@/lib/humano/rooms"
 import {
   Repeat2,
   Briefcase,
@@ -838,23 +839,25 @@ export default function HumanoPage() {
     if (!ENABLE_ROOM_MENU_CAROUSEL || menuOptions.length === 0) return null
 
     const cards = menuOptions.map((option) => {
-      const sourceItem =
-        conserjeData.items.find((item) => item.id === option.id) ||
-        conserjeData.items.find(
-          (item) => normalizeForCompare(item.nombre_publico) === normalizeForCompare(option.label)
-        )
+      const fallbackRoomItem = conserjeData.items.find(
+        (item) =>
+          item.tipo === "Habitaciones" &&
+          normalizeForCompare(item.nombre_publico) === normalizeForCompare(option.label)
+      )
+      const roomData =
+        getHumanoRoomById(option.id) ??
+        (fallbackRoomItem ? getHumanoRoomById(fallbackRoomItem.id) : null)
 
-      if (!sourceItem || sourceItem.tipo !== "Habitaciones") return null
-
-      const textCandidate = (sourceItem.desc_experiencial || sourceItem.desc_factual || "").trim()
-      const firstSentence = textCandidate.split(/[.!?]/)[0]?.trim()
-      const description = firstSentence || textCandidate || "Ideal para tu estadía en Miraflores"
+      if (!roomData) return null
 
       return {
         id: option.id,
-        label: option.label,
-        description,
-        imageSrc: normalizeImageSrc(sourceItem.imagenes_url?.[0]),
+        label: roomData.nombre,
+        description: roomData.descripcion,
+        shortDescription: roomData.descripcionCorta,
+        categoryLabel: roomData.categoria,
+        meta: roomData.meta,
+        imageSrc: normalizeImageSrc(roomData.imagen),
       } satisfies RoomCarouselItem
     })
 
