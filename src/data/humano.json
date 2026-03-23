@@ -4,8 +4,8 @@
       "id": "HAB_SUPERIOR_KING",
       "nombre_publico": "Superior King",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 24 m² con 1 cama King, minirefrigerador, escritorio, ventanas insonorizadas y Wi‑Fi.",
-      "desc_experiencial": "Ideal si quieres una base cómoda y silenciosa para descansar y moverte por Miraflores con ritmo ligero.",
+      "desc_factual": "Habitación de 24 m² con 1 cama king, Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_experiencial": "Ideal si quieres una base cómoda y silenciosa para descansar y moverte por Miraflores con ritmo ligero. Espacios funcionales, Wi-Fi, Smart TV de 50” y detalles que suman confort desde el primer momento. Perfecta para viajar solo o en pareja. Algunas pueden ser comunicantes.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -15,10 +15,7 @@
         "solo",
         "pareja"
       ],
-      "restricciones_requisitos": [
-        "familias",
-        "grupos"
-      ],
+      "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "/chatbot/imagenes/hab/superior_king/superior_king_1.webp"
@@ -35,17 +32,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_SUPERIOR_DOUBLE",
       "nombre_publico": "Superior Double",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 25 m² con 2 camas dobles, minirefrigerador, escritorio, ventanas insonorizadas y Wi‑Fi.",
-      "desc_experiencial": "Buena opción si vienes acompañado y quieres camas separadas sin complicarte.",
+      "desc_factual": "Habitación de 25 m² con 2 camas dobles, Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_experiencial": "Buena opción si vienes acompañado y quieres camas separadas sin complicarte. Cómoda, luminosa y bien equipada, con Wi-Fi, Smart TV de 50” y coffee kit. Algunas puede ser comunicantes.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -56,9 +53,7 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [
-        "grupos"
-      ],
+      "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "/chatbot/imagenes/hab/superior_doble/superior_double_1.webp"
@@ -75,17 +70,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_DELUXE_KING",
       "nombre_publico": "Deluxe King",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 24 m² con 1 cama King, minirefrigerador, escritorio, Wi‑Fi, e incluye bata y pantuflas.",
-      "desc_experiencial": "Un plus de confort y gran vista para cerrar el día con calma, sin subir a una suite.",
+      "desc_factual": "Habitación de 24 m² con 1 cama King, mejor vista de la ciudad (2 ventanas), Wi Fi, batas y pantuflas, smart TV de 50\",  baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. ",
+      "desc_experiencial": "Más vista, más ciudad. Con dos ventanas, 1 cama king, batas y pantuflas, esta habitación eleva la experiencia con luz natural y detalles pensados para disfrutar Lima desde lo alto. Cerrar el día aquí será todo lo que querrás.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -97,10 +92,7 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [
-        "familias",
-        "grupos"
-      ],
+      "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "/chatbot/imagenes/hab/deluxe_king/deluxe_king_1.webp"
@@ -117,17 +109,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_ACCESIBLE_ROOM",
       "nombre_publico": "Accesible Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con 1 cama King, minirefrigerador, escritorio y baño con ducha accesible para silla de ruedas.",
-      "desc_experiencial": "Diseñada para una estadía más cómoda si necesitas accesibilidad en la ducha y circulación.",
+      "desc_factual": "Habitación de 32 m² con 1 cama King, Wi Fi, Smart TV de 50\", año con ducha accesible para silla de ruedas, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si viaja con alguien se arma comunicantes con una Superior double.",
+      "desc_experiencial": "Pensada para brindar máxima comodidad y accesibilidad sin comprometer el diseño. Con una cama king, amplios espacios y todos los elementos esenciales, esta habitación garantiza una estadía práctica y acogedora para quienes necesitan mayor facilidad de movimiento.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -156,17 +148,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_FAMILY_ROOM",
       "nombre_publico": "Family Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
-      "desc_experiencial": "Ideal para venir en familia y tener un espacio extra para estar juntos y cómodos.",
+      "desc_factual": "Habitación de 32 m² con1 cama king + sofá cama de 2 plazas.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_experiencial": "Ideal para viajes en familia, con un diseño funcional y amplio. Un espacio cómodo y bien equipado, pensado para que todos disfruten de una estancia tranquila y sin complicaciones.",
       "intenciones": [
         "Descanso",
         "Aventura"
@@ -175,10 +167,7 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [
-        "solo",
-        "pareja"
-      ],
+      "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "/chatbot/imagenes/hab/family_room/family_room_1.webp"
@@ -195,17 +184,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_FAMILY_DELUXE",
       "nombre_publico": "Family Deluxe",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 47 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
-      "desc_experiencial": "Más amplitud para la familia y para esos ratos de pausa entre planes en la ciudad.",
+      "desc_factual": "Ubicada en el piso 3 con 47m2, 1 cama king + sofá cama de 2 plazas + terraza.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_experiencial": "La opción más espaciosa para viajar en familia. Disfruta de una terraza privada, el lugar perfecto para relajarte, compartir y sentirte como en casa, en el corazón de Lima.",
       "intenciones": [
         "Descanso",
         "Aventura"
@@ -214,10 +203,7 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [
-        "solo",
-        "pareja"
-      ],
+      "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "/chatbot/imagenes/hab/family_deluxe/family_deluxe_1.webp"
@@ -234,17 +220,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_JUNIOR_SUITE",
       "nombre_publico": "Junior Suite",
       "categoria": "Habitación",
-      "desc_factual": "Suite de 32 m² con cama King, área de estar, escritorio, Wi‑Fi y baño con bañera y ducha por separado.",
-      "desc_experiencial": "Un espacio que te da un poco más de aire y comodidad, ideal para combinar descanso real con foco.",
+      "desc_factual": "Con 32 m2, 1 cama king, Wi Fi, batas y pantuflas, smart TV de 50\",  baño completo con ducha y tina, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_experiencial": "Un espacio diseñado para ofrecerte un extra de confort. Con 32 m², cama king, tina, batas y pantuflas, esta suite combina descanso y comodidad en un ambiente amplio, perfecto para estancias especiales o escapadas urbanas.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -254,10 +240,7 @@
         "solo",
         "pareja"
       ],
-      "restricciones_requisitos": [
-        "grupos",
-        "familias"
-      ],
+      "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "/chatbot/imagenes/hab/junior_suite/junior_suite_1.webp"
@@ -274,17 +257,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "HAB_SIGNATURE_SUITE",
       "nombre_publico": "Signature Suite",
       "categoria": "Habitación",
-      "desc_factual": "Suite de 64 m² con cama King y sofá cama, sala de estar separada, cocina separada, escritorio y Wi‑Fi.",
-      "desc_experiencial": "Para quedarte con espacio de sobra: trabajar, recibir a alguien o simplemente vivir Lima con más calma.",
+      "desc_factual": "Suite de 2 ambientes con 64m2: baño de visita, kitchenett, sala y comedor con Smart TV de 55\", habitación con cama 1 cama king, escritorio, caja de seguridad y baño completo con ducha y tina.",
+      "desc_experiencial": "Un espacio amplio y flexible, creado para quienes buscan comodidad y libertad. Equipado con todo lo necesario para trabajar, recibir visitas o relajarse y explorar Lima, es la opción ideal para estancias largas o viajes que requieren confort y amplitud.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -294,9 +277,7 @@
         "solo",
         "pareja"
       ],
-      "restricciones_requisitos": [
-        "grupos"
-      ],
+      "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
         "/chatbot/imagenes/hab/signature_suite/signature_suite_1.webp"
@@ -313,17 +294,17 @@
       "check_in": "Desde las 15:00",
       "check_out": "Antes de las 12:00 pm",
       "condiciones_servicio": [],
-      "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
+      "link_ubicacion_mapa": "",
       "tipo": "Habitaciones"
     },
     {
       "id": "SERV_TRANSFER_AEROPUERTO",
       "nombre_publico": "Transfer aeropuerto",
       "categoria": "Servicio",
-      "desc_factual": "Servicio de traslado privado desde o hacia el aeropuerto Jorge Chávez, con costo adicional.",
-      "desc_experiencial": "Llegar o salir de Lima sin preocuparte por taxis ni rutas.",
+      "desc_factual": "Traslado privado desde o hacia el aeropuerto Jorge Chávez, por un costo adicional de US$37.00 (incluye impuestos). Consulta por tarifas a otros destinos.",
+      "desc_experiencial": "Brindamos transporte a dónde tu necesites ir ya sea el aeropuerto, reunión de trabajo o evento social. Una opción cómoda y confiable para moverte con tranquilidad desde y hacia el hotel.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -344,31 +325,28 @@
         "tercerizado",
         "disponibilidad_variable"
       ],
-      "imagenes_url": [
-        "LINK_IMAGENES_TRANSFER"
-      ],
+      "imagenes_url": [],
       "frases_sugeridas": [
         "Cómodo si llegas tarde o de madrugada",
         "Evita complicaciones al llegar"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
       "id": "SERV_MASCOTAS",
-      "nombre_publico": "Pet friendly",
+      "nombre_publico": "Dog friendly",
       "categoria": "Servicio",
-      "desc_factual": "Servicio que permite hospedarse con mascotas bajo condiciones y costo adicional.",
-      "desc_experiencial": "Viajar con tu mascota sin dejarla atrás.",
+      "desc_factual": "Aceptamos perros por un costo de US$35.00++ por noche (incluye bebedero, platito y camita). El peso máximo permitido es de 15 kg, y los perros solo pueden estar en la habitación, con acceso restringido a áreas comunes. Pendiente de confirmar la garantía. Se requiere presentar cartilla de vacunación.",
+      "desc_experiencial": "En HUMANO, los perritos son bienvenidos. Sabemos que viajar es mejor en buena compañía, por eso ofrecemos una estadía dog-friendly, con todo lo necesario para que tu compañero de cuatro patas se sienta tan cómodo y bienvenido como tú.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -396,15 +374,14 @@
         "Conviene coordinar antes"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
@@ -435,23 +412,22 @@
         "Práctico si no quieres salir"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
       "id": "SERV_LAVANDERIA",
       "nombre_publico": "Lavandería",
       "categoria": "Servicio",
-      "desc_factual": "Servicio de lavado y planchado de prendas, con costo adicional.",
-      "desc_experiencial": "Resolver lo práctico durante estadías largas.",
+      "desc_factual": "Servicio de lavado y planchado de prendas, disponible por un costo adicional.",
+      "desc_experiencial": "Para adaptarnos a tu ritmo, ofrecemos servicios de lavandería regular y express. Ya sea que necesites rapidez o cuentes con más tiempo, nos encargamos de cuidar tus prendas para que puedas seguir disfrutando de Lima.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -468,31 +444,28 @@
       "condiciones_servicio": [
         "con_costo"
       ],
-      "imagenes_url": [
-        "LINK_IMAGENES_LAVANDERIA"
-      ],
+      "imagenes_url": [],
       "frases_sugeridas": [
         "Útil para estadías largas",
         "Práctico y sin complicaciones"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
       "id": "SERV_ESTACIONAMIENTO",
       "nombre_publico": "Estacionamiento",
       "categoria": "Servicio",
-      "desc_factual": "Servicio de estacionamiento para huéspedes, sujeto a disponibilidad.",
-      "desc_experiencial": "Moverte con auto propio con mayor comodidad.",
+      "desc_factual": "Contamos con 40 espacios disponibles, con una medida de 2.05 m, distribuidos en 3 sótanos. El estacionamiento es exclusivo para huéspedes y permite el ingreso de vehículos hasta el tamaño de una Van (no incluye Sprinter). No ofrecemos servicio de valet parking.",
+      "desc_experiencial": "Disfruta de la libertad de moverte a tu ritmo, con la comodidad de tener tu auto siempre a la mano.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -518,15 +491,14 @@
         "Conviene confirmar disponibilidad"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
@@ -549,23 +521,20 @@
       "restricciones_requisitos": [],
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
-      "imagenes_url": [
-        "LINK_IMAGENES_WIFI"
-      ],
+      "imagenes_url": [],
       "frases_sugeridas": [
         "Es parte de la estadía",
         "Funciona bien para trabajo y ocio"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
@@ -588,23 +557,20 @@
       "restricciones_requisitos": [],
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
-      "imagenes_url": [
-        "LINK_IMAGENES_LIMPIEZA"
-      ],
+      "imagenes_url": [],
       "frases_sugeridas": [
         "Incluido durante la estadía",
         "Mantiene todo en orden"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
@@ -627,23 +593,20 @@
       "restricciones_requisitos": [],
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
-      "imagenes_url": [
-        "LINK_IMAGENES_CONCIERGE"
-      ],
+      "imagenes_url": [],
       "frases_sugeridas": [
         "Útil si es tu primera vez",
         "Te ayudan a orientarte"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Coordinar servicio"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
-      "link_ubicacion_mapa": "",
-      "check_out": "",
       "check_in": "",
+      "check_out": "",
       "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Servicios"
     },
     {
@@ -673,16 +636,15 @@
         "Funciona para esperas cortas"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "24h",
       "horario_cierre": "24h",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -712,16 +674,15 @@
         "Cómodo si no quieres salir"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "06:30",
       "horario_cierre": "10:30",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -729,7 +690,7 @@
       "nombre_publico": "Restaurante Entrañable",
       "categoria": "Instalación",
       "desc_factual": "Restaurante del hotel en el rooftop del 18, especializado en parrillas.",
-      "desc_experiencial": "Un cierre relajado para el día.",
+      "desc_experiencial": "En lo alto del hotel, Entrañable invita a disfrutar carnes, bebidas y buenas conversaciones. Un espacio abierto, cálido y con personalidad, perfecto para almuerzos relajados o cenas al aire libre mientras Lima se ilumina al caer la noche.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -751,16 +712,15 @@
         "Sin tener que salir"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "12:30",
       "horario_cierre": "22:00",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -768,7 +728,7 @@
       "nombre_publico": "Restaurante Café de Lima",
       "categoria": "Instalación",
       "desc_factual": "Restaurante en el primer piso del hotel, con platos clásicos y peruanos.",
-      "desc_experiencial": "Comer con calma entre planes del día.",
+      "desc_experiencial": "Un espacio que celebra los sabores locales en un ambiente relajado y contemporáneo. Abierto desde temprano hasta la noche, Café de Lima es el punto de encuentro del barrio ideal para desayunar, almorzar, cenar o simplemente hacer una pausa durante el día.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -791,16 +751,15 @@
         "Ambiente relajado"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "17:00",
       "horario_cierre": "23:00",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -808,7 +767,7 @@
       "nombre_publico": "Coworking",
       "categoria": "Instalación",
       "desc_factual": "Espacio de trabajo compartido dentro del hotel.",
-      "desc_experiencial": "Trabajar con foco sin salir del hotel.",
+      "desc_experiencial": "Un espacio pensado para crear, reunirse y concentrarse. Disponible las 24 horas, el coworking de HUMANO combina comodidad, conectividad y un ambiente relajado, ideal para trabajar, tener reuniones informales o simplemente cambiar de escenario.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -829,16 +788,15 @@
         "Espacio tranquilo"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "24h",
       "horario_cierre": "24h",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -846,7 +804,7 @@
       "nombre_publico": "Gimnasio",
       "categoria": "Instalación",
       "desc_factual": "Gimnasio equipado para entrenamiento básico.",
-      "desc_experiencial": "Mantener la rutina de forma práctica.",
+      "desc_experiencial": "Abierto las 24 horas, nuestro gimnasio está equipado con máquinas cardiovasculares, pesas y todo lo necesario para mantener tu rutina. Un espacio funcional y cómodo para entrenar a tu ritmo, cuando tú decidas.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -868,16 +826,15 @@
         "Fácil de usar"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "06:00",
       "horario_cierre": "22:00",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -885,7 +842,7 @@
       "nombre_publico": "Piscina",
       "categoria": "Instalación",
       "desc_factual": "Piscina del hotel para uso recreativo.",
-      "desc_experiencial": "Un espacio para bajar el ritmo.",
+      "desc_experiencial": "Ubicada en el piso 17, nuestra piscina temperada es un oasis urbano. Ideal para relajarte después de un día intenso o simplemente desconectar, para bajar el ritmo y disfrutar el momento, sin salir del hotel.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -907,16 +864,15 @@
         "Ideal en días tranquilos"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "08:00",
       "horario_cierre": "20:00",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -942,16 +898,45 @@
         "Equipadas y funcionales"
       ],
       "ctas": [
-        "Reservar Habitación",
         "Conocer más ambientes"
       ],
       "horario_apertura": "08:00",
       "horario_cierre": "22:00",
-      "link_ubicacion_mapa": "",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "INST_BAR",
+      "nombre_publico": "Lobby Bar",
+      "categoria": "Instalación",
+      "desc_factual": "Bar del restaurante en el primer piso.",
+      "desc_experiencial": "Por si quieres cerrar el día con un brindis o encontrarte con tus amigos y tomar unas cervezas.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
       "tipo": "Instalaciones"
     },
     {
@@ -974,8 +959,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_1.webp",
-        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_2.webp"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "Perfecto para caminar o correr",
@@ -983,15 +967,15 @@
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Malec%C3%B3n+de+Miraflores+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -1014,8 +998,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_1.webp",
-        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_2.webp"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "Buen punto para empezar a explorar",
@@ -1023,15 +1006,15 @@
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parque+Kennedy+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -1054,8 +1037,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/rec/larcomar/larcomar_1.webp",
-        "/chatbot/imagenes/rec/larcomar/larcomar_2.webp"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "Combina paseo y comida",
@@ -1063,15 +1045,15 @@
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Larcomar+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -1094,7 +1076,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/rec/running_malecon/running_malecon_1.webp"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "Ideal para rutinas matinales",
@@ -1102,19 +1084,19 @@
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Running+por+el+malec%C3%B3n+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
-      "id": "REC_CAFES_MIRAFLORES",
+      "id": "REC_RUTA_DEL_CAFÉ",
       "nombre_publico": "Cafés de Miraflores",
       "categoria": "Recomendación externa",
       "desc_factual": "Zona con variedad de cafeterías a corta distancia del hotel.",
@@ -1133,7 +1115,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_CAFES"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "Fácil para una pausa",
@@ -1141,15 +1123,15 @@
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Caf%C3%A9s+de+Miraflores+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -1172,22 +1154,22 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/rec/huaca/huaca_1.webp"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "Conecta con la historia"
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+de+Sitio+Pucllana+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -1197,6 +1179,7 @@
       "desc_factual": "Vuela sobre los acantilados de Miraflores con vistas panorámicas del océano y la ciudad en un vuelo de parapente.",
       "desc_experiencial": "Siente la libertad del viento mientras disfrutas de una perspectiva única de Lima desde las alturas.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
         "Aventura"
       ],
@@ -1209,22 +1192,22 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/rec/parapente/parapente_1.webp"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "El plan para aventureros"
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parapente+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     },
     {
@@ -1234,6 +1217,7 @@
       "desc_factual": "Teatros cercanos entre sí, con una variada oferta de espectáculos locales e internacionales.",
       "desc_experiencial": "Vive la magia del teatro, donde cada función te invita a un nuevo mundo de emociones.",
       "intenciones": [
+        "Trabajo",
         "Descanso",
         "Aventura"
       ],
@@ -1246,9 +1230,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/rec/teatros/teatro_1.webp",
-        "/chatbot/imagenes/rec/teatros/teatro_2.webp",
-        "/chatbot/imagenes/rec/teatros/teatro_3.webp"
+        "trae foto de internet"
       ],
       "frases_sugeridas": [
         "Para todos los gustos",
@@ -1256,15 +1238,802 @@
       ],
       "ctas": [
         "Más Recomendaciones",
-        "Te cuento cómo llegar"
+        "Ver en Google Maps"
       ],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Teatros+Miraflores+Lima",
-      "check_out": "",
-      "check_in": "",
-      "precio_desde": "",
       "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_BARRANCO",
+      "nombre_publico": "Barranco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Barrio bohemio de Lima conocido por su arquitectura republicana, arte urbano y vida nocturna.",
+      "desc_experiencial": "Un paseo entre arte, música y bares con alma limeña.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barranco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PUENTE_SUSPIROS",
+      "nombre_publico": "Puente de los Suspiros",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Puente histórico ubicado en Barranco, rodeado de calles tradicionales y miradores.",
+      "desc_experiencial": "Cruza el puente y deja que el barrio haga el resto.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Puente+de+los+Suspiros+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MUSEO_LARCO",
+      "nombre_publico": "Museo Larco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Museo privado con una de las colecciones más completas de arte precolombino del Perú.",
+      "desc_experiencial": "Una mirada íntima al pasado milenario del país.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+Larco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MATE_MUSEO",
+      "nombre_publico": "MATE Museo Mario Testino",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Museo dedicado al fotógrafo peruano Mario Testino ubicado en Barranco.",
+      "desc_experiencial": "Fotografía, moda y arte en una casona llena de historia.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=MATE+Museo+Mario+Testino+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_SURF_PLAYA_WAIKIKI",
+      "nombre_publico": "Surf en Playa Waikiki",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Playa emblemática de Miraflores conocida por sus olas y escuelas de surf.",
+      "desc_experiencial": "Una clase de surf para sentir Lima desde el mar.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Surf+en+Playa+Waikiki+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_BAJA_BALTA",
+      "nombre_publico": "Bajada Balta",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Acceso peatonal y vehicular que conecta Miraflores con las playas de la Costa Verde.",
+      "desc_experiencial": "Un camino hacia el mar que siempre vale la pena.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Bajada+Balta+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MERCADO_SURQUILLO",
+      "nombre_publico": "Mercado de Surquillo",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Mercado tradicional cercano a Miraflores con productos frescos y cocina local.",
+      "desc_experiencial": "Descubrir ingredientes y sabores como un local.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Mercado+de+Surquillo+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MALECON_CICLISMO",
+      "nombre_publico": "Ciclismo por el malecón",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Circuito ciclista que recorre los acantilados de Miraflores con vistas al Pacífico.",
+      "desc_experiencial": "Un paseo tranquilo entre mar y ciudad.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Ciclismo+por+el+malec%C3%B3n+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_RESTAURANTES_50BEST",
+      "nombre_publico": "Gastronomía de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Lima es reconocida globalmente por su escena gastronómica premiada.",
+      "desc_experiencial": "Cenar en una de las capitales culinarias del mundo.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Gastronom%C3%ADa+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PARQUE_AMOR",
+      "nombre_publico": "Parque del Amor",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Parque frente al mar famoso por sus mosaicos y esculturas románticas.",
+      "desc_experiencial": "Un lugar para detenerse y mirar el horizonte.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parque+del+Amor+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PASEO_BARRANCO",
+      "nombre_publico": "Paseo por Barranco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Calles llenas de murales, cafés y arquitectura tradicional.",
+      "desc_experiencial": "Caminar sin rumbo por uno de los barrios más creativos de Lima.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Paseo+por+Barranco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MIRAFLORES_MARKET",
+      "nombre_publico": "Artesanía peruana",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Mercado especializado en artesanías peruanas, textiles y recuerdos hechos a mano por artesanos locales.",
+      "desc_experiencial": "Llevarse una historia hecha a mano.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Artesan%C3%ADa+peruana+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_GATOS_KENNEDY",
+      "nombre_publico": "Gatos del Parque Kennedy",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Colonia de gatos que habita el parque central de Miraflores.",
+      "desc_experiencial": "Una escena curiosa que siempre sorprende.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Gatos+del+Parque+Kennedy+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_YOGA_MALECON",
+      "nombre_publico": "Yoga frente al mar",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Sesiones espontáneas o guiadas de yoga en el malecón.",
+      "desc_experiencial": "Respirar Lima con calma.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Yoga+frente+al+mar+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CENTRO_HISTORICO",
+      "nombre_publico": "Centro histórico de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Patrimonio de la humanidad con arquitectura colonial y plazas históricas.",
+      "desc_experiencial": "Una caminata por la Lima de siglos pasados.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Centro+hist%C3%B3rico+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CATEDRAL_LIMA",
+      "nombre_publico": "Catedral de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Catedral ubicada en la Plaza Mayor de Lima con gran valor histórico.",
+      "desc_experiencial": "Arquitectura y silencio en el corazón de la ciudad.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Catedral+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MONASTERIO_SFRANCISCO",
+      "nombre_publico": "Monasterio San Francisco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Complejo religioso famoso por sus catacumbas subterráneas.",
+      "desc_experiencial": "Historia y misterio bajo la ciudad.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Monasterio+San+Francisco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MUSEO_ARTE_LIMA",
+      "nombre_publico": "MALI",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Museo de Arte de Lima con colección de arte peruano de distintas épocas.",
+      "desc_experiencial": "Un recorrido por la identidad cultural del país.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=MALI+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PARQUE_AGUA",
+      "nombre_publico": "Circuito Mágico del Agua",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Parque urbano con fuentes iluminadas y espectáculos nocturnos.",
+      "desc_experiencial": "Una experiencia visual inesperada en Lima.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Circuito+M%C3%A1gico+del+Agua+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_BARRIO_CHINO",
+      "nombre_publico": "Barrio Chino de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Zona histórica con restaurantes y cultura chifa.",
+      "desc_experiencial": "Una mezcla única entre Perú y China.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barrio+Chino+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_FARO_LIMA",
+      "nombre_publico": "Faro de la Marina",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Faro histórico de 22 metros ubicado en la Costa Verde, con vistas al océano Pacífico.",
+      "desc_experiencial": "Disfruta de un atardecer que pinta la ciudad y el mar de colores cálidos.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "trae foto de internet"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Faro+de+la+Marina+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_BARRIO_CHINO_LIMA",
+      "nombre_publico": "Barrio Chino de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Zona histórica con restaurantes chifa y tiendas típicas.",
+      "desc_experiencial": "Una mezcla única entre la cultura peruana y la china.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barrio+Chino+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
       "tipo": "Recomendaciones_Locales"
     }
   ],
