@@ -67,12 +67,12 @@ const featuredFacilityConfig: Record<
 }
 
 export function getHumanoFeaturedFacilities(): HumanoFacilityCard[] {
-  return Object.entries(featuredFacilityConfig)
-    .map(([id, config]) => {
+  return Object.entries(featuredFacilityConfig).reduce<HumanoFacilityCard[]>(
+    (facilities, [id, config]) => {
       const item = humanoData.items.find((entry) => entry.id === id)
-      if (!item) return null
+      if (!item) return facilities
 
-      return {
+      facilities.push({
         id,
         nombre: config.nombre,
         categoria: item.categoria || "Instalación",
@@ -82,7 +82,10 @@ export function getHumanoFeaturedFacilities(): HumanoFacilityCard[] {
             ? item.desc_factual
             : item.desc_experiencial || item.desc_factual,
         imagen: item.imagenes_url?.[0] ?? null,
-      }
-    })
-    .filter((item): item is HumanoFacilityCard => Boolean(item))
+      })
+
+      return facilities
+    },
+    [],
+  )
 }
