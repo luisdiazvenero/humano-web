@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment, useEffect, useRef, useState } from "react"
+import { Fragment, Suspense, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Figtree } from "next/font/google"
@@ -488,7 +488,7 @@ const renderTextWithLinks = (text: string) => {
   )
 }
 
-export default function HumanoPage() {
+function HumanoPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -1636,5 +1636,13 @@ export default function HumanoPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function HumanoPage() {
+  return (
+    <Suspense fallback={<div className={`min-h-screen bg-[var(--color-crema)] ${figtree.className}`} />}>
+      <HumanoPageContent />
+    </Suspense>
   )
 }
