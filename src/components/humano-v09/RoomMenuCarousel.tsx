@@ -53,6 +53,12 @@ function getMetaIcon(kind: "size" | "bed" | "feature") {
   }
 }
 
+function normalizeLoopIndex(index: number, itemCount: number) {
+  if (itemCount <= 0) return 0
+  const normalized = ((index - 1) % itemCount + itemCount) % itemCount
+  return normalized + 1
+}
+
 export function RoomMenuCarousel({
   items,
   onSelect,
@@ -92,14 +98,24 @@ export function RoomMenuCarousel({
   const goNext = useCallback(() => {
     if (!hasLoop) return
     setIsTransitionEnabled(true)
-    setCurrentIndex((prev) => prev + 1)
-  }, [hasLoop])
+    setCurrentIndex((prev) => {
+      if (prev >= items.length + 1) {
+        return 2
+      }
+      return prev + 1
+    })
+  }, [hasLoop, items.length])
 
   const goPrev = useCallback(() => {
     if (!hasLoop) return
     setIsTransitionEnabled(true)
-    setCurrentIndex((prev) => prev - 1)
-  }, [hasLoop])
+    setCurrentIndex((prev) => {
+      if (prev <= 0) {
+        return Math.max(items.length - 1, 1)
+      }
+      return prev - 1
+    })
+  }, [hasLoop, items.length])
 
   const goToLogicalIndex = useCallback((index: number) => {
     if (!hasLoop) return
@@ -131,11 +147,32 @@ export function RoomMenuCarousel({
   useEffect(() => {
     if (!hasLoop) return
     const interval = window.setInterval(() => {
-      if (isPausedRef.current) return
+      if (isPausedRef.current || document.visibilityState !== "visible") return
       goNext()
     }, autoPlayMs)
     return () => window.clearInterval(interval)
   }, [hasLoop, autoPlayMs, goNext])
+
+  useEffect(() => {
+    if (!hasLoop) return
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        pauseAutoplay()
+        return
+      }
+
+      resumeAutoplay()
+      setIsTransitionEnabled(false)
+      setCurrentIndex((prev) => normalizeLoopIndex(prev, items.length))
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => setIsTransitionEnabled(true))
+      })
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange)
+  }, [hasLoop, items.length, pauseAutoplay, resumeAutoplay])
 
   useEffect(() => {
     if (!hasLoop) return

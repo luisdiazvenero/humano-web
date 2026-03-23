@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Figtree } from "next/font/google"
 import { ConserjeItemsMessage } from "@/components/humano-v09/conserje-items-message"
 import { Logo } from "@/components/humano-v09/Logo"
@@ -490,6 +490,7 @@ const renderTextWithLinks = (text: string) => {
 
 export default function HumanoPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [userInput, setUserInput] = useState("")
@@ -513,6 +514,7 @@ export default function HumanoPage() {
   const queueRef = useRef(Promise.resolve())
   const sessionSeedRef = useRef(`${Date.now()}-${Math.random().toString(36).slice(2, 8)}`)
   const onboardingStartedRef = useRef(false)
+  const deepLinkHandledRef = useRef(false)
 
   const mic = useMicrophoneHumano({ lang: "es-PE" })
   const transcript: string = mic.transcript ?? ""
@@ -736,6 +738,36 @@ export default function HumanoPage() {
       { role: "assistant", content: "¿Necesitas algo más?" },
     ])
   }
+
+  useEffect(() => {
+    if (deepLinkHandledRef.current) return
+    const itemId = searchParams.get("item")
+    if (!itemId) return
+
+    const targetItem = conserjeData.items.find((item) => item.id === itemId)
+    if (!targetItem) return
+
+    deepLinkHandledRef.current = true
+    onboardingStartedRef.current = true
+    setContextTopic(targetItem.tipo)
+    setActiveItemId(targetItem.id)
+    setActiveItemLabel(targetItem.nombre_publico)
+
+    const intro = targetItem.desc_experiencial || targetItem.desc_factual || targetItem.nombre_publico
+    const detail =
+      targetItem.desc_factual && targetItem.desc_factual !== intro
+        ? targetItem.desc_factual
+        : null
+
+    enqueueAgentSequence([
+      { type: "text", content: `${targetItem.nombre_publico}. ${intro}` },
+      ...(detail ? [{ type: "text", content: detail } as const] : []),
+      {
+        type: "suggestions",
+        content: targetItem.ctas?.length ? targetItem.ctas.slice(0, 2) : defaultSuggestions,
+      },
+    ])
+  }, [searchParams])
 
   useEffect(() => {
     if (messages.length === 0 && !onboardingStartedRef.current) {
