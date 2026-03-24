@@ -10,9 +10,11 @@ export type HumanoRoom = {
   descripcion: string
   descripcionCorta: string
   categoria: string
+  intenciones: string[]
+  perfilIdeal: string[]
   meta: Array<{
     label: string
-    kind: "size" | "bed" | "feature"
+    kind: "size" | "bed" | "feature" | "wifi" | "tv"
   }>
   imagen: string | null
 }
@@ -30,44 +32,50 @@ function extractRoomBedLabel(description: string): string | null {
   return null
 }
 
-function extractRoomFeatureLabel(description: string): string | null {
-  if (/sala de estar separada/i.test(description)) {
-    return "Sala separada"
+function extractRoomPriorityFeatures(
+  roomName: string,
+  factualDescription: string
+): Array<{ label: string; kind: "feature" }> {
+  const normalizedRoomName = roomName.toLowerCase()
+  const features: Array<{ label: string; kind: "feature" }> = []
+
+  if (normalizedRoomName === "family deluxe" && /terraza/i.test(factualDescription)) {
+    features.push({ label: "Terraza", kind: "feature" })
   }
-  if (/area de estar|área de estar/i.test(description)) {
-    return "Área de estar"
+
+  if (normalizedRoomName === "signature suite") {
+    if (/kitchenett|kitchenette/i.test(factualDescription)) {
+      features.push({ label: "Kitchenet", kind: "feature" })
+    }
+    features.push({ label: "Terraza", kind: "feature" })
   }
-  if (/ducha accesible/i.test(description)) {
-    return "Ducha accesible"
-  }
-  if (/banera y ducha|bañera y ducha/i.test(description)) {
-    return "Bañera + ducha"
-  }
-  if (/ventanas insonorizadas/i.test(description)) {
-    return "Insonorizada"
-  }
-  if (/escritorio/i.test(description)) {
-    return "Escritorio"
-  }
-  return null
+
+  return features
 }
 
-function extractRoomMeta(description: string): HumanoRoom["meta"] {
-  const sizeMatch = description.match(/(\d+)\s*m²/i)
+function extractRoomMeta(
+  roomName: string,
+  factualDescription: string
+): HumanoRoom["meta"] {
+  const sizeMatch = factualDescription.match(/(\d+)\s*m(?:²|2)/i)
   const size = sizeMatch ? `${sizeMatch[1]} m²` : null
-  const bed = extractRoomBedLabel(description)
-  const feature = extractRoomFeatureLabel(description)
+  const bed = extractRoomBedLabel(factualDescription)
+  const priorityFeatures = extractRoomPriorityFeatures(roomName, factualDescription)
+  const hasWifi = /wi[\s-]?fi/i.test(factualDescription)
+  const hasSmartTv = /smart tv/i.test(factualDescription)
 
   return [
     size ? { label: size, kind: "size" as const } : null,
     bed ? { label: bed, kind: "bed" as const } : null,
-    feature ? { label: feature, kind: "feature" as const } : null,
+    ...priorityFeatures,
+    hasWifi ? { label: "Wi-Fi", kind: "wifi" as const } : null,
+    hasSmartTv ? { label: "Smart TV", kind: "tv" as const } : null,
   ].filter(
     (
       value
     ): value is {
       label: string
-      kind: "size" | "bed" | "feature"
+      kind: "size" | "bed" | "feature" | "wifi" | "tv"
     } => Boolean(value)
   )
 }
@@ -96,7 +104,9 @@ function toHumanoRoom(item: ConserjeItem): HumanoRoom {
       item.desc_experiencial || item.desc_factual
     ),
     categoria: item.categoria,
-    meta: extractRoomMeta(item.desc_factual),
+    intenciones: item.intenciones,
+    perfilIdeal: item.perfil_ideal,
+    meta: extractRoomMeta(item.nombre_publico, item.desc_factual),
     imagen: item.imagenes_url?.[0] ?? null,
   }
 }

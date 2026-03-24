@@ -203,7 +203,7 @@ export default function HumanoWebPage() {
                   </div>
                   <div className="flex justify-start lg:justify-end">
                     <Link
-                      href="#habitaciones-carousel"
+                      href="/humano/web/habitaciones"
                       className={`${webPrimaryButtonClass} bg-[#003744] text-white hover:bg-[#002d38]`}
                     >
                       Ver todas

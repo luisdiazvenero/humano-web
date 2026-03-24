@@ -6,8 +6,12 @@ import {
   BedDouble,
   ChevronLeft,
   ChevronRight,
+  CookingPot,
   Maximize,
   Sparkles,
+  SunMedium,
+  Tv,
+  Wifi,
 } from "lucide-react"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
@@ -26,7 +30,7 @@ export type RoomCarouselItem = {
   categoryLabel?: string
   meta?: Array<{
     label: string
-    kind: "size" | "bed" | "feature"
+    kind: "size" | "bed" | "feature" | "wifi" | "tv"
   }>
   imageSrc: string | null
 }
@@ -42,13 +46,26 @@ interface RoomMenuCarouselProps {
 
 const GAP_PX = 16
 
-function getMetaIcon(kind: "size" | "bed" | "feature") {
-  switch (kind) {
+function getMetaIcon(entry: {
+  label: string
+  kind: "size" | "bed" | "feature" | "wifi" | "tv"
+}) {
+  if (entry.kind === "feature") {
+    if (entry.label === "Kitchenet") return CookingPot
+    if (entry.label === "Terraza") return SunMedium
+    return Sparkles
+  }
+
+  switch (entry.kind) {
     case "size":
       return Maximize
     case "bed":
       return BedDouble
-    case "feature":
+    case "wifi":
+      return Wifi
+    case "tv":
+      return Tv
+    default:
       return Sparkles
   }
 }
@@ -290,8 +307,8 @@ export function RoomMenuCarousel({
                     </h4>
                     {item.meta?.length ? (
                       <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white/86">
-                        {item.meta.slice(0, 3).map((entry) => {
-                          const Icon = getMetaIcon(entry.kind)
+                        {item.meta.slice(0, 4).map((entry) => {
+                          const Icon = getMetaIcon(entry)
                           return (
                             <span
                               key={`${item.id}-${entry.label}`}

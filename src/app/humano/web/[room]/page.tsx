@@ -37,7 +37,7 @@ export default async function HumanoRoomPage({
       <main className="mx-auto w-full max-w-[1100px] px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <Link
-            href="/humano/web#habitaciones"
+            href="/humano/web/habitaciones"
             className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-azul-rgb)]"
           >
             <ArrowLeft className="h-4 w-4" />
