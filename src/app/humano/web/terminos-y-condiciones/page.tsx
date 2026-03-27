@@ -291,7 +291,7 @@ export default function HumanoTerminosPage() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                 <Link
-                  href="#"
+                  href="/humano/web/libro-de-reclamaciones"
                   className="transition-colors hover:text-[var(--color-amarillo)]"
                 >
                   Libro de Reclamaciones

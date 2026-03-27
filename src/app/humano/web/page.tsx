@@ -204,7 +204,7 @@ export default function HumanoWebPage() {
                   <div className="flex justify-start lg:justify-end">
                     <Link
                       href="/humano/web/habitaciones"
-                      className={`${webPrimaryButtonClass} bg-[#003744] text-white hover:bg-[#002d38]`}
+                      className={`${webPrimaryButtonClass} bg-[#003035] text-white hover:bg-[#002d38]`}
                     >
                       Ver todas
                       <ArrowUpRight className="h-5 w-5" />
@@ -347,17 +347,17 @@ export default function HumanoWebPage() {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                   <Link
-                    href="#"
+                    href="/humano/web/libro-de-reclamaciones"
                     className="transition-colors hover:text-[var(--color-amarillo)]"
                   >
                     Libro de Reclamaciones
                   </Link>
                   <span aria-hidden="true" className="hidden h-1 w-1 rounded-full bg-white/30 sm:block" />
                   <Link
-                    href="#"
+                    href="/humano/web/terminos-y-condiciones"
                     className="transition-colors hover:text-[var(--color-amarillo)]"
                   >
-                    Terminos & Condiciones
+                    Términos y Condiciones
                   </Link>
                 </div>
               </div>

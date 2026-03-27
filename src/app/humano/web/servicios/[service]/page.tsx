@@ -5,22 +5,28 @@ import { Inter } from "next/font/google"
 import {
   ArrowLeft,
   ArrowUpRight,
-  BedDouble,
-  CookingPot,
-  Expand,
+  CarFront,
+  ConciergeBell,
+  Dog,
   Facebook,
   Instagram,
+  ParkingCircle,
+  Shirt,
   Sparkles,
-  SunMedium,
-  Tv,
+  UtensilsCrossed,
   Wifi,
 } from "lucide-react"
 import { notFound } from "next/navigation"
 
 import { RoomDetailGallery } from "@/components/humano-web/RoomDetailGallery"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
+import { Reveal } from "@/components/motion/Reveal"
+import {
+  getHumanoServiceBySlug,
+  getHumanoServices,
+  type HumanoService,
+} from "@/lib/humano/services"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
-import { getHumanoRoomBySlug, getHumanoRooms, type HumanoRoom } from "@/lib/humano/rooms"
 
 const bodyFont = Inter({
   subsets: ["latin"],
@@ -35,185 +41,74 @@ const pageNavItems = [
   { label: "Contacto", href: "/humano/web/contacto" },
 ]
 
-function getRoomMetaIcon(entry: HumanoRoom["meta"][number]) {
-  if (entry.kind === "feature") {
-    if (entry.label === "Kitchenet") return CookingPot
-    if (entry.label === "Terraza") return SunMedium
-    return Sparkles
-  }
-
+function getServiceMetaIcon(entry: HumanoService["meta"][number]) {
   switch (entry.kind) {
-    case "size":
-      return Expand
-    case "bed":
-      return BedDouble
+    case "transport":
+      return CarFront
+    case "pet":
+      return Dog
+    case "food":
+      return UtensilsCrossed
+    case "laundry":
+      return Shirt
+    case "parking":
+      return ParkingCircle
     case "wifi":
       return Wifi
-    case "tv":
-      return Tv
+    case "cleaning":
+      return Sparkles
+    case "concierge":
+      return ConciergeBell
+    case "price":
+      return Sparkles
+    case "feature":
     default:
       return Sparkles
   }
 }
 
-function RoomPreviewCard({
-  room,
-  compact = false,
-}: {
-  room: HumanoRoom
-  compact?: boolean
-}) {
-  const previewMeta = compact ? room.meta.slice(0, 3) : room.meta.slice(0, 4)
+function ServiceSuggestionCard({ service }: { service: HumanoService }) {
+  const previewMeta = service.meta.slice(0, 3)
 
   return (
     <Link
-      href={`/humano/web/${room.slug}`}
-      aria-label={`Ver detalle de ${room.nombre}`}
-      className={`group block w-full overflow-hidden text-left transition-all duration-300 hover:-translate-y-0.5 ${
-        compact
-          ? "rounded-[22px] bg-transparent shadow-none"
-          : "rounded-2xl border border-border/35 bg-white shadow-sm hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
-      }`}
-    >
-      <div
-        className={`relative overflow-hidden ${
-          compact ? "aspect-[5/4]" : "aspect-[4/5] sm:aspect-[16/10]"
-        }`}
-      >
-        {room.imagen ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={room.imagen}
-            alt={room.nombre}
-            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]"
-            loading="lazy"
-          />
-        ) : (
-          <div className="h-full w-full bg-muted/30" />
-        )}
-
-        <div
-          className={`absolute inset-0 ${
-            compact
-              ? "bg-gradient-to-t from-black/48 via-black/10 to-transparent"
-              : "bg-gradient-to-t from-black/85 via-black/35 to-transparent"
-          }`}
-        />
-
-        <span className={`absolute ${compact ? "left-5 top-5" : "left-7 top-7"} ${webMediaBadgeClass}`}>
-          {room.categoria}
-        </span>
-
-        <span
-          aria-hidden="true"
-          className={`absolute inline-flex items-center justify-center rounded-full bg-white/12 text-white/88 backdrop-blur-sm transition-all duration-200 group-hover:bg-white/18 group-hover:text-white ${
-            compact ? "bottom-4 right-4 h-9 w-9" : "bottom-8 right-8 h-11 w-11"
-          }`}
-        >
-          <ArrowUpRight
-            className={compact ? "h-4 w-4" : "h-4.5 w-4.5"}
-            strokeWidth={1.9}
-          />
-        </span>
-      </div>
-
-      {compact ? (
-        <div className="px-1 pb-1 pt-3">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="font-serif text-[24px] leading-[1.04] text-white/92">
-              {room.nombre}
-            </h3>
-            <span className="mt-1 inline-flex shrink-0 items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-white/44 transition group-hover:text-white/62">
-              Ver
-              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.8} />
-            </span>
-          </div>
-
-          {previewMeta.length ? (
-            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] font-medium text-white/58">
-              {previewMeta.map((entry) => {
-                const Icon = getRoomMetaIcon(entry)
-
-                return (
-                  <span
-                    key={`${room.id}-${entry.label}`}
-                    className="inline-flex items-center gap-1.5 whitespace-nowrap"
-                  >
-                    <Icon className="h-3.5 w-3.5 text-white/38" strokeWidth={1.8} />
-                    <span>{entry.label}</span>
-                  </span>
-                )
-              })}
-            </div>
-          ) : null}
-        </div>
-      ) : (
-        <div className="absolute bottom-8 left-8 right-24">
-          <h3 className="font-serif text-[30px] leading-[1.02] text-white drop-shadow-md sm:text-[26px]">
-            {room.nombre}
-          </h3>
-
-          {previewMeta.length ? (
-            <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white/84">
-              {previewMeta.map((entry) => {
-                const Icon = getRoomMetaIcon(entry)
-
-                return (
-                  <span
-                    key={`${room.id}-${entry.label}`}
-                    className="inline-flex items-center gap-1.5 whitespace-nowrap"
-                  >
-                    <Icon className="h-4 w-4 text-white/72" strokeWidth={1.8} />
-                    <span>{entry.label}</span>
-                  </span>
-                )
-              })}
-            </div>
-          ) : null}
-
-          <p className="mt-3 max-w-[32ch] line-clamp-2 text-sm leading-relaxed text-white/84 drop-shadow-sm">
-            {room.descripcionCorta.replace(/\.$/, "")}.
-          </p>
-        </div>
-      )}
-    </Link>
-  )
-}
-
-function RoomSuggestionCard({ room }: { room: HumanoRoom }) {
-  const previewMeta = room.meta.slice(0, 3)
-
-  return (
-    <Link
-      href={`/humano/web/${room.slug}`}
-      aria-label={`Ver detalle de ${room.nombre}`}
+      href={`/humano/web/servicios/${service.slug}`}
+      aria-label={`Ver detalle de ${service.nombre}`}
       className="group block text-left"
     >
       <div className="flex items-center gap-3 rounded-[22px] bg-white/[0.03] p-3 transition-colors duration-200 group-hover:bg-white/[0.05]">
         <div className="relative h-[92px] w-[104px] shrink-0 overflow-hidden rounded-[16px] bg-white/5 sm:h-[96px] sm:w-[112px]">
-          {room.imagen ? (
+          {service.imagen ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={room.imagen}
-              alt={room.nombre}
+              src={service.imagen}
+              alt={service.nombre}
               className="h-full w-full object-cover opacity-92 transition duration-500 ease-out group-hover:scale-[1.03] group-hover:opacity-100"
               loading="lazy"
             />
           ) : (
-            <div className="h-full w-full bg-white/5" />
+            <div className="relative h-full w-full bg-[radial-gradient(circle_at_top,rgba(255,200,93,0.18),transparent_58%),linear-gradient(135deg,rgba(0,48,53,0.98),rgba(0,48,53,0.84))]">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Image
+                  src="/logo-humano.svg"
+                  alt="Humano"
+                  width={42}
+                  height={48}
+                  className="h-12 w-auto opacity-95"
+                />
+              </div>
+            </div>
           )}
-
           <div className="absolute inset-0 bg-gradient-to-t from-black/22 via-black/0 to-transparent" />
-
           <span className={`absolute left-2.5 top-2.5 scale-[0.92] ${webMediaBadgeClass}`}>
-            {room.categoria}
+            {service.categoria}
           </span>
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
             <h3 className="font-serif text-[19px] leading-[1.06] text-white/88 transition-colors duration-200 group-hover:text-white">
-              {room.nombre}
+              {service.nombre}
             </h3>
 
             <span className="mt-0.5 inline-flex shrink-0 items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-white/42 transition-colors duration-200 group-hover:text-white/62">
@@ -225,11 +120,11 @@ function RoomSuggestionCard({ room }: { room: HumanoRoom }) {
           {previewMeta.length ? (
             <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-medium text-white/52">
               {previewMeta.map((entry) => {
-                const Icon = getRoomMetaIcon(entry)
+                const Icon = getServiceMetaIcon(entry)
 
                 return (
                   <span
-                    key={`${room.id}-${entry.label}`}
+                    key={`${service.id}-${entry.label}`}
                     className="inline-flex items-center gap-1.5 whitespace-nowrap"
                   >
                     <Icon className="h-3.5 w-3.5 text-white/34" strokeWidth={1.8} />
@@ -246,65 +141,65 @@ function RoomSuggestionCard({ room }: { room: HumanoRoom }) {
 }
 
 export function generateStaticParams() {
-  return getHumanoRooms().map((room) => ({ room: room.slug }))
+  return getHumanoServices().map((service) => ({ service: service.slug }))
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ room: string }>
+  params: Promise<{ service: string }>
 }): Promise<Metadata> {
-  const { room } = await params
-  const roomData = getHumanoRoomBySlug(room)
+  const { service } = await params
+  const serviceData = getHumanoServiceBySlug(service)
 
-  if (!roomData) {
+  if (!serviceData) {
     return {
-      title: "Habitación · Humano Website",
+      title: "Servicio · Humano Website",
     }
   }
 
   return {
-    title: `${roomData.nombre} · Humano Website`,
-    description: roomData.descripcionExperiencial,
+    title: `${serviceData.nombre} · Humano Website`,
+    description: serviceData.descripcionExperiencial,
   }
 }
 
-export default async function HumanoRoomPage({
+export default async function HumanoServiceDetailPage({
   params,
 }: {
-  params: Promise<{ room: string }>
+  params: Promise<{ service: string }>
 }) {
-  const { room } = await params
-  const roomData = getHumanoRoomBySlug(room)
+  const { service } = await params
+  const serviceData = getHumanoServiceBySlug(service)
 
-  if (!roomData) {
+  if (!serviceData) {
     notFound()
   }
 
-  const reserveHref =
-    roomData.reservaUrl ||
-    "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
-
-  const moreRooms = getHumanoRooms()
-    .filter((item) => item.id !== roomData.id)
+  const moreServices = getHumanoServices()
+    .filter((item) => item.id !== serviceData.id)
     .slice(0, 4)
+
+  const ctaHref = serviceData.redirigir?.includes("@")
+    ? `mailto:${serviceData.redirigir}?subject=${encodeURIComponent(`Consulta sobre ${serviceData.nombre}`)}`
+    : serviceData.redirigir || "/humano/conserje"
 
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader
         brandHref="/humano/web#inicio"
         navItems={pageNavItems}
-        activeHref="/humano/web/habitaciones"
+        activeHref="/humano/web/servicios"
         showReserve={false}
       />
 
       <main>
         <section className="relative overflow-hidden bg-[var(--color-azul-rgb)] pt-28 sm:pt-32">
           <div className="absolute inset-0">
-            {roomData.imagen ? (
+            {serviceData.imagen ? (
               <Image
-                src={roomData.imagen}
-                alt={roomData.nombre}
+                src={serviceData.imagen}
+                alt={serviceData.nombre}
                 fill
                 priority
                 className="object-cover object-center opacity-14"
@@ -322,7 +217,7 @@ export default async function HumanoRoomPage({
                 <div>
                   <div className="space-y-3">
                     <Link
-                      href="/humano/web/habitaciones"
+                      href="/humano/web/servicios"
                       className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/86"
                     >
                       <ArrowLeft className="h-4 w-4" />
@@ -330,17 +225,17 @@ export default async function HumanoRoomPage({
                     </Link>
 
                     <h1 className="text-4xl font-serif leading-tight text-white">
-                      {roomData.nombre}
+                      {serviceData.nombre}
                     </h1>
                   </div>
 
                   <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[15px] font-medium text-white/76">
-                    {roomData.meta.slice(0, 4).map((entry) => {
-                      const Icon = getRoomMetaIcon(entry)
+                    {serviceData.meta.slice(0, 3).map((entry) => {
+                      const Icon = getServiceMetaIcon(entry)
 
                       return (
                         <span
-                          key={`${roomData.id}-${entry.label}`}
+                          key={`${serviceData.id}-${entry.label}`}
                           className="inline-flex items-center gap-1.5 whitespace-nowrap"
                         >
                           <Icon className="h-4 w-4 text-white/52" strokeWidth={1.8} />
@@ -351,17 +246,15 @@ export default async function HumanoRoomPage({
                   </div>
 
                   <p className="mt-5 max-w-[760px] text-[16px] leading-[1.65] text-white/84">
-                    {roomData.descripcionExperiencial}
+                    {serviceData.descripcionExperiencial}
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
                     <Link
-                      href={reserveHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={ctaHref}
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
-                      Reserva
+                      Coordinar servicio
                       <ArrowUpRight className="h-5 w-5" />
                     </Link>
                   </div>
@@ -372,21 +265,16 @@ export default async function HumanoRoomPage({
                     Lo esencial
                   </p>
                   <p className="mt-3 text-[13px] leading-[1.8] text-white/56">
-                    {roomData.descripcionFactual}
+                    {serviceData.descripcionFactual}
                   </p>
                 </div>
               </div>
 
               <div className="lg:pt-4">
                 <RoomDetailGallery
-                  roomName={roomData.nombre}
-                  images={
-                    roomData.imagenes.length
-                      ? roomData.imagenes
-                      : roomData.imagen
-                        ? [roomData.imagen]
-                        : []
-                  }
+                  roomName={serviceData.nombre}
+                  images={serviceData.imagenes}
+                  showHumanoPlaceholder
                 />
               </div>
             </div>
@@ -395,20 +283,20 @@ export default async function HumanoRoomPage({
 
         <section className="relative z-10 -mt-4 bg-[var(--color-azul)] pb-14 pt-6 text-white sm:-mt-6 sm:rounded-t-[38px] sm:pb-16 sm:pt-8">
           <div className="mx-auto w-full max-w-[1680px] px-6 sm:px-10 xl:px-14">
-            <div className="max-w-[560px]">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                Más habitaciones
-              </p>
-              <p className="mt-1.5 text-[12px] leading-relaxed text-white/42">
-                Otras opciones para comparar amplitud, cama y experiencia antes de reservar.
-              </p>
-            </div>
+            <div className="border-t border-white/8 pt-5">
+              <div className="max-w-[560px]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/52">
+                  Más servicios
+                </p>
+                <p className="mt-1.5 text-[12px] leading-relaxed text-white/42">
+                  Otros apoyos y detalles del hotel para completar tu estadía con menos fricción.
+                </p>
+              </div>
 
-            <div className="mt-5 border-t border-white/8 pt-5">
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-              {moreRooms.map((item) => (
-                <RoomSuggestionCard key={item.id} room={item} />
-              ))}
+              <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+                {moreServices.map((item) => (
+                  <ServiceSuggestionCard key={item.id} service={item} />
+                ))}
               </div>
             </div>
           </div>
@@ -443,20 +331,14 @@ export default async function HumanoRoomPage({
                 Desarrollado por Armando Hoteles
               </p>
               <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
-                <Link
-                  href="/humano/web/libro-de-reclamaciones"
-                  className="transition-colors hover:text-[var(--color-amarillo)]"
-                >
+                <Link href="/humano/web/libro-de-reclamaciones" className="transition-colors hover:text-[var(--color-amarillo)]">
                   Libro de Reclamaciones
                 </Link>
                 <span
                   aria-hidden="true"
                   className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                 />
-                <Link
-                  href="/humano/web/terminos-y-condiciones"
-                  className="transition-colors hover:text-[var(--color-amarillo)]"
-                >
+                <Link href="/humano/web/terminos-y-condiciones" className="transition-colors hover:text-[var(--color-amarillo)]">
                   Términos y Condiciones
                 </Link>
               </div>
