@@ -1,16 +1,13 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { Inter } from "next/font/google"
-import {
-  Facebook,
-  Instagram,
-  ScrollText,
-  Mail,
-  MapPin,
-  Phone,
-} from "lucide-react"
+import { ScrollText, Mail, MapPin, Phone } from "lucide-react"
 
 import { WebContactForm } from "@/components/humano-web/WebContactForm"
+import {
+  FacebookSolidIcon,
+  InstagramBalancedIcon,
+} from "@/components/humano-web/WebFooterSocialLinks"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 
 const bodyFont = Inter({
@@ -36,12 +33,14 @@ const socialLinks = [
   {
     label: "Instagram",
     href: "https://www.instagram.com/humanolima/?hl=es",
-    icon: Instagram,
+    icon: InstagramBalancedIcon,
+    iconClassName: "h-[24px] w-[24px]",
   },
   {
     label: "Facebook",
     href: "https://www.facebook.com/humanolima/",
-    icon: Facebook,
+    icon: FacebookSolidIcon,
+    iconClassName: "h-7 w-7",
   },
 ]
 
@@ -154,17 +153,17 @@ export default function HumanoContactoPage() {
                         </div>
                       </div>
 
-                      <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
-                        {socialLinks.map(({ label, href, icon: Icon }) => (
+                      <div className="mt-6 flex flex-wrap items-center gap-5 border-t border-white/10 pt-5">
+                        {socialLinks.map(({ label, href, icon: Icon, iconClassName }) => (
                           <Link
                             key={label}
                             href={href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] text-white/74 transition hover:border-white/24 hover:bg-white/[0.06] hover:text-white"
+                            className="inline-flex h-7 w-7 items-center justify-center text-white/82 transition hover:text-white"
                             aria-label={label}
                           >
-                            <Icon className="h-4.5 w-4.5" />
+                            <Icon className={iconClassName} />
                           </Link>
                         ))}
                       </div>

@@ -10,14 +10,13 @@ import {
   Coffee,
   Compass,
   Dumbbell,
-  Facebook,
-  Instagram,
   Sparkles,
   UtensilsCrossed,
   Waves,
 } from "lucide-react"
 import { notFound } from "next/navigation"
 
+import { WebFooterSocialLinks } from "@/components/humano-web/WebFooterSocialLinks"
 import { RoomDetailGallery } from "@/components/humano-web/RoomDetailGallery"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { Reveal } from "@/components/motion/Reveal"
@@ -295,26 +294,7 @@ export default async function HumanoFacilityDetailPage({
         <footer id="contacto" className="w-full bg-[var(--color-azul-rgb)] text-white">
           <Reveal amount={0.15}>
             <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 items-center gap-6 px-4 py-8 text-sm text-white/90 sm:px-6 md:grid-cols-[1fr_auto_1fr] lg:px-8">
-              <div className="flex items-center justify-center gap-3 md:justify-start">
-                <Link
-                  href="https://www.instagram.com/humanolima/?hl=es"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram Humano Lima"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition hover:text-[var(--color-amarillo)]"
-                >
-                  <Instagram className="h-5 w-5" />
-                </Link>
-                <Link
-                  href="https://www.facebook.com/humanolima/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook Humano Lima"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition hover:text-[var(--color-amarillo)]"
-                >
-                  <Facebook className="h-5 w-5" />
-                </Link>
-              </div>
+            <WebFooterSocialLinks />
 
               <div className="flex flex-col items-center gap-4 text-center">
                 <p>
