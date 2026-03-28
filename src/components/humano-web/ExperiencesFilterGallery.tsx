@@ -1,20 +1,20 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import type { ComponentType, SVGProps } from "react"
 import { useEffect, useState } from "react"
 import {
   ArrowUpRight,
-  BedDouble,
   Briefcase,
+  Clock3,
+  Coffee,
   Compass,
-  CookingPot,
-  Expand,
+  Dumbbell,
   Palmtree,
   Sparkles,
-  SunMedium,
-  Tv,
-  Wifi,
+  UtensilsCrossed,
+  Waves,
 } from "lucide-react"
 import {
   HomeIcon,
@@ -24,11 +24,10 @@ import {
 } from "@heroicons/react/24/solid"
 
 import { webMediaBadgeClass } from "@/components/humano-web/webStyles"
-import type { HumanoRoom } from "@/lib/humano/rooms"
+import type { HumanoFacility } from "@/lib/humano/facilities"
 import { cn } from "@/lib/utils"
 
 const intentQuestion = "Viaje"
-
 const profileQuestion = "Personas"
 
 const intentOptions = [
@@ -52,22 +51,21 @@ function normalizeValue(value: string) {
     .trim()
 }
 
-function getRoomMetaIcon(entry: HumanoRoom["meta"][number]) {
-  if (entry.kind === "feature") {
-    if (entry.label === "Kitchenet") return CookingPot
-    if (entry.label === "Terraza") return SunMedium
-    return Sparkles
-  }
-
+function getFacilityMetaIcon(entry: HumanoFacility["meta"][number]) {
   switch (entry.kind) {
-    case "size":
-      return Expand
-    case "bed":
-      return BedDouble
-    case "wifi":
-      return Wifi
-    case "tv":
-      return Tv
+    case "time":
+      return Clock3
+    case "breakfast":
+      return Coffee
+    case "food":
+      return UtensilsCrossed
+    case "work":
+      return Briefcase
+    case "wellness":
+      return Waves
+    case "meeting":
+      return Dumbbell
+    case "feature":
     default:
       return Sparkles
   }
@@ -88,7 +86,7 @@ function FilterPill({ active, label, onClick, icon: Icon }: FilterPillProps) {
       className={cn(
         "inline-flex min-h-0 w-full items-center gap-2.5 rounded-[18px] border px-3 py-2 text-left transition-all duration-200",
         active
-          ? "border-[var(--color-azul-rgb)] bg-[var(--color-azul-rgb)] text-white shadow-[0_10px_24px_rgba(0,55,68,0.12)]"
+          ? "border-[var(--color-azul-rgb)] bg-[var(--color-azul-rgb)] text-white shadow-[0_10px_24px_rgba(0,48,53,0.12)]"
           : "border-[var(--color-azul-rgb)]/12 bg-white/72 text-[var(--color-azul-rgb)] hover:border-[var(--color-azul-rgb)]/22 hover:bg-white"
       )}
     >
@@ -107,18 +105,35 @@ function FilterPill({ active, label, onClick, icon: Icon }: FilterPillProps) {
   )
 }
 
-export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
+function FacilityImagePlaceholder() {
+  return (
+    <div className="relative h-full w-full bg-[radial-gradient(circle_at_top,rgba(255,200,93,0.18),transparent_58%),linear-gradient(135deg,rgba(0,48,53,0.98),rgba(0,48,53,0.84))]">
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0))]" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Image
+          src="/logo-humano.svg"
+          alt="Humano"
+          width={70}
+          height={80}
+          className="h-20 w-auto opacity-95"
+        />
+      </div>
+    </div>
+  )
+}
+
+export function ExperiencesFilterGallery({ facilities }: { facilities: HumanoFacility[] }) {
   const [selectedIntent, setSelectedIntent] = useState<string | null>(null)
   const [selectedProfile, setSelectedProfile] = useState<string | null>(null)
   const [countPulse, setCountPulse] = useState(false)
 
-  const filteredRooms = rooms.filter((room) => {
+  const filteredFacilities = facilities.filter((facility) => {
     const matchesIntent =
       !selectedIntent ||
-      room.intenciones.map(normalizeValue).includes(normalizeValue(selectedIntent))
+      facility.intenciones.map(normalizeValue).includes(normalizeValue(selectedIntent))
     const matchesProfile =
       !selectedProfile ||
-      room.perfilIdeal.map(normalizeValue).includes(normalizeValue(selectedProfile))
+      facility.perfilIdeal.map(normalizeValue).includes(normalizeValue(selectedProfile))
 
     return matchesIntent && matchesProfile
   })
@@ -128,7 +143,7 @@ export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
     const timeout = window.setTimeout(() => setCountPulse(false), 220)
 
     return () => window.clearTimeout(timeout)
-  }, [filteredRooms.length])
+  }, [filteredFacilities.length])
 
   return (
     <div className="mx-auto w-full max-w-[1680px] px-6 sm:px-10 xl:px-14">
@@ -139,17 +154,17 @@ export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
               <span
                 className={cn(
                   "shrink-0 rounded-full bg-[var(--color-azul-rgb)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-all duration-200",
-                  countPulse && "scale-110 bg-[var(--color-azul-soft)] shadow-[0_10px_22px_rgba(0,55,68,0.18)]"
+                  countPulse && "scale-110 bg-[var(--color-azul-soft)] shadow-[0_10px_22px_rgba(0,48,53,0.18)]"
                 )}
               >
-                {filteredRooms.length}
+                {filteredFacilities.length}
               </span>
               <div className="min-w-0">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-azul-soft)]/68">
                   Resultados
                 </p>
                 <p className="mt-0.5 text-[12px] font-semibold leading-none text-[var(--color-azul-soft)]">
-                  Habitaciones
+                  Instalaciones
                 </p>
               </div>
             </div>
@@ -214,65 +229,62 @@ export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
         </aside>
 
         <div>
-          {filteredRooms.length === 0 ? (
-            <div className="rounded-[32px] border border-[var(--color-azul-rgb)]/10 bg-white/60 px-8 py-14 text-center shadow-[0_10px_28px_rgba(0,55,68,0.05)]">
+          {filteredFacilities.length === 0 ? (
+            <div className="rounded-[32px] border border-[var(--color-azul-rgb)]/10 bg-white/60 px-8 py-14 text-center shadow-[0_10px_28px_rgba(0,48,53,0.05)]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-azul-soft)]">
                 Sin coincidencias
               </p>
               <p className="mx-auto mt-3 max-w-[34ch] text-[17px] leading-relaxed text-[var(--color-azul-rgb)]">
-                Prueba otra combinación y te mostramos habitaciones más cercanas a ese plan.
+                Prueba otra combinación y te mostramos instalaciones más cercanas a ese plan.
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
-              {filteredRooms.map((room) => {
-                const description = room.descripcionCorta.replace(/\.$/, "")
+              {filteredFacilities.map((facility) => {
+                const description = facility.descripcionCorta.replace(/\.$/, "")
 
                 return (
                   <Link
-                    key={room.id}
-                    href={`/humano/web/${room.slug}`}
-                    aria-label={`Ver detalle de ${room.nombre}`}
-                    className="group block w-full overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
+                    key={facility.id}
+                    href={`/humano/web/experiencia/${facility.slug}`}
+                    aria-label={`Ver detalle de ${facility.nombre}`}
+                    className="group block w-full overflow-hidden rounded-2xl border border-border/35 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
                   >
                     <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/10]">
-                      {room.imagen ? (
+                      {facility.imagen ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={room.imagen}
-                          alt={room.nombre}
+                          src={facility.imagen}
+                          alt={facility.nombre}
                           className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]"
                           loading="lazy"
                         />
                       ) : (
-                        <div className="h-full w-full bg-muted/30" />
+                        <FacilityImagePlaceholder />
                       )}
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
                       <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
-                        {room.categoria}
+                        {facility.categoria}
                       </span>
 
                       <div className="absolute bottom-8 left-8 right-24">
                         <h3 className="font-serif text-[30px] leading-[1.02] text-white drop-shadow-md sm:text-[26px]">
-                          {room.nombre}
+                          {facility.nombre}
                         </h3>
 
-                        {room.meta.length ? (
+                        {facility.meta.length ? (
                           <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white/86">
-                            {room.meta.slice(0, 4).map((entry) => {
-                              const Icon = getRoomMetaIcon(entry)
+                            {facility.meta.slice(0, 3).map((entry) => {
+                              const Icon = getFacilityMetaIcon(entry)
 
                               return (
                                 <span
-                                  key={`${room.id}-${entry.label}`}
+                                  key={`${facility.id}-${entry.label}`}
                                   className="inline-flex items-center gap-1.5 whitespace-nowrap"
                                 >
-                                  <Icon
-                                    className="h-4 w-4 text-white/72"
-                                    strokeWidth={1.8}
-                                  />
+                                  <Icon className="h-4 w-4 text-white/72" strokeWidth={1.8} />
                                   <span>{entry.label}</span>
                                 </span>
                               )
@@ -280,7 +292,7 @@ export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
                           </div>
                         ) : null}
 
-                        <p className="mt-3 max-w-[34ch] line-clamp-2 text-sm leading-relaxed text-white/88 drop-shadow-sm">
+                        <p className="mt-3 max-w-[36ch] line-clamp-2 text-sm leading-relaxed text-white/88 drop-shadow-sm">
                           {description}.
                         </p>
                       </div>

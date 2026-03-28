@@ -8,15 +8,20 @@ export type HumanoRoom = {
   slug: string
   nombre: string
   descripcion: string
+  descripcionExperiencial: string
+  descripcionFactual: string
   descripcionCorta: string
   categoria: string
   intenciones: string[]
   perfilIdeal: string[]
+  precioDesde: string
+  reservaUrl: string
   meta: Array<{
     label: string
     kind: "size" | "bed" | "feature" | "wifi" | "tv"
   }>
   imagen: string | null
+  imagenes: string[]
 }
 
 function extractRoomBedLabel(description: string): string | null {
@@ -95,19 +100,25 @@ export function roomSlug(value: string): string {
 }
 
 function toHumanoRoom(item: ConserjeItem): HumanoRoom {
+  const descripcionExperiencial = item.desc_experiencial || item.desc_factual
+  const imagenes = item.imagenes_url?.filter(Boolean) ?? []
+
   return {
     id: item.id,
     slug: roomSlug(item.nombre_publico),
     nombre: item.nombre_publico,
-    descripcion: item.desc_experiencial || item.desc_factual,
-    descripcionCorta: shortenRoomDescription(
-      item.desc_experiencial || item.desc_factual
-    ),
+    descripcion: descripcionExperiencial,
+    descripcionExperiencial,
+    descripcionFactual: item.desc_factual,
+    descripcionCorta: shortenRoomDescription(descripcionExperiencial),
     categoria: item.categoria,
     intenciones: item.intenciones,
     perfilIdeal: item.perfil_ideal,
+    precioDesde: item.precio_desde,
+    reservaUrl: item.redirigir,
     meta: extractRoomMeta(item.nombre_publico, item.desc_factual),
-    imagen: item.imagenes_url?.[0] ?? null,
+    imagen: imagenes[0] ?? null,
+    imagenes,
   }
 }
 
