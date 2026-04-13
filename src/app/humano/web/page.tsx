@@ -74,9 +74,9 @@ export default function HumanoWebPage() {
             muted
             playsInline
             className="absolute inset-0 h-full w-full object-cover"
-            poster="/video-bg.jpg"
+            poster="/humanohotel-poster.jpg"
           >
-            <source src="/hero-home.mp4" type="video/mp4" />
+            <source src="/humanohotel.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-black/35" />
 
