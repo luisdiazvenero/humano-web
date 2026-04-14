@@ -30,6 +30,7 @@ export type HumanoFacility = {
 
 export type HumanoFacilityCard = {
   id: string
+  slug: string
   nombre: string
   categoria: string
   meta: Array<{
@@ -217,6 +218,7 @@ export function getHumanoFeaturedFacilities(): HumanoFacilityCard[] {
 
     items.push({
       id: facility.id,
+      slug: facility.slug,
       nombre: facility.nombre,
       categoria: facility.categoria,
       meta: facility.meta

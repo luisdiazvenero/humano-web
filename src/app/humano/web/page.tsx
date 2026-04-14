@@ -249,7 +249,11 @@ export default function HumanoWebPage() {
             <StaggerGroup className="mt-20 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-12 xl:grid-cols-3">
               {featuredFacilities.map((facility) => (
                 <Reveal key={facility.id} fromParent className="text-left">
-                  <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.03] shadow-[0_18px_40px_rgba(0,0,0,0.16)] transition-transform duration-300 hover:-translate-y-1">
+                  <Link
+                    href={`/humano/web/experiencia/${facility.slug}`}
+                    aria-label={`Ver detalle de ${facility.nombre}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.03] shadow-[0_18px_40px_rgba(0,0,0,0.16)] transition-transform duration-300 hover:-translate-y-1"
+                  >
                     <div className="relative aspect-[3/2] overflow-hidden">
                       {facility.imagen ? (
                         <Image
@@ -291,16 +295,12 @@ export default function HumanoWebPage() {
                         <p className="max-w-[30ch] text-sm leading-relaxed text-white/82 line-clamp-2">
                           {facility.descripcion}
                         </p>
-                        <Link
-                          href={`/humano/conserje?item=${facility.id}`}
-                          aria-label={`Ver detalle de ${facility.nombre}`}
-                          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/12 text-white/88 backdrop-blur-sm transition-all duration-200 hover:bg-white/18 hover:text-white"
-                        >
+                        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/12 text-white/88 backdrop-blur-sm transition-all duration-200 group-hover:bg-white/18 group-hover:text-white">
                           <ArrowUpRight className="h-4 w-4" />
-                        </Link>
+                        </span>
                       </div>
                     </div>
-                  </article>
+                  </Link>
                 </Reveal>
               ))}
             </StaggerGroup>
