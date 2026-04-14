@@ -23,6 +23,7 @@ import { getHumanoFeaturedFacilities } from "@/lib/humano/facilities"
 import { getHumanoRooms } from "@/lib/humano/rooms"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { VideoBackground } from "@/components/humano-web/VideoBackground"
 
 const headingFont = Playfair_Display_SC({
   subsets: ["latin"],
@@ -68,16 +69,7 @@ export default function HumanoWebPage() {
 
       <main>
         <section id="inicio" className="relative min-h-screen">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 h-full w-full object-cover"
-            poster="/humanohotel-poster.jpg"
-          >
-            <source src="/humanohotel.mp4" type="video/mp4" />
-          </video>
+          <VideoBackground />
           <div className="absolute inset-0 bg-black/35" />
 
           <div className="relative mx-auto h-screen w-full max-w-[1280px] px-4 text-center text-white sm:px-6 lg:px-8">

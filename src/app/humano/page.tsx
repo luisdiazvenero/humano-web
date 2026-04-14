@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { Fingerprint } from "lucide-react"
 import { FullLogo } from "@/components/humano-v09/FullLogo"
+import { VideoBackground } from "@/components/humano-web/VideoBackground"
 
 export default function HumanoPage() {
   const router = useRouter()
@@ -10,9 +11,7 @@ export default function HumanoPage() {
   return (
     <div className="h-screen w-full bg-background text-foreground relative overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <video autoPlay loop muted playsInline poster="/humanohotel-poster.jpg" className="w-full h-full object-cover">
-          <source src="/humanohotel.mp4" type="video/mp4" />
-        </video>
+        <VideoBackground />
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
