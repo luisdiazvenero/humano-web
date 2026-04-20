@@ -250,7 +250,7 @@ export function WebClaimsBookForm() {
       "Acepto la politica de tratamiento de datos: Si",
     ].join("\n")
 
-    const mailtoUrl = `mailto:hola@humanohotel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const mailtoUrl = `mailto:hola@humanohoteles.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     const mailtoLink = document.createElement("a")
     mailtoLink.href = mailtoUrl
     mailtoLink.click()

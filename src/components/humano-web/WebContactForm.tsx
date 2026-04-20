@@ -75,7 +75,7 @@ export function WebContactForm() {
       form.message,
     ].join("\n")
 
-    const mailtoUrl = `mailto:hola@humanohotel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const mailtoUrl = `mailto:hola@humanohoteles.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
     // Preserve the current mailto-based flow for now and then show the
     // thank-you screen in the site while backend submission is still pending.

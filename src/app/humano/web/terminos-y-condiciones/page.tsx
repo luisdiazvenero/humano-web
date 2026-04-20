@@ -103,10 +103,10 @@ export default function HumanoTerminosPage() {
                       <li>
                         Correo de contacto:{" "}
                         <a
-                          href="mailto:hola@humanohotel.com"
+                          href="mailto:hola@humanohoteles.com"
                           className="font-medium text-[var(--color-azul-rgb)] underline decoration-[rgba(0,48,53,0.22)] underline-offset-4 transition hover:decoration-[rgba(0,48,53,0.52)]"
                         >
-                          hola@humanohotel.com
+                          hola@humanohoteles.com
                         </a>
                       </li>
                     </ul>

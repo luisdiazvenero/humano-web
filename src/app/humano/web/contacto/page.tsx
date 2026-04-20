@@ -101,10 +101,10 @@ export default function HumanoContactoPage() {
                           </span>
                           <div>
                             <a
-                              href="mailto:hola@humanohotel.com"
+                              href="mailto:hola@humanohoteles.com"
                               className="text-sm font-medium text-white/92 transition hover:text-white"
                             >
-                              hola@humanohotel.com
+                              hola@humanohoteles.com
                             </a>
                             <p className="text-sm leading-relaxed text-white/58">
                               Respuesta en un plazo breve
@@ -118,10 +118,10 @@ export default function HumanoContactoPage() {
                           </span>
                           <div>
                             <a
-                              href="tel:+5112345678"
+                              href="tel:+5119041400"
                               className="text-sm font-medium text-white/92 transition hover:text-white"
                             >
-                              +51 1 234 5678
+                              Front Desk: 01-904-14-00
                             </a>
                             <p className="text-sm leading-relaxed text-white/58">
                               Atención diaria
