@@ -248,7 +248,7 @@ export function ExperiencesFilterGallery({ facilities }: { facilities: HumanoFac
                     key={facility.id}
                     href={`/humano/web/experiencia/${facility.slug}`}
                     aria-label={`Ver detalle de ${facility.nombre}`}
-                    className="group block w-full overflow-hidden rounded-2xl border border-border/35 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
+                    className="group block w-full overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
                   >
                     <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/10]">
                       {facility.imagen ? (

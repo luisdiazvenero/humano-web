@@ -31,9 +31,9 @@ const pageNavItems = [
 ]
 
 export const metadata: Metadata = {
-  title: "Habitaciones · Humano Website",
+  title: "Habitaciones en Miraflores Lima | Hotel Humano",
   description:
-    "Explora todas las habitaciones de Humano en Miraflores: diseño consciente, confort y hospitalidad en cada estadía.",
+    "Habitaciones en Hotel Humano, Miraflores. Espacios cálidos, diseño curado y confort pensado para conectar contigo y con la ciudad.",
 }
 
 export default function HumanoRoomsPage() {

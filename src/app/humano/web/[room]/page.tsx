@@ -258,12 +258,12 @@ export async function generateMetadata({
 
   if (!roomData) {
     return {
-      title: "Habitación · Humano Website",
+      title: "Habitación en Miraflores Lima | Hotel Humano",
     }
   }
 
   return {
-    title: `${roomData.nombre} · Humano Website`,
+    title: `Habitación ${roomData.nombre} en Miraflores Lima | Hotel Humano`,
     description: roomData.descripcionExperiencial,
   }
 }

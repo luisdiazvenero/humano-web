@@ -147,12 +147,12 @@ export async function generateMetadata({
 
   if (!facilityData) {
     return {
-      title: "Instalación · Humano Website",
+      title: "Instalaciones del Hotel en Miraflores Lima | Hotel Humano",
     }
   }
 
   return {
-    title: `${facilityData.nombre} · Humano Website`,
+    title: `${facilityData.nombre} | Hotel Humano Miraflores`,
     description: facilityData.descripcionExperiencial,
   }
 }

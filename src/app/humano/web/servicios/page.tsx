@@ -30,9 +30,9 @@ const pageNavItems = [
 ]
 
 export const metadata: Metadata = {
-  title: "Servicios · Humano Website",
+  title: "Servicios del Hotel en Miraflores Lima | Hotel Humano",
   description:
-    "Explora los servicios de Humano en Miraflores: hospitalidad consciente, asistencia práctica y detalles que acompañan tu estadía.",
+    "Descubre los servicios de Hotel Humano en Miraflores: atención cercana, experiencias locales, espacios pensados para conectar y disfrutar Lima.",
 }
 
 export default function HumanoServicesPage() {

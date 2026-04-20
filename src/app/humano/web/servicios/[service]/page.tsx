@@ -153,12 +153,12 @@ export async function generateMetadata({
 
   if (!serviceData) {
     return {
-      title: "Servicio · Humano Website",
+      title: "Servicios del Hotel en Miraflores Lima | Hotel Humano",
     }
   }
 
   return {
-    title: `${serviceData.nombre} · Humano Website`,
+    title: `${serviceData.nombre} | Hotel Humano Miraflores`,
     description: serviceData.descripcionExperiencial,
   }
 }

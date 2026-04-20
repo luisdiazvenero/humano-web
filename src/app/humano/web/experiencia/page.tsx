@@ -30,9 +30,9 @@ const pageNavItems = [
 ]
 
 export const metadata: Metadata = {
-  title: "Experiencia · Humano Website",
+  title: "Instalaciones del Hotel en Miraflores Lima | Hotel Humano",
   description:
-    "Explora las instalaciones de Humano en Miraflores: lobby, restaurantes, coworking, gimnasio, piscina y espacios pensados para acompañar tu estadía.",
+    "Explora las instalaciones de Hotel Humano en Miraflores: espacios de diseño, áreas comunes vibrantes y ambientes pensados para conectar.",
 }
 
 export default function HumanoExperiencePage() {

@@ -36,9 +36,9 @@ const bodyFont = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Humano Website · Miraflores",
+  title: "Hotel en Miraflores Lima | Hotel Humano Tribute Portfolio by Marriott",
   description:
-    "Website de Humano: hospitalidad consciente, habitaciones y experiencias en Miraflores.",
+    "Descubre Hotel Humano en Miraflores, Lima. Un hotel Tribute Portfolio con diseño único, experiencias locales y una conexión auténtica con la ciudad.",
 }
 
 export default function HumanoWebPage() {
