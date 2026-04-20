@@ -33,10 +33,10 @@ const bodyFont = Inter({
 })
 
 const pageNavItems = [
-  { label: "Hotel", href: "/humano/web#inicio" },
+  { label: "Home", href: "/humano/web#inicio" },
   { label: "Habitaciones", href: "/humano/web/habitaciones" },
   { label: "Servicios", href: "/humano/web/servicios" },
-  { label: "Experiencia", href: "/humano/web/experiencia" },
+  { label: "Hotel", href: "/humano/web/hotel" },
   { label: "Contacto", href: "/humano/web/contacto" },
 ]
 
@@ -65,7 +65,7 @@ function FacilitySuggestionCard({ facility }: { facility: HumanoFacility }) {
 
   return (
     <Link
-      href={`/humano/web/experiencia/${facility.slug}`}
+      href={`/humano/web/hotel/${facility.slug}`}
       aria-label={`Ver detalle de ${facility.nombre}`}
       className="group block text-left"
     >
@@ -178,7 +178,7 @@ export default async function HumanoFacilityDetailPage({
       <WebStickyHeader
         brandHref="/humano/web#inicio"
         navItems={pageNavItems}
-        activeHref="/humano/web/experiencia"
+        activeHref="/humano/web/hotel"
         showReserve={false}
       />
 
@@ -206,7 +206,7 @@ export default async function HumanoFacilityDetailPage({
                 <div>
                   <div className="space-y-3">
                     <Link
-                      href="/humano/web/experiencia"
+                      href="/humano/web/hotel"
                       className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/86"
                     >
                       <ArrowLeft className="h-4 w-4" />

@@ -16,10 +16,10 @@ const bodyFont = Inter({
 })
 
 const pageNavItems = [
-  { label: "Hotel", href: "/humano/web#inicio" },
+  { label: "Home", href: "/humano/web#inicio" },
   { label: "Habitaciones", href: "/humano/web/habitaciones" },
   { label: "Servicios", href: "/humano/web/servicios" },
-  { label: "Experiencia", href: "/humano/web/experiencia" },
+  { label: "Hotel", href: "/humano/web/hotel" },
   { label: "Contacto", href: "/humano/web/contacto" },
 ]
 
