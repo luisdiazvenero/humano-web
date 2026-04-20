@@ -626,7 +626,7 @@
     },
     {
       "id": "SERV_CONCIERGE",
-      "nombre_publico": "Asistencia y concierge",
+      "nombre_publico": "Local Expert",
       "categoria": "Servicio",
       "desc_factual": "Asistencia en recepción para información general y apoyo durante la estadía.",
       "desc_experiencial": "Tener a alguien que te ayude a orientarte cuando lo necesitas.",

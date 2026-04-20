@@ -81,7 +81,7 @@ const serviceAudienceOverrides: Record<
     intenciones: ["Trabajo", "Descanso"],
     perfiles: ["solo", "pareja", "grupo", "familia"],
   },
-  "Asistencia y concierge": {
+  "Local Expert": {
     intenciones: ["Trabajo", "Descanso", "Aventura"],
     perfiles: ["solo", "pareja", "grupo", "familia"],
   },
@@ -144,7 +144,7 @@ function extractServiceMeta(item: ConserjeItem): HumanoService["meta"] {
     ]
   }
 
-  if (name === "Asistencia y concierge") {
+  if (name === "Local Expert") {
     return [
       { label: "Recepción", kind: "concierge" },
       { label: "Orientación", kind: "feature" },
