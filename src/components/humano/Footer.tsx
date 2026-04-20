@@ -6,7 +6,7 @@ export function Footer() {
     const { ref, inView } = useScrollAnimation()
 
     return (
-        <footer ref={ref} className="relative bg-[#003744] border-t border-white/10">
+        <footer ref={ref} className="relative bg-[#003035] border-t border-white/10">
             <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
                 {/* Main Footer Content */}
                 <div className="py-16 relative">

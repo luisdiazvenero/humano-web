@@ -110,7 +110,7 @@ export default function Home() {
         <header className="mb-10 rounded-3xl border border-border/40 bg-card/75 p-6 shadow-sm backdrop-blur-sm sm:p-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <FullLogo className="h-16 w-auto text-[#003744] sm:h-20" />
+              <FullLogo className="h-16 w-auto text-[#003035] sm:h-20" />
             </div>
 
             <div className="max-w-xl space-y-2 sm:text-right">

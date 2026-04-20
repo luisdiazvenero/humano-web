@@ -421,7 +421,7 @@ const renderTextWithLinks = (text: string) => {
         href={part.href}
         target="_blank"
         rel="noreferrer"
-        className="text-[#003744] underline underline-offset-4"
+        className="text-[#003035] underline underline-offset-4"
       >
         {part.value}
       </a>
@@ -1181,7 +1181,7 @@ export default function ConserjePage() {
                         href={msg.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-[#003744] underline underline-offset-4"
+                        className="text-[#003035] underline underline-offset-4"
                       >
                         Clic aquí
                       </a>
@@ -1214,7 +1214,7 @@ export default function ConserjePage() {
                         className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                       >
                         <div className="flex items-start gap-4">
-                          <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003744]">
+                          <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003035]">
                             {getSuggestionIcon(suggestion)}
                           </div>
                           <div className="flex-1 min-w-0 text-left">
@@ -1243,7 +1243,7 @@ export default function ConserjePage() {
                       className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003744]">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003035]">
                           {intent.icon}
                         </div>
                         <div className="flex-1 min-w-0 text-left">
@@ -1269,7 +1269,7 @@ export default function ConserjePage() {
                       className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003744]">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003035]">
                           {group.icon}
                         </div>
                         <div className="flex-1 min-w-0 text-left">
@@ -1303,7 +1303,7 @@ export default function ConserjePage() {
                       className="group bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-xl px-3 py-3 text-left text-sm font-semibold text-foreground shadow-sm transition-all cursor-pointer"
                     >
                       <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-full bg-[#ffce5c] text-[#003744]">
+                        <div className="p-2 rounded-full bg-[#ffce5c] text-[#003035]">
                           {getServiceMenuIcon(item.label)}
                         </div>
                         <span className="line-clamp-2">{item.label}</span>
@@ -1316,7 +1316,7 @@ export default function ConserjePage() {
 
             {msg.sender === "user" && msg.type === "text" && (
               <div className="flex justify-end">
-                <div className="bg-[#ffce5c] text-[#003744] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
+                <div className="bg-[#ffce5c] text-[#003035] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
                   {msg.content}
                 </div>
               </div>
@@ -1447,7 +1447,7 @@ export default function ConserjePage() {
                   className={`h-12 w-12 rounded-xl transition-all shadow-sm flex items-center justify-center ${
                     isTyping || isTranscribing
                       ? "bg-muted/30 cursor-not-allowed opacity-50"
-                      : "bg-[#ffce5c] hover:bg-[#ffce5c]/90 text-[#003744] hover:scale-105 cursor-pointer"
+                      : "bg-[#ffce5c] hover:bg-[#ffce5c]/90 text-[#003035] hover:scale-105 cursor-pointer"
                   }`}
                   aria-label="Enviar mensaje"
                 >

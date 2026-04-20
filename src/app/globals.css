@@ -10,8 +10,8 @@
   /* HUMANO Brand Colors - Official Guidelines */
   /* Azul (50%) - Primary Color */
   --color-azul: #003035;
-  /* RGB reference from brandbook (0/55/68) */
-  --color-azul-rgb: #003744;
+  /* Alias operativo del primario para compatibilidad con componentes existentes */
+  --color-azul-rgb: #003035;
   --color-azul-soft: #004D5C;
   --color-azul-deep: #00262A;
   /* Crema (45%) - Secondary Color */
@@ -29,7 +29,7 @@
   --shadow-brand-lg: 0 24px 80px rgba(0, 0, 0, 0.55);
 
   --hsl-azul: 186 100% 10%;
-  --hsl-azul-rgb: 191 100% 13%;
+  --hsl-azul-rgb: 186 100% 10%;
   --hsl-azul-soft: 189 100% 18%;
   --hsl-azul-deep: 186 100% 8%;
   --hsl-crema: 49 42% 87%;

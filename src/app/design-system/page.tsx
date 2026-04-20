@@ -37,11 +37,11 @@ const foundationSwatches = [
     note: "Color principal oficial por regla de marca.",
   },
   {
-    name: "Azul manual (RGB 0/55/68)",
+    name: "Azul operativo (alias)",
     token: "--color-azul-rgb",
-    value: "#003744",
+    value: "#003035",
     textClass: "text-white",
-    note: "Se conserva como tono intermedio de soporte.",
+    note: "Alias técnico del primario para compatibilidad con componentes existentes.",
   },
   {
     name: "Crema",
@@ -94,7 +94,7 @@ const semanticTokens = [
 
 const scaleRows = [
   { token: "--color-azul", value: "#003035" },
-  { token: "--color-azul-rgb", value: "#003744" },
+  { token: "--color-azul-rgb", value: "#003035" },
   { token: "--color-azul-soft", value: "#004D5C" },
   { token: "--color-azul-deep", value: "#00262A" },
   { token: "--color-crema", value: "#ECE7D0" },
@@ -114,7 +114,7 @@ const manualRows = [
     cmyk: "C 100 / M 47 / Y 23 / K 60",
     rgb: "0 / 55 / 68",
     hex: "3035 (manual)",
-    operational: "#003035 (oficial) + #003744 (intermedio RGB)",
+    operational: "#003035",
   },
   {
     name: "Crema",
@@ -136,7 +136,7 @@ const manualRows = [
 
 const usageRules = [
   "Usar siempre tokens (`bg-primary`, `text-foreground`, `border-border`) y evitar hardcodes hex en componentes activos.",
-  "Mantener `--color-azul` como primario oficial. `--color-azul-rgb` se usa como soporte por coherencia con RGB del manual.",
+  "Mantener `--color-azul` como primario oficial. `--color-azul-rgb` queda como alias técnico del mismo color para compatibilidad.",
   "Reutilizar `--color-overlay` y `--shadow-brand-lg` para modales/visor ampliado, evitando sombras ad-hoc.",
   "Para nuevos componentes, registrar metadata en `src/lib/design-system/component-registry.ts`.",
 ]
@@ -270,8 +270,7 @@ export default function DesignSystemPage() {
             <CardHeader>
               <CardTitle className="text-base">Regla aplicada del manual</CardTitle>
               <CardDescription>
-                Se prioriza HEX literal oficial (`#003035`) y se documenta el RGB del manual como tono
-                intermedio (`#003744`).
+                Se prioriza el HEX oficial (`#003035`) y el alias técnico mantiene ese mismo valor.
               </CardDescription>
             </CardHeader>
             <CardContent className="overflow-x-auto">

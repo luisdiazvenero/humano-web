@@ -100,7 +100,7 @@ export default function Home() {
       <section className="relative z-10 mb-16 px-6 lg:px-12 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
         <div className="grid lg:grid-cols-2 gap-4 h-[280px] max-w-screen-2xl mx-auto">
           {/* Left Column - Video */}
-          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#003035] to-[#003744] animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#003035] to-[#003035] animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
             {/* Video Placeholder */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center space-y-4">
@@ -180,7 +180,7 @@ export default function Home() {
       {/* Section 1: Video Hero + Institutional Text */}
       <section className="relative bg-background py-24">
         {/* Video Container */}
-        <div className="w-full h-[70vh] bg-gradient-to-br from-[#003035] to-[#003744] relative overflow-hidden mb-16">
+        <div className="w-full h-[70vh] bg-gradient-to-br from-[#003035] to-[#003035] relative overflow-hidden mb-16">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-4">
               <div className="h-20 w-20 rounded-full bg-primary/20 backdrop-blur-sm border-2 border-primary/50 flex items-center justify-center mx-auto cursor-pointer hover:scale-110 transition-transform group">

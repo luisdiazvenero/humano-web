@@ -15,7 +15,7 @@ export const designSystemComponents: DesignSystemComponent[] = [
     sourcePath: "src/components/humano-v09/FullLogo.tsx",
     usedIn: ["/humano"],
     status: "active",
-    tokens: ["--color-azul-rgb"],
+    tokens: ["--color-azul"],
     notes: "Marca principal para encabezados y piezas de identidad.",
   },
   {
@@ -24,7 +24,7 @@ export const designSystemComponents: DesignSystemComponent[] = [
     sourcePath: "src/components/humano-v09/Logo.tsx",
     usedIn: ["/humano"],
     status: "active",
-    tokens: ["--color-azul-rgb", "--foreground"],
+    tokens: ["--color-azul", "--foreground"],
     notes: "Isotipo compacto para avatar del asistente y navegación contextual.",
   },
   {

@@ -279,7 +279,7 @@ export default function AgentPage() {
             <div className="pt-12">
               <button
                 onClick={handleStartChat}
-                className="h-16 w-16 rounded-full bg-[#E8B931] hover:bg-[#E8B931]/90 text-[#003744] flex items-center justify-center mx-auto transition-all hover:scale-110 shadow-lg cursor-pointer"
+                className="h-16 w-16 rounded-full bg-[#E8B931] hover:bg-[#E8B931]/90 text-[#003035] flex items-center justify-center mx-auto transition-all hover:scale-110 shadow-lg cursor-pointer"
               >
                 <Mic className="h-8 w-8" />
               </button>
@@ -325,7 +325,7 @@ export default function AgentPage() {
               <div key={msg.id}>
                 {msg.sender === 'agent' && msg.type === 'text' && (
                   <div className="flex gap-3 items-start max-w-full animate-fade-in-up">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#003744] text-white shadow-md">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#003035] text-white shadow-md">
                       <Logo className="h-4 w-auto text-white" />
                     </div>
                     <div className="bg-card/60 backdrop-blur-sm rounded-2xl rounded-tl-none px-5 py-3.5 text-sm leading-relaxed shadow-md max-w-[85%]">
@@ -459,7 +459,7 @@ export default function AgentPage() {
 
             {isTyping && (
               <div className="flex gap-3 items-start max-w-full">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#003744] text-white shadow-md">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#003035] text-white shadow-md">
                   <Logo className="h-4 w-auto text-white" />
                 </div>
                 <div className="bg-card/60 backdrop-blur-sm rounded-2xl rounded-tl-none px-5 py-3.5 flex gap-1 items-center shadow-md">

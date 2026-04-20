@@ -17,8 +17,8 @@ type WebStickyHeaderNavItem = {
 const defaultNavItems: WebStickyHeaderNavItem[] = [
   { label: "Home", href: "#inicio" },
   { label: "Habitaciones", href: "/humano/web/habitaciones" },
-  { label: "Servicios", href: "/humano/web/servicios" },
   { label: "Hotel", href: "/humano/web/hotel" },
+  { label: "Servicios", href: "/humano/web/servicios" },
   { label: "Contacto", href: "/humano/web/contacto" },
 ]
 

@@ -24,8 +24,8 @@ const bodyFont = Inter({
 const pageNavItems = [
   { label: "Home", href: "/humano/web#inicio" },
   { label: "Habitaciones", href: "/humano/web/habitaciones" },
-  { label: "Servicios", href: "/humano/web/servicios" },
   { label: "Hotel", href: "/humano/web/hotel" },
+  { label: "Servicios", href: "/humano/web/servicios" },
   { label: "Contacto", href: "/humano/web/contacto" },
 ]
 

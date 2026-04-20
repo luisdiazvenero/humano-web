@@ -369,7 +369,7 @@ export default function DemoPage() {
 
   if (showIntro) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#003744] via-[#004d5c] to-[#003744] text-white flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-[#003035] via-[#004d5c] to-[#003035] text-white flex flex-col items-center justify-center p-6">
         <div className="max-w-5xl w-full text-center space-y-12">
           {/* Header */}
           <div className="space-y-6">
@@ -542,7 +542,7 @@ export default function DemoPage() {
                       className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003744]">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003035]">
                           {getSuggestionIcon(suggestion)}
                         </div>
                         <div className="flex-1 min-w-0 text-left">
@@ -560,7 +560,7 @@ export default function DemoPage() {
 
             {msg.sender === 'user' && msg.type === 'text' && (
               <div className="flex justify-end">
-                <div className="bg-[#ffce5c] text-[#003744] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
+                <div className="bg-[#ffce5c] text-[#003035] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
                   {msg.content}
                 </div>
               </div>
@@ -632,7 +632,7 @@ export default function DemoPage() {
                   onClick={handleSendMessage}
                   className={`h-12 w-12 rounded-xl transition-all shadow-sm flex items-center justify-center ${isTyping
                       ? "bg-muted/30 cursor-not-allowed opacity-50"
-                      : "bg-[#ffce5c] hover:bg-[#ffce5c]/90 text-[#003744] hover:scale-105 cursor-pointer"
+                      : "bg-[#ffce5c] hover:bg-[#ffce5c]/90 text-[#003035] hover:scale-105 cursor-pointer"
                     }`}
                   aria-label="Enviar mensaje"
                 >

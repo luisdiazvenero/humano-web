@@ -109,7 +109,7 @@ export default function Propuesta2() {
                         <div className="pt-12">
                             <button
                                 onClick={handleStartContent}
-                                className="h-16 w-16 rounded-full bg-[#E8B931] hover:bg-[#E8B931]/90 text-[#003744] flex items-center justify-center mx-auto transition-all hover:scale-110 shadow-lg cursor-pointer"
+                                className="h-16 w-16 rounded-full bg-[#E8B931] hover:bg-[#E8B931]/90 text-[#003035] flex items-center justify-center mx-auto transition-all hover:scale-110 shadow-lg cursor-pointer"
                             >
                                 <Mic className="h-8 w-8" />
                             </button>

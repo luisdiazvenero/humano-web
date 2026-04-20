@@ -18,7 +18,10 @@
       "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "/chatbot/imagenes/hab/superior_king/superior_king_1.webp"
+        "/chatbot/imagenes/hab/superior_king/superior_king_1.webp",
+        "/chatbot/imagenes/hab/superior_king/superior_king_2.webp",
+        "/chatbot/imagenes/hab/superior_king/superior_king_3.webp",
+        "/chatbot/imagenes/hab/superior_king/superior_king_4.webp"
       ],
       "frases_sugeridas": [
         "Cómoda y directa, sin complicarte",
@@ -56,7 +59,10 @@
       "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "/chatbot/imagenes/hab/superior_doble/superior_double_1.webp"
+        "/chatbot/imagenes/hab/superior_doble/superior_double_1.webp",
+        "/chatbot/imagenes/hab/superior_doble/superior_double_2.webp",
+        "/chatbot/imagenes/hab/superior_doble/superior_double_3.webp",
+        "/chatbot/imagenes/hab/superior_doble/superior_double_4.webp"
       ],
       "frases_sugeridas": [
         "Cómoda y directa, sin complicarte",
@@ -170,7 +176,10 @@
       "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "/chatbot/imagenes/hab/family_room/family_room_1.webp"
+        "/chatbot/imagenes/hab/family_room/family_room_1.webp",
+        "/chatbot/imagenes/hab/family_room/family_room_2.webp",
+        "/chatbot/imagenes/hab/family_room/family_room_3.webp",
+        "/chatbot/imagenes/hab/family_room/family_room_4.webp"
       ],
       "frases_sugeridas": [
         "Para venir con niños y tener espacio extra",
@@ -206,7 +215,10 @@
       "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_1.webp"
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_1.webp",
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_2.webp",
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_3.webp",
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_4.webp"
       ],
       "frases_sugeridas": [
         "Para venir con niños y tener espacio extra",
@@ -243,7 +255,10 @@
       "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "/chatbot/imagenes/hab/junior_suite/junior_suite_1.webp"
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_1.webp",
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_2.webp",
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_3.webp",
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_4.webp"
       ],
       "frases_sugeridas": [
         "Más espacio para estar cómodo",
@@ -280,7 +295,9 @@
       "restricciones_requisitos": [],
       "precio_desde": "Consultar disponibilidad y precios en marriot.com",
       "imagenes_url": [
-        "/chatbot/imagenes/hab/signature_suite/signature_suite_1.webp"
+        "/chatbot/imagenes/hab/signature_suite/signature_suite_1.webp",
+        "/chatbot/imagenes/hab/signature_suite/signature_suite_2.webp",
+        "/chatbot/imagenes/hab/signature_suite/signature_suite_3.webp"
       ],
       "frases_sugeridas": [
         "Espacio de sobra para vivir la estadía",
@@ -444,7 +461,9 @@
       "condiciones_servicio": [
         "con_costo"
       ],
-      "imagenes_url": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/lavanderia/lavanderia_1.webp"
+      ],
       "frases_sugeridas": [
         "Útil para estadías largas",
         "Práctico y sin complicaciones"
@@ -959,7 +978,8 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_1.webp",
+        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_2.webp"
       ],
       "frases_sugeridas": [
         "Perfecto para caminar o correr",
@@ -998,7 +1018,8 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_1.webp",
+        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_2.webp"
       ],
       "frases_sugeridas": [
         "Buen punto para empezar a explorar",
@@ -1037,7 +1058,8 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "/chatbot/imagenes/rec/larcomar/larcomar_1.webp",
+        "/chatbot/imagenes/rec/larcomar/larcomar_2.webp"
       ],
       "frases_sugeridas": [
         "Combina paseo y comida",
@@ -1076,7 +1098,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "/chatbot/imagenes/rec/running_malecon/running_malecon_1.webp"
       ],
       "frases_sugeridas": [
         "Ideal para rutinas matinales",
@@ -1154,7 +1176,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "/chatbot/imagenes/rec/huaca/huaca_1.webp"
       ],
       "frases_sugeridas": [
         "Conecta con la historia"
@@ -1192,7 +1214,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "/chatbot/imagenes/rec/parapente/parapente_1.webp"
       ],
       "frases_sugeridas": [
         "El plan para aventureros"
@@ -1230,7 +1252,9 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "/chatbot/imagenes/rec/teatros/teatro_1.webp",
+        "/chatbot/imagenes/rec/teatros/teatro_2.webp",
+        "/chatbot/imagenes/rec/teatros/teatro_3.webp"
       ],
       "frases_sugeridas": [
         "Para todos los gustos",

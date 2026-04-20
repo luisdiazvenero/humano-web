@@ -14,7 +14,10 @@ const dryRun = args.has("--dry-run")
 
 const inputRoot = path.join(projectRoot, "IMAGENES")
 const outputRoot = path.join(projectRoot, "public", "chatbot", "imagenes")
-const conserjeJsonPath = path.join(projectRoot, "src", "data", "conserje.json")
+const dataJsonPaths = [
+  path.join(projectRoot, "src", "data", "conserje.json"),
+  path.join(projectRoot, "src", "data", "humano.json"),
+]
 
 const maxEdge = 1280
 const webpQuality = 72
@@ -58,6 +61,46 @@ const placeholderFolderMap = {
   LINK_IMAGENES_TEATROS: "rec/teatros",
 }
 
+const itemFolderMap = {
+  HAB_SUPERIOR_KING: "hab/superior_king",
+  HAB_SUPERIOR_DOUBLE: "hab/superior_doble",
+  HAB_DELUXE_KING: "hab/deluxe_king",
+  HAB_ACCESIBLE_ROOM: "hab/accesible_room",
+  HAB_FAMILY_ROOM: "hab/family_room",
+  HAB_FAMILY_DELUXE: "hab/family_deluxe",
+  HAB_JUNIOR_SUITE: "hab/junior_suite",
+  HAB_SIGNATURE_SUITE: "hab/signature_suite",
+
+  SERV_TRANSFER_AEROPUERTO: "serv/transfer",
+  SERV_MASCOTAS: "serv/mascotas",
+  SERV_ROOM_SERVICE: "serv/room_service",
+  SERV_LAVANDERIA: "serv/lavanderia",
+  SERV_ESTACIONAMIENTO: "serv/estacionamiento",
+  SERV_WIFI: "serv/wifi",
+  SERV_LIMPIEZA: "serv/limpieza",
+  SERV_CONCIERGE: "serv/concierge",
+
+  INST_LOBBY: "inst/lobby",
+  INST_DESAYUNO: "inst/desayuno",
+  INST_RESTAURANTE_ENT: "inst/restaurante_entranable",
+  INST_RESTAURANTE_CDL: "inst/restaurante_cdl",
+  INST_COWORKING: "inst/coworking",
+  INST_GIMNASIO: "inst/gimnasio",
+  INST_PISCINA: "inst/piscina",
+  INST_SALAS_REUNIONES: "inst/salas_de_reuniones",
+  INST_BAR: "inst/bar",
+
+  REC_MALECON_MIRAFLORES: "rec/malecon_miraflores",
+  REC_PARQUE_KENNEDY: "rec/parque_kennedy",
+  REC_LARCOMAR: "rec/larcomar",
+  REC_RUNNING_MALECON: "rec/running_malecon",
+  REC_CAFES_MIRAFLORES: "rec/cafes_miraflores",
+  REC_RUTA_DEL_CAFE: "rec/cafes_miraflores",
+  REC_HUACA: "rec/huaca",
+  REC_PARAPENTE: "rec/parapente",
+  REC_TEATROS: "rec/teatros",
+}
+
 function formatBytes(bytes) {
   if (!Number.isFinite(bytes)) return "0 B"
   if (bytes < 1024) return `${bytes} B`
@@ -87,6 +130,50 @@ function uniquePush(list, values) {
   for (const value of values) {
     if (!list.includes(value)) list.push(value)
   }
+}
+
+function arraysEqual(a, b) {
+  if (a.length !== b.length) return false
+  return a.every((value, index) => value === b[index])
+}
+
+function normalizeItemId(value) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Za-z0-9]+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .toUpperCase()
+}
+
+function inferFolderFromExistingUrls(urls) {
+  for (const value of urls) {
+    if (typeof value !== "string") continue
+    if (value.startsWith("LINK_IMAGENES_")) {
+      const mappedFolder = placeholderFolderMap[value]
+      if (mappedFolder) return mappedFolder
+      continue
+    }
+    if (!value.startsWith("/chatbot/imagenes/")) continue
+
+    const trimmed = value.slice("/chatbot/imagenes/".length)
+    const parts = trimmed.split("/").filter(Boolean)
+    if (parts.length >= 2) {
+      return parts.slice(0, -1).join("/")
+    }
+  }
+
+  return null
+}
+
+function inferFolderForItem(item) {
+  const urls = Array.isArray(item.imagenes_url) ? item.imagenes_url : []
+  const fromUrls = inferFolderFromExistingUrls(urls)
+  if (fromUrls) return fromUrls
+
+  const normalizedId = normalizeItemId(item.id || "")
+  return itemFolderMap[normalizedId] || null
 }
 
 async function collectImageFiles(rootPath) {
@@ -152,51 +239,35 @@ function makeOutputPath(relativeParts, usedNamesByDir) {
   }
 }
 
-async function updateConserjeJson(imagesByFolder, warnings) {
-  const raw = await fs.readFile(conserjeJsonPath, "utf8")
+async function updateDataJson(jsonPath, imagesByFolder, warnings) {
+  const raw = await fs.readFile(jsonPath, "utf8")
   const data = JSON.parse(raw)
 
   let replacements = 0
   for (const item of data.items || []) {
-    if (!Array.isArray(item.imagenes_url)) continue
+    const mappedFolder = inferFolderForItem(item)
+    if (!mappedFolder) continue
 
-    const updatedUrls = []
-    let changed = false
-
-    for (const value of item.imagenes_url) {
-      if (typeof value !== "string" || !value.startsWith("LINK_IMAGENES_")) {
-        updatedUrls.push(value)
-        continue
-      }
-
-      const mappedFolder = placeholderFolderMap[value]
-      if (!mappedFolder) {
-        warnings.push(`Placeholder sin mapeo: ${value} (item: ${item.nombre_publico || item.id})`)
-        updatedUrls.push(value)
-        continue
-      }
-
-      const mappedImages = imagesByFolder.get(mappedFolder) || []
-      if (mappedImages.length === 0) {
-        warnings.push(
-          `Sin imágenes para ${value} -> ${mappedFolder} (item: ${item.nombre_publico || item.id})`
-        )
-        updatedUrls.push(value)
-        continue
-      }
-
-      uniquePush(updatedUrls, mappedImages)
-      changed = true
+    const mappedImages = imagesByFolder.get(mappedFolder) || []
+    if (mappedImages.length === 0) {
+      warnings.push(
+        `Sin imágenes para ${mappedFolder} (item: ${item.nombre_publico || item.id}, archivo: ${path.basename(jsonPath)})`
+      )
+      continue
     }
 
-    if (changed) {
-      item.imagenes_url = updatedUrls
+    const currentUrls = Array.isArray(item.imagenes_url)
+      ? item.imagenes_url.filter((value) => typeof value === "string")
+      : []
+
+    if (!arraysEqual(currentUrls, mappedImages)) {
+      item.imagenes_url = [...mappedImages]
       replacements += 1
     }
   }
 
   if (!dryRun) {
-    await fs.writeFile(conserjeJsonPath, `${JSON.stringify(data, null, 2)}\n`, "utf8")
+    await fs.writeFile(jsonPath, `${JSON.stringify(data, null, 2)}\n`, "utf8")
   }
 
   return replacements
@@ -257,11 +328,20 @@ async function main() {
     imagesByFolder.set(folder, urls)
   }
 
-  const replacements = await updateConserjeJson(imagesByFolder, warnings)
+  const replacementResults = []
+  for (const jsonPath of dataJsonPaths) {
+    const replacements = await updateDataJson(jsonPath, imagesByFolder, warnings)
+    replacementResults.push({
+      file: path.relative(projectRoot, jsonPath),
+      replacements,
+    })
+  }
 
   console.log(`Modo: ${dryRun ? "dry-run" : "write"}`)
   console.log(`Imágenes detectadas: ${sourceFiles.length}`)
-  console.log(`Items de conserje con reemplazo: ${replacements}`)
+  for (const result of replacementResults) {
+    console.log(`Items actualizados en ${result.file}: ${result.replacements}`)
+  }
 
   if (!dryRun) {
     const saved = totalInputBytes - totalOutputBytes
@@ -271,7 +351,7 @@ async function main() {
     console.log(`Ahorro total: ${formatBytes(saved)} (${pct.toFixed(2)}%)`)
     console.log(`Salida optimizada: ${outputRoot}`)
   } else {
-    console.log("Dry-run: no se escribieron archivos ni cambios en conserje.json")
+    console.log("Dry-run: no se escribieron archivos ni cambios en los JSON")
   }
 
   if (warnings.length > 0) {

@@ -272,7 +272,7 @@ export function RoomMenuCarousel({
                 }}
                 type="button"
                 onClick={() => onSelect({ id: item.id, label: item.label })}
-                className="group w-full sm:w-[560px] max-w-[560px] shrink-0 overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition hover:shadow-md cursor-pointer dark:bg-card"
+                className="group w-full sm:w-[560px] max-w-[560px] shrink-0 overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)] cursor-pointer dark:bg-card"
                 initial={shouldAnimateSlides ? "hidden" : false}
                 whileInView={shouldAnimateSlides ? "visible" : undefined}
                 viewport={
@@ -290,7 +290,12 @@ export function RoomMenuCarousel({
                 <div className="relative aspect-[4/5] sm:aspect-[16/10] overflow-hidden">
                   {item.imageSrc ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.imageSrc} alt={item.label} className="h-full w-full object-cover" loading="lazy" />
+                    <img
+                      src={item.imageSrc}
+                      alt={item.label}
+                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]"
+                      loading="lazy"
+                    />
                   ) : (
                     <div className="h-full w-full bg-muted/30" />
                   )}

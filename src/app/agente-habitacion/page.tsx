@@ -452,7 +452,7 @@ export default function AgentRoomPage() {
                     <div key={msg.id}>
                         {msg.sender === 'agent' && msg.type === 'text' && (
                             <div className="flex gap-3 items-start max-w-full animate-fade-in-up">
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E8B931] text-[#003744] shadow-md font-bold text-xs">
+                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E8B931] text-[#003035] shadow-md font-bold text-xs">
                                     H
                                 </div>
                                 <div className="bg-white border border-border rounded-2xl rounded-tl-none px-5 py-3.5 text-sm leading-relaxed shadow-sm max-w-[85%]">
@@ -589,7 +589,7 @@ export default function AgentRoomPage() {
 
                 {isTyping && (
                     <div className="flex gap-3 items-start max-w-full">
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E8B931] text-[#003744] shadow-md font-bold text-xs">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E8B931] text-[#003035] shadow-md font-bold text-xs">
                             H
                         </div>
                         <div className="bg-white border border-border rounded-2xl rounded-tl-none px-5 py-3.5 flex gap-1 items-center shadow-sm">
@@ -618,12 +618,12 @@ export default function AgentRoomPage() {
                         }}
                     />
                     <div className="absolute bottom-3 right-3 flex gap-2">
-                        <button className="h-10 w-10 rounded-full bg-[#E8B931] text-[#003744] hover:scale-105 transition-all cursor-pointer flex items-center justify-center">
+                        <button className="h-10 w-10 rounded-full bg-[#E8B931] text-[#003035] hover:scale-105 transition-all cursor-pointer flex items-center justify-center">
                             <Mic className="h-4 w-4" />
                         </button>
                         <button
                             onClick={handleSendMessage}
-                            className="h-10 w-10 rounded-full bg-[#E8B931] text-[#003744] hover:scale-105 transition-all cursor-pointer flex items-center justify-center"
+                            className="h-10 w-10 rounded-full bg-[#E8B931] text-[#003035] hover:scale-105 transition-all cursor-pointer flex items-center justify-center"
                         >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
