@@ -355,7 +355,7 @@ export default async function HumanoRoomPage({
 
                   {roomData.perfilIdeal.includes("familia") ? (
                     <p className="mt-4 text-[15px] leading-relaxed text-white/52">
-                      Si tus niños son de 12 años o más tenemos otras habitaciones.
+                      Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan.
                     </p>
                   ) : null}
 
