@@ -47,7 +47,7 @@
       "id": "HAB_SUPERIOR_DOUBLE",
       "nombre_publico": "Superior Double",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 25 m² con 2 camas dobles, minirefrigerador, escritorio, ventanas insonorizadas y Wi‑Fi.",
+      "desc_factual": "Habitación de 25 m² con 2 camas dobles, minirefrigerador, escritorio, ventanas insonorizadas y Wi‑Fi. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Buena opción si vienes acompañado y quieres camas separadas sin complicarte.",
       "intenciones": [
         "Trabajo",
@@ -90,7 +90,7 @@
       "id": "HAB_DELUXE_KING",
       "nombre_publico": "Deluxe King",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 24 m² con 1 cama King, minirefrigerador, escritorio, Wi‑Fi, e incluye bata y pantuflas.",
+      "desc_factual": "Habitación de 24 m² con 1 cama King, minirefrigerador, escritorio, Wi‑Fi, e incluye bata y pantuflas. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Un plus de confort y gran vista para cerrar el día con calma, sin subir a una suite.",
       "intenciones": [
         "Trabajo",
@@ -132,7 +132,7 @@
       "id": "HAB_ACCESIBLE_ROOM",
       "nombre_publico": "Accesible Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con 1 cama King, minirefrigerador, escritorio y baño con ducha accesible para silla de ruedas.",
+      "desc_factual": "Habitación de 32 m² con 1 cama King, minirefrigerador, escritorio y baño con ducha accesible para silla de ruedas. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Diseñada para una estadía más cómoda si necesitas accesibilidad en la ducha y circulación.",
       "intenciones": [
         "Trabajo",
@@ -171,7 +171,7 @@
       "id": "HAB_FAMILY_ROOM",
       "nombre_publico": "Family Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
+      "desc_factual": "Habitación de 32 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Ideal para venir en familia y tener un espacio extra para estar juntos y cómodos.",
       "intenciones": [
         "Descanso",
@@ -213,7 +213,7 @@
       "id": "HAB_FAMILY_DELUXE",
       "nombre_publico": "Family Deluxe",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 47 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi.",
+      "desc_factual": "Habitación de 47 m² con 1 cama King y sofá cama, área de estar, minirefrigerador, escritorio y Wi‑Fi. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Más amplitud para la familia y para esos ratos de pausa entre planes en la ciudad.",
       "intenciones": [
         "Descanso",

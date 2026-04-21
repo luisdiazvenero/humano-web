@@ -44,7 +44,7 @@
       "id": "HAB_SUPERIOR_DOUBLE",
       "nombre_publico": "Superior Double",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 25 m² con 2 camas dobles, Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_factual": "Habitación de 25 m² con 2 camas dobles, Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Buena opción si vienes acompañado y quieres camas separadas sin complicarte. Cómoda, luminosa y bien equipada, con Wi-Fi, Smart TV de 50” y coffee kit. Algunas puede ser comunicantes.",
       "intenciones": [
         "Trabajo",
@@ -85,7 +85,7 @@
       "id": "HAB_DELUXE_KING",
       "nombre_publico": "Deluxe King",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 24 m² con 1 cama King, mejor vista de la ciudad (2 ventanas), Wi Fi, batas y pantuflas, smart TV de 50\",  baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. ",
+      "desc_factual": "Habitación de 24 m² con 1 cama King, mejor vista de la ciudad (2 ventanas), Wi Fi, batas y pantuflas, smart TV de 50\",  baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. . Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Más vista, más ciudad. Con dos ventanas, 1 cama king, batas y pantuflas, esta habitación eleva la experiencia con luz natural y detalles pensados para disfrutar Lima desde lo alto. Cerrar el día aquí será todo lo que querrás.",
       "intenciones": [
         "Trabajo",
@@ -124,7 +124,7 @@
       "id": "HAB_ACCESIBLE_ROOM",
       "nombre_publico": "Accesible Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con 1 cama King, Wi Fi, Smart TV de 50\", año con ducha accesible para silla de ruedas, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si viaja con alguien se arma comunicantes con una Superior double.",
+      "desc_factual": "Habitación de 32 m² con 1 cama King, Wi Fi, Smart TV de 50\", año con ducha accesible para silla de ruedas, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si viaja con alguien se arma comunicantes con una Superior double. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Pensada para brindar máxima comodidad y accesibilidad sin comprometer el diseño. Con una cama king, amplios espacios y todos los elementos esenciales, esta habitación garantiza una estadía práctica y acogedora para quienes necesitan mayor facilidad de movimiento.",
       "intenciones": [
         "Trabajo",
@@ -163,7 +163,7 @@
       "id": "HAB_FAMILY_ROOM",
       "nombre_publico": "Family Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con1 cama king + sofá cama de 2 plazas.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_factual": "Habitación de 32 m² con1 cama king + sofá cama de 2 plazas.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "Ideal para viajes en familia, con un diseño funcional y amplio. Un espacio cómodo y bien equipado, pensado para que todos disfruten de una estancia tranquila y sin complicaciones.",
       "intenciones": [
         "Descanso",
@@ -202,7 +202,7 @@
       "id": "HAB_FAMILY_DELUXE",
       "nombre_publico": "Family Deluxe",
       "categoria": "Habitación",
-      "desc_factual": "Ubicada en el piso 3 con 47m2, 1 cama king + sofá cama de 2 plazas + terraza.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in.",
+      "desc_factual": "Ubicada en el piso 3 con 47m2, 1 cama king + sofá cama de 2 plazas + terraza.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si tus niños son de 12 años o más tenemos otras habitaciones.",
       "desc_experiencial": "La opción más espaciosa para viajar en familia. Disfruta de una terraza privada, el lugar perfecto para relajarte, compartir y sentirte como en casa, en el corazón de Lima.",
       "intenciones": [
         "Descanso",
