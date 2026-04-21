@@ -1274,7 +1274,7 @@ function HumanoPageContent() {
             <div className="flex min-w-0 flex-col items-end text-right">
               <button
                 type="button"
-                onClick={() => router.push("/humano/web")}
+                onClick={() => router.push("/humano")}
                 className="mb-4 sm:mb-6 inline-flex cursor-pointer items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider leading-none text-muted-foreground transition-colors hover:text-foreground"
               >
                 <Repeat2 className="h-3.5 w-3.5 shrink-0 -translate-y-px" />

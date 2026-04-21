@@ -12,11 +12,11 @@ const bodyFont = Inter({
 })
 
 const pageNavItems = [
-  { label: "Home", href: "/humano/web#inicio" },
-  { label: "Habitaciones", href: "/humano/web/habitaciones" },
-  { label: "Hotel", href: "/humano/web/hotel" },
-  { label: "Servicios", href: "/humano/web/servicios" },
-  { label: "Contacto", href: "/humano/web/contacto" },
+  { label: "Home", href: "/humano#inicio" },
+  { label: "Habitaciones", href: "/humano/habitaciones" },
+  { label: "Hotel", href: "/humano/hotel" },
+  { label: "Servicios", href: "/humano/servicios" },
+  { label: "Contacto", href: "/humano/contacto" },
 ]
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function HumanoTerminosPage() {
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-crema)] text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader
-        brandHref="/humano/web#inicio"
+        brandHref="/humano#inicio"
         navItems={pageNavItems}
       />
 
@@ -272,7 +272,7 @@ export default function HumanoTerminosPage() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                 <Link
-                  href="/humano/web/libro-de-reclamaciones"
+                  href="/humano/libro-de-reclamaciones"
                   className="transition-colors hover:text-[var(--color-amarillo)]"
                 >
                   Libro de Reclamaciones
@@ -282,7 +282,7 @@ export default function HumanoTerminosPage() {
                   className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                 />
                 <Link
-                  href="/humano/web/terminos-y-condiciones"
+                  href="/humano/terminos-y-condiciones"
                   className="transition-colors hover:text-[var(--color-amarillo)]"
                 >
                   Términos y Condiciones

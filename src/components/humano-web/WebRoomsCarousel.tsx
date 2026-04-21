@@ -19,7 +19,7 @@ export function WebRoomsCarousel({ items }: WebRoomsCarouselProps) {
       slideGapPx={32}
       dotsMarginTopPx={36}
       enableReveal
-      onSelect={({ id }) => router.push(`/humano/web/${id}`)}
+      onSelect={({ id }) => router.push(`/humano/${id}`)}
     />
   )
 }

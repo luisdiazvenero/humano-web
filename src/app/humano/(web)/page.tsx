@@ -206,7 +206,7 @@ export default function HumanoWebPage() {
                   </div>
                   <div className="flex justify-start lg:justify-end">
                     <Link
-                      href="/humano/web/habitaciones"
+                      href="/humano/habitaciones"
                       className={`${webPrimaryButtonClass} bg-[#003035] text-white hover:bg-[#002d38]`}
                     >
                       Ver todas
@@ -262,7 +262,7 @@ export default function HumanoWebPage() {
               {featuredFacilities.map((facility) => (
                 <Reveal key={facility.id} fromParent className="text-left">
                   <Link
-                    href={`/humano/web/hotel/${facility.slug}`}
+                    href={`/humano/hotel/${facility.slug}`}
                     aria-label={`Ver detalle de ${facility.nombre}`}
                     className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.03] shadow-[0_18px_40px_rgba(0,0,0,0.16)] transition-transform duration-300 hover:-translate-y-1"
                   >
@@ -331,14 +331,14 @@ export default function HumanoWebPage() {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                   <Link
-                    href="/humano/web/libro-de-reclamaciones"
+                    href="/humano/libro-de-reclamaciones"
                     className="transition-colors hover:text-[var(--color-amarillo)]"
                   >
                     Libro de Reclamaciones
                   </Link>
                   <span aria-hidden="true" className="hidden h-1 w-1 rounded-full bg-white/30 sm:block" />
                   <Link
-                    href="/humano/web/terminos-y-condiciones"
+                    href="/humano/terminos-y-condiciones"
                     className="transition-colors hover:text-[var(--color-amarillo)]"
                   >
                     Términos y Condiciones

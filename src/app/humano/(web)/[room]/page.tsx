@@ -27,11 +27,11 @@ const bodyFont = Inter({
 })
 
 const pageNavItems = [
-  { label: "Home", href: "/humano/web#inicio" },
-  { label: "Habitaciones", href: "/humano/web/habitaciones" },
-  { label: "Hotel", href: "/humano/web/hotel" },
-  { label: "Servicios", href: "/humano/web/servicios" },
-  { label: "Contacto", href: "/humano/web/contacto" },
+  { label: "Home", href: "/humano#inicio" },
+  { label: "Habitaciones", href: "/humano/habitaciones" },
+  { label: "Hotel", href: "/humano/hotel" },
+  { label: "Servicios", href: "/humano/servicios" },
+  { label: "Contacto", href: "/humano/contacto" },
 ]
 
 function getRoomMetaIcon(entry: HumanoRoom["meta"][number]) {
@@ -66,7 +66,7 @@ function RoomPreviewCard({
 
   return (
     <Link
-      href={`/humano/web/${room.slug}`}
+      href={`/humano/${room.slug}`}
       aria-label={`Ver detalle de ${room.nombre}`}
       className={`group block w-full overflow-hidden text-left transition-all duration-300 hover:-translate-y-0.5 ${
         compact
@@ -184,7 +184,7 @@ function RoomSuggestionCard({ room }: { room: HumanoRoom }) {
 
   return (
     <Link
-      href={`/humano/web/${room.slug}`}
+      href={`/humano/${room.slug}`}
       aria-label={`Ver detalle de ${room.nombre}`}
       className="group block text-left"
     >
@@ -291,9 +291,9 @@ export default async function HumanoRoomPage({
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader
-        brandHref="/humano/web#inicio"
+        brandHref="/humano#inicio"
         navItems={pageNavItems}
-        activeHref="/humano/web/habitaciones"
+        activeHref="/humano/habitaciones"
         showReserve={false}
       />
 
@@ -321,7 +321,7 @@ export default async function HumanoRoomPage({
                 <div>
                   <div className="space-y-3">
                     <Link
-                      href="/humano/web/habitaciones"
+                      href="/humano/habitaciones"
                       className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/86"
                     >
                       <ArrowLeft className="h-4 w-4" />
@@ -430,7 +430,7 @@ export default async function HumanoRoomPage({
               </p>
               <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                 <Link
-                  href="/humano/web/libro-de-reclamaciones"
+                  href="/humano/libro-de-reclamaciones"
                   className="transition-colors hover:text-[var(--color-amarillo)]"
                 >
                   Libro de Reclamaciones
@@ -440,7 +440,7 @@ export default async function HumanoRoomPage({
                   className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                 />
                 <Link
-                  href="/humano/web/terminos-y-condiciones"
+                  href="/humano/terminos-y-condiciones"
                   className="transition-colors hover:text-[var(--color-amarillo)]"
                 >
                   Términos y Condiciones

@@ -83,7 +83,7 @@ export function WebContactForm() {
     mailtoLink.href = mailtoUrl
     mailtoLink.click()
 
-    router.push("/humano/web/contacto/gracias")
+    router.push("/humano/contacto/gracias")
   }
 
   return (

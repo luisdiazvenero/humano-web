@@ -13,11 +13,11 @@ const bodyFont = Inter({
 })
 
 const pageNavItems = [
-  { label: "Home", href: "/humano/web#inicio" },
-  { label: "Habitaciones", href: "/humano/web/habitaciones" },
-  { label: "Hotel", href: "/humano/web/hotel" },
-  { label: "Servicios", href: "/humano/web/servicios" },
-  { label: "Contacto", href: "/humano/web/contacto" },
+  { label: "Home", href: "/humano#inicio" },
+  { label: "Habitaciones", href: "/humano/habitaciones" },
+  { label: "Hotel", href: "/humano/hotel" },
+  { label: "Servicios", href: "/humano/servicios" },
+  { label: "Contacto", href: "/humano/contacto" },
 ]
 
 export const metadata: Metadata = {
@@ -30,9 +30,9 @@ export default function HumanoContactoGraciasPage() {
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-white`}>
       <WebStickyHeader
-        brandHref="/humano/web#inicio"
+        brandHref="/humano#inicio"
         navItems={pageNavItems}
-        activeHref="/humano/web/contacto"
+        activeHref="/humano/contacto"
         showReserve={false}
       />
 
@@ -65,7 +65,7 @@ export default function HumanoContactoGraciasPage() {
 
                 <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <Link
-                    href="/humano/web"
+                    href="/humano"
                     className={cn(
                       webPrimaryButtonClass,
                       "min-h-12 bg-white px-5 py-2.5 text-sm text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]"
@@ -75,7 +75,7 @@ export default function HumanoContactoGraciasPage() {
                     <ArrowUpRight className="h-4.5 w-4.5" />
                   </Link>
                   <Link
-                    href="/humano/web/contacto"
+                    href="/humano/contacto"
                     className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/82 transition hover:border-white/22 hover:bg-white/[0.05] hover:text-white"
                   >
                     Enviar otro mensaje
