@@ -238,6 +238,12 @@ export default async function HumanoFacilityDetailPage({
                     {facilityData.descripcionExperiencial}
                   </p>
 
+                  {facilityData.id === "INST_RESTAURANTE_ENT" ? (
+                    <p className="mt-4 text-[15px] leading-relaxed text-white/52">
+                      Próximamente.
+                    </p>
+                  ) : null}
+
                   <div className="mt-7 flex flex-wrap items-center gap-4">
                     <Link
                       href={`/humano/conserje?item=${facilityData.id}`}
