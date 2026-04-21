@@ -232,17 +232,16 @@ export default async function HumanoFacilityDetailPage({
                         </span>
                       )
                     })}
+                    {facilityData.id === "INST_RESTAURANTE_ENT" ? (
+                      <span className="inline-flex items-center rounded-full bg-[var(--color-amarillo)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-azul-rgb)]">
+                        Próximamente
+                      </span>
+                    ) : null}
                   </div>
 
                   <p className="mt-5 max-w-[760px] text-[16px] leading-[1.65] text-white/84">
                     {facilityData.descripcionExperiencial}
                   </p>
-
-                  {facilityData.id === "INST_RESTAURANTE_ENT" ? (
-                    <p className="mt-4 text-[15px] leading-relaxed text-white/52">
-                      Próximamente.
-                    </p>
-                  ) : null}
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
                     <Link
