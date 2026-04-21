@@ -5,12 +5,13 @@ import { Inter, Playfair_Display_SC } from "next/font/google"
 import {
   ArrowUpRight,
   Clock3,
-  Coffee,
   Footprints,
+  Moon,
   ShoppingBag,
   Sparkles,
   SunMedium,
   Waves,
+  Zap,
 } from "lucide-react"
 
 import { WebFooterSocialLinks } from "@/components/humano-web/WebFooterSocialLinks"
@@ -114,7 +115,7 @@ export default function HumanoWebPage() {
 
           <div className="mt-16 grid gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-24">
             <div />
-            <StaggerGroup className="grid w-fit justify-items-start grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4 sm:gap-x-10">
+            <StaggerGroup className="grid w-fit justify-items-start grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-5 sm:gap-x-10">
               <Reveal fromParent className="flex flex-col items-start text-left">
                 <article>
                   <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
@@ -127,8 +128,30 @@ export default function HumanoWebPage() {
               </Reveal>
               <Reveal fromParent className="flex flex-col items-start text-left">
                 <article>
+                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center gap-1 rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
+                    <Footprints className="h-7 w-7" strokeWidth={1.5} />
+                    <SunMedium className="h-6 w-6" strokeWidth={1.5} />
+                  </span>
+                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
+                    Caminata día
+                  </p>
+                </article>
+              </Reveal>
+              <Reveal fromParent className="flex flex-col items-start text-left">
+                <article>
+                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center gap-1 rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
+                    <Footprints className="h-7 w-7" strokeWidth={1.5} />
+                    <Moon className="h-6 w-6" strokeWidth={1.5} />
+                  </span>
+                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
+                    Caminata noche
+                  </p>
+                </article>
+              </Reveal>
+              <Reveal fromParent className="flex flex-col items-start text-left">
+                <article>
                   <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <Footprints className="h-8 w-8" strokeWidth={1.5} />
+                    <Zap className="h-8 w-8" strokeWidth={1.5} />
                   </span>
                   <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
                     Running
@@ -138,21 +161,10 @@ export default function HumanoWebPage() {
               <Reveal fromParent className="flex flex-col items-start text-left">
                 <article>
                   <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <Coffee className="h-8 w-8" strokeWidth={1.5} />
+                    <Waves className="h-8 w-8" strokeWidth={1.5} />
                   </span>
                   <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Cafes
-                  </p>
-                </article>
-              </Reveal>
-              <Reveal fromParent className="flex flex-col items-start text-left">
-                <article>
-                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center gap-1 rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <SunMedium className="h-7 w-7" strokeWidth={1.5} />
-                    <Waves className="h-7 w-7" strokeWidth={1.5} />
-                  </span>
-                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Miraflores
+                    Surf y playa
                   </p>
                 </article>
               </Reveal>
