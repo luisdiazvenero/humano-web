@@ -265,9 +265,15 @@ export function ExperiencesFilterGallery({ facilities }: { facilities: HumanoFac
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                      <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
-                        {facility.categoria}
-                      </span>
+                      {facility.id === "INST_RESTAURANTE_ENT" ? (
+                        <span className="absolute left-7 top-7 inline-flex items-center rounded-full bg-[var(--color-amarillo)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-azul-rgb)]">
+                          Próximamente
+                        </span>
+                      ) : (
+                        <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
+                          {facility.categoria}
+                        </span>
+                      )}
 
                       <div className="absolute bottom-8 left-8 right-24">
                         <h3 className="font-serif text-[30px] leading-[1.02] text-white drop-shadow-md sm:text-[26px]">
