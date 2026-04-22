@@ -317,11 +317,11 @@
       "tipo": "Habitaciones"
     },
     {
-      "id": "SERV_TRANSFER_AEROPUERTO",
-      "nombre_publico": "Transfer aeropuerto",
+      "id": "SERV_CONCIERGE",
+      "nombre_publico": "Local Expert",
       "categoria": "Servicio",
-      "desc_factual": "Traslado privado desde o hacia el aeropuerto Jorge Chávez, por un costo adicional de US$37.00 (incluye impuestos). Consulta por tarifas a otros destinos.",
-      "desc_experiencial": "Brindamos transporte a dónde tu necesites ir ya sea el aeropuerto, reunión de trabajo o evento social. Una opción cómoda y confiable para moverte con tranquilidad desde y hacia el hotel.",
+      "desc_factual": "Asistencia en recepción para información general y apoyo durante la estadía.",
+      "desc_experiencial": "Tener a alguien que te ayude a orientarte cuando lo necesitas.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -333,19 +333,13 @@
         "grupo",
         "familia"
       ],
-      "restricciones_requisitos": [
-        "coordinacion_previa"
-      ],
+      "restricciones_requisitos": [],
       "redirigir": "recepcion@humanohoteles.com",
-      "condiciones_servicio": [
-        "con_costo",
-        "tercerizado",
-        "disponibilidad_variable"
-      ],
+      "condiciones_servicio": [],
       "imagenes_url": [],
       "frases_sugeridas": [
-        "Cómodo si llegas tarde o de madrugada",
-        "Evita complicaciones al llegar"
+        "Útil si es tu primera vez",
+        "Te ayudan a orientarte"
       ],
       "ctas": [
         "Coordinar servicio"
@@ -440,6 +434,84 @@
       "tipo": "Servicios"
     },
     {
+      "id": "SERV_TRANSFER_AEROPUERTO",
+      "nombre_publico": "Transfer aeropuerto",
+      "categoria": "Servicio",
+      "desc_factual": "Traslado privado desde o hacia el aeropuerto Jorge Chávez, por un costo adicional de US$37.00 (incluye impuestos). Consulta por tarifas a otros destinos.",
+      "desc_experiencial": "Brindamos transporte a dónde tu necesites ir ya sea el aeropuerto, reunión de trabajo o evento social. Una opción cómoda y confiable para moverte con tranquilidad desde y hacia el hotel.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [
+        "coordinacion_previa"
+      ],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [
+        "con_costo",
+        "tercerizado",
+        "disponibilidad_variable"
+      ],
+      "imagenes_url": [],
+      "frases_sugeridas": [
+        "Cómodo si llegas tarde o de madrugada",
+        "Evita complicaciones al llegar"
+      ],
+      "ctas": [
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_WIFI",
+      "nombre_publico": "Wi‑Fi",
+      "categoria": "Servicio",
+      "desc_factual": "Conexión Wi‑Fi disponible en todo el hotel.",
+      "desc_experiencial": "Mantenerte conectado sin fricción.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [
+        "Es parte de la estadía",
+        "Funciona bien para trabajo y ocio"
+      ],
+      "ctas": [
+        "Coordinar servicio"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios"
+    },
+    {
       "id": "SERV_LAVANDERIA",
       "nombre_publico": "Lavandería",
       "categoria": "Servicio",
@@ -521,42 +593,6 @@
       "tipo": "Servicios"
     },
     {
-      "id": "SERV_WIFI",
-      "nombre_publico": "Wi‑Fi",
-      "categoria": "Servicio",
-      "desc_factual": "Conexión Wi‑Fi disponible en todo el hotel.",
-      "desc_experiencial": "Mantenerte conectado sin fricción.",
-      "intenciones": [
-        "Trabajo",
-        "Descanso",
-        "Aventura"
-      ],
-      "perfil_ideal": [
-        "solo",
-        "pareja",
-        "grupo",
-        "familia"
-      ],
-      "restricciones_requisitos": [],
-      "redirigir": "recepcion@humanohoteles.com",
-      "condiciones_servicio": [],
-      "imagenes_url": [],
-      "frases_sugeridas": [
-        "Es parte de la estadía",
-        "Funciona bien para trabajo y ocio"
-      ],
-      "ctas": [
-        "Coordinar servicio"
-      ],
-      "horario_apertura": null,
-      "horario_cierre": null,
-      "check_in": "",
-      "check_out": "",
-      "precio_desde": "",
-      "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
-    },
-    {
       "id": "SERV_LIMPIEZA",
       "nombre_publico": "Limpieza de habitación",
       "categoria": "Servicio",
@@ -580,42 +616,6 @@
       "frases_sugeridas": [
         "Incluido durante la estadía",
         "Mantiene todo en orden"
-      ],
-      "ctas": [
-        "Coordinar servicio"
-      ],
-      "horario_apertura": null,
-      "horario_cierre": null,
-      "check_in": "",
-      "check_out": "",
-      "precio_desde": "",
-      "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
-    },
-    {
-      "id": "SERV_CONCIERGE",
-      "nombre_publico": "Local Expert",
-      "categoria": "Servicio",
-      "desc_factual": "Asistencia en recepción para información general y apoyo durante la estadía.",
-      "desc_experiencial": "Tener a alguien que te ayude a orientarte cuando lo necesitas.",
-      "intenciones": [
-        "Trabajo",
-        "Descanso",
-        "Aventura"
-      ],
-      "perfil_ideal": [
-        "solo",
-        "pareja",
-        "grupo",
-        "familia"
-      ],
-      "restricciones_requisitos": [],
-      "redirigir": "recepcion@humanohoteles.com",
-      "condiciones_servicio": [],
-      "imagenes_url": [],
-      "frases_sugeridas": [
-        "Útil si es tu primera vez",
-        "Te ayudan a orientarte"
       ],
       "ctas": [
         "Coordinar servicio"
