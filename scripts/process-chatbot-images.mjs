@@ -3,7 +3,11 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { execFile } from "node:child_process"
+import { promisify } from "node:util"
 import sharp from "sharp"
+
+const execFileAsync = promisify(execFile)
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -21,7 +25,10 @@ const dataJsonPaths = [
 
 const maxEdge = 2000
 const webpQuality = 90
-const supportedExts = new Set([".jpg", ".jpeg", ".png", ".webp"])
+const videoCrf = 23
+const videoPreset = "slow"
+const supportedImageExts = new Set([".jpg", ".jpeg", ".png", ".webp"])
+const supportedVideoExts = new Set([".mp4", ".mov", ".MP4", ".MOV"])
 
 const placeholderFolderMap = {
   LINK_IMAGENES_SUPERIOR_KING: "hab/superior_king",
@@ -115,21 +122,13 @@ function formatBytes(bytes) {
 }
 
 function toSnakeAscii(value) {
-  const normalized = value
+  return value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^A-Za-z0-9]+/g, "_")
     .replace(/_+/g, "_")
     .replace(/^_+|_+$/g, "")
-    .toLowerCase()
-
-  return normalized || "item"
-}
-
-function uniquePush(list, values) {
-  for (const value of values) {
-    if (!list.includes(value)) list.push(value)
-  }
+    .toLowerCase() || "item"
 }
 
 function arraysEqual(a, b) {
@@ -156,14 +155,10 @@ function inferFolderFromExistingUrls(urls) {
       continue
     }
     if (!value.startsWith("/chatbot/imagenes/")) continue
-
     const trimmed = value.slice("/chatbot/imagenes/".length)
     const parts = trimmed.split("/").filter(Boolean)
-    if (parts.length >= 2) {
-      return parts.slice(0, -1).join("/")
-    }
+    if (parts.length >= 2) return parts.slice(0, -1).join("/")
   }
-
   return null
 }
 
@@ -171,13 +166,32 @@ function inferFolderForItem(item) {
   const urls = Array.isArray(item.imagenes_url) ? item.imagenes_url : []
   const fromUrls = inferFolderFromExistingUrls(urls)
   if (fromUrls) return fromUrls
-
   const normalizedId = normalizeItemId(item.id || "")
   return itemFolderMap[normalizedId] || null
 }
 
-async function collectImageFiles(rootPath) {
-  const files = []
+async function getVideoOrientation(inputPath) {
+  try {
+    const { stdout } = await execFileAsync("ffprobe", [
+      "-v", "quiet",
+      "-print_format", "json",
+      "-show_streams",
+      inputPath,
+    ])
+    const data = JSON.parse(stdout)
+    const video = data.streams.find((s) => s.codec_type === "video")
+    if (!video) return "horizontal"
+    const w = video.width
+    const h = video.height
+    return h > w ? "vertical" : "horizontal"
+  } catch {
+    return "horizontal"
+  }
+}
+
+async function collectFiles(rootPath) {
+  const images = []
+  const videos = []
 
   async function walk(currentPath, relativeParts) {
     const entries = await fs.readdir(currentPath, { withFileTypes: true })
@@ -192,19 +206,19 @@ async function collectImageFiles(rootPath) {
       }
       if (!entry.isFile()) continue
       const ext = path.extname(entry.name).toLowerCase()
-      if (!supportedExts.has(ext)) continue
-      files.push({
-        inputPath: nextPath,
-        relativeParts: [...relativeParts, entry.name],
-      })
+      if (supportedImageExts.has(ext)) {
+        images.push({ inputPath: nextPath, relativeParts: [...relativeParts, entry.name] })
+      } else if (supportedVideoExts.has(ext) || supportedVideoExts.has(path.extname(entry.name))) {
+        videos.push({ inputPath: nextPath, relativeParts: [...relativeParts, entry.name] })
+      }
     }
   }
 
   await walk(rootPath, [])
-  return files
+  return { images, videos }
 }
 
-function makeOutputPath(relativeParts, usedNamesByDir) {
+function makeImageOutputPath(relativeParts, usedNamesByDir) {
   const originalFilename = relativeParts[relativeParts.length - 1]
   const originalDirParts = relativeParts.slice(0, -1)
   const extension = path.extname(originalFilename)
@@ -214,11 +228,8 @@ function makeOutputPath(relativeParts, usedNamesByDir) {
   const folderKey = normalizedDirParts.join("/")
   const normalizedBase = toSnakeAscii(baseName)
 
-  const dirKey = folderKey
-  if (!usedNamesByDir.has(dirKey)) {
-    usedNamesByDir.set(dirKey, new Set())
-  }
-  const usedNames = usedNamesByDir.get(dirKey)
+  if (!usedNamesByDir.has(folderKey)) usedNamesByDir.set(folderKey, new Set())
+  const usedNames = usedNamesByDir.get(folderKey)
 
   let candidate = normalizedBase
   let counter = 2
@@ -229,17 +240,29 @@ function makeOutputPath(relativeParts, usedNamesByDir) {
   usedNames.add(candidate)
 
   const relativeOutputPath = path.posix.join(...normalizedDirParts, `${candidate}.webp`)
-  const absoluteOutputPath = path.join(outputRoot, ...normalizedDirParts, `${candidate}.webp`)
-  const webPath = `/chatbot/imagenes/${relativeOutputPath}`
-
   return {
     folderKey,
-    absoluteOutputPath,
-    webPath,
+    absoluteOutputPath: path.join(outputRoot, ...normalizedDirParts, `${candidate}.webp`),
+    webPath: `/chatbot/imagenes/${relativeOutputPath}`,
   }
 }
 
-async function updateDataJson(jsonPath, imagesByFolder, warnings) {
+function makeVideoOutputPath(relativeParts, orientation) {
+  const originalDirParts = relativeParts.slice(0, -1)
+  const normalizedDirParts = originalDirParts.map(toSnakeAscii)
+  const folderKey = normalizedDirParts.join("/")
+  const folderSlug = normalizedDirParts[normalizedDirParts.length - 1] || "video"
+  const filename = `${folderSlug}_${orientation}.mp4`
+
+  return {
+    folderKey,
+    absoluteOutputPath: path.join(outputRoot, ...normalizedDirParts, filename),
+    webPath: `/chatbot/imagenes/${path.posix.join(...normalizedDirParts, filename)}`,
+    orientation,
+  }
+}
+
+async function updateDataJson(jsonPath, imagesByFolder, videosByFolder, warnings) {
   const raw = await fs.readFile(jsonPath, "utf8")
   const data = JSON.parse(raw)
 
@@ -250,18 +273,29 @@ async function updateDataJson(jsonPath, imagesByFolder, warnings) {
 
     const mappedImages = imagesByFolder.get(mappedFolder) || []
     if (mappedImages.length === 0) {
-      warnings.push(
-        `Sin imágenes para ${mappedFolder} (item: ${item.nombre_publico || item.id}, archivo: ${path.basename(jsonPath)})`
-      )
+      warnings.push(`Sin imágenes para ${mappedFolder} (item: ${item.nombre_publico || item.id}, archivo: ${path.basename(jsonPath)})`)
       continue
     }
 
     const currentUrls = Array.isArray(item.imagenes_url)
-      ? item.imagenes_url.filter((value) => typeof value === "string")
+      ? item.imagenes_url.filter((v) => typeof v === "string")
       : []
 
     if (!arraysEqual(currentUrls, mappedImages)) {
       item.imagenes_url = [...mappedImages]
+      replacements += 1
+    }
+
+    const folderVideos = videosByFolder.get(mappedFolder) || {}
+    const newHorizontal = folderVideos.horizontal || null
+    const newVertical = folderVideos.vertical || null
+
+    if (item.video_horizontal !== newHorizontal) {
+      item.video_horizontal = newHorizontal
+      replacements += 1
+    }
+    if (item.video_vertical !== newVertical) {
+      item.video_vertical = newVertical
       replacements += 1
     }
   }
@@ -277,6 +311,7 @@ async function main() {
   const warnings = []
   const usedNamesByDir = new Map()
   const imagesByFolder = new Map()
+  const videosByFolder = new Map()
   let totalInputBytes = 0
   let totalOutputBytes = 0
 
@@ -287,35 +322,28 @@ async function main() {
     process.exit(1)
   }
 
-  const sourceFiles = await collectImageFiles(inputRoot)
+  const { images: sourceImages, videos: sourceVideos } = await collectFiles(inputRoot)
 
   if (!dryRun) {
     await fs.rm(outputRoot, { recursive: true, force: true })
     await fs.mkdir(outputRoot, { recursive: true })
   }
 
-  for (const source of sourceFiles) {
+  // Process images
+  for (const source of sourceImages) {
     const sourceStats = await fs.stat(source.inputPath)
     totalInputBytes += sourceStats.size
 
-    const output = makeOutputPath(source.relativeParts, usedNamesByDir)
-    if (!imagesByFolder.has(output.folderKey)) {
-      imagesByFolder.set(output.folderKey, [])
-    }
+    const output = makeImageOutputPath(source.relativeParts, usedNamesByDir)
+    if (!imagesByFolder.has(output.folderKey)) imagesByFolder.set(output.folderKey, [])
     imagesByFolder.get(output.folderKey).push(output.webPath)
 
     if (dryRun) continue
 
     await fs.mkdir(path.dirname(output.absoluteOutputPath), { recursive: true })
-
     await sharp(source.inputPath)
       .rotate()
-      .resize({
-        width: maxEdge,
-        height: maxEdge,
-        fit: "inside",
-        withoutEnlargement: true,
-      })
+      .resize({ width: maxEdge, height: maxEdge, fit: "inside", withoutEnlargement: true })
       .webp({ quality: webpQuality })
       .toFile(output.absoluteOutputPath)
 
@@ -328,17 +356,46 @@ async function main() {
     imagesByFolder.set(folder, urls)
   }
 
+  // Process videos
+  console.log(`Videos detectados: ${sourceVideos.length}`)
+  for (const source of sourceVideos) {
+    const sourceStats = await fs.stat(source.inputPath)
+    totalInputBytes += sourceStats.size
+
+    const orientation = await getVideoOrientation(source.inputPath)
+    const output = makeVideoOutputPath(source.relativeParts, orientation)
+
+    if (!videosByFolder.has(output.folderKey)) videosByFolder.set(output.folderKey, {})
+    videosByFolder.get(output.folderKey)[orientation] = output.webPath
+
+    if (dryRun) continue
+
+    await fs.mkdir(path.dirname(output.absoluteOutputPath), { recursive: true })
+    await execFileAsync("ffmpeg", [
+      "-i", source.inputPath,
+      "-c:v", "libx264",
+      "-crf", String(videoCrf),
+      "-preset", videoPreset,
+      "-c:a", "aac",
+      "-b:a", "128k",
+      "-movflags", "+faststart",
+      "-y",
+      output.absoluteOutputPath,
+    ])
+    console.log(`  ✓ ${path.basename(source.inputPath)} → ${orientation} (${output.webPath})`)
+
+    const outputStats = await fs.stat(output.absoluteOutputPath)
+    totalOutputBytes += outputStats.size
+  }
+
   const replacementResults = []
   for (const jsonPath of dataJsonPaths) {
-    const replacements = await updateDataJson(jsonPath, imagesByFolder, warnings)
-    replacementResults.push({
-      file: path.relative(projectRoot, jsonPath),
-      replacements,
-    })
+    const replacements = await updateDataJson(jsonPath, imagesByFolder, videosByFolder, warnings)
+    replacementResults.push({ file: path.relative(projectRoot, jsonPath), replacements })
   }
 
   console.log(`Modo: ${dryRun ? "dry-run" : "write"}`)
-  console.log(`Imágenes detectadas: ${sourceFiles.length}`)
+  console.log(`Imágenes detectadas: ${sourceImages.length}`)
   for (const result of replacementResults) {
     console.log(`Items actualizados en ${result.file}: ${result.replacements}`)
   }
@@ -356,9 +413,7 @@ async function main() {
 
   if (warnings.length > 0) {
     console.log(`Warnings (${warnings.length}):`)
-    for (const warning of warnings) {
-      console.log(`- ${warning}`)
-    }
+    for (const warning of warnings) console.log(`  - ${warning}`)
   }
 }
 

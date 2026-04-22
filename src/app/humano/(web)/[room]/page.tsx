@@ -392,6 +392,8 @@ export default async function HumanoRoomPage({
                         ? [roomData.imagen]
                         : []
                   }
+                  videoHorizontal={roomData.videoHorizontal}
+                  videoVertical={roomData.videoVertical}
                 />
               </div>
             </div>

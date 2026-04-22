@@ -22,6 +22,8 @@ export type HumanoRoom = {
   }>
   imagen: string | null
   imagenes: string[]
+  videoHorizontal: string | null
+  videoVertical: string | null
 }
 
 function extractRoomBedLabel(description: string): string | null {
@@ -119,6 +121,8 @@ function toHumanoRoom(item: ConserjeItem): HumanoRoom {
     meta: extractRoomMeta(item.nombre_publico, item.desc_factual),
     imagen: imagenes[0] ?? null,
     imagenes,
+    videoHorizontal: (item as Record<string, unknown>).video_horizontal as string | null ?? null,
+    videoVertical: (item as Record<string, unknown>).video_vertical as string | null ?? null,
   }
 }
 

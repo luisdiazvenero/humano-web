@@ -38,7 +38,9 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/superior_king/superior_king_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/superior_king/superior_king_vertical.mp4"
     },
     {
       "id": "HAB_SUPERIOR_DOUBLE",
@@ -79,7 +81,9 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_DELUXE_KING",
@@ -118,13 +122,15 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_ACCESIBLE_ROOM",
       "nombre_publico": "Accesible Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con 1 cama King, Wi Fi, Smart TV de 50\", año con ducha accesible para silla de ruedas, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si viaja con alguien se arma comunicantes con una Superior double. Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan.",
+      "desc_factual": "Habitación de 32 m² con 1 cama King, Wi Fi, Smart TV de 50\", baño con ducha accesible para silla de ruedas, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si viaja con alguien se arma comunicantes con una Superior double. Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan.",
       "desc_experiencial": "Pensada para brindar máxima comodidad y accesibilidad sin comprometer el diseño. Con una cama king, amplios espacios y todos los elementos esenciales, esta habitación garantiza una estadía práctica y acogedora para quienes necesitan mayor facilidad de movimiento.",
       "intenciones": [
         "Trabajo",
@@ -157,13 +163,15 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_ROOM",
       "nombre_publico": "Family Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con1 cama king + sofá cama de 2 plazas.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan.",
+      "desc_factual": "Habitación de 32 m² con 1 cama king + sofá cama de 2 plazas.  Wi Fi, Smart TV de 50\", baño completo con ducha, vaporizador, minibar, caja de seguridad, maquina de café, hervidor. Botella con agua al check in. Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan.",
       "desc_experiencial": "Ideal para viajes en familia, con un diseño funcional y amplio. Un espacio cómodo y bien equipado, pensado para que todos disfruten de una estancia tranquila y sin complicaciones.",
       "intenciones": [
         "Descanso",
@@ -196,7 +204,9 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_DELUXE",
@@ -235,7 +245,9 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_JUNIOR_SUITE",
@@ -275,13 +287,15 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_SIGNATURE_SUITE",
       "nombre_publico": "Signature Suite",
       "categoria": "Habitación",
-      "desc_factual": "Suite de 2 ambientes con 64m2: baño de visita, kitchenett, sala y comedor con Smart TV de 55\", habitación con cama 1 cama king, escritorio, caja de seguridad y baño completo con ducha y tina.",
+      "desc_factual": "Suite de 2 ambientes con 64m2: baño de visita, kitchenett, sala y comedor con Smart TV de 55\", habitación con 1 cama king, escritorio, caja de seguridad y baño completo con ducha y tina.",
       "desc_experiencial": "Un espacio amplio y flexible, creado para quienes buscan comodidad y libertad. Equipado con todo lo necesario para trabajar, recibir visitas o relajarse y explorar Lima, es la opción ideal para estancias largas o viajes que requieren confort y amplitud.",
       "intenciones": [
         "Trabajo",
@@ -314,7 +328,9 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_CONCIERGE",
@@ -393,7 +409,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_ROOM_SERVICE",
@@ -431,7 +449,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_TRANSFER_AEROPUERTO",
@@ -549,7 +569,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_ESTACIONAMIENTO",
@@ -590,7 +612,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_LIMPIEZA",
@@ -664,7 +688,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_DESAYUNO",
@@ -702,7 +728,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_RESTAURANTE_ENT",
@@ -740,7 +768,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_RESTAURANTE_CDL",
@@ -779,7 +809,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_COWORKING",
@@ -816,7 +848,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_GIMNASIO",
@@ -854,7 +888,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_PISCINA",
@@ -892,7 +928,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_SALAS_REUNIONES",
@@ -926,7 +964,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_BAR",
@@ -996,7 +1036,9 @@
       "check_in": "",
       "check_out": "",
       "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_PARQUE_KENNEDY",
@@ -1036,7 +1078,9 @@
       "check_in": "",
       "check_out": "",
       "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_LARCOMAR",
@@ -1076,7 +1120,9 @@
       "check_in": "",
       "check_out": "",
       "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_RUNNING_MALECON",
@@ -1115,7 +1161,9 @@
       "check_in": "",
       "check_out": "",
       "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_RUTA_DEL_CAFÉ",
@@ -1192,7 +1240,9 @@
       "check_in": "",
       "check_out": "",
       "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_PARAPENTE",
@@ -1230,7 +1280,9 @@
       "check_in": "",
       "check_out": "",
       "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_TEATROS",
@@ -1271,7 +1323,9 @@
       "check_in": "",
       "check_out": "",
       "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_BARRANCO",

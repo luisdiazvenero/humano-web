@@ -41,7 +41,9 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/superior_king/superior_king_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/superior_king/superior_king_vertical.mp4"
     },
     {
       "id": "HAB_SUPERIOR_DOUBLE",
@@ -84,7 +86,9 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_DELUXE_KING",
@@ -126,13 +130,15 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_ACCESIBLE_ROOM",
       "nombre_publico": "Accesible Room",
       "categoria": "Habitación",
-      "desc_factual": "Habitación de 32 m² con 1 cama King, minirefrigerador, escritorio y baño con ducha accesible para silla de ruedas. Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan.",
+      "desc_factual": "Habitación de 32 m² con 1 cama King, minirefrigerador, escritorio y bbaño con ducha accesible para silla de ruedas. Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan.",
       "desc_experiencial": "Diseñada para una estadía más cómoda si necesitas accesibilidad en la ducha y circulación.",
       "intenciones": [
         "Trabajo",
@@ -165,7 +171,9 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_ROOM",
@@ -207,7 +215,9 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_DELUXE",
@@ -249,7 +259,9 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_JUNIOR_SUITE",
@@ -292,7 +304,9 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_SIGNATURE_SUITE",
@@ -333,7 +347,9 @@
       "link_ubicacion_mapa": "",
       "horario_apertura": null,
       "horario_cierre": null,
-      "tipo": "Habitaciones"
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_TRANSFER_AEROPUERTO",
@@ -422,7 +438,9 @@
       "check_out": "",
       "check_in": "",
       "precio_desde": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_ROOM_SERVICE",
@@ -461,7 +479,9 @@
       "check_out": "",
       "check_in": "",
       "precio_desde": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_LAVANDERIA",
@@ -502,7 +522,9 @@
       "check_out": "",
       "check_in": "",
       "precio_desde": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_ESTACIONAMIENTO",
@@ -544,7 +566,9 @@
       "check_out": "",
       "check_in": "",
       "precio_desde": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_WIFI",
@@ -700,7 +724,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_DESAYUNO",
@@ -739,7 +765,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_RESTAURANTE_ENT",
@@ -778,7 +806,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_RESTAURANTE_CDL",
@@ -818,7 +848,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_COWORKING",
@@ -856,7 +888,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_GIMNASIO",
@@ -895,7 +929,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_PISCINA",
@@ -934,7 +970,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_SALAS_REUNIONES",
@@ -969,7 +1007,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Instalaciones"
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_MALECON_MIRAFLORES",
@@ -1009,7 +1049,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_PARQUE_KENNEDY",
@@ -1049,7 +1091,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_LARCOMAR",
@@ -1089,7 +1133,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_RUNNING_MALECON",
@@ -1128,7 +1174,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_CAFES_MIRAFLORES",
@@ -1205,7 +1253,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_PARAPENTE",
@@ -1242,7 +1292,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "REC_TEATROS",
@@ -1282,7 +1334,9 @@
       "check_in": "",
       "precio_desde": "",
       "redirigir": "",
-      "tipo": "Recomendaciones_Locales"
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     }
   ],
   "reglas": [
