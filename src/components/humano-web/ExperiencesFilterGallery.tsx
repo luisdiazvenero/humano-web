@@ -54,17 +54,16 @@ function FacilityImagePlaceholder() {
 export function ExperiencesFilterGallery({ facilities }: { facilities: HumanoFacility[] }) {
   return (
     <div className="mx-auto w-full max-w-[1680px] px-6 sm:px-10 xl:px-14">
-      <div className="grid items-start gap-6 lg:grid-cols-[216px_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[220px_minmax(0,1fr)] xl:gap-8">
+      <div className="grid items-start gap-10 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[240px_minmax(0,1fr)] xl:gap-14">
         <aside className="lg:sticky lg:top-28">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-azul-soft)]/52">
-            Hotel Humano · Miraflores
-          </p>
-          <h2 className="mt-3 font-serif text-[22px] leading-[1.15] text-[var(--color-azul-rgb)]">
-            Hospitalidad consciente en Lima.
-          </h2>
-          <p className="mt-4 text-[13px] leading-[1.75] text-[var(--color-azul-rgb)]/58">
-            En Humano creemos que la hospitalidad va más allá del servicio. Es crear espacios donde las personas puedan reconectar consigo mismas y con los demás, en el corazón de Miraflores...
-          </p>
+          <div className="pt-10 sm:pt-14">
+            <h2 className="font-serif text-[28px] leading-[1.15] text-[var(--color-azul-rgb)]">
+              Hospitalidad consciente en Lima.
+            </h2>
+            <p className="mt-4 text-[15px] leading-[1.8] text-[var(--color-azul-rgb)]/52">
+              En Humano creemos que la hospitalidad va más allá del servicio. Es crear espacios donde las personas puedan reconectar consigo mismas y con los demás, en el corazón de Miraflores.
+            </p>
+          </div>
         </aside>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">

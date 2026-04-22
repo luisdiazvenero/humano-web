@@ -66,7 +66,7 @@ export default function HumanoWebPage() {
 
   return (
     <div className={`${bodyFont.className} bg-white text-[var(--color-azul-rgb)]`}>
-      <WebStickyHeader />
+      <WebStickyHeader activeHref="#inicio" />
 
       <main>
         <section id="inicio" className="relative min-h-screen">

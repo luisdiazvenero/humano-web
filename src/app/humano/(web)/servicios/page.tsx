@@ -43,7 +43,7 @@ export default function HumanoServicesPage() {
       <WebStickyHeader
         brandHref="/humano#inicio"
         navItems={pageNavItems}
-        activeHref="#servicios"
+        activeHref="/humano/servicios"
       />
 
       <main>

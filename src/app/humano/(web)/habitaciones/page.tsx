@@ -24,7 +24,7 @@ const bodyFont = Inter({
 
 const pageNavItems = [
   { label: "Home", href: "/humano#inicio" },
-  { label: "Habitaciones", href: "#habitaciones" },
+  { label: "Habitaciones", href: "/humano/habitaciones" },
   { label: "Hotel", href: "/humano/hotel" },
   { label: "Servicios", href: "/humano/servicios" },
   { label: "Contacto", href: "/humano/contacto" },
@@ -44,7 +44,7 @@ export default function HumanoRoomsPage() {
       <WebStickyHeader
         brandHref="/humano#inicio"
         navItems={pageNavItems}
-        activeHref="#habitaciones"
+        activeHref="/humano/habitaciones"
       />
 
       <main>
