@@ -90,6 +90,7 @@ export function RoomDetailGallery({
               alt={roomName}
               fill
               priority
+              quality={90}
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
               sizes="(max-width: 1024px) 100vw, 45vw"
             />
@@ -110,6 +111,7 @@ export function RoomDetailGallery({
                 src={image}
                 alt={`${roomName} imagen ${index + 2}`}
                 fill
+                quality={90}
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                 sizes="(max-width: 1024px) 100vw, 35vw"
               />
@@ -185,6 +187,7 @@ export function RoomDetailGallery({
                       src={images[activeIndex]}
                       alt={`${roomName} imagen ${activeIndex + 1}`}
                       fill
+                      quality={90}
                       className="object-contain"
                       sizes="100vw"
                     />
