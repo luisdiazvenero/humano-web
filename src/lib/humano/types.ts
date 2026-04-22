@@ -25,6 +25,8 @@ export interface ConserjeItem {
   redirigir: string
   link_ubicacion_mapa: string
   tipo: ConserjeItemType
+  video_horizontal?: string | null
+  video_vertical?: string | null
 }
 
 export interface ReglaGobierno {

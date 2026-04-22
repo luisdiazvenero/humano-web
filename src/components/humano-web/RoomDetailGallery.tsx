@@ -24,8 +24,17 @@ export function RoomDetailGallery({
   showHumanoPlaceholder = false,
 }: RoomDetailGalleryProps) {
   const [lightbox, setLightbox] = useState<LightboxItem | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const lightboxVideoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)")
+    setIsMobile(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mq.addEventListener("change", handler)
+    return () => mq.removeEventListener("change", handler)
+  }, [])
 
   const hasVideo = Boolean(videoHorizontal || videoVertical)
   // Side thumbnails: show up to 3 if video is present, else 2
@@ -122,7 +131,7 @@ export function RoomDetailGallery({
               {/* Play button */}
               <button
                 type="button"
-                onClick={() => setLightbox({ kind: "video", src: videoHorizontal || videoVertical || "" })}
+                onClick={() => setLightbox({ kind: "video", src: (isMobile ? videoVertical : videoHorizontal) || videoHorizontal || videoVertical || "" })}
                 className="absolute inset-0 flex items-center justify-center cursor-pointer"
                 aria-label="Ver video en pantalla completa"
               >

@@ -121,8 +121,8 @@ function toHumanoRoom(item: ConserjeItem): HumanoRoom {
     meta: extractRoomMeta(item.nombre_publico, item.desc_factual),
     imagen: imagenes[0] ?? null,
     imagenes,
-    videoHorizontal: (item as Record<string, unknown>).video_horizontal as string | null ?? null,
-    videoVertical: (item as Record<string, unknown>).video_vertical as string | null ?? null,
+    videoHorizontal: item.video_horizontal ?? null,
+    videoVertical: item.video_vertical ?? null,
   }
 }
 
