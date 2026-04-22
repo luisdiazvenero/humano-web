@@ -266,7 +266,7 @@ export function ExperiencesFilterGallery({ facilities }: { facilities: HumanoFac
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
                       {facility.id === "INST_RESTAURANTE_ENT" ? (
-                        <span className="absolute left-7 top-7 inline-flex items-center rounded-full bg-[var(--color-amarillo)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-azul-rgb)]">
+                        <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-[var(--color-amarillo)] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
                           Próximamente
                         </span>
                       ) : (
