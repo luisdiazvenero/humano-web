@@ -111,7 +111,7 @@ export function RoomDetailGallery({
                 alt={`${roomName} imagen ${index + 2}`}
                 fill
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-                sizes="(max-width: 1024px) 100vw, 22vw"
+                sizes="(max-width: 1024px) 100vw, 35vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/24 via-transparent to-transparent" />
             </div>
