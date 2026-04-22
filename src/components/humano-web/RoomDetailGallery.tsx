@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import { ChevronLeft, ChevronRight, Play, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 
 type RoomDetailGalleryProps = {
   roomName: string
@@ -123,11 +123,11 @@ export function RoomDetailGallery({
               <button
                 type="button"
                 onClick={() => setLightbox({ kind: "video", src: videoHorizontal || videoVertical || "" })}
-                className="absolute inset-0 flex items-center justify-center group cursor-pointer"
+                className="absolute inset-0 flex items-center justify-center cursor-pointer"
                 aria-label="Ver video en pantalla completa"
               >
-                <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-black/32 text-white backdrop-blur-sm transition-all duration-200 group-hover:bg-black/52 group-hover:scale-110">
-                  <Play className="h-7 w-7 translate-x-0.5" strokeWidth={1.8} />
+                <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30">
+                  <span className="ml-1 inline-block h-0 w-0 border-b-[9px] border-l-[14px] border-t-[9px] border-b-transparent border-l-white border-t-transparent" />
                 </span>
               </button>
             </div>
@@ -196,35 +196,46 @@ export function RoomDetailGallery({
               className="relative flex max-h-[calc(100svh-2rem)] w-full max-w-[1320px] flex-col sm:max-h-[calc(100svh-3rem)]"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
-              <div className="mb-3 flex items-center justify-between gap-4 px-1">
-                <p className="text-sm font-medium text-white/72">
-                  {lightbox.kind === "video" ? "Video" : `${lightbox.index + 1} / ${images.length}`}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setLightbox(null)}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/18 bg-white/10 text-white transition hover:bg-white/16 cursor-pointer"
-                  aria-label="Cerrar"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-
               <div className="relative min-h-0 flex-1">
                 {lightbox.kind === "video" ? (
-                  <div className="overflow-hidden rounded-[26px] border border-white/10 bg-black shadow-[0_28px_80px_rgba(0,0,0,0.45)]">
-                    <video
-                      ref={lightboxVideoRef}
-                      src={lightbox.src}
-                      controls
-                      autoPlay
-                      playsInline
-                      className="max-h-[min(72svh,calc(100svh-13rem))] w-full object-contain"
-                    />
+                  <div className="mx-auto flex w-fit flex-col gap-3">
+                    <div className="flex w-full items-center justify-between gap-4">
+                      <p className="font-serif text-xl text-white/90">{roomName}</p>
+                      <button
+                        type="button"
+                        onClick={() => setLightbox(null)}
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/18 bg-white/10 text-white transition hover:bg-white/16 cursor-pointer"
+                        aria-label="Cerrar"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
+                    <div className="overflow-hidden rounded-[26px] border border-white/10 shadow-[0_28px_80px_rgba(0,0,0,0.45)]">
+                      <video
+                        ref={lightboxVideoRef}
+                        src={lightbox.src}
+                        controls
+                        autoPlay
+                        playsInline
+                        className="block max-h-[min(72svh,calc(100svh-13rem))] max-w-[calc(100vw-2rem)]"
+                      />
+                    </div>
                   </div>
                 ) : (
                   <>
+                    <div className="mb-3 flex items-center justify-between gap-4 px-1">
+                      <p className="text-sm font-medium text-white/72">
+                        {lightbox.index + 1} / {images.length}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setLightbox(null)}
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/18 bg-white/10 text-white transition hover:bg-white/16 cursor-pointer"
+                        aria-label="Cerrar"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
                     {images.length > 1 ? (
                       <>
                         <button
@@ -245,7 +256,6 @@ export function RoomDetailGallery({
                         </button>
                       </>
                     ) : null}
-
                     <div className="h-full overflow-hidden rounded-[26px] border border-white/10 bg-black/16 shadow-[0_28px_80px_rgba(0,0,0,0.45)]">
                       <div className="relative h-[min(68svh,calc(100svh-12rem))] min-h-[280px] w-full sm:h-[min(72svh,calc(100svh-13rem))]">
                         <Image
@@ -258,25 +268,24 @@ export function RoomDetailGallery({
                         />
                       </div>
                     </div>
-
                     {images.length > 1 ? (
                       <div className="mt-3 flex shrink-0 flex-wrap justify-center gap-2.5 sm:gap-3">
-                        {images.map((image, index) => (
+                        {images.map((image, idx) => (
                           <button
-                            key={`${roomName}-thumb-${index}`}
+                            key={`${roomName}-thumb-${idx}`}
                             type="button"
-                            onClick={() => setLightbox({ kind: "image", src: image, index })}
+                            onClick={() => setLightbox({ kind: "image", src: image, index: idx })}
                             className={`relative overflow-hidden rounded-2xl border transition cursor-pointer ${
-                              index === lightbox.index
+                              idx === lightbox.index
                                 ? "border-white/72 opacity-100"
                                 : "border-white/12 opacity-65 hover:opacity-100"
                             }`}
-                            aria-label={`Ir a imagen ${index + 1}`}
+                            aria-label={`Ir a imagen ${idx + 1}`}
                           >
                             <div className="relative h-14 w-14 sm:h-16 sm:w-20">
                               <Image
                                 src={image}
-                                alt={`${roomName} miniatura ${index + 1}`}
+                                alt={`${roomName} miniatura ${idx + 1}`}
                                 fill
                                 className="object-cover"
                                 sizes="96px"

@@ -87,8 +87,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": null,
-      "video_vertical": null
+      "video_horizontal": "/chatbot/imagenes/hab/superior_doble/superior_doble_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/superior_doble/superior_doble_vertical.mp4"
     },
     {
       "id": "HAB_DELUXE_KING",
@@ -131,8 +131,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": null,
-      "video_vertical": null
+      "video_horizontal": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_vertical.mp4"
     },
     {
       "id": "HAB_ACCESIBLE_ROOM",
@@ -172,8 +172,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": null,
-      "video_vertical": null
+      "video_horizontal": "/chatbot/imagenes/hab/accesible_room/accesible_room_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/accesible_room/accesible_room_vertical.mp4"
     },
     {
       "id": "HAB_FAMILY_ROOM",
@@ -216,8 +216,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": null,
-      "video_vertical": null
+      "video_horizontal": "/chatbot/imagenes/hab/family_room/family_room_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/family_room/family_room_vertical.mp4"
     },
     {
       "id": "HAB_FAMILY_DELUXE",
@@ -305,8 +305,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": null,
-      "video_vertical": null
+      "video_horizontal": "/chatbot/imagenes/hab/junior_suite/junior_suite_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/junior_suite/junior_suite_vertical.mp4"
     },
     {
       "id": "HAB_SIGNATURE_SUITE",
