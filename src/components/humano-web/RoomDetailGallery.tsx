@@ -187,7 +187,7 @@ export function RoomDetailGallery({
                       src={images[activeIndex]}
                       alt={`${roomName} imagen ${activeIndex + 1}`}
                       fill
-                      quality={90}
+                      unoptimized
                       className="object-contain"
                       sizes="100vw"
                     />

@@ -19,8 +19,8 @@ const dataJsonPaths = [
   path.join(projectRoot, "src", "data", "humano.json"),
 ]
 
-const maxEdge = 1800
-const webpQuality = 85
+const maxEdge = 2000
+const webpQuality = 90
 const supportedExts = new Set([".jpg", ".jpeg", ".png", ".webp"])
 
 const placeholderFolderMap = {
