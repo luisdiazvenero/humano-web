@@ -24,7 +24,7 @@ import { getHumanoFeaturedFacilities } from "@/lib/humano/facilities"
 import { getHumanoRooms } from "@/lib/humano/rooms"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
-import { VideoBackground } from "@/components/humano-web/VideoBackground"
+import { HeroSection } from "@/components/humano-web/HeroSection"
 
 const headingFont = Playfair_Display_SC({
   subsets: ["latin"],
@@ -69,30 +69,7 @@ export default function HumanoWebPage() {
       <WebStickyHeader activeHref="#inicio" />
 
       <main>
-        <section id="inicio" className="relative min-h-screen">
-          <VideoBackground />
-          <div className="absolute inset-0 bg-black/35" />
-
-          <div className="relative mx-auto h-screen w-full max-w-[1280px] px-4 text-center text-white sm:px-6 lg:px-8">
-            <button
-              type="button"
-              className="absolute left-1/2 top-1/2 inline-flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30"
-              aria-label="Reproducir video"
-            >
-              <span className="ml-1 inline-block h-0 w-0 border-b-[9px] border-l-[14px] border-t-[9px] border-b-transparent border-l-white border-t-transparent" />
-            </button>
-            <div className="absolute left-1/2 top-[calc(50%+76px)] w-full max-w-[900px] -translate-x-1/2 px-4">
-              <p className="text-4xl font-serif leading-tight">
-                Viaja con propósito,
-                <br />
-                no solo con itinerario
-              </p>
-              <p className="mt-4 text-[18px] leading-tight text-white/85">
-                Descubre Humano
-              </p>
-            </div>
-          </div>
-        </section>
+        <HeroSection />
 
         <section className="mx-auto w-full max-w-[1680px] px-6 pb-32 pt-36 sm:px-10 sm:pb-36 sm:pt-40 xl:px-14">
           <Reveal>
