@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Script from "next/script"
 // Commented temporarily for build - fonts work fine in production
 // import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
@@ -30,6 +31,13 @@ export default function RootLayout({
       <body
         className="font-sans bg-background text-foreground antialiased"
       >
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-72C40YXW4P" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-72C40YXW4P');
+        `}</Script>
         {children}
       </body>
     </html>
