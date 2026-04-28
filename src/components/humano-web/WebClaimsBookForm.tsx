@@ -255,7 +255,7 @@ export function WebClaimsBookForm() {
     mailtoLink.href = mailtoUrl
     mailtoLink.click()
 
-    router.push("/humano/libro-de-reclamaciones/gracias")
+    router.push("/libro-de-reclamaciones/gracias")
   }
 
   return (
@@ -490,7 +490,7 @@ export function WebClaimsBookForm() {
               Al enviar este formulario aceptas el tratamiento de tus datos
               conforme a nuestra{" "}
               <Link
-                href="/humano/terminos-y-condiciones"
+                href="/terminos-y-condiciones"
                 className="font-medium text-[var(--color-azul-rgb)] underline decoration-[rgba(0,48,53,0.22)] underline-offset-4 transition hover:decoration-[rgba(0,48,53,0.52)]"
               >
                 política de privacidad

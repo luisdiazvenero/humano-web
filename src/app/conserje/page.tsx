@@ -1,12 +1,19 @@
 "use client"
 
-import { Fragment, useEffect, useRef, useState } from "react"
+import { Fragment, Suspense, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Figtree } from "next/font/google"
-import { ConserjeItemsMessage } from "@/components/humano/conserje-items-message"
-import { Logo } from "@/components/humano/Logo"
+import { ConserjeItemsMessage } from "@/components/humano-v09/conserje-items-message"
+import { Logo } from "@/components/humano-v09/Logo"
+import { FullLogo } from "@/components/humano-v09/FullLogo"
+import { ImageSlider } from "@/components/humano-v09/ImageSlider"
+import type { SliderImage } from "@/components/humano-v09/ImageSlider"
+import { RoomMenuCarousel } from "@/components/humano-v09/RoomMenuCarousel"
+import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
+import { getHumanoRoomById } from "@/lib/humano/rooms"
 import {
-  ArrowLeft,
+  Repeat2,
   Briefcase,
   Palmtree,
   Compass,
@@ -28,6 +35,18 @@ import {
   ConciergeBell,
   Headset,
   Wifi,
+  Sun,
+  Moon,
+  CloudSun,
+  Cloud,
+  CloudFog,
+  CloudDrizzle,
+  CloudRain,
+  CloudSnow,
+  CloudLightning,
+  MapPin,
+  ChevronRight,
+  type LucideIcon,
 } from "lucide-react"
 import {
   PaperAirplaneIcon,
@@ -47,9 +66,10 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid"
-import { useMicrophone } from "@/hooks/useMicrophone"
-import conserjeDataRaw from "@/data/conserje.json"
-import type { ConserjeData, ConserjeItem } from "@/lib/conserje/types"
+import { useMicrophoneHumano } from "@/hooks/useMicrophoneHumano"
+import { useMirafloresWeather } from "@/hooks/useMirafloresWeather"
+import conserjeDataRaw from "@/data/humano.json"
+import type { ConserjeData, ConserjeItem } from "@/lib/humano/types"
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -67,6 +87,42 @@ const defaultSuggestions = [
   "Servicios",
   "Instalaciones",
   "Recomendaciones",
+]
+
+function getWeatherIcon(weatherCode: number | null, isDay: boolean | null): LucideIcon {
+  if (weatherCode === null || weatherCode === undefined) return CloudSun
+
+  if (weatherCode === 0) return isDay === false ? Moon : Sun
+  if (weatherCode === 1 || weatherCode === 2) return CloudSun
+  if (weatherCode === 3) return Cloud
+  if (weatherCode === 45 || weatherCode === 48) return CloudFog
+  if ([51, 53, 55, 56, 57].includes(weatherCode)) return CloudDrizzle
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) return CloudRain
+  if ([71, 73, 75, 77, 85, 86].includes(weatherCode)) return CloudSnow
+  if ([95, 96, 99].includes(weatherCode)) return CloudLightning
+
+  return CloudSun
+}
+
+// Toggle rápido para recuperar el menú clásico de botones si hace falta.
+const ENABLE_ROOM_MENU_CAROUSEL = true
+
+const onboardingRecImages: SliderImage[] = [
+  {
+    src: "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_2.webp",
+    alt: "Malecón de Miraflores",
+    label: "Malecón Miraflores",
+  },
+  {
+    src: "/chatbot/imagenes/rec/larcomar/larcomar_1.webp",
+    alt: "Larcomar en Miraflores",
+    label: "Larcomar",
+  },
+  {
+    src: "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_1.webp",
+    alt: "Parque Kennedy",
+    label: "Parque Kennedy",
+  },
 ]
 
 const intentSuggestions = [
@@ -230,6 +286,7 @@ type AgentMessage =
   | AgentTextMessage
   | { id: string; sender: "agent"; type: "intent"; content: IntentOption[] }
   | { id: string; sender: "agent"; type: "group"; content: GroupOption[] }
+  | { id: string; sender: "agent"; type: "gallery"; content: SliderImage[] }
   | { id: string; sender: "agent"; type: "suggestions"; content: string[] }
   | { id: string; sender: "agent"; type: "menu"; content: MenuOption[] }
   | { id: string; sender: "agent"; type: "items"; content: ConserjeItem[] }
@@ -421,7 +478,7 @@ const renderTextWithLinks = (text: string) => {
         href={part.href}
         target="_blank"
         rel="noreferrer"
-        className="text-[#003035] underline underline-offset-4"
+        className="text-[var(--color-azul-rgb)] underline underline-offset-4"
       >
         {part.value}
       </a>
@@ -431,7 +488,9 @@ const renderTextWithLinks = (text: string) => {
   )
 }
 
-export default function ConserjePage() {
+function HumanoPageContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [userInput, setUserInput] = useState("")
@@ -454,8 +513,10 @@ export default function ConserjePage() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const queueRef = useRef(Promise.resolve())
   const sessionSeedRef = useRef(`${Date.now()}-${Math.random().toString(36).slice(2, 8)}`)
+  const onboardingStartedRef = useRef(false)
+  const deepLinkHandledRef = useRef(false)
 
-  const mic = useMicrophone({ lang: "es-PE" })
+  const mic = useMicrophoneHumano({ lang: "es-PE" })
   const transcript: string = mic.transcript ?? ""
   const isListening: boolean = mic.isListening ?? false
   const isTranscribing: boolean = mic.isTranscribing ?? false
@@ -464,6 +525,8 @@ export default function ConserjePage() {
   const startListening = mic.startListening ?? (() => {})
   const stopListening = mic.stopListening ?? (() => {})
   const resetTranscript = mic.resetTranscript ?? (() => {})
+  const { weather } = useMirafloresWeather({ enabled: true })
+  const WeatherIcon = getWeatherIcon(weather?.weatherCode ?? null, weather?.isDay ?? null)
 
   const idCounter = useRef(0)
   const generateId = () => {
@@ -487,6 +550,7 @@ export default function ConserjePage() {
     | { type: "text"; content: string; link?: string }
     | { type: "intent"; content: IntentOption[] }
     | { type: "group"; content: GroupOption[] }
+    | { type: "gallery"; content: SliderImage[] }
     | { type: "suggestions"; content: string[] }
     | { type: "menu"; content: MenuOption[] }
     | { type: "items"; content: ConserjeItem[] }
@@ -676,10 +740,42 @@ export default function ConserjePage() {
   }
 
   useEffect(() => {
-    if (messages.length === 0) {
+    if (deepLinkHandledRef.current) return
+    const itemId = searchParams.get("item")
+    if (!itemId) return
+
+    const targetItem = conserjeData.items.find((item) => item.id === itemId)
+    if (!targetItem) return
+
+    deepLinkHandledRef.current = true
+    onboardingStartedRef.current = true
+    setContextTopic(targetItem.tipo)
+    setActiveItemId(targetItem.id)
+    setActiveItemLabel(targetItem.nombre_publico)
+
+    const intro = targetItem.desc_experiencial || targetItem.desc_factual || targetItem.nombre_publico
+    const detail =
+      targetItem.desc_factual && targetItem.desc_factual !== intro
+        ? targetItem.desc_factual
+        : null
+
+    enqueueAgentSequence([
+      { type: "text", content: `${targetItem.nombre_publico}. ${intro}` },
+      ...(detail ? [{ type: "text", content: detail } as const] : []),
+      {
+        type: "suggestions",
+        content: targetItem.ctas?.length ? targetItem.ctas.slice(0, 2) : defaultSuggestions,
+      },
+    ])
+  }, [searchParams])
+
+  useEffect(() => {
+    if (messages.length === 0 && !onboardingStartedRef.current) {
+      onboardingStartedRef.current = true
       const seed = sessionSeedRef.current
       enqueueAgentSequence([
         { type: "text", content: pickVariant(initialHostLines, seed) },
+        { type: "gallery", content: onboardingRecImages },
         { type: "text", content: pickVariant(initialIntentQuestion, `${seed}-intent`) },
         { type: "intent", content: intentSuggestions },
         { type: "freetext", content: pickVariant(freeTextPrompts, `${seed}-freetext`) },
@@ -764,6 +860,43 @@ export default function ConserjePage() {
     return null
   }
 
+  const normalizeImageSrc = (value: string | null | undefined) => {
+    const raw = (value || "").trim()
+    if (!raw) return null
+    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/")) return raw
+    return `/${raw.replace(/^\/+/, "")}`
+  }
+
+  const resolveRoomMenuCarouselItems = (menuOptions: MenuOption[]): RoomCarouselItem[] | null => {
+    if (!ENABLE_ROOM_MENU_CAROUSEL || menuOptions.length === 0) return null
+
+    const cards = menuOptions.map((option) => {
+      const fallbackRoomItem = conserjeData.items.find(
+        (item) =>
+          item.tipo === "Habitaciones" &&
+          normalizeForCompare(item.nombre_publico) === normalizeForCompare(option.label)
+      )
+      const roomData =
+        getHumanoRoomById(option.id) ??
+        (fallbackRoomItem ? getHumanoRoomById(fallbackRoomItem.id) : null)
+
+      if (!roomData) return null
+
+      return {
+        id: option.id,
+        label: roomData.nombre,
+        description: roomData.descripcion,
+        shortDescription: roomData.descripcionCorta,
+        categoryLabel: roomData.categoria,
+        meta: roomData.meta,
+        imageSrc: normalizeImageSrc(roomData.imagen),
+      } satisfies RoomCarouselItem
+    })
+
+    if (cards.some((card) => card === null)) return null
+    return cards as RoomCarouselItem[]
+  }
+
   const sendMessageToConserje = async (
     userMessage: string,
     options?: {
@@ -826,7 +959,7 @@ export default function ConserjePage() {
     setConversationState(nextState)
 
     try {
-      const response = await fetch("/api/conserje", {
+      const response = await fetch("/api/humano", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -949,7 +1082,7 @@ export default function ConserjePage() {
   }) => {
     setIsAIResponding(true)
     try {
-      const response = await fetch("/api/conserje", {
+      const response = await fetch("/api/humano", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1128,39 +1261,48 @@ export default function ConserjePage() {
     })
   }
 
-  const resetDemo = () => {
-    setMessages([])
-    setUserInput("")
-    setIsAIResponding(false)
-    setChatHistory([])
-    setContextTopic(null)
-    setActiveItemId(null)
-    setConversationState({ dates: null, guests: null, profile: null, intent: null })
-  }
-
   return (
-    <div className={`min-h-screen bg-background text-foreground flex flex-col ${figtree.className}`}>
+    <div className={`min-h-screen bg-[#ECE7D0] text-foreground flex flex-col ${figtree.className}`}>
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg border-b border-border/30">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <button
-            onClick={resetDemo}
-            className="flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Reiniciar
-          </button>
+      <header className="sticky top-0 z-10 bg-[#ECE7D0] backdrop-blur-lg border-b border-border/30">
+        <div className="max-w-4xl mx-auto px-6 py-3 sm:py-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="shrink-0 text-[var(--color-azul-rgb)]">
+              <FullLogo className="h-24 w-auto" />
+            </div>
 
-          <div className="text-center">
-            <p className="text-sm font-semibold text-foreground">Conserje Humano</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">
-              {conversationState.intent || conversationState.profile
-                ? `${conversationState.intent ? conversationState.intent : ""}${conversationState.intent && conversationState.profile ? " · " : ""}${conversationState.profile ? conversationState.profile : ""}`
-                : "Miraflores"}
-            </p>
+            <div className="flex min-w-0 flex-col items-end text-right">
+              <button
+                type="button"
+                onClick={() => router.push("/")}
+                className="mb-4 sm:mb-6 inline-flex cursor-pointer items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider leading-none text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <Repeat2 className="h-3.5 w-3.5 shrink-0 -translate-y-px" />
+                <span className="leading-none">Modo Website</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/ubicacion")}
+                className="group inline-flex h-8 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border border-border/60 bg-card/40 px-3 text-[12px] text-foreground backdrop-blur-sm transition-colors hover:bg-card/60"
+              >
+                <WeatherIcon className="h-3.5 w-3.5 shrink-0 stroke-[1.75] text-foreground/70" />
+                <span className="inline-flex h-[13px] items-end gap-1.5">
+                  <span className="text-[13px] font-medium leading-none text-foreground">
+                    {weather?.tempLabel ?? "--°C"}
+                  </span>
+                  <span className="hidden max-w-[132px] truncate text-[10px] font-semibold leading-none uppercase tracking-[0.08em] text-foreground/90 sm:inline">
+                    {weather?.description ?? "Clima no disponible"}
+                  </span>
+                </span>
+                <span className="mx-1 h-3.5 w-px shrink-0 bg-border/70" />
+                <MapPin className="h-3.5 w-3.5 shrink-0 stroke-[1.75] text-foreground/70" />
+                <span className="inline-flex h-[13px] items-end text-[10px] font-semibold leading-none uppercase tracking-[0.08em] text-foreground/90">
+                  Miraflores
+                </span>
+                <ChevronRight className="ml-1 h-3.5 w-3.5 shrink-0 stroke-[1.75] text-foreground/60 transition-colors group-hover:text-[var(--color-amarillo)]" />
+              </button>
+            </div>
           </div>
-
-          <div className="w-20" />
         </div>
       </header>
 
@@ -1170,7 +1312,7 @@ export default function ConserjePage() {
           <div key={msg.id} className="animate-fade-in-up">
             {msg.sender === "agent" && msg.type === "text" && (
               <div className="flex gap-4 items-start">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#003035] text-white shadow-md">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-azul)] text-white shadow-md">
                   <Logo className="h-5 w-auto text-white" />
                 </div>
                 <div className="bg-white dark:bg-card rounded-2xl rounded-tl-none px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
@@ -1181,7 +1323,7 @@ export default function ConserjePage() {
                         href={msg.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-[#003035] underline underline-offset-4"
+                        className="text-[var(--color-azul-rgb)] underline underline-offset-4"
                       >
                         Clic aquí
                       </a>
@@ -1190,6 +1332,17 @@ export default function ConserjePage() {
                   ) : (
                     renderTextWithLinks(msg.content)
                   )}
+                </div>
+              </div>
+            )}
+
+            {msg.type === "gallery" && (
+              <div className="flex gap-4 items-start">
+                <div className="w-10 shrink-0" />
+                <div className="w-full max-w-[560px] rounded-2xl overflow-hidden shadow-md bg-card">
+                  <div className="aspect-[4/5] sm:aspect-[16/10]">
+                    <ImageSlider images={msg.content} />
+                  </div>
                 </div>
               </div>
             )}
@@ -1214,7 +1367,7 @@ export default function ConserjePage() {
                         className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                       >
                         <div className="flex items-start gap-4">
-                          <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003035]">
+                          <div className="flex-shrink-0 p-2.5 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
                             {getSuggestionIcon(suggestion)}
                           </div>
                           <div className="flex-1 min-w-0 text-left">
@@ -1243,7 +1396,7 @@ export default function ConserjePage() {
                       className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003035]">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
                           {intent.icon}
                         </div>
                         <div className="flex-1 min-w-0 text-left">
@@ -1269,7 +1422,7 @@ export default function ConserjePage() {
                       className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[#ffce5c] text-[#003035]">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
                           {group.icon}
                         </div>
                         <div className="flex-1 min-w-0 text-left">
@@ -1293,30 +1446,46 @@ export default function ConserjePage() {
 
 
             {msg.type === "menu" && (
-              <div className="flex gap-4 items-start">
-                <div className="w-10 shrink-0" />
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1">
-                  {msg.content.map((item: { id: string; label: string }, idx: number) => (
-                    <button
-                      key={item.id || idx}
-                      onClick={() => handleMenuSelect(item)}
-                      className="group bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-xl px-3 py-3 text-left text-sm font-semibold text-foreground shadow-sm transition-all cursor-pointer"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-full bg-[#ffce5c] text-[#003035]">
-                          {getServiceMenuIcon(item.label)}
-                        </div>
-                        <span className="line-clamp-2">{item.label}</span>
+              (() => {
+                const roomCarouselItems = resolveRoomMenuCarouselItems(msg.content)
+                if (roomCarouselItems && roomCarouselItems.length > 0) {
+                  return (
+                    <div className="flex gap-4 items-start">
+                      <div className="w-10 shrink-0" />
+                      <div className="flex-1 min-w-0 overflow-hidden">
+                        <RoomMenuCarousel items={roomCarouselItems} onSelect={handleMenuSelect} />
                       </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
+                    </div>
+                  )
+                }
+
+                return (
+                  <div className="flex gap-4 items-start">
+                    <div className="w-10 shrink-0" />
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1">
+                      {msg.content.map((item: { id: string; label: string }, idx: number) => (
+                        <button
+                          key={item.id || idx}
+                          onClick={() => handleMenuSelect(item)}
+                          className="group bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-xl px-3 py-3 text-left text-sm font-semibold text-foreground shadow-sm transition-all cursor-pointer"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="p-2 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
+                              {getServiceMenuIcon(item.label)}
+                            </div>
+                            <span className="line-clamp-2">{item.label}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })()
             )}
 
             {msg.sender === "user" && msg.type === "text" && (
               <div className="flex justify-end">
-                <div className="bg-[#ffce5c] text-[#003035] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
+                <div className="bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)] rounded-2xl px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
                   {msg.content}
                 </div>
               </div>
@@ -1326,7 +1495,7 @@ export default function ConserjePage() {
 
         {isTyping && (
           <div className="flex gap-4 items-start">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#003035] text-white shadow-md">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-azul)] text-white shadow-md">
               <Logo className="h-5 w-auto text-white" />
             </div>
             <div className="bg-white dark:bg-card rounded-2xl rounded-tl-none px-5 py-3 flex gap-1 items-center shadow-sm">
@@ -1341,7 +1510,7 @@ export default function ConserjePage() {
       </main>
 
       {/* Chat Input Area */}
-      <div className="sticky bottom-0 bg-background/95 backdrop-blur-lg border-t border-border/30">
+      <div className="sticky bottom-0 bg-[#ECE7D0] backdrop-blur-lg border-t border-border/30">
         <div className="max-w-4xl mx-auto px-6 py-5">
           {(conversationState.dates || conversationState.guests || conversationState.profile || conversationState.intent) && (
             <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -1428,7 +1597,7 @@ export default function ConserjePage() {
                       ? "bg-muted/30 cursor-not-allowed opacity-50 border border-border"
                       : isListening
                         ? "bg-red-500/20 border border-red-500/50 scale-105 cursor-pointer"
-                        : "bg-white border-2 border-[#ffce5c] hover:bg-[#ffce5c]/5 hover:scale-105 cursor-pointer"
+                        : "bg-white border-2 border-[var(--color-amarillo)] hover:bg-[var(--color-amarillo-pale)] hover:scale-105 cursor-pointer"
                   }`}
                   aria-label={isListening ? "Detener grabación" : "Iniciar grabación"}
                 >
@@ -1438,7 +1607,7 @@ export default function ConserjePage() {
                   {isListening ? (
                     <MicrophoneIcon className="h-5 w-5 text-red-600" />
                   ) : (
-                    <MicrophoneIcon className="h-5 w-5 text-[#ffce5c]" />
+                    <MicrophoneIcon className="h-5 w-5 text-[var(--color-amarillo)]" />
                   )}
                 </button>
                 <button
@@ -1447,7 +1616,7 @@ export default function ConserjePage() {
                   className={`h-12 w-12 rounded-xl transition-all shadow-sm flex items-center justify-center ${
                     isTyping || isTranscribing
                       ? "bg-muted/30 cursor-not-allowed opacity-50"
-                      : "bg-[#ffce5c] hover:bg-[#ffce5c]/90 text-[#003035] hover:scale-105 cursor-pointer"
+                      : "bg-[var(--color-amarillo)] hover:brightness-95 text-[var(--color-azul-rgb)] hover:scale-105 cursor-pointer"
                   }`}
                   aria-label="Enviar mensaje"
                 >
@@ -1467,5 +1636,13 @@ export default function ConserjePage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function HumanoPage() {
+  return (
+    <Suspense fallback={<div className={`min-h-screen bg-[var(--color-crema)] ${figtree.className}`} />}>
+      <HumanoPageContent />
+    </Suspense>
   )
 }

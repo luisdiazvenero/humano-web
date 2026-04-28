@@ -19,7 +19,7 @@ function ConciergeIcon({ className }: { className?: string }) {
 export function ConciergeFab() {
   return (
     <Link
-      href="/humano/conserje"
+      href="/conserje"
       aria-label="Ir al conserje"
       className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-azul-rgb)] text-white shadow-[0_4px_20px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-105 hover:shadow-[0_6px_28px_rgba(0,0,0,0.36)] sm:bottom-8 sm:right-8"
     >

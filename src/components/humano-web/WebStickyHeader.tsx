@@ -16,10 +16,10 @@ type WebStickyHeaderNavItem = {
 
 const defaultNavItems: WebStickyHeaderNavItem[] = [
   { label: "Home", href: "#inicio" },
-  { label: "Habitaciones", href: "/humano/habitaciones" },
-  { label: "Hotel", href: "/humano/hotel" },
-  { label: "Servicios", href: "/humano/servicios" },
-  { label: "Contacto", href: "/humano/contacto" },
+  { label: "Habitaciones", href: "/habitaciones" },
+  { label: "Hotel", href: "/hotel" },
+  { label: "Servicios", href: "/servicios" },
+  { label: "Contacto", href: "/contacto" },
 ]
 
 interface WebStickyHeaderProps {

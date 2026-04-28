@@ -231,7 +231,7 @@ export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
                 return (
                   <Link
                     key={room.id}
-                    href={`/humano/${room.slug}`}
+                    href={`/${room.slug}`}
                     aria-label={`Ver detalle de ${room.nombre}`}
                     className="group block w-full overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
                   >
