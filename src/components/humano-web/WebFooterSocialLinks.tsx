@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { trackEvent } from "@/lib/analytics"
 
 export function InstagramBalancedIcon({ className }: { className?: string }) {
   return (
@@ -31,12 +34,14 @@ const socialLinks = [
   {
     label: "Instagram Humano Lima",
     href: "https://www.instagram.com/humanolima/?hl=es",
+    platform: "instagram",
     Icon: InstagramBalancedIcon,
     iconClassName: "h-[24px] w-[24px]",
   },
   {
     label: "Facebook Humano Lima",
     href: "https://www.facebook.com/humanolima/",
+    platform: "facebook",
     Icon: FacebookSolidIcon,
     iconClassName: "h-7 w-7",
   },
@@ -45,13 +50,14 @@ const socialLinks = [
 export function WebFooterSocialLinks() {
   return (
     <div className="flex items-center justify-center gap-5 md:justify-start">
-      {socialLinks.map(({ label, href, Icon, iconClassName }) => (
+      {socialLinks.map(({ label, href, platform, Icon, iconClassName }) => (
         <Link
           key={label}
           href={href}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={label}
+          onClick={() => trackEvent("web_social_click", { platform, location: "footer" })}
           className="inline-flex h-7 w-7 items-center justify-center text-white transition hover:text-[var(--color-amarillo)]"
         >
           <Icon className={iconClassName} />

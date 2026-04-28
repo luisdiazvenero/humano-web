@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { TrackLink } from "@/components/humano-web/TrackLink"
 import { Inter } from "next/font/google"
 import {
   ArrowLeft,
@@ -249,13 +250,15 @@ export default async function HumanoServiceDetailPage({
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
-                    <Link
+                    <TrackLink
                       href={ctaHref}
+                      eventName="web_service_cta_click"
+                      eventParams={{ service_slug: serviceData.slug, service_name: serviceData.nombre }}
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
                       Coordinar servicio
                       <ArrowUpRight className="h-5 w-5" />
-                    </Link>
+                    </TrackLink>
                   </div>
                 </div>
 

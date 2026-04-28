@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { TrackLink } from "@/components/humano-web/TrackLink"
 import { Inter } from "next/font/google"
 import {
   ArrowLeft,
@@ -244,13 +245,15 @@ export default async function HumanoFacilityDetailPage({
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
-                    <Link
+                    <TrackLink
                       href={`/conserje?item=${facilityData.id}`}
+                      eventName="web_facility_cta_click"
+                      eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
                       Conocer instalación
                       <ArrowUpRight className="h-5 w-5" />
-                    </Link>
+                    </TrackLink>
                   </div>
                 </div>
 

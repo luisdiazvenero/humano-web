@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { trackEvent } from "@/lib/analytics"
 
 function SparklesIcon({ className }: { className?: string }) {
   return (
@@ -30,6 +31,7 @@ export function ConciergeFab() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Ir al conserje"
+      onClick={() => trackEvent("conserje_fab_click")}
       style={visible ? { animation: "fab-float 3s ease-in-out infinite" } : undefined}
       className={[
         "fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-azul-rgb)] text-white transition-all duration-500 hover:[animation-play-state:paused] hover:scale-105 sm:bottom-8 sm:right-8",

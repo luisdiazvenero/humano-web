@@ -1,5 +1,6 @@
 "use client"
 
+import { trackEvent } from "@/lib/analytics"
 import { Fragment, Suspense, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -726,6 +727,12 @@ function HumanoPageContent() {
       window.open(url, "_blank", "noopener,noreferrer")
     }
 
+    trackEvent("conserje_cta_click", {
+      cta_label: label,
+      item_name: activeItem?.nombre_publico ?? null,
+      item_type: activeItem?.tipo ?? null,
+    })
+
     enqueueAgentSequence([
       { type: "text", content: replyText, link: url },
       { type: "text", content: "¿Necesitas algo más?" },
@@ -789,8 +796,13 @@ function HumanoPageContent() {
 
   const handleMicToggle = () => {
     if (!isMicSupported) return
-    if (isListening) stopListening()
-    else if (!isTranscribing) startListening()
+    if (isListening) {
+      stopListening()
+      trackEvent("conserje_mic_toggle", { action: "stop" })
+    } else if (!isTranscribing) {
+      startListening()
+      trackEvent("conserje_mic_toggle", { action: "start" })
+    }
   }
 
   const getSuggestionIcon = (suggestion: string) => {
@@ -1112,6 +1124,7 @@ function HumanoPageContent() {
   const handleClearField = (field: "dates" | "guests" | "profile" | "intent") => {
     const nextState = { ...conversationState, [field]: null }
     setConversationState(nextState)
+    trackEvent("conserje_filter_clear", { field })
     requestFollowUp(field, nextState)
   }
 
@@ -1119,6 +1132,7 @@ function HumanoPageContent() {
     const messageText = userInput || transcript
     if (!messageText.trim() || isAIResponding) return
     if (isListening) stopListening()
+    trackEvent("conserje_message_send", { input_type: userInput ? "text" : "voice" })
 
     setMessages((prev) => [
       ...prev,
@@ -1191,6 +1205,7 @@ function HumanoPageContent() {
       return
     }
     if (["trabajo", "descanso", "aventura"].includes(lower) && isInitialIntentStep) {
+      trackEvent("conserje_intent_select", { intent: lower })
       const nextState = { ...conversationState, intent: lower }
       setConversationState(nextState)
       const variants = intentToProfilePrompt[lower] || []
@@ -1207,6 +1222,7 @@ function HumanoPageContent() {
     }
     if ((lower === "solo" || lower === "en pareja" || lower === "en grupo") && isInitialProfileStep) {
       const profile = lower.includes("pareja") ? "pareja" : lower.includes("grupo") ? "grupo" : "solo"
+      trackEvent("conserje_profile_select", { profile })
       const nextState = { ...conversationState, profile }
       setConversationState(nextState)
       enqueueAgentSequence([
@@ -1228,6 +1244,7 @@ function HumanoPageContent() {
       if (lower.includes("recomendaciones")) setContextTopic("Recomendaciones_Locales")
       if (lower.includes("instalaciones")) setContextTopic("Instalaciones")
     }
+    trackEvent("conserje_suggestion_click", { suggestion })
     sendMessageToConserje(suggestion)
   }
 

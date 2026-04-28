@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { X } from "lucide-react"
 import { VideoBackground } from "@/components/humano-web/VideoBackground"
+import { trackEvent } from "@/lib/analytics"
 
 export function HeroSection() {
   const [lightbox, setLightbox] = useState(false)
@@ -42,7 +43,7 @@ export function HeroSection() {
         <div className="relative mx-auto h-screen w-full max-w-[1280px] px-4 text-center text-white sm:px-6 lg:px-8">
           <button
             type="button"
-            onClick={() => setLightbox(true)}
+            onClick={() => { setLightbox(true); trackEvent("web_video_play", { location: "hero" }) }}
             className="absolute left-1/2 top-1/2 inline-flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30 cursor-pointer"
             aria-label="Reproducir video"
           >

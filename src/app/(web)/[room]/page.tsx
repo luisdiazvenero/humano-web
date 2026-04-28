@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { TrackLink } from "@/components/humano-web/TrackLink"
 import { Inter } from "next/font/google"
 import {
   ArrowLeft,
@@ -360,15 +361,17 @@ export default async function HumanoRoomPage({
                   ) : null}
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
-                    <Link
+                    <TrackLink
                       href={reserveHref}
                       target="_blank"
                       rel="noopener noreferrer"
+                      eventName="web_room_reserve_click"
+                      eventParams={{ room_slug: roomData.slug, room_name: roomData.nombre }}
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
                       Reserva
                       <ArrowUpRight className="h-5 w-5" />
-                    </Link>
+                    </TrackLink>
                   </div>
                 </div>
 

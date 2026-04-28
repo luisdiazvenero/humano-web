@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { FullLogo } from "@/components/humano-v09/FullLogo"
 import { cn } from "@/lib/utils"
 import { webHeaderShellRadiusClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { trackEvent } from "@/lib/analytics"
 
 type WebStickyHeaderNavItem = {
   label: string
@@ -113,6 +114,7 @@ export function WebStickyHeader({
                 <Link
                   key={item.label}
                   href={item.href}
+                  onClick={() => trackEvent("web_nav_click", { label: item.label, href: item.href })}
                   className={cn(
                     "group relative inline-flex h-9 items-center px-2 text-sm leading-none transition-colors",
                     headerIsScrolled
@@ -154,6 +156,7 @@ export function WebStickyHeader({
                 href="https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackEvent("web_reserve_click", { location: "header" })}
                 className={cn(
                   "group !min-h-11 cursor-pointer !px-5 !py-2.5 shadow-none hover:translate-y-0 hover:shadow-none",
                   webPrimaryButtonClass,
