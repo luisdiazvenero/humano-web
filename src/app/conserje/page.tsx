@@ -1262,6 +1262,7 @@ function HumanoPageContent() {
   }
 
   return (
+    <>
     <div className={`min-h-screen bg-[#ECE7D0] text-foreground flex flex-col ${figtree.className}`}>
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[#ECE7D0] backdrop-blur-lg border-b border-border/30">
@@ -1632,13 +1633,14 @@ function HumanoPageContent() {
                 Tu navegador no soporta micrófono.
               </p>
             )}
-            <p className="mt-3 text-center text-[0.65rem] leading-relaxed text-[var(--color-azul-rgb)]/40">
-              Las respuestas son generadas por IA y pueden contener inexactitudes. Hotel Humano no se responsabiliza por la información proporcionada. Consulta siempre con recepción para confirmar disponibilidad y condiciones.
-            </p>
           </div>
         </div>
       </div>
     </div>
+    <p className="bg-[#ECE7D0] max-w-4xl mx-auto px-6 py-4 text-[0.72rem] leading-relaxed text-[var(--color-azul-rgb)]/45">
+      Las respuestas son generadas por IA y pueden contener inexactitudes. Hotel Humano no se responsabiliza por la información proporcionada. Consulta siempre con recepción para confirmar disponibilidad y condiciones.
+    </p>
+    </>
   )
 }
 
