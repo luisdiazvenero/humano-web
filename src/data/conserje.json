@@ -1337,6 +1337,834 @@
       "tipo": "Recomendaciones_Locales",
       "video_horizontal": null,
       "video_vertical": null
+    },
+    {
+      "id": "REC_BARRANCO",
+      "nombre_publico": "Barranco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Barrio bohemio de Lima conocido por su arquitectura republicana, arte urbano y vida nocturna.",
+      "desc_experiencial": "Un paseo entre arte, música y bares con alma limeña.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barranco+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_PUENTE_SUSPIROS",
+      "nombre_publico": "Puente de los Suspiros",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Puente histórico ubicado en Barranco, rodeado de calles tradicionales y miradores.",
+      "desc_experiencial": "Cruza el puente y deja que el barrio haga el resto.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Puente+de+los+Suspiros+Barranco+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_MUSEO_LARCO",
+      "nombre_publico": "Museo Larco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Museo privado con una de las colecciones más completas de arte precolombino del Perú.",
+      "desc_experiencial": "Una mirada íntima al pasado milenario del país.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+Larco+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_MATE_MUSEO",
+      "nombre_publico": "MATE Museo Mario Testino",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Museo dedicado al fotógrafo peruano Mario Testino ubicado en Barranco.",
+      "desc_experiencial": "Fotografía, moda y arte en una casona llena de historia.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=MATE+Museo+Mario+Testino+Barranco+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_SURF_PLAYA_WAIKIKI",
+      "nombre_publico": "Surf en Playa Waikiki",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Playa emblemática de Miraflores conocida por sus olas y escuelas de surf.",
+      "desc_experiencial": "Una clase de surf para sentir Lima desde el mar.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Playa+Waikiki+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_BAJA_BALTA",
+      "nombre_publico": "Bajada Balta",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Acceso peatonal y vehicular que conecta Miraflores con las playas de la Costa Verde.",
+      "desc_experiencial": "Un camino hacia el mar que siempre vale la pena.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Bajada+Balta+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_MERCADO_SURQUILLO",
+      "nombre_publico": "Mercado de Surquillo",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Mercado tradicional cercano a Miraflores con productos frescos y cocina local.",
+      "desc_experiencial": "Descubrir ingredientes y sabores como un local.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Mercado+de+Surquillo+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_MALECON_CICLISMO",
+      "nombre_publico": "Ciclismo por el malecón",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Circuito ciclista que recorre los acantilados de Miraflores con vistas al Pacífico.",
+      "desc_experiencial": "Un paseo tranquilo entre mar y ciudad.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Malec%C3%B3n+de+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_RESTAURANTES_50BEST",
+      "nombre_publico": "Gastronomía de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Lima es reconocida globalmente por su escena gastronómica premiada.",
+      "desc_experiencial": "Cenar en una de las capitales culinarias del mundo.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=restaurantes+Lima+Peru",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_PARQUE_AMOR",
+      "nombre_publico": "Parque del Amor",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Parque frente al mar famoso por sus mosaicos y esculturas románticas.",
+      "desc_experiencial": "Un lugar para detenerse y mirar el horizonte.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parque+del+Amor+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_PASEO_BARRANCO",
+      "nombre_publico": "Paseo por Barranco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Calles llenas de murales, cafés y arquitectura tradicional.",
+      "desc_experiencial": "Caminar sin rumbo por uno de los barrios más creativos de Lima.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barranco+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_MIRAFLORES_MARKET",
+      "nombre_publico": "Artesanía peruana",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Mercado especializado en artesanías peruanas, textiles y recuerdos hechos a mano por artesanos locales.",
+      "desc_experiencial": "Llevarse una historia hecha a mano.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=artesanias+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_GATOS_KENNEDY",
+      "nombre_publico": "Gatos del Parque Kennedy",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Colonia de gatos que habita el parque central de Miraflores.",
+      "desc_experiencial": "Una escena curiosa que siempre sorprende.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parque+Kennedy+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_YOGA_MALECON",
+      "nombre_publico": "Yoga frente al mar",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Sesiones espontáneas o guiadas de yoga en el malecón.",
+      "desc_experiencial": "Respirar Lima con calma.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Malec%C3%B3n+de+Miraflores+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_CENTRO_HISTORICO",
+      "nombre_publico": "Centro histórico de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Patrimonio de la humanidad con arquitectura colonial y plazas históricas.",
+      "desc_experiencial": "Una caminata por la Lima de siglos pasados.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Centro+Hist%C3%B3rico+de+Lima+Peru",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_CATEDRAL_LIMA",
+      "nombre_publico": "Catedral de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Catedral ubicada en la Plaza Mayor de Lima con gran valor histórico.",
+      "desc_experiencial": "Arquitectura y silencio en el corazón de la ciudad.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Catedral+de+Lima+Plaza+Mayor",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_MONASTERIO_SFRANCISCO",
+      "nombre_publico": "Monasterio San Francisco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Complejo religioso famoso por sus catacumbas subterráneas.",
+      "desc_experiencial": "Historia y misterio bajo la ciudad.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Monasterio+San+Francisco+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_MUSEO_ARTE_LIMA",
+      "nombre_publico": "MALI",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Museo de Arte de Lima con colección de arte peruano de distintas épocas.",
+      "desc_experiencial": "Un recorrido por la identidad cultural del país.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+de+Arte+de+Lima+MALI",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_PARQUE_AGUA",
+      "nombre_publico": "Circuito Mágico del Agua",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Parque urbano con fuentes iluminadas y espectáculos nocturnos.",
+      "desc_experiencial": "Una experiencia visual inesperada en Lima.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Circuito+M%C3%A1gico+del+Agua+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_BARRIO_CHINO",
+      "nombre_publico": "Barrio Chino de Lima",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Zona histórica con restaurantes y cultura chifa.",
+      "desc_experiencial": "Una mezcla única entre Perú y China.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barrio+Chino+Lima+Peru",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_FARO_LIMA",
+      "nombre_publico": "Faro de la Marina",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Faro histórico de 22 metros ubicado en la Costa Verde, con vistas al océano Pacífico.",
+      "desc_experiencial": "Disfruta de un atardecer que pinta la ciudad y el mar de colores cálidos.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Faro+de+la+Marina+Lima",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_CAMINATA_DIA",
+      "nombre_publico": "Caminata de día",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Ruta curada de día con tesoros que guarda el barrio.",
+      "desc_experiencial": "Descubrir el barrio a pie, a tu ritmo.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_CAMINATA_NOCHE",
+      "nombre_publico": "Caminata de noche",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Ruta curada de noche con tesoros que guarda el barrio.",
+      "desc_experiencial": "Lima de noche tiene otra energía.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Te cuento cómo llegar"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "check_out": "",
+      "check_in": "",
+      "precio_desde": "",
+      "redirigir": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
     }
   ],
   "reglas": [
