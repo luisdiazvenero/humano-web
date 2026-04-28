@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   title: "Hotel HUMANO · Miraflores",
   description:
     "Demo local de la experiencia conversacional del Hotel Humano Miraflores.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 }
 
 export default function RootLayout({
