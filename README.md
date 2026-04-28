@@ -87,3 +87,4 @@ Despliega en Vercel o tu proveedor preferido. Asegura `OPENAI_API_KEY` en variab
 - Seguimiento de contexto para respuestas cortas (“sí”, tamaños, números de personas).
 - Validación de restricciones por grupo/familia basada en el Excel.
 - Pet friendly: respuesta natural con condiciones normalizadas.
+
