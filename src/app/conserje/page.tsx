@@ -1632,6 +1632,9 @@ function HumanoPageContent() {
                 Tu navegador no soporta micrófono.
               </p>
             )}
+            <p className="mt-3 text-center text-[0.65rem] leading-relaxed text-[var(--color-azul-rgb)]/40">
+              Las respuestas son generadas por IA y pueden contener inexactitudes. Hotel Humano no se responsabiliza por la información proporcionada. Consulta siempre con recepción para confirmar disponibilidad y condiciones.
+            </p>
           </div>
         </div>
       </div>
