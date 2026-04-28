@@ -72,7 +72,7 @@ export function HeroSection() {
         >
           <div className="flex min-h-screen items-center justify-center px-4 py-4 sm:px-6 sm:py-6">
             <div
-              className="mx-auto flex w-fit flex-col gap-3"
+              className="mx-auto flex w-full max-w-[min(calc(100vw-3rem),960px)] flex-col gap-3"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex w-full items-center justify-between gap-4">
@@ -93,7 +93,7 @@ export function HeroSection() {
                   controls
                   autoPlay
                   playsInline
-                  className="block max-h-[min(72svh,calc(100svh-13rem))] max-w-[calc(100vw-2rem)]"
+                  className="block w-full max-h-[min(72svh,calc(100svh-13rem))]"
                 />
               </div>
             </div>

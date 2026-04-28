@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import { trackEvent } from "@/lib/analytics"
 
 type RoomDetailGalleryProps = {
   roomName: string
@@ -131,7 +132,10 @@ export function RoomDetailGallery({
               {/* Play button */}
               <button
                 type="button"
-                onClick={() => setLightbox({ kind: "video", src: (isMobile ? videoVertical : videoHorizontal) || videoHorizontal || videoVertical || "" })}
+                onClick={() => {
+                  setLightbox({ kind: "video", src: (isMobile ? videoVertical : videoHorizontal) || videoHorizontal || videoVertical || "" })
+                  trackEvent("web_room_video_play", { room_name: roomName })
+                }}
                 className="absolute inset-0 flex items-center justify-center cursor-pointer"
                 aria-label="Ver video en pantalla completa"
               >
@@ -207,7 +211,7 @@ export function RoomDetailGallery({
             >
               <div className="relative min-h-0 flex-1">
                 {lightbox.kind === "video" ? (
-                  <div className="mx-auto flex w-fit flex-col gap-3">
+                  <div className="mx-auto flex w-full max-w-[min(calc(100vw-3rem),960px)] flex-col gap-3">
                     <div className="flex w-full items-center justify-between gap-4">
                       <p className="font-serif text-xl text-white/90">{roomName}</p>
                       <button
@@ -226,7 +230,7 @@ export function RoomDetailGallery({
                         controls
                         autoPlay
                         playsInline
-                        className="block max-h-[min(72svh,calc(100svh-13rem))] max-w-[calc(100vw-2rem)]"
+                        className="block w-full max-h-[min(72svh,calc(100svh-13rem))]"
                       />
                     </div>
                   </div>
