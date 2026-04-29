@@ -70,14 +70,14 @@ export default function HumanoExperiencePage() {
               <div className="grid gap-10 lg:grid-cols-[minmax(0,760px)_300px] lg:items-end lg:justify-between lg:gap-12">
                 <div className="max-w-[820px]">
                   <Link
-                    href="/#experiencias"
+                    href="/"
                     className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/88"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                    <span>Volver al Hotel</span>
+                    <span>Volver al home</span>
                   </Link>
                   <h1 className="text-4xl font-serif leading-tight text-white">
-                    Nuestras Instalaciones
+                    El Hotel
                   </h1>
                   <p className="mt-4 max-w-[820px] text-[18px] leading-[1.5] text-white/85">
                     Espacios pensados para acompañar cada momento de tu estadía:

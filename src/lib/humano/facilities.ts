@@ -53,7 +53,7 @@ const installationOrder = [
   "INST_BAR",
 ] as const
 
-const featuredFacilityIds = ["INST_LOBBY", "INST_RESTAURANTE_ENT", "INST_PISCINA"] as const
+const featuredFacilityIds = ["INST_COWORKING", "INST_RESTAURANTE_ENT", "INST_PISCINA"] as const
 
 function slugify(value: string): string {
   return value

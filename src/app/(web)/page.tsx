@@ -6,10 +6,8 @@ import {
   ArrowUpRight,
   Clock3,
   Footprints,
-  Moon,
   ShoppingBag,
   Sparkles,
-  SunMedium,
   Waves,
   Zap,
 } from "lucide-react"
@@ -105,23 +103,11 @@ export default function HumanoWebPage() {
               </Reveal>
               <Reveal fromParent className="flex flex-col items-start text-left">
                 <article>
-                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center gap-1 rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <Footprints className="h-7 w-7" strokeWidth={1.5} />
-                    <SunMedium className="h-6 w-6" strokeWidth={1.5} />
+                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
+                    <Footprints className="h-8 w-8" strokeWidth={1.5} />
                   </span>
                   <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Caminata día
-                  </p>
-                </article>
-              </Reveal>
-              <Reveal fromParent className="flex flex-col items-start text-left">
-                <article>
-                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center gap-1 rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <Footprints className="h-7 w-7" strokeWidth={1.5} />
-                    <Moon className="h-6 w-6" strokeWidth={1.5} />
-                  </span>
-                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Caminata noche
+                    Caminatas
                   </p>
                 </article>
               </Reveal>
@@ -224,11 +210,11 @@ export default function HumanoWebPage() {
                 </div>
                 <div className="max-w-[1040px]">
                   <h2 className="max-w-[980px] text-[32px] leading-[1.22] text-white lg:text-[40px]">
-                    <span>Nuestras Instalaciones.</span>
+                    <span>El Hotel.</span>
                   </h2>
                   <p className="mt-5 max-w-[760px] text-[18px] leading-[1.6] text-white/78 sm:text-[20px]">
                     Espacios pensados para acompañar cada momento de tu estadía:
-                    un lobby acogedor, restaurante de autor y piscina para
+                    coworking equipado, restaurante de autor y piscina para
                     desconectar en el corazón de Miraflores.
                   </p>
                 </div>
@@ -254,9 +240,15 @@ export default function HumanoWebPage() {
                         />
                       ) : null}
 
-                      <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
-                        {facility.categoria}
-                      </span>
+                      {facility.id === "INST_RESTAURANTE_ENT" ? (
+                        <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-[var(--color-amarillo)] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
+                          Próximamente
+                        </span>
+                      ) : (
+                        <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
+                          {facility.categoria}
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex flex-1 flex-col bg-white/[0.02] px-7 pb-6 pt-6">
@@ -293,6 +285,18 @@ export default function HumanoWebPage() {
                 </Reveal>
               ))}
             </StaggerGroup>
+
+            <Reveal>
+              <div className="mt-14 flex justify-center">
+                <Link
+                  href="/hotel"
+                  className={`${webPrimaryButtonClass} border border-white/30 bg-transparent text-white hover:bg-white/10`}
+                >
+                  Ver todas
+                  <ArrowUpRight className="h-5 w-5" />
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </section>
 
