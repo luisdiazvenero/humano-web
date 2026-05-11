@@ -77,12 +77,12 @@ export default function HumanoExperiencePage() {
                     <span>Volver al home</span>
                   </Link>
                   <h1 className="text-4xl font-serif leading-tight text-white">
-                    El Hotel
+                    Hotel
                   </h1>
                   <p className="mt-4 max-w-[820px] text-[18px] leading-[1.5] text-white/85">
-                    Espacios pensados para acompañar cada momento de tu estadía:
-                    un lobby acogedor, restaurante de autor y piscina para
-                    desconectar en el corazón de Miraflores.
+                    En Humano, cada experiencia sigue tu ritmo. Puedes compartir,
+                    desconectar o simplemente hacer una pausa. Los espacios están
+                    ahí para eso: para que los vivas como quieras.
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">

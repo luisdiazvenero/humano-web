@@ -78,12 +78,12 @@ export default function HumanoRoomsPage() {
                     <span>Volver al Hotel</span>
                   </Link>
                   <h1 className="text-4xl font-serif leading-tight text-white">
-                    Nuestras habitaciones.
+                    Habitaciones
                   </h1>
                   <p className="mt-4 max-w-[760px] text-[18px] leading-[1.5] text-white/85">
-                    Cada habitación está diseñada para diferentes necesidades.
-                    Desde el viajero solo hasta familias completas, encuentra el
-                    espacio perfecto para tu estadía.
+                    Tu espacio, desde que llegas.
+                    Cómodas, acogedoras y con un toque que las hace sentir tuyas
+                    desde el primer instante.
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">

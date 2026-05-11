@@ -80,9 +80,9 @@ export default function HumanoWebPage() {
                   <span>Hospitalidad consciente en Lima.</span>
                 </h2>
                 <p className="mt-5 max-w-[760px] text-[18px] leading-[1.6] text-[var(--color-azul-soft)] sm:text-[20px]">
-                  En Humano creemos que la hospitalidad va más allá del servicio.
-                  Es crear espacios donde las personas puedan reconectar consigo
-                  mismas y con los demás, en el corazón de Miraflores.
+                  En Humano, cada experiencia sigue tu ritmo. Puedes compartir,
+                  desconectar o simplemente hacer una pausa. Los espacios están
+                  ahí para eso: para que los vivas como quieras.
                 </p>
               </div>
             </div>

@@ -77,12 +77,12 @@ export default function HumanoServicesPage() {
                     <span>Volver al Hotel</span>
                   </Link>
                   <h1 className="text-4xl font-serif leading-tight text-white">
-                    Nuestros servicios.
+                    Servicios
                   </h1>
                   <p className="mt-4 max-w-[820px] text-[18px] leading-[1.5] text-white/85">
-                    En Humano creemos que la hospitalidad va más allá del servicio.
-                    Es crear espacios donde las personas puedan reconectar consigo mismas
-                    y con los demás, en el corazón de Miraflores.
+                    Desde un desayuno tranquilo hasta un masaje o una buena recomendación
+                    del barrio. Todo está listo para que disfrutes sin pensar demasiado.
+                    Así de simple.
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
