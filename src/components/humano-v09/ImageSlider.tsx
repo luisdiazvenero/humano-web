@@ -52,8 +52,8 @@ export function ImageSlider({ images, intervalMs = 4000 }: ImageSliderProps) {
             <img src={item.src} alt={item.alt} className="h-full w-full object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
             {item.label && (
-              <div className="absolute inset-x-0 bottom-10 flex justify-center px-6 text-center">
-                <p className="text-white text-lg sm:text-2xl font-serif tracking-wide drop-shadow-md">{item.label}</p>
+              <div className="absolute inset-x-0 bottom-6 flex justify-center px-4 text-center">
+                <p className="text-white text-sm sm:text-base font-serif tracking-wide drop-shadow-md">{item.label}</p>
               </div>
             )}
           </div>

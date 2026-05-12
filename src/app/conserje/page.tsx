@@ -3,18 +3,18 @@
 import { trackEvent } from "@/lib/analytics"
 import { Fragment, Suspense, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
+import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Figtree } from "next/font/google"
 import { ConserjeItemsMessage } from "@/components/humano-v09/conserje-items-message"
 import { Logo } from "@/components/humano-v09/Logo"
-import { FullLogo } from "@/components/humano-v09/FullLogo"
 import { ImageSlider } from "@/components/humano-v09/ImageSlider"
 import type { SliderImage } from "@/components/humano-v09/ImageSlider"
 import { RoomMenuCarousel } from "@/components/humano-v09/RoomMenuCarousel"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
 import { getHumanoRoomById } from "@/lib/humano/rooms"
 import {
-  Repeat2,
+  Globe,
   Briefcase,
   Palmtree,
   Compass,
@@ -790,7 +790,9 @@ function HumanoPageContent() {
     }
   }, [messages.length])
 
+  const hasUserInteractedRef = useRef(false)
   useEffect(() => {
+    if (!hasUserInteractedRef.current) return
     scrollToBottom()
   }, [messages])
 
@@ -917,6 +919,7 @@ function HumanoPageContent() {
       source?: "menu" | "user"
     }
   ) => {
+    hasUserInteractedRef.current = true
     setIsAIResponding(true)
 
     const lowerMessage = userMessage.trim().toLowerCase()
@@ -1283,24 +1286,24 @@ function HumanoPageContent() {
     <div className={`min-h-screen bg-[#ECE7D0] text-foreground flex flex-col ${figtree.className}`}>
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[#ECE7D0] backdrop-blur-lg border-b border-border/30">
-        <div className="max-w-4xl mx-auto px-6 py-3 sm:py-4">
-          <div className="flex items-start justify-between gap-4">
+        <div className="max-w-4xl mx-auto px-6 py-2.5">
+          <div className="flex items-center justify-between gap-4">
             <div className="shrink-0 text-[var(--color-azul-rgb)]">
-              <FullLogo className="h-24 w-auto" />
+              <Image
+                src="/logo-humano.svg"
+                alt="Humano Hotel"
+                width={35}
+                height={40}
+                className="h-7 w-auto sm:h-8"
+                priority
+              />
             </div>
 
-            <div className="flex min-w-0 flex-col items-end text-right">
-              <button
-                type="button"
-                onClick={() => router.push("/")}
-                className="mb-4 sm:mb-6 inline-flex cursor-pointer items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider leading-none text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <Repeat2 className="h-3.5 w-3.5 shrink-0 -translate-y-px" />
-                <span className="leading-none">Modo Website</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => router.push("/ubicacion")}
+            <div className="flex min-w-0 items-center justify-end gap-3">
+              <a
+                href="https://maps.app.goo.gl/pLCYUJqVqZrL5M1t9"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex h-8 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border border-border/60 bg-card/40 px-3 text-[12px] text-foreground backdrop-blur-sm transition-colors hover:bg-card/60"
               >
                 <WeatherIcon className="h-3.5 w-3.5 shrink-0 stroke-[1.75] text-foreground/70" />
@@ -1318,6 +1321,14 @@ function HumanoPageContent() {
                   Miraflores
                 </span>
                 <ChevronRight className="ml-1 h-3.5 w-3.5 shrink-0 stroke-[1.75] text-foreground/60 transition-colors group-hover:text-[var(--color-amarillo)]" />
+              </a>
+              <button
+                type="button"
+                onClick={() => router.push("/")}
+                className="inline-flex cursor-pointer items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider leading-none text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <Globe className="h-3.5 w-3.5 shrink-0 stroke-[1.75]" />
+                <span className="leading-none">Website</span>
               </button>
             </div>
           </div>
@@ -1331,7 +1342,7 @@ function HumanoPageContent() {
             {msg.sender === "agent" && msg.type === "text" && (
               <div className="flex gap-4 items-start">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-azul)] text-white shadow-md">
-                  <Logo className="h-5 w-auto text-white" />
+                  <Logo className="h-5 w-auto !text-white" />
                 </div>
                 <div className="bg-white dark:bg-card rounded-2xl rounded-tl-none px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
                   {msg.link ? (
@@ -1357,7 +1368,7 @@ function HumanoPageContent() {
             {msg.type === "gallery" && (
               <div className="flex gap-4 items-start">
                 <div className="w-10 shrink-0" />
-                <div className="w-full max-w-[560px] rounded-2xl overflow-hidden shadow-md bg-card">
+                <div className="w-full max-w-[370px] rounded-2xl overflow-hidden shadow-md bg-card">
                   <div className="aspect-[4/5] sm:aspect-[16/10]">
                     <ImageSlider images={msg.content} />
                   </div>
@@ -1514,7 +1525,7 @@ function HumanoPageContent() {
         {isTyping && (
           <div className="flex gap-4 items-start">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-azul)] text-white shadow-md">
-              <Logo className="h-5 w-auto text-white" />
+              <Logo className="h-5 w-auto !text-white" />
             </div>
             <div className="bg-white dark:bg-card rounded-2xl rounded-tl-none px-5 py-3 flex gap-1 items-center shadow-sm">
               <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "0s" }} />
