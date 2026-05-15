@@ -800,6 +800,24 @@ function HumanoPageContent() {
 
     deepLinkHandledRef.current = true
     onboardingStartedRef.current = true
+
+    if (itemId === "REC_CAMINATA") {
+      const cm = conserjeData.items.find((i) => i.id === "REC_CAMINATA_MIRAFLORES")
+      const cb = conserjeData.items.find((i) => i.id === "REC_CAMINATA_BARRANCO")
+      setContextTopic("Recomendaciones_Locales")
+      enqueueAgentSequence([
+        { type: "text", content: t.caminataDispatcherReply },
+        {
+          type: "menu",
+          content: [
+            { id: "REC_CAMINATA_MIRAFLORES", label: cm?.nombre_publico ?? t.caminataMirafloresLabel },
+            { id: "REC_CAMINATA_BARRANCO", label: cb?.nombre_publico ?? t.caminataBarrancoLabel },
+          ],
+        },
+      ])
+      return
+    }
+
     setContextTopic(targetItem.tipo)
     setActiveItemId(targetItem.id)
     setActiveItemLabel(targetItem.nombre_publico)
@@ -811,6 +829,7 @@ function HumanoPageContent() {
         : null
 
     enqueueAgentSequence([
+      { type: "items", content: [targetItem] },
       { type: "text", content: `${targetItem.nombre_publico}. ${intro}` },
       ...(detail ? [{ type: "text", content: detail } as const] : []),
       {

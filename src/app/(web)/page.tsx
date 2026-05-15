@@ -91,46 +91,29 @@ export default function HumanoWebPage() {
           <div className="mt-16 grid gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-24">
             <div />
             <StaggerGroup className="grid w-fit justify-items-start grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-5 sm:gap-x-10">
-              <Reveal fromParent className="flex flex-col items-start text-left">
-                <article>
-                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <ShoppingBag className="h-8 w-8" strokeWidth={1.5} />
-                  </span>
-                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Larcomar
-                  </p>
-                </article>
-              </Reveal>
-              <Reveal fromParent className="flex flex-col items-start text-left">
-                <article>
-                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <Footprints className="h-8 w-8" strokeWidth={1.5} />
-                  </span>
-                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Caminatas
-                  </p>
-                </article>
-              </Reveal>
-              <Reveal fromParent className="flex flex-col items-start text-left">
-                <article>
-                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <Zap className="h-8 w-8" strokeWidth={1.5} />
-                  </span>
-                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Running
-                  </p>
-                </article>
-              </Reveal>
-              <Reveal fromParent className="flex flex-col items-start text-left">
-                <article>
-                  <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)]">
-                    <Waves className="h-8 w-8" strokeWidth={1.5} />
-                  </span>
-                  <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
-                    Surf y playa
-                  </p>
-                </article>
-              </Reveal>
+              {[
+                { id: "REC_LARCOMAR", label: "Larcomar", Icon: ShoppingBag },
+                { id: "REC_CAMINATA", label: "Caminatas", Icon: Footprints },
+                { id: "REC_RUNNING_MALECON", label: "Running", Icon: Zap },
+                { id: "REC_SURF_PLAYA_WAIKIKI", label: "Surf y playa", Icon: Waves },
+              ].map(({ id, label, Icon }) => (
+                <Reveal key={id} fromParent className="flex flex-col items-start text-left">
+                  <a
+                    href={`/conserje?item=${id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex flex-col items-start text-left transition-opacity hover:opacity-80"
+                    aria-label={`Abrir ${label} en el conserje`}
+                  >
+                    <span className="inline-flex h-[86px] w-[86px] items-center justify-center rounded-full border border-[var(--color-azul-soft)]/25 text-[var(--color-azul-rgb)] transition-colors group-hover:border-[var(--color-azul-soft)]/60 group-hover:bg-[var(--color-azul-soft)]/5">
+                      <Icon className="h-8 w-8" strokeWidth={1.5} />
+                    </span>
+                    <p className="mt-5 text-[16px] font-medium text-[var(--color-azul-rgb)]">
+                      {label}
+                    </p>
+                  </a>
+                </Reveal>
+              ))}
             </StaggerGroup>
           </div>
 
