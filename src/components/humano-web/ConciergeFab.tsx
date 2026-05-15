@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { trackEvent } from "@/lib/analytics"
 
@@ -19,6 +20,9 @@ function SparklesIcon({ className }: { className?: string }) {
 
 export function ConciergeFab() {
   const [visible, setVisible] = useState(false)
+  const pathname = usePathname() || "/"
+  const lang = pathname.startsWith("/en") ? "en" : "es"
+  const isEn = lang === "en"
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 2800)
@@ -27,10 +31,10 @@ export function ConciergeFab() {
 
   return (
     <Link
-      href="/conserje"
+      href={`/conserje?lang=${lang}`}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Ir al conserje"
+      aria-label={isEn ? "Open the concierge" : "Ir al conserje"}
       onClick={() => trackEvent("conserje_fab_click")}
       style={visible ? { animation: "fab-float 3s ease-in-out infinite" } : undefined}
       className={[

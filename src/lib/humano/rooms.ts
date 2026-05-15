@@ -1,7 +1,51 @@
 import humanoDataRaw from "@/data/humano.json"
+import humanoDataRawEn from "@/data/humano-en.json"
 import type { ConserjeData, ConserjeItem } from "@/lib/humano/types"
 
-const humanoData = humanoDataRaw as ConserjeData
+export type HumanoLang = "es" | "en"
+
+const HUMANO_DATA: Record<HumanoLang, ConserjeData> = {
+  es: humanoDataRaw as ConserjeData,
+  en: humanoDataRawEn as ConserjeData,
+}
+
+const CATEGORIA_I18N: Record<HumanoLang, Record<string, string>> = {
+  es: {
+    Habitación: "Habitación",
+    Servicio: "Servicio",
+    Instalación: "Instalación",
+    "Recomendación externa": "Recomendación externa",
+  },
+  en: {
+    Habitación: "Room",
+    Servicio: "Service",
+    Instalación: "Facility",
+    "Recomendación externa": "Local pick",
+  },
+}
+
+const ROOM_META_I18N: Record<HumanoLang, {
+  kingSofa: string
+  twoDoubles: string
+  kingBed: string
+  terrace: string
+  kitchenette: string
+}> = {
+  es: {
+    kingSofa: "King + sofá cama",
+    twoDoubles: "2 camas dobles",
+    kingBed: "Cama King",
+    terrace: "Terraza",
+    kitchenette: "Kitchenet",
+  },
+  en: {
+    kingSofa: "King + sofa bed",
+    twoDoubles: "2 double beds",
+    kingBed: "King bed",
+    terrace: "Terrace",
+    kitchenette: "Kitchenette",
+  },
+}
 
 export type HumanoRoom = {
   id: string
@@ -26,35 +70,38 @@ export type HumanoRoom = {
   videoVertical: string | null
 }
 
-function extractRoomBedLabel(description: string): string | null {
-  if (/1 cama King y sofa cama|1 cama King y sofá cama/i.test(description)) {
-    return "King + sofá cama"
+function extractRoomBedLabel(description: string, lang: HumanoLang): string | null {
+  const m = ROOM_META_I18N[lang]
+  if (/1 cama King y sofa cama|1 cama King y sofá cama|king-size bed and a two-person sofa bed|king bed and a two-person sofa bed/i.test(description)) {
+    return m.kingSofa
   }
-  if (/2 camas dobles/i.test(description)) {
-    return "2 camas dobles"
+  if (/2 camas dobles|two double beds/i.test(description)) {
+    return m.twoDoubles
   }
-  if (/1 cama King|cama King/i.test(description)) {
-    return "Cama King"
+  if (/1 cama King|cama King|king-size bed|king bed/i.test(description)) {
+    return m.kingBed
   }
   return null
 }
 
 function extractRoomPriorityFeatures(
   roomName: string,
-  factualDescription: string
+  factualDescription: string,
+  lang: HumanoLang
 ): Array<{ label: string; kind: "feature" }> {
+  const m = ROOM_META_I18N[lang]
   const normalizedRoomName = roomName.toLowerCase()
   const features: Array<{ label: string; kind: "feature" }> = []
 
-  if (normalizedRoomName === "family deluxe" && /terraza/i.test(factualDescription)) {
-    features.push({ label: "Terraza", kind: "feature" })
+  if (normalizedRoomName === "family deluxe" && /terraza|terrace/i.test(factualDescription)) {
+    features.push({ label: m.terrace, kind: "feature" })
   }
 
   if (normalizedRoomName === "signature suite") {
     if (/kitchenett|kitchenette/i.test(factualDescription)) {
-      features.push({ label: "Kitchenet", kind: "feature" })
+      features.push({ label: m.kitchenette, kind: "feature" })
     }
-    features.push({ label: "Terraza", kind: "feature" })
+    features.push({ label: m.terrace, kind: "feature" })
   }
 
   return features
@@ -62,12 +109,13 @@ function extractRoomPriorityFeatures(
 
 function extractRoomMeta(
   roomName: string,
-  factualDescription: string
+  factualDescription: string,
+  lang: HumanoLang
 ): HumanoRoom["meta"] {
   const sizeMatch = factualDescription.match(/(\d+)\s*m(?:²|2)/i)
   const size = sizeMatch ? `${sizeMatch[1]} m²` : null
-  const bed = extractRoomBedLabel(factualDescription)
-  const priorityFeatures = extractRoomPriorityFeatures(roomName, factualDescription)
+  const bed = extractRoomBedLabel(factualDescription, lang)
+  const priorityFeatures = extractRoomPriorityFeatures(roomName, factualDescription, lang)
   const hasWifi = /wi[\s-]?fi/i.test(factualDescription)
   const hasSmartTv = /smart tv/i.test(factualDescription)
 
@@ -92,6 +140,20 @@ function shortenRoomDescription(description: string): string {
   return normalized.charAt(0).toUpperCase() + normalized.slice(1)
 }
 
+const SLUG_OVERRIDES: Record<HumanoLang, Record<string, string>> = {
+  es: {},
+  en: {
+    "superior-king": "superior-king",
+    "superior-double": "superior-double",
+    "deluxe-king": "deluxe-king",
+    "accesible-room": "accessible-room",
+    "family-room": "family-room",
+    "family-deluxe": "family-deluxe",
+    "junior-suite": "junior-suite",
+    "signature-suite": "signature-suite",
+  },
+}
+
 export function roomSlug(value: string): string {
   return value
     .normalize("NFD")
@@ -101,24 +163,27 @@ export function roomSlug(value: string): string {
     .replace(/^-+|-+$/g, "")
 }
 
-function toHumanoRoom(item: ConserjeItem): HumanoRoom {
+function toHumanoRoom(item: ConserjeItem, lang: HumanoLang): HumanoRoom {
   const descripcionExperiencial = item.desc_experiencial || item.desc_factual
   const imagenes = item.imagenes_url?.filter(Boolean) ?? []
+  const categoria = CATEGORIA_I18N[lang][item.categoria] ?? item.categoria
+  const baseSlug = roomSlug(item.nombre_publico)
+  const slug = SLUG_OVERRIDES[lang][baseSlug] ?? baseSlug
 
   return {
     id: item.id,
-    slug: roomSlug(item.nombre_publico),
+    slug,
     nombre: item.nombre_publico,
     descripcion: descripcionExperiencial,
     descripcionExperiencial,
     descripcionFactual: item.desc_factual,
     descripcionCorta: shortenRoomDescription(descripcionExperiencial),
-    categoria: item.categoria,
+    categoria,
     intenciones: item.intenciones,
     perfilIdeal: item.perfil_ideal,
     precioDesde: item.precio_desde,
     reservaUrl: item.redirigir,
-    meta: extractRoomMeta(item.nombre_publico, item.desc_factual),
+    meta: extractRoomMeta(item.nombre_publico, item.desc_factual, lang),
     imagen: imagenes[0] ?? null,
     imagenes,
     videoHorizontal: item.video_horizontal ?? null,
@@ -126,19 +191,19 @@ function toHumanoRoom(item: ConserjeItem): HumanoRoom {
   }
 }
 
-export function getHumanoRooms(): HumanoRoom[] {
-  return humanoData.items
+export function getHumanoRooms(lang: HumanoLang = "es"): HumanoRoom[] {
+  return HUMANO_DATA[lang].items
     .filter((item) => item.tipo === "Habitaciones")
-    .map(toHumanoRoom)
+    .map((item) => toHumanoRoom(item, lang))
 }
 
-export function getHumanoRoomById(id: string): HumanoRoom | null {
-  const item = humanoData.items.find(
+export function getHumanoRoomById(id: string, lang: HumanoLang = "es"): HumanoRoom | null {
+  const item = HUMANO_DATA[lang].items.find(
     (entry) => entry.id === id && entry.tipo === "Habitaciones"
   )
-  return item ? toHumanoRoom(item) : null
+  return item ? toHumanoRoom(item, lang) : null
 }
 
-export function getHumanoRoomBySlug(slug: string): HumanoRoom | null {
-  return getHumanoRooms().find((room) => room.slug === slug) ?? null
+export function getHumanoRoomBySlug(slug: string, lang: HumanoLang = "es"): HumanoRoom | null {
+  return getHumanoRooms(lang).find((room) => room.slug === slug) ?? null
 }

@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { FlagBannerFold } from "@phosphor-icons/react/dist/ssr"
@@ -16,35 +15,28 @@ import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { Reveal } from "@/components/motion/Reveal"
 import { getHumanoRooms } from "@/lib/humano/rooms"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
 
-const pageNavItems = [
-  { label: "Home", href: "/#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
-
-export const metadata: Metadata = {
-  title: "Habitaciones en Miraflores Lima | Hotel Humano",
-  description:
-    "Habitaciones en Hotel Humano, Miraflores. Espacios cálidos, diseño curado y confort pensado para conectar contigo y con la ciudad.",
-}
-
-export default function HumanoRoomsPage() {
-  const rooms = getHumanoRooms()
+export function HumanoRoomsPageContent({ lang = "es" }: { lang?: WebLang }) {
+  const t = WEB_I18N[lang]
+  const rooms = getHumanoRooms(lang)
+  const homeHref = lang === "en" ? "/en" : "/"
+  const roomsHref = lang === "en" ? "/en/rooms" : "/habitaciones"
+  const complaintsHref = "/libro-de-reclamaciones"
+  const termsHref = "/terminos-y-condiciones"
 
   return (
     <div className={`${bodyFont.className} bg-[var(--color-crema)] text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader
-        brandHref="/#inicio"
-        navItems={pageNavItems}
-        activeHref="/habitaciones"
+        brandHref={homeHref}
+        activeHref={roomsHref}
+        lang={lang}
       />
 
       <main>
@@ -55,7 +47,7 @@ export default function HumanoRoomsPage() {
           <div className="absolute inset-0">
             <Image
               src="/chatbot/imagenes/hab/signature_suite/signature_suite_1.webp"
-              alt="Habitaciones Humano"
+              alt={lang === "en" ? "Humano Rooms" : "Habitaciones Humano"}
               fill
               priority
               className="object-cover object-center opacity-28"
@@ -71,19 +63,17 @@ export default function HumanoRoomsPage() {
               <div className="grid gap-10 lg:grid-cols-[minmax(0,760px)_300px] lg:items-end lg:justify-between lg:gap-12">
                 <div className="max-w-[760px]">
                   <Link
-                    href="/#habitaciones"
+                    href={`${homeHref}#habitaciones`}
                     className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/88"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                    <span>Volver al Hotel</span>
+                    <span>{t.backToHotel}</span>
                   </Link>
                   <h1 className="text-4xl font-serif leading-tight text-white">
-                    Habitaciones
+                    {t.roomsPageTitle}
                   </h1>
                   <p className="mt-4 max-w-[760px] text-[18px] leading-[1.5] text-white/85">
-                    Tu espacio, desde que llegas.
-                    Cómodas, acogedoras y con un toque que las hace sentir tuyas
-                    desde el primer instante.
+                    {t.roomsPageSubtitle}
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
@@ -91,7 +81,7 @@ export default function HumanoRoomsPage() {
                       targetId="habitaciones"
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
-                      Explorar habitaciones
+                      {t.roomsExploreCta}
                       <ArrowDown className="h-5 w-5" />
                     </WebScrollToSectionButton>
                   </div>
@@ -109,7 +99,7 @@ export default function HumanoRoomsPage() {
                               className="text-white/86"
                             />
                             <p className="text-[19px] font-medium leading-none text-white">
-                              Excelente
+                              {t.ratingExcellent}
                             </p>
                             <FlagBannerFold
                               size={24}
@@ -131,10 +121,10 @@ export default function HumanoRoomsPage() {
 
                       <div className="flex flex-col items-center text-center sm:pl-4">
                         <p className="whitespace-nowrap text-[13px] font-semibold uppercase leading-none tracking-[0.18em] text-white/64">
-                          Ideal para:
+                          {t.idealFor}
                         </p>
                         <p className="mt-2 whitespace-nowrap text-[11px] leading-none text-white/64">
-                          Trabajo, Descanso, Aventura
+                          {t.intentsList}
                         </p>
                       </div>
                     </div>
@@ -154,7 +144,7 @@ export default function HumanoRoomsPage() {
             className="pointer-events-none absolute inset-x-0 top-0 h-28 rounded-t-[36px] bg-[var(--color-crema)] sm:h-36 sm:rounded-t-[42px]"
           />
 
-          <RoomsFilterGallery rooms={rooms} />
+          <RoomsFilterGallery rooms={rooms} lang={lang} />
         </section>
 
         <footer id="contacto" className="w-full bg-[var(--color-azul-rgb)] text-white">
@@ -163,26 +153,23 @@ export default function HumanoRoomsPage() {
             <WebFooterSocialLinks />
 
               <div className="flex flex-col items-center gap-4 text-center">
-                <p>
-                  2026 Hotel Humano · Malecón Balta 710, Miraflores.
-                  Desarrollado por Armando Hoteles
-                </p>
+                <p>{t.footerCopyright}</p>
                 <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                   <Link
-                    href="/libro-de-reclamaciones"
+                    href={complaintsHref}
                     className="transition-colors hover:text-[var(--color-amarillo)]"
                   >
-                    Libro de Reclamaciones
+                    {t.footerComplaints}
                   </Link>
                   <span
                     aria-hidden="true"
                     className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                   />
                   <Link
-                    href="/terminos-y-condiciones"
+                    href={termsHref}
                     className="transition-colors hover:text-[var(--color-amarillo)]"
                   >
-                    Términos y Condiciones
+                    {t.footerTerms}
                   </Link>
                 </div>
               </div>
@@ -209,4 +196,15 @@ export default function HumanoRoomsPage() {
       </main>
     </div>
   )
+}
+
+export const metadata = buildPageMetadata("es", {
+  title: WEB_I18N.es.roomsMetaTitle,
+  description: WEB_I18N.es.roomsMetaDescription,
+  canonical: "/habitaciones",
+  alternates: { es: "/habitaciones", en: "/en/rooms" },
+})
+
+export default function HumanoRoomsPage() {
+  return <HumanoRoomsPageContent lang="es" />
 }

@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { Inter } from "next/font/google"
@@ -15,36 +14,26 @@ import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { Reveal } from "@/components/motion/Reveal"
 import { getHumanoFacilities } from "@/lib/humano/facilities"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
 
-const pageNavItems = [
-  { label: "Home", href: "/#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
-
-export const metadata: Metadata = {
-  title: "Instalaciones del Hotel en Miraflores Lima | Hotel Humano",
-  description:
-    "Explora las instalaciones de Hotel Humano en Miraflores: espacios de diseño, áreas comunes vibrantes y ambientes pensados para conectar.",
-}
-
-export default function HumanoExperiencePage() {
-  const facilities = getHumanoFacilities()
+export function HumanoHotelPageContent({ lang = "es" }: { lang?: WebLang }) {
+  const t = WEB_I18N[lang]
+  const facilities = getHumanoFacilities(lang)
+  const homeHref = lang === "en" ? "/en" : "/"
+  const hotelHref = lang === "en" ? "/en/hotel" : "/hotel"
+  const spacesLabel = lang === "en" ? "Spaces" : "Espacios"
+  const insideHotel = lang === "en" ? "Inside the hotel" : "Dentro del hotel"
+  const backToHome = lang === "en" ? "Back to home" : "Volver al home"
 
   return (
     <div className={`${bodyFont.className} bg-[var(--color-crema)] text-[var(--color-azul-rgb)]`}>
-      <WebStickyHeader
-        brandHref="/#inicio"
-        navItems={pageNavItems}
-        activeHref="/hotel"
-      />
+      <WebStickyHeader brandHref={homeHref} activeHref={hotelHref} lang={lang} />
 
       <main>
         <section
@@ -54,7 +43,7 @@ export default function HumanoExperiencePage() {
           <div className="absolute inset-0">
             <Image
               src="/chatbot/imagenes/inst/lobby/lobby_1.webp"
-              alt="Instalaciones Humano"
+              alt={lang === "en" ? "Humano Facilities" : "Instalaciones Humano"}
               fill
               priority
               className="object-cover object-center opacity-24"
@@ -70,19 +59,17 @@ export default function HumanoExperiencePage() {
               <div className="grid gap-10 lg:grid-cols-[minmax(0,760px)_300px] lg:items-end lg:justify-between lg:gap-12">
                 <div className="max-w-[820px]">
                   <Link
-                    href="/"
+                    href={homeHref}
                     className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/88"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                    <span>Volver al home</span>
+                    <span>{backToHome}</span>
                   </Link>
                   <h1 className="text-4xl font-serif leading-tight text-white">
-                    Hotel
+                    {t.hotelPageTitle}
                   </h1>
                   <p className="mt-4 max-w-[820px] text-[18px] leading-[1.5] text-white/85">
-                    En Humano, cada experiencia sigue tu ritmo. Puedes compartir,
-                    desconectar o simplemente hacer una pausa. Los espacios están
-                    ahí para eso: para que los vivas como quieras.
+                    {t.hotelPageSubtitle}
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4">
@@ -90,7 +77,7 @@ export default function HumanoExperiencePage() {
                       targetId="instalaciones"
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
-                      Explorar instalaciones
+                      {t.hotelExploreCta}
                       <ArrowDown className="h-5 w-5" />
                     </WebScrollToSectionButton>
                   </div>
@@ -104,21 +91,21 @@ export default function HumanoExperiencePage() {
                           <div className="flex items-center justify-center gap-2 text-white">
                             <Building2 className="h-5 w-5 text-white/86" strokeWidth={1.8} />
                             <p className="text-[19px] font-medium leading-none text-white">
-                              Espacios
+                              {spacesLabel}
                             </p>
                           </div>
                           <p className="mt-2 text-[11px] uppercase tracking-[0.18em] text-white/62">
-                            Dentro del hotel
+                            {insideHotel}
                           </p>
                         </div>
                       </div>
 
                       <div className="flex flex-col items-center text-center sm:pl-4">
                         <p className="whitespace-nowrap text-[13px] font-semibold uppercase leading-none tracking-[0.18em] text-white/64">
-                          Ideal para:
+                          {t.idealFor}
                         </p>
                         <p className="mt-2 whitespace-nowrap text-[11px] leading-none text-white/64">
-                          Trabajo, Descanso, Aventura
+                          {t.intentsList}
                         </p>
                       </div>
                     </div>
@@ -138,7 +125,7 @@ export default function HumanoExperiencePage() {
             className="pointer-events-none absolute inset-x-0 top-0 h-28 rounded-t-[36px] bg-[var(--color-crema)] sm:h-36 sm:rounded-t-[42px]"
           />
 
-          <ExperiencesFilterGallery facilities={facilities} />
+          <ExperiencesFilterGallery facilities={facilities} lang={lang} />
         </section>
 
         <footer id="contacto" className="w-full bg-[var(--color-azul-rgb)] text-white">
@@ -147,20 +134,17 @@ export default function HumanoExperiencePage() {
               <WebFooterSocialLinks />
 
               <div className="flex flex-col items-center gap-4 text-center">
-                <p>
-                  2026 Hotel Humano · Malecón Balta 710, Miraflores.
-                  Desarrollado por Armando Hoteles
-                </p>
+                <p>{t.footerCopyright}</p>
                 <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                   <Link href="/libro-de-reclamaciones" className="transition-colors hover:text-[var(--color-amarillo)]">
-                    Libro de Reclamaciones
+                    {t.footerComplaints}
                   </Link>
                   <span
                     aria-hidden="true"
                     className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                   />
                   <Link href="/terminos-y-condiciones" className="transition-colors hover:text-[var(--color-amarillo)]">
-                    Términos y Condiciones
+                    {t.footerTerms}
                   </Link>
                 </div>
               </div>
@@ -187,4 +171,15 @@ export default function HumanoExperiencePage() {
       </main>
     </div>
   )
+}
+
+export const metadata = buildPageMetadata("es", {
+  title: WEB_I18N.es.hotelMetaTitle,
+  description: WEB_I18N.es.hotelMetaDescription,
+  canonical: "/hotel",
+  alternates: { es: "/hotel", en: "/en/hotel" },
+})
+
+export default function HumanoExperiencePage() {
+  return <HumanoHotelPageContent lang="es" />
 }

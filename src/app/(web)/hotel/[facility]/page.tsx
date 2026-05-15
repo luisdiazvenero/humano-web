@@ -9,7 +9,6 @@ import {
   Briefcase,
   Clock3,
   Coffee,
-  Compass,
   Dumbbell,
   Sparkles,
   UtensilsCrossed,
@@ -27,19 +26,13 @@ import {
   type HumanoFacility,
 } from "@/lib/humano/facilities"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
-
-const pageNavItems = [
-  { label: "Home", href: "/#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
 
 function getFacilityMetaIcon(entry: HumanoFacility["meta"][number]) {
   switch (entry.kind) {
@@ -61,13 +54,26 @@ function getFacilityMetaIcon(entry: HumanoFacility["meta"][number]) {
   }
 }
 
-function FacilitySuggestionCard({ facility }: { facility: HumanoFacility }) {
+function FacilitySuggestionCard({
+  facility,
+  lang,
+}: {
+  facility: HumanoFacility
+  lang: WebLang
+}) {
   const previewMeta = facility.meta.slice(0, 3)
+  const detailHref =
+    lang === "en" ? `/en/hotel/${facility.slug}` : `/hotel/${facility.slug}`
+  const seeLabel = lang === "en" ? "See" : "Ver"
+  const ariaLabel =
+    lang === "en"
+      ? `View detail for ${facility.nombre}`
+      : `Ver detalle de ${facility.nombre}`
 
   return (
     <Link
-      href={`/hotel/${facility.slug}`}
-      aria-label={`Ver detalle de ${facility.nombre}`}
+      href={detailHref}
+      aria-label={ariaLabel}
       className="group block text-left"
     >
       <div className="flex items-center gap-3 rounded-[22px] bg-white/[0.03] p-3 transition-colors duration-200 group-hover:bg-white/[0.05]">
@@ -106,7 +112,7 @@ function FacilitySuggestionCard({ facility }: { facility: HumanoFacility }) {
             </h3>
 
             <span className="mt-0.5 inline-flex shrink-0 items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-white/42 transition-colors duration-200 group-hover:text-white/62">
-              Ver
+              {seeLabel}
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.8} />
             </span>
           </div>
@@ -134,53 +140,43 @@ function FacilitySuggestionCard({ facility }: { facility: HumanoFacility }) {
   )
 }
 
-export function generateStaticParams() {
-  return getHumanoFacilities().map((facility) => ({ facility: facility.slug }))
-}
-
-export async function generateMetadata({
-  params,
+export function FacilityDetailPageContent({
+  slug,
+  lang = "es",
 }: {
-  params: Promise<{ facility: string }>
-}): Promise<Metadata> {
-  const { facility } = await params
-  const facilityData = getHumanoFacilityBySlug(facility)
-
-  if (!facilityData) {
-    return {
-      title: "Instalaciones del Hotel en Miraflores Lima | Hotel Humano",
-    }
-  }
-
-  return {
-    title: `${facilityData.nombre} | Hotel Humano Miraflores`,
-    description: facilityData.descripcionExperiencial,
-  }
-}
-
-export default async function HumanoFacilityDetailPage({
-  params,
-}: {
-  params: Promise<{ facility: string }>
+  slug: string
+  lang?: WebLang
 }) {
-  const { facility } = await params
-  const facilityData = getHumanoFacilityBySlug(facility)
+  const t = WEB_I18N[lang]
+  const facilityData = getHumanoFacilityBySlug(slug, lang)
 
   if (!facilityData) {
     notFound()
   }
 
-  const moreFacilities = getHumanoFacilities()
+  const homeHref = lang === "en" ? "/en" : "/"
+  const hotelHref = lang === "en" ? "/en/hotel" : "/hotel"
+  const backLabel = lang === "en" ? "Back to Hotel" : "Volver a Hotel"
+  const ctaLabel = lang === "en" ? "Discover facility" : "Conocer instalación"
+  const essentialsLabel = lang === "en" ? "The essentials" : "Lo esencial"
+  const moreFacilitiesLabel =
+    lang === "en" ? "More facilities" : "Más instalaciones"
+  const moreFacilitiesIntro =
+    lang === "en"
+      ? "Other spaces at the hotel to accompany different moments of your stay."
+      : "Otros espacios del hotel para acompañar distintos momentos de tu estadía."
+
+  const moreFacilities = getHumanoFacilities(lang)
     .filter((item) => item.id !== facilityData.id)
     .slice(0, 4)
 
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader
-        brandHref="/#inicio"
-        navItems={pageNavItems}
-        activeHref="/hotel"
+        brandHref={homeHref}
+        activeHref={hotelHref}
         showReserve={false}
+        lang={lang}
       />
 
       <main>
@@ -207,11 +203,11 @@ export default async function HumanoFacilityDetailPage({
                 <div>
                   <div className="space-y-3">
                     <Link
-                      href="/hotel"
+                      href={hotelHref}
                       className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/86"
                     >
                       <ArrowLeft className="h-4 w-4" />
-                      <span>Volver</span>
+                      <span>{backLabel}</span>
                     </Link>
 
                     <h1 className="text-4xl font-serif leading-tight text-white">
@@ -235,7 +231,7 @@ export default async function HumanoFacilityDetailPage({
                     })}
                     {facilityData.id === "INST_RESTAURANTE_ENT" ? (
                       <span className="inline-flex items-center rounded-full bg-[var(--color-amarillo)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-azul-rgb)]">
-                        Próximamente
+                        {t.comingSoon}
                       </span>
                     ) : null}
                   </div>
@@ -251,7 +247,7 @@ export default async function HumanoFacilityDetailPage({
                       eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
-                      Conocer instalación
+                      {ctaLabel}
                       <ArrowUpRight className="h-5 w-5" />
                     </TrackLink>
                   </div>
@@ -259,7 +255,7 @@ export default async function HumanoFacilityDetailPage({
 
                 <div className="mt-8 max-w-[38ch] border-t border-white/12 pt-8 text-right lg:ml-auto lg:self-end">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
-                    Lo esencial
+                    {essentialsLabel}
                   </p>
                   <p className="mt-3 text-[13px] leading-[1.8] text-white/56">
                     {facilityData.descripcionFactual}
@@ -283,16 +279,16 @@ export default async function HumanoFacilityDetailPage({
             <div className="border-t border-white/8 pt-5">
               <div className="max-w-[560px]">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/52">
-                  Más instalaciones
+                  {moreFacilitiesLabel}
                 </p>
                 <p className="mt-1.5 text-[12px] leading-relaxed text-white/42">
-                  Otros espacios del hotel para acompañar distintos momentos de tu estadía.
+                  {moreFacilitiesIntro}
                 </p>
               </div>
 
               <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
                 {moreFacilities.map((item) => (
-                  <FacilitySuggestionCard key={item.id} facility={item} />
+                  <FacilitySuggestionCard key={item.id} facility={item} lang={lang} />
                 ))}
               </div>
             </div>
@@ -305,20 +301,17 @@ export default async function HumanoFacilityDetailPage({
             <WebFooterSocialLinks />
 
               <div className="flex flex-col items-center gap-4 text-center">
-                <p>
-                  2026 Hotel Humano · Malecón Balta 710, Miraflores.
-                  Desarrollado por Armando Hoteles
-                </p>
+                <p>{t.footerCopyright}</p>
                 <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                   <Link href="/libro-de-reclamaciones" className="transition-colors hover:text-[var(--color-amarillo)]">
-                    Libro de Reclamaciones
+                    {t.footerComplaints}
                   </Link>
                   <span
                     aria-hidden="true"
                     className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                   />
                   <Link href="/terminos-y-condiciones" className="transition-colors hover:text-[var(--color-amarillo)]">
-                    Términos y Condiciones
+                    {t.footerTerms}
                   </Link>
                 </div>
               </div>
@@ -345,4 +338,43 @@ export default async function HumanoFacilityDetailPage({
       </main>
     </div>
   )
+}
+
+export function generateStaticParams() {
+  return getHumanoFacilities().map((facility) => ({ facility: facility.slug }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ facility: string }>
+}): Promise<Metadata> {
+  const { facility } = await params
+  const facilityData = getHumanoFacilityBySlug(facility, "es")
+
+  if (!facilityData) {
+    return buildPageMetadata("es", {
+      title: "Instalaciones del Hotel en Miraflores Lima | Hotel Humano",
+      description: WEB_I18N.es.hotelMetaDescription,
+      canonical: `/hotel/${facility}`,
+      alternates: { es: `/hotel/${facility}`, en: `/en/hotel/${facility}` },
+    })
+  }
+
+  return buildPageMetadata("es", {
+    title: `${facilityData.nombre} | Hotel Humano Miraflores`,
+    description: facilityData.descripcionExperiencial,
+    canonical: `/hotel/${facilityData.slug}`,
+    alternates: { es: `/hotel/${facilityData.slug}`, en: `/en/hotel/${facilityData.slug}` },
+    ogImage: facilityData.imagen ?? undefined,
+  })
+}
+
+export default async function HumanoFacilityDetailPage({
+  params,
+}: {
+  params: Promise<{ facility: string }>
+}) {
+  const { facility } = await params
+  return <FacilityDetailPageContent slug={facility} lang="es" />
 }

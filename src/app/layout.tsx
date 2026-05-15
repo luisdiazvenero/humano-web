@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Script from "next/script"
+import { headers } from "next/headers"
 // Commented temporarily for build - fonts work fine in production
 // import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
@@ -15,19 +16,43 @@ import "./globals.css"
 // })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://humanohoteles.com"),
   title: "Hotel HUMANO · Miraflores",
   description:
-    "Demo local de la experiencia conversacional del Hotel Humano Miraflores.",
+    "Hotel Humano en Miraflores, Lima. Tribute Portfolio by Marriott con diseño único, experiencias locales y conexión auténtica con la ciudad.",
   icons: {
     icon: "/favicon.svg",
   },
+  openGraph: {
+    type: "website",
+    siteName: "Hotel Humano",
+    locale: "es_PE",
+    alternateLocale: ["en_US"],
+    images: [
+      {
+        url: "/logo-humano.svg",
+        width: 800,
+        height: 800,
+        alt: "Hotel Humano",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hotel HUMANO · Miraflores",
+    description:
+      "Hotel Humano en Miraflores, Lima. Tribute Portfolio by Marriott con diseño único, experiencias locales y conexión auténtica con la ciudad.",
+    images: ["/logo-humano.svg"],
+  },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const pathname = (await headers()).get("x-pathname") || ""
+  const lang = pathname.startsWith("/en") ? "en" : "es"
   return (
-    <html lang="es">
+    <html lang={lang}>
       <body
         className="font-sans bg-background text-foreground antialiased"
       >

@@ -45,7 +45,27 @@ const internationalCodes = [
   { short: "ES", label: "España", value: "+34" },
 ]
 
-export function WebContactForm() {
+export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
+  const isEn = lang === "en"
+  const labels = {
+    name: isEn ? "Name" : "Nombre",
+    email: isEn ? "Email" : "Correo",
+    subject: isEn ? "Subject" : "Asunto",
+    phone: isEn ? "Phone" : "Teléfono",
+    message: isEn ? "Message" : "Mensaje",
+    messagePlaceholder: isEn
+      ? "Briefly tell us how we can help."
+      : "Cuéntanos brevemente cómo podemos ayudarte.",
+    reply: isEn ? "We'll reply by email shortly." : "Te responderemos por correo en un plazo breve.",
+    submit: isEn ? "Send" : "Enviar",
+    intlCodes: isEn ? "International codes" : "Códigos internacionales",
+    fallbackName: isEn ? "new contact" : "nuevo contacto",
+    subjectPrefix: isEn ? "Inquiry from" : "Consulta de",
+    mailNameLabel: isEn ? "Name" : "Nombre",
+    mailEmailLabel: isEn ? "Email" : "Correo",
+    mailPhoneLabel: isEn ? "Phone" : "Teléfono",
+    mailMessageLabel: isEn ? "Message" : "Mensaje",
+  }
   const router = useRouter()
   const [form, setForm] = useState<ContactFormState>(initialState)
   const [isPhoneMenuOpen, setIsPhoneMenuOpen] = useState(false)
@@ -65,13 +85,13 @@ export function WebContactForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const subject = form.subject.trim() || `Consulta de ${form.name || "nuevo contacto"}`
+    const subject = form.subject.trim() || `${labels.subjectPrefix} ${form.name || labels.fallbackName}`
     const body = [
-      `Nombre: ${form.name}`,
-      `Correo: ${form.email}`,
-      `Teléfono: ${form.countryCode} ${form.phone}`,
+      `${labels.mailNameLabel}: ${form.name}`,
+      `${labels.mailEmailLabel}: ${form.email}`,
+      `${labels.mailPhoneLabel}: ${form.countryCode} ${form.phone}`,
       "",
-      "Mensaje:",
+      `${labels.mailMessageLabel}:`,
       form.message,
     ].join("\n")
 
@@ -90,11 +110,11 @@ export function WebContactForm() {
     <form className="space-y-3" onSubmit={handleSubmit}>
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block">
-          <span className="sr-only">Nombre</span>
+          <span className="sr-only">{labels.name}</span>
           <input
             type="text"
             name="name"
-            placeholder="Nombre"
+            placeholder={labels.name}
             required
             value={form.name}
             onChange={(event) =>
@@ -105,11 +125,11 @@ export function WebContactForm() {
         </label>
 
         <label className="block">
-          <span className="sr-only">Correo</span>
+          <span className="sr-only">{labels.email}</span>
           <input
             type="email"
             name="email"
-            placeholder="Correo"
+            placeholder={labels.email}
             required
             value={form.email}
             onChange={(event) =>
@@ -122,11 +142,11 @@ export function WebContactForm() {
 
       <div className="space-y-3">
         <label className="block">
-          <span className="sr-only">Asunto</span>
+          <span className="sr-only">{labels.subject}</span>
           <input
             type="text"
             name="subject"
-            placeholder="Asunto"
+            placeholder={labels.subject}
             required
             value={form.subject}
             onChange={(event) =>
@@ -137,7 +157,7 @@ export function WebContactForm() {
         </label>
 
         <div className="relative" ref={phoneMenuRef}>
-          <span className="sr-only">Teléfono</span>
+          <span className="sr-only">{labels.phone}</span>
           <div className="flex overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04] transition focus-within:border-white/28 focus-within:bg-white/[0.06] focus-within:ring-2 focus-within:ring-white/10">
             <button
               type="button"
@@ -159,7 +179,7 @@ export function WebContactForm() {
               <input
                 type="tel"
                 name="phone"
-                placeholder="Teléfono"
+                placeholder={labels.phone}
                 required
                 value={form.phone}
                 onChange={(event) =>
@@ -172,7 +192,7 @@ export function WebContactForm() {
 
           {isPhoneMenuOpen ? (
             <div className="absolute left-0 top-[calc(100%+10px)] z-20 w-[240px] overflow-hidden rounded-[20px] border border-white/12 bg-[#0a444a] p-2 shadow-[0_20px_40px_rgba(0,0,0,0.28)] backdrop-blur-xl">
-              <ul role="listbox" aria-label="Códigos internacionales" className="space-y-1">
+              <ul role="listbox" aria-label={labels.intlCodes} className="space-y-1">
                 {internationalCodes.map((code) => {
                   const isSelected = code.value === form.countryCode
 
@@ -213,11 +233,11 @@ export function WebContactForm() {
       </div>
 
       <label className="block">
-        <span className="sr-only">Mensaje</span>
+        <span className="sr-only">{labels.message}</span>
         <textarea
           name="message"
           rows={5}
-          placeholder="Cuéntanos brevemente cómo podemos ayudarte."
+          placeholder={labels.messagePlaceholder}
           required
           value={form.message}
           onChange={(event) =>
@@ -229,7 +249,7 @@ export function WebContactForm() {
 
       <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
         <p className="text-[12px] leading-relaxed text-white/42">
-          Te responderemos por correo en un plazo breve.
+          {labels.reply}
         </p>
 
         <button
@@ -239,7 +259,7 @@ export function WebContactForm() {
             "min-h-12 cursor-pointer bg-white px-5 py-2.5 text-sm text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]"
           )}
         >
-          Enviar
+          {labels.submit}
           <ArrowUpRight className="h-4.5 w-4.5" />
         </button>
       </div>

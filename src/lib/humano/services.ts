@@ -1,7 +1,16 @@
 import humanoDataRaw from "@/data/humano.json"
+import humanoDataRawEn from "@/data/humano-en.json"
 import type { ConserjeData, ConserjeItem } from "@/lib/humano/types"
 
-const humanoData = humanoDataRaw as ConserjeData
+export type ServiceLang = "es" | "en"
+const HUMANO_DATA: Record<ServiceLang, ConserjeData> = {
+  es: humanoDataRaw as ConserjeData,
+  en: humanoDataRawEn as ConserjeData,
+}
+const SERVICE_CATEGORIA_I18N: Record<ServiceLang, string> = {
+  es: "Servicio",
+  en: "Service",
+}
 
 export type HumanoService = {
   id: string
@@ -158,7 +167,7 @@ function extractServiceMeta(item: ConserjeItem): HumanoService["meta"] {
   return inferred
 }
 
-function toHumanoService(item: ConserjeItem): HumanoService {
+function toHumanoService(item: ConserjeItem, lang: ServiceLang): HumanoService {
   const override = serviceAudienceOverrides[item.nombre_publico]
   const imagenes = item.imagenes_url?.filter(Boolean) ?? []
 
@@ -166,7 +175,7 @@ function toHumanoService(item: ConserjeItem): HumanoService {
     id: item.id,
     slug: slugify(item.nombre_publico),
     nombre: item.nombre_publico,
-    categoria: item.categoria,
+    categoria: SERVICE_CATEGORIA_I18N[lang],
     descripcionExperiencial: item.desc_experiencial || item.desc_factual,
     descripcionFactual: item.desc_factual,
     descripcionCorta: shortenDescription(item.desc_experiencial || item.desc_factual),
@@ -182,12 +191,12 @@ function toHumanoService(item: ConserjeItem): HumanoService {
   }
 }
 
-export function getHumanoServices(): HumanoService[] {
-  return humanoData.items
+export function getHumanoServices(lang: ServiceLang = "es"): HumanoService[] {
+  return HUMANO_DATA[lang].items
     .filter((item) => item.tipo === "Servicios")
-    .map(toHumanoService)
+    .map((item) => toHumanoService(item, lang))
 }
 
-export function getHumanoServiceBySlug(slug: string): HumanoService | null {
-  return getHumanoServices().find((service) => service.slug === slug) ?? null
+export function getHumanoServiceBySlug(slug: string, lang: ServiceLang = "es"): HumanoService | null {
+  return getHumanoServices(lang).find((service) => service.slug === slug) ?? null
 }

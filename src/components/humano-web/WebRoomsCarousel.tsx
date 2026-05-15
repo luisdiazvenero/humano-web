@@ -8,10 +8,12 @@ import {
 
 interface WebRoomsCarouselProps {
   items: RoomCarouselItem[]
+  lang?: "es" | "en"
 }
 
-export function WebRoomsCarousel({ items }: WebRoomsCarouselProps) {
+export function WebRoomsCarousel({ items, lang = "es" }: WebRoomsCarouselProps) {
   const router = useRouter()
+  const basePath = lang === "en" ? "/en/rooms" : ""
 
   return (
     <RoomMenuCarousel
@@ -19,7 +21,7 @@ export function WebRoomsCarousel({ items }: WebRoomsCarouselProps) {
       slideGapPx={32}
       dotsMarginTopPx={36}
       enableReveal
-      onSelect={({ id }) => router.push(`/${id}`)}
+      onSelect={({ id }) => router.push(`${basePath}/${id}`)}
     />
   )
 }

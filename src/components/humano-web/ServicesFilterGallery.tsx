@@ -59,17 +59,24 @@ function ServiceImagePlaceholder() {
   )
 }
 
-export function ServicesFilterGallery({ services }: { services: HumanoService[] }) {
+export function ServicesFilterGallery({ services, lang = "es" }: { services: HumanoService[]; lang?: "es" | "en" }) {
+  const isEn = lang === "en"
+  const asideTitle = isEn ? "Conscious hospitality in Lima." : "Hospitalidad consciente en Lima."
+  const asideText = isEn
+    ? "At Humano we believe hospitality goes beyond service. It's about creating spaces where people can reconnect with themselves and with others, in the heart of Miraflores."
+    : "En Humano creemos que la hospitalidad va más allá del servicio. Es crear espacios donde las personas puedan reconectar consigo mismas y con los demás, en el corazón de Miraflores."
+  const viewDetail = isEn ? "View detail of" : "Ver detalle de"
+  const servicesHref = isEn ? "/en/services" : "/servicios"
   return (
     <div className="mx-auto w-full max-w-[1680px] px-6 sm:px-10 xl:px-14">
       <div className="grid items-start gap-10 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[240px_minmax(0,1fr)] xl:gap-14">
         <aside className="lg:sticky lg:top-28">
           <div className="pt-10 sm:pt-14">
             <h2 className="font-serif text-[28px] leading-[1.15] text-[var(--color-azul-rgb)]">
-              Hospitalidad consciente en Lima.
+              {asideTitle}
             </h2>
             <p className="mt-4 text-[15px] leading-[1.8] text-[var(--color-azul-rgb)]/52">
-              En Humano creemos que la hospitalidad va más allá del servicio. Es crear espacios donde las personas puedan reconectar consigo mismas y con los demás, en el corazón de Miraflores.
+              {asideText}
             </p>
           </div>
         </aside>
@@ -81,8 +88,8 @@ export function ServicesFilterGallery({ services }: { services: HumanoService[] 
             return (
               <Link
                 key={service.id}
-                href={`/servicios/${service.slug}`}
-                aria-label={`Ver detalle de ${service.nombre}`}
+                href={`${servicesHref}/${service.slug}`}
+                aria-label={`${viewDetail} ${service.nombre}`}
                 className="group block w-full overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
               >
                 <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/10]">

@@ -1,7 +1,43 @@
 import humanoDataRaw from "@/data/humano.json"
+import humanoDataRawEn from "@/data/humano-en.json"
 import type { ConserjeData, ConserjeItem } from "@/lib/humano/types"
 
-const humanoData = humanoDataRaw as ConserjeData
+export type FacilityLang = "es" | "en"
+
+const HUMANO_DATA: Record<FacilityLang, ConserjeData> = {
+  es: humanoDataRaw as ConserjeData,
+  en: humanoDataRawEn as ConserjeData,
+}
+
+const FACILITY_LABEL_I18N: Record<string, { es: string; en: string }> = {
+  Recepción: { es: "Recepción", en: "Reception" },
+  "Áreas de espera": { es: "Áreas de espera", en: "Waiting areas" },
+  Desayuno: { es: "Desayuno", en: "Breakfast" },
+  "En hotel": { es: "En hotel", en: "In hotel" },
+  Rooftop: { es: "Rooftop", en: "Rooftop" },
+  Parrillas: { es: "Parrillas", en: "Grill" },
+  "Primer piso": { es: "Primer piso", en: "First floor" },
+  "Cocina peruana": { es: "Cocina peruana", en: "Peruvian cuisine" },
+  "Trabajo flexible": { es: "Trabajo flexible", en: "Flexible work" },
+  Conectividad: { es: "Conectividad", en: "Connectivity" },
+  Máquinas: { es: "Máquinas", en: "Machines" },
+  Rutina: { es: "Rutina", en: "Routine" },
+  "Piso 17": { es: "Piso 17", en: "17th floor" },
+  Temperada: { es: "Temperada", en: "Heated" },
+  Reuniones: { es: "Reuniones", en: "Meetings" },
+  Equipadas: { es: "Equipadas", en: "Equipped" },
+  Encuentros: { es: "Encuentros", en: "Meetups" },
+  Cervezas: { es: "Cervezas", en: "Beers" },
+}
+
+const FACILITY_CATEGORIA_I18N: Record<FacilityLang, string> = {
+  es: "Instalación",
+  en: "Facility",
+}
+
+function tFacilityLabel(label: string, lang: FacilityLang): string {
+  return FACILITY_LABEL_I18N[label]?.[lang] ?? label
+}
 
 export type HumanoFacility = {
   id: string
@@ -176,41 +212,43 @@ const facilityMetaConfig: Record<
   },
 }
 
-function toHumanoFacility(item: ConserjeItem): HumanoFacility {
+function toHumanoFacility(item: ConserjeItem, lang: FacilityLang): HumanoFacility {
   const imagenes = item.imagenes_url?.filter(Boolean) ?? []
   const descripcionExperiencial = item.desc_experiencial || item.desc_factual
+  const rawMeta = facilityMetaConfig[item.id]?.meta(item) ?? []
+  const meta = rawMeta.slice(0, 3).map((entry) => ({ ...entry, label: tFacilityLabel(entry.label, lang) }))
 
   return {
     id: item.id,
     slug: slugify(item.nombre_publico),
     nombre: item.nombre_publico,
-    categoria: item.categoria || "Instalación",
+    categoria: FACILITY_CATEGORIA_I18N[lang],
     descripcionExperiencial,
     descripcionFactual: item.desc_factual,
     descripcionCorta: shortenDescription(descripcionExperiencial),
     intenciones: item.intenciones,
     perfilIdeal: item.perfil_ideal,
-    meta: (facilityMetaConfig[item.id]?.meta(item) ?? []).slice(0, 3),
+    meta,
     imagen: imagenes[0] ?? null,
     imagenes,
   }
 }
 
-export function getHumanoFacilities(): HumanoFacility[] {
+export function getHumanoFacilities(lang: FacilityLang = "es"): HumanoFacility[] {
   const orderMap = new Map<string, number>(installationOrder.map((id, index) => [id, index]))
 
-  return humanoData.items
+  return HUMANO_DATA[lang].items
     .filter((item) => item.tipo === "Instalaciones" && orderMap.has(item.id))
     .sort((a, b) => (orderMap.get(a.id) ?? 0) - (orderMap.get(b.id) ?? 0))
-    .map(toHumanoFacility)
+    .map((item) => toHumanoFacility(item, lang))
 }
 
-export function getHumanoFacilityBySlug(slug: string): HumanoFacility | null {
-  return getHumanoFacilities().find((facility) => facility.slug === slug) ?? null
+export function getHumanoFacilityBySlug(slug: string, lang: FacilityLang = "es"): HumanoFacility | null {
+  return getHumanoFacilities(lang).find((facility) => facility.slug === slug) ?? null
 }
 
-export function getHumanoFeaturedFacilities(): HumanoFacilityCard[] {
-  const facilitiesById = new Map(getHumanoFacilities().map((facility) => [facility.id, facility]))
+export function getHumanoFeaturedFacilities(lang: FacilityLang = "es"): HumanoFacilityCard[] {
+  const facilitiesById = new Map(getHumanoFacilities(lang).map((facility) => [facility.id, facility]))
 
   return featuredFacilityIds.reduce<HumanoFacilityCard[]>((items, id) => {
     const facility = facilitiesById.get(id)

@@ -770,11 +770,14 @@ function HumanoPageContent() {
   }
 
   useEffect(() => {
+    const queryLang = searchParams.get("lang")
+    const fromQuery: Lang | null = queryLang === "en" || queryLang === "es" ? queryLang : null
     const stored = loadStoredLang()
-    const initial = stored ?? detectBrowserLang()
+    const initial = fromQuery ?? stored ?? detectBrowserLang()
+    if (fromQuery) persistLang(fromQuery)
     setLang(initial)
     setLangReady(true)
-  }, [])
+  }, [searchParams])
 
   const handleLangChange = (next: Lang) => {
     if (next === lang) return
@@ -791,6 +794,7 @@ function HumanoPageContent() {
   }
 
   useEffect(() => {
+    if (!langReady) return
     if (deepLinkHandledRef.current) return
     const itemId = searchParams.get("item")
     if (!itemId) return
@@ -837,7 +841,7 @@ function HumanoPageContent() {
         content: targetItem.ctas?.length ? targetItem.ctas.slice(0, 2) : t.defaultSuggestions,
       },
     ])
-  }, [searchParams])
+  }, [searchParams, langReady])
 
   useEffect(() => {
     if (!langReady) return

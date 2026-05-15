@@ -20,26 +20,19 @@ import { notFound } from "next/navigation"
 import { WebFooterSocialLinks } from "@/components/humano-web/WebFooterSocialLinks"
 import { RoomDetailGallery } from "@/components/humano-web/RoomDetailGallery"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
-import { Reveal } from "@/components/motion/Reveal"
 import {
   getHumanoServiceBySlug,
   getHumanoServices,
   type HumanoService,
 } from "@/lib/humano/services"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
-
-const pageNavItems = [
-  { label: "Home", href: "/#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
 
 function getServiceMetaIcon(entry: HumanoService["meta"][number]) {
   switch (entry.kind) {
@@ -67,13 +60,26 @@ function getServiceMetaIcon(entry: HumanoService["meta"][number]) {
   }
 }
 
-function ServiceSuggestionCard({ service }: { service: HumanoService }) {
+function ServiceSuggestionCard({
+  service,
+  lang,
+}: {
+  service: HumanoService
+  lang: WebLang
+}) {
   const previewMeta = service.meta.slice(0, 3)
+  const detailHref =
+    lang === "en" ? `/en/services/${service.slug}` : `/servicios/${service.slug}`
+  const seeLabel = lang === "en" ? "See" : "Ver"
+  const ariaLabel =
+    lang === "en"
+      ? `View detail for ${service.nombre}`
+      : `Ver detalle de ${service.nombre}`
 
   return (
     <Link
-      href={`/servicios/${service.slug}`}
-      aria-label={`Ver detalle de ${service.nombre}`}
+      href={detailHref}
+      aria-label={ariaLabel}
       className="group block text-left"
     >
       <div className="flex items-center gap-3 rounded-[22px] bg-white/[0.03] p-3 transition-colors duration-200 group-hover:bg-white/[0.05]">
@@ -112,7 +118,7 @@ function ServiceSuggestionCard({ service }: { service: HumanoService }) {
             </h3>
 
             <span className="mt-0.5 inline-flex shrink-0 items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-white/42 transition-colors duration-200 group-hover:text-white/62">
-              Ver
+              {seeLabel}
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.8} />
             </span>
           </div>
@@ -140,57 +146,50 @@ function ServiceSuggestionCard({ service }: { service: HumanoService }) {
   )
 }
 
-export function generateStaticParams() {
-  return getHumanoServices().map((service) => ({ service: service.slug }))
-}
-
-export async function generateMetadata({
-  params,
+export function ServiceDetailPageContent({
+  slug,
+  lang = "es",
 }: {
-  params: Promise<{ service: string }>
-}): Promise<Metadata> {
-  const { service } = await params
-  const serviceData = getHumanoServiceBySlug(service)
-
-  if (!serviceData) {
-    return {
-      title: "Servicios del Hotel en Miraflores Lima | Hotel Humano",
-    }
-  }
-
-  return {
-    title: `${serviceData.nombre} | Hotel Humano Miraflores`,
-    description: serviceData.descripcionExperiencial,
-  }
-}
-
-export default async function HumanoServiceDetailPage({
-  params,
-}: {
-  params: Promise<{ service: string }>
+  slug: string
+  lang?: WebLang
 }) {
-  const { service } = await params
-  const serviceData = getHumanoServiceBySlug(service)
+  const t = WEB_I18N[lang]
+  const serviceData = getHumanoServiceBySlug(slug, lang)
 
   if (!serviceData) {
     notFound()
   }
 
-  const moreServices = getHumanoServices()
+  const homeHref = lang === "en" ? "/en" : "/"
+  const servicesHref = lang === "en" ? "/en/services" : "/servicios"
+  const backLabel = lang === "en" ? "Back to Services" : "Volver a Servicios"
+  const ctaLabel = lang === "en" ? "Coordinate service" : "Coordinar servicio"
+  const essentialsLabel = lang === "en" ? "The essentials" : "Lo esencial"
+  const moreServicesLabel = lang === "en" ? "More services" : "Más servicios"
+  const moreServicesIntro =
+    lang === "en"
+      ? "Other support and details from the hotel to round out your stay with less friction."
+      : "Otros apoyos y detalles del hotel para completar tu estadía con menos fricción."
+  const mailSubject =
+    lang === "en"
+      ? `Inquiry about ${serviceData.nombre}`
+      : `Consulta sobre ${serviceData.nombre}`
+
+  const moreServices = getHumanoServices(lang)
     .filter((item) => item.id !== serviceData.id)
     .slice(0, 4)
 
   const ctaHref = serviceData.redirigir?.includes("@")
-    ? `mailto:${serviceData.redirigir}?subject=${encodeURIComponent(`Consulta sobre ${serviceData.nombre}`)}`
+    ? `mailto:${serviceData.redirigir}?subject=${encodeURIComponent(mailSubject)}`
     : serviceData.redirigir || "/conserje"
 
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader
-        brandHref="/#inicio"
-        navItems={pageNavItems}
-        activeHref="/servicios"
+        brandHref={homeHref}
+        activeHref={servicesHref}
         showReserve={false}
+        lang={lang}
       />
 
       <main>
@@ -217,11 +216,11 @@ export default async function HumanoServiceDetailPage({
                 <div>
                   <div className="space-y-3">
                     <Link
-                      href="/servicios"
+                      href={servicesHref}
                       className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition hover:text-white/86"
                     >
                       <ArrowLeft className="h-4 w-4" />
-                      <span>Volver</span>
+                      <span>{backLabel}</span>
                     </Link>
 
                     <h1 className="text-4xl font-serif leading-tight text-white">
@@ -256,7 +255,7 @@ export default async function HumanoServiceDetailPage({
                       eventParams={{ service_slug: serviceData.slug, service_name: serviceData.nombre }}
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
-                      Coordinar servicio
+                      {ctaLabel}
                       <ArrowUpRight className="h-5 w-5" />
                     </TrackLink>
                   </div>
@@ -264,7 +263,7 @@ export default async function HumanoServiceDetailPage({
 
                 <div className="mt-8 max-w-[38ch] border-t border-white/12 pt-8 text-right lg:ml-auto lg:self-end">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
-                    Lo esencial
+                    {essentialsLabel}
                   </p>
                   <p className="mt-3 text-[13px] leading-[1.8] text-white/56">
                     {serviceData.descripcionFactual}
@@ -288,16 +287,16 @@ export default async function HumanoServiceDetailPage({
             <div className="border-t border-white/8 pt-5">
               <div className="max-w-[560px]">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/52">
-                  Más servicios
+                  {moreServicesLabel}
                 </p>
                 <p className="mt-1.5 text-[12px] leading-relaxed text-white/42">
-                  Otros apoyos y detalles del hotel para completar tu estadía con menos fricción.
+                  {moreServicesIntro}
                 </p>
               </div>
 
               <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
                 {moreServices.map((item) => (
-                  <ServiceSuggestionCard key={item.id} service={item} />
+                  <ServiceSuggestionCard key={item.id} service={item} lang={lang} />
                 ))}
               </div>
             </div>
@@ -309,20 +308,17 @@ export default async function HumanoServiceDetailPage({
             <WebFooterSocialLinks />
 
             <div className="flex flex-col items-center gap-4 text-center">
-              <p>
-                2026 Hotel Humano · Malecón Balta 710, Miraflores.
-                Desarrollado por Armando Hoteles
-              </p>
+              <p>{t.footerCopyright}</p>
               <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
                 <Link href="/libro-de-reclamaciones" className="transition-colors hover:text-[var(--color-amarillo)]">
-                  Libro de Reclamaciones
+                  {t.footerComplaints}
                 </Link>
                 <span
                   aria-hidden="true"
                   className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                 />
                 <Link href="/terminos-y-condiciones" className="transition-colors hover:text-[var(--color-amarillo)]">
-                  Términos y Condiciones
+                  {t.footerTerms}
                 </Link>
               </div>
             </div>
@@ -348,4 +344,43 @@ export default async function HumanoServiceDetailPage({
       </main>
     </div>
   )
+}
+
+export function generateStaticParams() {
+  return getHumanoServices().map((service) => ({ service: service.slug }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ service: string }>
+}): Promise<Metadata> {
+  const { service } = await params
+  const serviceData = getHumanoServiceBySlug(service, "es")
+
+  if (!serviceData) {
+    return buildPageMetadata("es", {
+      title: "Servicios del Hotel en Miraflores Lima | Hotel Humano",
+      description: WEB_I18N.es.servicesMetaDescription,
+      canonical: `/servicios/${service}`,
+      alternates: { es: `/servicios/${service}`, en: `/en/services/${service}` },
+    })
+  }
+
+  return buildPageMetadata("es", {
+    title: `${serviceData.nombre} | Hotel Humano Miraflores`,
+    description: serviceData.descripcionExperiencial,
+    canonical: `/servicios/${serviceData.slug}`,
+    alternates: { es: `/servicios/${serviceData.slug}`, en: `/en/services/${serviceData.slug}` },
+    ogImage: serviceData.imagen ?? undefined,
+  })
+}
+
+export default async function HumanoServiceDetailPage({
+  params,
+}: {
+  params: Promise<{ service: string }>
+}) {
+  const { service } = await params
+  return <ServiceDetailPageContent slug={service} lang="es" />
 }

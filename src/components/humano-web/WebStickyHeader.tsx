@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { CalendarDays, Menu } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -9,19 +10,12 @@ import { FullLogo } from "@/components/humano-v09/FullLogo"
 import { cn } from "@/lib/utils"
 import { webHeaderShellRadiusClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 import { trackEvent } from "@/lib/analytics"
+import { WEB_I18N, pathForLang, type WebLang } from "@/lib/web/i18n"
 
 type WebStickyHeaderNavItem = {
   label: string
   href: string
 }
-
-const defaultNavItems: WebStickyHeaderNavItem[] = [
-  { label: "Home", href: "#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
 
 interface WebStickyHeaderProps {
   brandHref?: string
@@ -29,16 +23,22 @@ interface WebStickyHeaderProps {
   forceScrolled?: boolean
   activeHref?: string
   showReserve?: boolean
+  lang?: WebLang
 }
 
 
 export function WebStickyHeader({
-  brandHref = "#inicio",
-  navItems = defaultNavItems,
+  brandHref,
+  navItems,
   forceScrolled = false,
   activeHref,
   showReserve = true,
+  lang = "es",
 }: WebStickyHeaderProps) {
+  const t = WEB_I18N[lang]
+  const pathname = usePathname() || "/"
+  const resolvedBrandHref = brandHref ?? (lang === "en" ? "/en" : "/")
+  const resolvedNavItems = navItems ?? t.nav
   const [isScrolled, setIsScrolled] = useState(false)
   const headerIsScrolled = forceScrolled || isScrolled
 
@@ -70,7 +70,7 @@ export function WebStickyHeader({
           )}
         >
           <Link
-            href={brandHref}
+            href={resolvedBrandHref}
             className={cn(
               "inline-flex min-h-11 items-center justify-self-start transition-colors",
               headerIsScrolled ? "text-[var(--color-azul-rgb)]" : "text-white"
@@ -107,7 +107,7 @@ export function WebStickyHeader({
               headerIsScrolled ? "mt-0" : "mt-2"
             )}
           >
-            {navItems.map((item) => {
+            {resolvedNavItems.map((item) => {
               const isActive = activeHref === item.href
 
               return (
@@ -164,9 +164,9 @@ export function WebStickyHeader({
                     ? "bg-[#003035] text-white hover:text-[#FFC85D]"
                     : "bg-white/15 text-white backdrop-blur hover:bg-[#003035] hover:text-white"
                 )}
-                aria-label="Reservar en Marriott"
+                aria-label={lang === "en" ? "Book on Marriott" : "Reservar en Marriott"}
               >
-                <span className="hidden text-sm font-semibold sm:inline">Reserva</span>
+                <span className="hidden text-sm font-semibold sm:inline">{t.reserve}</span>
                 <span className="inline-flex h-5 w-5 items-center justify-center">
                   <CalendarDays className="h-4 w-4" />
                 </span>
@@ -178,10 +178,51 @@ export function WebStickyHeader({
                 "inline-flex h-9 w-9 items-center justify-center rounded-full backdrop-blur md:hidden",
                 headerIsScrolled ? "bg-[var(--color-crema)]" : "bg-white/15"
               )}
-              aria-label="Abrir menú"
+              aria-label={t.menuOpen}
             >
               <Menu className="h-4 w-4" />
             </button>
+            <div
+              role="group"
+              aria-label="Language"
+              className={cn(
+                "ml-1 inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider leading-none",
+                headerIsScrolled ? "" : ""
+              )}
+            >
+              <Link
+                href={pathForLang(pathname, "es")}
+                className={cn(
+                  "cursor-pointer rounded-full px-2 py-1 transition-colors",
+                  lang === "es"
+                    ? headerIsScrolled
+                      ? "bg-[#003035] text-white"
+                      : "bg-white text-[var(--color-azul-rgb)]"
+                    : headerIsScrolled
+                      ? "text-[var(--color-azul-rgb)]/60 hover:text-[var(--color-azul-rgb)]"
+                      : "text-white/70 hover:text-white"
+                )}
+                aria-pressed={lang === "es"}
+              >
+                ES
+              </Link>
+              <Link
+                href={pathForLang(pathname, "en")}
+                className={cn(
+                  "cursor-pointer rounded-full px-2 py-1 transition-colors",
+                  lang === "en"
+                    ? headerIsScrolled
+                      ? "bg-[#003035] text-white"
+                      : "bg-white text-[var(--color-azul-rgb)]"
+                    : headerIsScrolled
+                      ? "text-[var(--color-azul-rgb)]/60 hover:text-[var(--color-azul-rgb)]"
+                      : "text-white/70 hover:text-white"
+                )}
+                aria-pressed={lang === "en"}
+              >
+                EN
+              </Link>
+            </div>
           </div>
         </div>
       </div>

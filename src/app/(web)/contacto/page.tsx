@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { Inter } from "next/font/google"
 import { ScrollText, Mail, MapPin, Phone } from "lucide-react"
@@ -9,25 +8,13 @@ import {
   InstagramBalancedIcon,
 } from "@/components/humano-web/WebFooterSocialLinks"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
+import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
-
-const pageNavItems = [
-  { label: "Home", href: "/#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
-
-export const metadata: Metadata = {
-  title: "Contacto · Humano Website",
-  description:
-    "Ponte en contacto con Humano Hotel en Miraflores para resolver dudas, coordinar tu estadía o solicitar información.",
-}
 
 const socialLinks = [
   {
@@ -44,15 +31,15 @@ const socialLinks = [
   },
 ]
 
-export default function HumanoContactoPage() {
+export function HumanoContactoPageContent({ lang = "es" }: { lang?: WebLang }) {
+  const t = WEB_I18N[lang]
+  const homeHref = lang === "en" ? "/en" : "/"
+  const contactHref = lang === "en" ? "/en/contact" : "/contacto"
+  const isEn = lang === "en"
+
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-white`}>
-      <WebStickyHeader
-        brandHref="/#inicio"
-        navItems={pageNavItems}
-        activeHref="/contacto"
-        showReserve={false}
-      />
+      <WebStickyHeader brandHref={homeHref} activeHref={contactHref} showReserve={false} lang={lang} />
 
       <main>
         <section className="relative overflow-hidden bg-[var(--color-azul-rgb)] pt-28 sm:pt-32">
@@ -68,7 +55,7 @@ export default function HumanoContactoPage() {
                 <div>
                   <div className="grid gap-4 lg:grid-cols-[210px_minmax(0,1fr)] lg:items-start lg:gap-8">
                     <h1 className="text-4xl font-serif leading-none text-white">
-                      Contacto
+                      {t.contactPageTitle}
                     </h1>
                   </div>
                 </div>
@@ -77,7 +64,7 @@ export default function HumanoContactoPage() {
                   <div className="grid gap-10 lg:grid-cols-[minmax(0,250px)_minmax(0,1fr)] lg:gap-12">
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
-                        Datos de contacto
+                        {isEn ? "Contact details" : "Datos de contacto"}
                       </p>
 
                       <div className="mt-4 space-y-4">
@@ -86,12 +73,8 @@ export default function HumanoContactoPage() {
                             <MapPin className="h-4.5 w-4.5" />
                           </span>
                           <div>
-                            <p className="text-sm font-medium text-white/92">
-                              Malecón Balta 710
-                            </p>
-                            <p className="text-sm leading-relaxed text-white/58">
-                              Miraflores, Lima 15074
-                            </p>
+                            <p className="text-sm font-medium text-white/92">Malecón Balta 710</p>
+                            <p className="text-sm leading-relaxed text-white/58">Miraflores, Lima 15074</p>
                           </div>
                         </div>
 
@@ -107,7 +90,7 @@ export default function HumanoContactoPage() {
                               hola@humanohoteles.com
                             </a>
                             <p className="text-sm leading-relaxed text-white/58">
-                              Respuesta en un plazo breve
+                              {isEn ? "Quick reply" : "Respuesta en un plazo breve"}
                             </p>
                           </div>
                         </div>
@@ -124,7 +107,7 @@ export default function HumanoContactoPage() {
                               Front Desk: 01-904-14-00
                             </a>
                             <p className="text-sm leading-relaxed text-white/58">
-                              Atención diaria
+                              {isEn ? "Daily service" : "Atención diaria"}
                             </p>
                           </div>
                         </div>
@@ -141,13 +124,13 @@ export default function HumanoContactoPage() {
                               href="/libro-de-reclamaciones"
                               className="text-sm font-medium text-white/92 transition hover:text-white"
                             >
-                              Libro de Reclamaciones
+                              {t.footerComplaints}
                             </Link>
                             <Link
                               href="/terminos-y-condiciones"
                               className="text-sm font-medium text-white/58 transition hover:text-white/82"
                             >
-                              Términos y Condiciones
+                              {t.footerTerms}
                             </Link>
                           </div>
                         </div>
@@ -171,11 +154,11 @@ export default function HumanoContactoPage() {
 
                     <div className="max-w-[440px] lg:max-w-none">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
-                        Formulario de contacto
+                        {isEn ? "Contact form" : "Formulario de contacto"}
                       </p>
 
                       <div className="mt-4">
-                        <WebContactForm />
+                        <WebContactForm lang={lang} />
                       </div>
                     </div>
                   </div>
@@ -185,12 +168,12 @@ export default function HumanoContactoPage() {
               <div className="lg:pt-6">
                 <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-white/[0.03] shadow-[0_20px_54px_rgba(0,0,0,0.18)]">
                   <div className="pointer-events-none absolute right-5 top-5 z-10 rounded-full bg-[rgba(0,48,53,0.72)] px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/78 backdrop-blur-sm">
-                    Mapa
+                    {isEn ? "Map" : "Mapa"}
                   </div>
 
                   <div className="relative aspect-[4/3] min-h-[560px] w-full lg:min-h-[600px]">
                     <iframe
-                      title="Mapa de ubicación de Humano Hotel"
+                      title={isEn ? "Hotel Humano location map" : "Mapa de ubicación de Humano Hotel"}
                       className="absolute inset-0 h-full w-full"
                       src="https://www.google.com/maps?q=Malec%C3%B3n%20Balta%20710%20Miraflores%20Lima&z=16&output=embed"
                       style={{ border: 0 }}
@@ -201,14 +184,15 @@ export default function HumanoContactoPage() {
 
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(0,48,53,0.94)] via-[rgba(0,48,53,0.5)] to-transparent px-6 pb-6 pt-16 text-right sm:px-8">
                     <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-white/58">
-                      Ubicación
+                      {isEn ? "Location" : "Ubicación"}
                     </p>
                     <p className="mt-2 text-[16px] font-medium text-white">
                       Malecón Balta 710, Miraflores
                     </p>
                     <p className="mt-1 ml-auto max-w-[30ch] text-sm leading-relaxed text-white/68">
-                      A pasos del malecón, con conexión rápida a gastronomía,
-                      tiendas y recorridos del distrito.
+                      {isEn
+                        ? "Steps from the boardwalk, with quick access to dining, shopping and district tours."
+                        : "A pasos del malecón, con conexión rápida a gastronomía, tiendas y recorridos del distrito."}
                     </p>
                   </div>
                 </div>
@@ -219,4 +203,15 @@ export default function HumanoContactoPage() {
       </main>
     </div>
   )
+}
+
+export const metadata = buildPageMetadata("es", {
+  title: WEB_I18N.es.contactMetaTitle,
+  description: WEB_I18N.es.contactMetaDescription,
+  canonical: "/contacto",
+  alternates: { es: "/contacto", en: "/en/contact" },
+})
+
+export default function HumanoContactoPage() {
+  return <HumanoContactoPageContent lang="es" />
 }

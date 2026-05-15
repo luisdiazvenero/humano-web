@@ -26,23 +26,61 @@ import {
 import { webMediaBadgeClass } from "@/components/humano-web/webStyles"
 import type { HumanoRoom } from "@/lib/humano/rooms"
 import { cn } from "@/lib/utils"
+import type { WebLang } from "@/lib/web/i18n"
 
-const intentQuestion = "Viaje"
+const GALLERY_I18N: Record<WebLang, {
+  intentQuestion: string
+  profileQuestion: string
+  intentOptions: ReadonlyArray<{ label: string; value: string }>
+  profileOptions: ReadonlyArray<{ label: string; value: string }>
+  viewDetail: string
+}> = {
+  es: {
+    intentQuestion: "Viaje",
+    profileQuestion: "Personas",
+    intentOptions: [
+      { label: "Trabajo", value: "trabajo" },
+      { label: "Descanso", value: "descanso" },
+      { label: "Aventura", value: "aventura" },
+    ],
+    profileOptions: [
+      { label: "Solo", value: "solo" },
+      { label: "Pareja", value: "pareja" },
+      { label: "Grupo", value: "grupo" },
+      { label: "Familia", value: "familia" },
+    ],
+    viewDetail: "Ver detalle de",
+  },
+  en: {
+    intentQuestion: "Trip",
+    profileQuestion: "Guests",
+    intentOptions: [
+      { label: "Work", value: "trabajo" },
+      { label: "Rest", value: "descanso" },
+      { label: "Adventure", value: "aventura" },
+    ],
+    profileOptions: [
+      { label: "Solo", value: "solo" },
+      { label: "Couple", value: "pareja" },
+      { label: "Group", value: "grupo" },
+      { label: "Family", value: "familia" },
+    ],
+    viewDetail: "View detail of",
+  },
+}
 
-const profileQuestion = "Personas"
+const INTENT_ICONS: Record<string, typeof Briefcase> = {
+  trabajo: Briefcase,
+  descanso: Palmtree,
+  aventura: Compass,
+}
 
-const intentOptions = [
-  { label: "Trabajo", value: "trabajo", Icon: Briefcase },
-  { label: "Descanso", value: "descanso", Icon: Palmtree },
-  { label: "Aventura", value: "aventura", Icon: Compass },
-] as const
-
-const profileOptions = [
-  { label: "Solo", value: "solo", Icon: UserIcon },
-  { label: "Pareja", value: "pareja", Icon: UsersIcon },
-  { label: "Grupo", value: "grupo", Icon: UserGroupIcon },
-  { label: "Familia", value: "familia", Icon: HomeIcon },
-] as const
+const PROFILE_ICONS: Record<string, typeof UserIcon> = {
+  solo: UserIcon,
+  pareja: UsersIcon,
+  grupo: UserGroupIcon,
+  familia: HomeIcon,
+}
 
 function normalizeValue(value: string) {
   return value
@@ -54,8 +92,8 @@ function normalizeValue(value: string) {
 
 function getRoomMetaIcon(entry: HumanoRoom["meta"][number]) {
   if (entry.kind === "feature") {
-    if (entry.label === "Kitchenet") return CookingPot
-    if (entry.label === "Terraza") return SunMedium
+    if (entry.label === "Kitchenet" || entry.label === "Kitchenette") return CookingPot
+    if (entry.label === "Terraza" || entry.label === "Terrace") return SunMedium
     return Sparkles
   }
 
@@ -107,7 +145,12 @@ function FilterPill({ active, label, onClick, icon: Icon }: FilterPillProps) {
   )
 }
 
-export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
+export function RoomsFilterGallery({ rooms, lang = "es" }: { rooms: HumanoRoom[]; lang?: WebLang }) {
+  const g = GALLERY_I18N[lang]
+  const intentQuestion = g.intentQuestion
+  const profileQuestion = g.profileQuestion
+  const intentOptions = g.intentOptions.map((opt) => ({ ...opt, Icon: INTENT_ICONS[opt.value] ?? Briefcase }))
+  const profileOptions = g.profileOptions.map((opt) => ({ ...opt, Icon: PROFILE_ICONS[opt.value] ?? UserIcon }))
   const [selectedIntent, setSelectedIntent] = useState<string | null>(null)
   const [selectedProfile, setSelectedProfile] = useState<string | null>(null)
   const [countPulse, setCountPulse] = useState(false)
@@ -231,8 +274,8 @@ export function RoomsFilterGallery({ rooms }: { rooms: HumanoRoom[] }) {
                 return (
                   <Link
                     key={room.id}
-                    href={`/${room.slug}`}
-                    aria-label={`Ver detalle de ${room.nombre}`}
+                    href={`${lang === "en" ? "/en/rooms" : ""}/${room.slug}`}
+                    aria-label={`${g.viewDetail} ${room.nombre}`}
                     className="group block w-full overflow-hidden rounded-2xl border border-border/35 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(0,0,0,0.14)]"
                   >
                     <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/10]">

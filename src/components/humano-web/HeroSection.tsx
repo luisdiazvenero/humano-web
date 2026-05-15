@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react"
 import { X } from "lucide-react"
 import { VideoBackground } from "@/components/humano-web/VideoBackground"
 import { trackEvent } from "@/lib/analytics"
+import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
 
-export function HeroSection() {
+export function HeroSection({ lang = "es" }: { lang?: WebLang }) {
+  const t = WEB_I18N[lang]
   const [lightbox, setLightbox] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -45,18 +47,18 @@ export function HeroSection() {
             type="button"
             onClick={() => { setLightbox(true); trackEvent("web_video_play", { location: "hero" }) }}
             className="absolute left-1/2 top-1/2 inline-flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30 cursor-pointer"
-            aria-label="Reproducir video"
+            aria-label={t.heroPlayVideo}
           >
             <span className="ml-1 inline-block h-0 w-0 border-b-[9px] border-l-[14px] border-t-[9px] border-b-transparent border-l-white border-t-transparent" />
           </button>
           <div className="absolute left-1/2 top-[calc(50%+76px)] w-full max-w-[900px] -translate-x-1/2 px-4">
             <p className="text-4xl font-serif leading-tight">
-              Viaja con propósito,
+              {t.heroTitle}
               <br />
-              no solo con itinerario
+              {t.heroTitleLine2}
             </p>
             <p className="mt-4 text-[18px] leading-tight text-white/85">
-              Descubre Humano
+              {t.heroSubtitle}
             </p>
           </div>
         </div>
@@ -68,7 +70,7 @@ export function HeroSection() {
           onClick={() => setLightbox(false)}
           role="dialog"
           aria-modal="true"
-          aria-label="Video Hotel Humano"
+          aria-label={t.heroVideoTitle}
         >
           <div className="flex min-h-screen items-center justify-center px-4 py-4 sm:px-6 sm:py-6">
             <div
@@ -76,12 +78,12 @@ export function HeroSection() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex w-full items-center justify-between gap-4">
-                <p className="font-serif text-xl text-white/90">Hotel Humano</p>
+                <p className="font-serif text-xl text-white/90">{t.heroVideoTitle}</p>
                 <button
                   type="button"
                   onClick={() => setLightbox(false)}
                   className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/18 bg-white/10 text-white transition hover:bg-white/16 cursor-pointer"
-                  aria-label="Cerrar"
+                  aria-label={t.heroClose}
                 >
                   <X className="h-5 w-5" />
                 </button>
