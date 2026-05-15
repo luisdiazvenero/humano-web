@@ -1185,7 +1185,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://images.unsplash.com/photo-1453614512568-c4024d13c247"
       ],
       "frases_sugeridas": [
         "Fácil para una pausa",
@@ -1347,7 +1347,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/9/95/Peru_-_Lima_034_-_colourful_streetscape_of_Barranco_%286999157827%29.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1383,7 +1383,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/b/bb/Puente_de_los_Suspiros_en_Barranco.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1419,7 +1419,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/c/c7/Lima_museo_larco.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1429,42 +1429,6 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+Larco+Miraflores+Lima",
-      "redirigir": "",
-      "check_in": "",
-      "check_out": "",
-      "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
-    },
-    {
-      "id": "REC_MATE_MUSEO",
-      "nombre_publico": "MATE Museo Mario Testino",
-      "categoria": "Recomendación externa",
-      "desc_factual": "Museo dedicado al fotógrafo peruano Mario Testino ubicado en Barranco.",
-      "desc_experiencial": "Fotografía, moda y arte en una casona llena de historia.",
-      "intenciones": [
-        "Trabajo",
-        "Descanso",
-        "Aventura"
-      ],
-      "perfil_ideal": [
-        "solo",
-        "pareja",
-        "grupo",
-        "familia"
-      ],
-      "restricciones_requisitos": [],
-      "condiciones_servicio": [],
-      "imagenes_url": [
-        "trae foto de internet"
-      ],
-      "frases_sugeridas": [],
-      "ctas": [
-        "Más Recomendaciones",
-        "Ver en Google Maps"
-      ],
-      "horario_apertura": null,
-      "horario_cierre": null,
-      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=MATE+Museo+Mario+Testino+Miraflores+Lima",
       "redirigir": "",
       "check_in": "",
       "check_out": "",
@@ -1491,7 +1455,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://images.unsplash.com/photo-1559627755-42212e5c5fdf"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1527,7 +1491,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/5/50/Limaacantilado.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1563,7 +1527,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/9/92/Mercado_Surquillo_1_Lima_PE.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1599,7 +1563,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Malec%C3%B3n_de_Miraflores_-_Lima.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1635,7 +1599,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Cebiche_peruano.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1671,7 +1635,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/2/27/El_Beso.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1707,7 +1671,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://images.unsplash.com/photo-1574521355290-c7bfcafd5c9d"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1743,7 +1707,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://images.unsplash.com/photo-1562869929-bda0650edb1f"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1779,7 +1743,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/7/79/Kennedy_Park_%3D_Cats_Park_%28Lima%2C_Peru%29_%2836972424496%29.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1815,7 +1779,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://images.unsplash.com/photo-1587216828209-52ed26daf425"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1851,7 +1815,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/d/da/Plaza_de_Armas%2C_Lima%2C_Peru.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1887,7 +1851,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/6/64/Fachada_principal_de_la_Catedral_de_Lima.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1923,7 +1887,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/1/14/Iglesia_de_San_Francisco%2C_Lima%2C_Per%C3%BA%2C_2015-07-28%2C_DD_70.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1942,6 +1906,9 @@
     {
       "id": "REC_MUSEO_ARTE_LIMA",
       "nombre_publico": "MALI",
+      "aliases": [
+        "Museo de Arte de Lima"
+      ],
       "categoria": "Recomendación externa",
       "desc_factual": "Museo de Arte de Lima con colección de arte peruano de distintas épocas.",
       "desc_experiencial": "Un recorrido por la identidad cultural del país.",
@@ -1959,7 +1926,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/4/47/Inauguraci%C3%B3n_Fachada_MALI_HM_7198_F.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -1995,7 +1962,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/e/ec/2017_Lima_-_Circuito_m%C3%A1gico_del_Parque_de_las_Aguas.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -2005,42 +1972,6 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Circuito+M%C3%A1gico+del+Agua+Miraflores+Lima",
-      "redirigir": "",
-      "check_in": "",
-      "check_out": "",
-      "precio_desde": "",
-      "tipo": "Recomendaciones_Locales"
-    },
-    {
-      "id": "REC_BARRIO_CHINO",
-      "nombre_publico": "Barrio Chino de Lima",
-      "categoria": "Recomendación externa",
-      "desc_factual": "Zona histórica con restaurantes y cultura chifa.",
-      "desc_experiencial": "Una mezcla única entre Perú y China.",
-      "intenciones": [
-        "Trabajo",
-        "Descanso",
-        "Aventura"
-      ],
-      "perfil_ideal": [
-        "solo",
-        "pareja",
-        "grupo",
-        "familia"
-      ],
-      "restricciones_requisitos": [],
-      "condiciones_servicio": [],
-      "imagenes_url": [
-        "trae foto de internet"
-      ],
-      "frases_sugeridas": [],
-      "ctas": [
-        "Más Recomendaciones",
-        "Ver en Google Maps"
-      ],
-      "horario_apertura": null,
-      "horario_cierre": null,
-      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barrio+Chino+de+Lima+Miraflores+Lima",
       "redirigir": "",
       "check_in": "",
       "check_out": "",
@@ -2067,7 +1998,7 @@
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
       "imagenes_url": [
-        "trae foto de internet"
+        "https://upload.wikimedia.org/wikipedia/commons/0/0f/Faro_de_la_Marina_en_Miraflores.jpg"
       ],
       "frases_sugeridas": [],
       "ctas": [
@@ -2102,12 +2033,146 @@
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
-      "imagenes_url": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ac/Arco_Chino_en_Lima_01.jpg"
+      ],
       "frases_sugeridas": [],
       "ctas": [],
       "horario_apertura": null,
       "horario_cierre": null,
       "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barrio+Chino+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CAMINATA",
+      "nombre_publico": "Caminata",
+      "aliases": [
+        "caminata",
+        "caminatas",
+        "stroll",
+        "paseo",
+        "caminar",
+        "walking tour",
+        "ruta a pie"
+      ],
+      "categoria": "Recomendación externa",
+      "desc_factual": "Dos rutas curadas por nuestros vecinos: una por Miraflores y otra por Barranco. Cada una con paradas de día y de tarde.",
+      "desc_experiencial": "Si tienes poco tiempo, escoge la caminata por Miraflores. Para un día largo de aventura, prueba la de Barranco.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://images.unsplash.com/photo-1693492156077-c5e5450f2615"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CAMINATA_MIRAFLORES",
+      "nombre_publico": "Caminata por Miraflores",
+      "aliases": [
+        "caminata miraflores",
+        "stroll miraflores",
+        "paseo miraflores",
+        "walking miraflores",
+        "ruta miraflores",
+        "morning stroll miraflores",
+        "evening stroll miraflores"
+      ],
+      "categoria": "Recomendación externa",
+      "desc_factual": "Morning Stroll:\n1. Risso, café de especialidad: El Grano Especial Curitiba no falla.\n2. Yunuik, galería de arte: Un mundo aparte.\n3. Manolos, café vintage: Un churro con manjar blanco. Clásico.\n4. El Virrey, librería: Pregunta por Ernesto.\n5. Curich, smoothies: Cremolada de lúcuma con leche. Única.\n\nEvening Stroll:\n6. Fito Espinoza Galería: Arte y café.\n7. Parque Kennedy: Música en el aire, gatos curiosos y vida de barrio.\n8. The Singular Concept Store: Detalles a mano.\n9. El Infusionista: Pócimas locales.\n10. Casa Rebara, taberna: Chela, butifarra y música en vivo.",
+      "desc_experiencial": "Diez paradas para caminar Miraflores como local: cafés, galerías, librerías y bohemia.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/4/45/Miraflores_Lima_Peru_skyline.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/dir/Caf%C3%A9+Risso,+Ca.+Jos%C3%A9+G%C3%A1lvez+130,+Miraflores+15074/YUNUIK,+C.+Bellavista+590,+Miraflores+LIMA+18/Manolo,+Av.+Jos%C3%A9+Larco+608,+Miraflores+15074/Librer%C3%ADa+El+Virrey,+Bolognesi+510,+Miraflores+15074/Curich+Cremoladas,+Bolognesi+759,+Miraflores+15074/Fito+Espinosa+Galer%C3%ADa,+Av+Grau+324,+Miraflores+15074/Parque+Kennedy,+Av+Diagonal,+Miraflores+15074/The+Singular+Concept+Store,+Calle+Gral+Recavarren+435A,+Miraflores+15074/El+Infusionista,+C.+Manuel+Bonilla+123,+Miraflores+15074/Casa+Rebara+1921,+Calle+Gral+Recavarren+261,+Miraflores+15074",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CAMINATA_BARRANCO",
+      "nombre_publico": "Caminata por Barranco",
+      "aliases": [
+        "caminata barranco",
+        "stroll barranco",
+        "paseo barranco",
+        "walking barranco",
+        "ruta barranco",
+        "morning stroll barranco",
+        "evening stroll barranco"
+      ],
+      "categoria": "Recomendación externa",
+      "desc_factual": "Morning Stroll:\n1. Pan Sal Aire, cafetería: Tostadas francesas con frutos del bosque.\n2. Museo Jade Rivera, muralista contemporáneo: Ve directo al cuarto azul.\n3. Blu: La combinación stracciatella y maracumango… Vale la pena hacer cola.\n4. Puente de los Suspiros: La tradición manda que aguantes la respiración y pidas un deseo.\n5. Cuatro en un baúl: Busca los robots de Rafa Lanfranco.\n\nEvening Stroll:\n6. Dédalo: Café y arte tradicional peruano.\n7. Heraldos Negros Librería: Dicen que los libros encuentran a quienes los buscan.\n8. Calle Domeyer: Un negroni en Siete.\n9. Bajada de baños: Para los más tradicionales, Javier. Para los más arriesgados, Gato Tulipán. Si quieres elevar tu noche, Menú.\n10. Lady Bee: Cocteles, buena música y bohemia.",
+      "desc_experiencial": "Diez paradas para caminar Barranco entre arte, café, librerías y bohemia.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4d/Barranco_PuenteDeLosSuspiros.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "Más Recomendaciones",
+        "Ver en Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/dir/Pan+Sal+Aire,+Av.+Almte.+Miguel+Grau+320,+,+Lima,+Barranco+15063/Museo+Jade+Rivera,+Av.+S%C3%A1enz+Pe%C3%B1a+205,+Barranco+15063/Blu:+il+gelato+del+barrio,+Av.+Almte.+Miguel+Grau+201,+Barranco+15063/Puente+de+los+Suspiros,+Jr.+Batall%C3%B3n+271,+Barranco+15063/Cuatro+en+un+ba%C3%BAl,+Cajamarca+404,+Lima+15063/D%C3%A9dalo,+Jir%C3%B3n+S%C3%A1enz+Pe%C3%B1a+295,+Barranco+15063/Heraldos+Negros+Librer%C3%ADa,+Av.+San+Mart%C3%ADn+219,+Barranco+15063/Jir%C3%B3n+Domeyer,+Barranco+15063/Bajada+de+Ba%C3%B1os,+Barranco+15063/Lady+Bee,+Av.+Pedro+de+Osma+205,+Barranco+15063",
       "redirigir": "",
       "check_in": "",
       "check_out": "",

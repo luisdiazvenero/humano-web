@@ -25,6 +25,7 @@ export interface ConserjeItem {
   redirigir: string
   link_ubicacion_mapa: string
   tipo: ConserjeItemType
+  aliases?: string[]
 }
 
 export interface ReglaGobierno {

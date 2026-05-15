@@ -13,7 +13,7 @@ export function ConserjeItemsMessage({ items, onAction }: ConserjeItemsMessagePr
   return (
     <div className="flex gap-4 items-start">
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-azul)] text-white shadow-md">
-        <Logo className="h-5 w-auto text-white" />
+        <Logo className="h-5 w-auto !text-white" />
       </div>
       <div className="conserje-items-message">
         <div className={`grid ${gridClass} gap-4`}>

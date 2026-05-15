@@ -95,12 +95,19 @@ export function filterItems(
   })
 }
 
+export function getMatchableNames(item: ConserjeItem): string[] {
+  return [item.nombre_publico, ...(item.aliases || [])]
+    .map((value) => normalizeText(value))
+    .filter(Boolean)
+}
+
 export function keywordScore(query: string, item: ConserjeItem): number {
   const q = normalizeText(query)
   const terms = q.split(/\s+/).filter(Boolean)
   const haystack = normalizeText(
     [
       item.nombre_publico,
+      ...(item.aliases || []),
       item.categoria,
       item.desc_factual,
       item.desc_experiencial,
@@ -129,12 +136,17 @@ export function collectSuggestions(items: ConserjeItem[], limit = 3): string[] {
 export function matchItemByName(message: string, items: ConserjeItem[]): ConserjeItem | null {
   const normalizedMessage = normalizeText(message)
   const wordCount = normalizedMessage.split(/\s+/).filter(Boolean).length
+  let bestIncludesMatch: { item: ConserjeItem; matchLength: number } | null = null
   let best: { item: ConserjeItem; score: number } | null = null
   for (const item of items) {
-    const name = normalizeText(item.nombre_publico)
-    if (!name) continue
-    if (normalizedMessage === name || normalizedMessage.includes(name)) {
-      return item
+    const names = getMatchableNames(item)
+    if (names.length === 0) continue
+    for (const name of names) {
+      if (normalizedMessage === name || normalizedMessage.includes(name)) {
+        if (!bestIncludesMatch || name.length > bestIncludesMatch.matchLength) {
+          bestIncludesMatch = { item, matchLength: name.length }
+        }
+      }
     }
     if (wordCount <= 4) {
       const score = keywordScore(normalizedMessage, item)
@@ -143,6 +155,7 @@ export function matchItemByName(message: string, items: ConserjeItem[]): Conserj
       }
     }
   }
+  if (bestIncludesMatch) return bestIncludesMatch.item
   if (best && best.score >= 2) return best.item
   return null
 }

@@ -7,6 +7,7 @@ import {
   detectProfile,
   detectTipo,
   filterItems,
+  getMatchableNames,
   keywordScore,
   matchItemByName,
   normalizeText,
@@ -2387,19 +2388,65 @@ INSTRUCCIONES:
       })
     }
 
-    const explicitNameMatch =
-      conserjeData.items.find((item) => {
-        const name = normalizeText(item.nombre_publico)
-        if (!name) return false
-        return (
-          normalizedMessage.replace(/\s+/g, " ").trim() === name ||
-          normalizedMessage.includes(name)
-        )
-      }) || null
+    const explicitNameMatch = (() => {
+      const trimmedMessage = normalizedMessage.replace(/\s+/g, " ").trim()
+      let bestMatch: { item: ConserjeItem; matchLength: number } | null = null
+      for (const item of conserjeData.items) {
+        const names = getMatchableNames(item)
+        for (const name of names) {
+          if (trimmedMessage === name || normalizedMessage.includes(name)) {
+            if (!bestMatch || name.length > bestMatch.matchLength) {
+              bestMatch = { item, matchLength: name.length }
+            }
+          }
+        }
+      }
+      return bestMatch?.item || null
+    })()
     const nameMatch =
       activeItem && lowInfoFollowup && !explicitNameMatch
         ? null
         : matchItemByName(message, conserjeData.items)
+
+    const caminataDispatcherMatch = explicitNameMatch?.id === "REC_CAMINATA" || nameMatch?.id === "REC_CAMINATA"
+    if (caminataDispatcherMatch) {
+      mark("caminata_dispatcher")
+      return respond({
+        reply: "Tenemos dos rutas curadas por nuestros vecinos. ¿Por dónde te gustaría empezar?",
+        suggestions: [],
+        items: [],
+        menu: [
+          { id: "REC_CAMINATA_MIRAFLORES", label: "Caminata por Miraflores" },
+          { id: "REC_CAMINATA_BARRANCO", label: "Caminata por Barranco" },
+        ],
+        intent: null,
+        profile: state?.profile || null,
+        tipo: "Recomendaciones_Locales",
+        activeItemId: null,
+      })
+    }
+
+    const recomendacionExplicitSwitch =
+      explicitNameMatch &&
+      explicitNameMatch.tipo === "Recomendaciones_Locales" &&
+      (
+        !activeItem ||
+        activeItem.id !== explicitNameMatch.id ||
+        source === "menu"
+      )
+    if (recomendacionExplicitSwitch && explicitNameMatch) {
+      mark("recomendacion_explicit_switch")
+      return respond({
+        reply: "",
+        suggestions: buildCTAs({ message, item: explicitNameMatch, state, reply: "" }),
+        items: [explicitNameMatch],
+        menu: [],
+        intent: null,
+        profile: state?.profile || null,
+        tipo: "Recomendaciones_Locales",
+        activeItemId: explicitNameMatch.id,
+      })
+    }
 
     const wantsCategorySwitch =
       isHabitacionesQuery(message) ||
