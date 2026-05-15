@@ -5,9 +5,10 @@ import type { ConserjeItem } from "@/lib/humano/types"
 interface ConserjeItemsMessageProps {
   items: ConserjeItem[]
   onAction?: (action: string, item: ConserjeItem) => void
+  lang?: "es" | "en"
 }
 
-export function ConserjeItemsMessage({ items, onAction }: ConserjeItemsMessageProps) {
+export function ConserjeItemsMessage({ items, onAction, lang = "es" }: ConserjeItemsMessageProps) {
   const gridClass = items.length <= 1 ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
 
   return (
@@ -18,7 +19,7 @@ export function ConserjeItemsMessage({ items, onAction }: ConserjeItemsMessagePr
       <div className="conserje-items-message">
         <div className={`grid ${gridClass} gap-4`}>
           {items.map((item) => (
-            <ConserjeItemCard key={item.id} item={item} onAction={onAction} />
+            <ConserjeItemCard key={item.id} item={item} onAction={onAction} lang={lang} />
           ))}
         </div>
       </div>

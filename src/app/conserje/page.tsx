@@ -70,7 +70,15 @@ import {
 import { useMicrophoneHumano } from "@/hooks/useMicrophoneHumano"
 import { useMirafloresWeather } from "@/hooks/useMirafloresWeather"
 import conserjeDataRaw from "@/data/humano.json"
+import conserjeDataRawEn from "@/data/humano-en.json"
 import type { ConserjeData, ConserjeItem } from "@/lib/humano/types"
+import {
+  I18N,
+  detectBrowserLang,
+  loadStoredLang,
+  persistLang,
+  type Lang,
+} from "@/lib/conserje/i18n"
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -78,7 +86,10 @@ const figtree = Figtree({
   variable: "--font-figtree",
 })
 
-const conserjeData = conserjeDataRaw as ConserjeData
+const CONSERJE_DATA: Record<Lang, ConserjeData> = {
+  es: conserjeDataRaw as ConserjeData,
+  en: conserjeDataRawEn as ConserjeData,
+}
 const MARRIOTT_ROOMS_URL =
   "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
 const HUMAN_ESCALATION_EMAIL = "recepcion@humanohoteles.com"
@@ -492,6 +503,10 @@ const renderTextWithLinks = (text: string) => {
 function HumanoPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const [lang, setLang] = useState<Lang>("es")
+  const [langReady, setLangReady] = useState(false)
+  const t = I18N[lang]
+  const conserjeData = CONSERJE_DATA[lang]
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [userInput, setUserInput] = useState("")
@@ -517,7 +532,7 @@ function HumanoPageContent() {
   const onboardingStartedRef = useRef(false)
   const deepLinkHandledRef = useRef(false)
 
-  const mic = useMicrophoneHumano({ lang: "es-PE" })
+  const mic = useMicrophoneHumano({ lang: lang === "en" ? "en-US" : "es-PE" })
   const transcript: string = mic.transcript ?? ""
   const isListening: boolean = mic.isListening ?? false
   const isTranscribing: boolean = mic.isTranscribing ?? false
@@ -689,37 +704,44 @@ function HumanoPageContent() {
       return
     }
 
+    const isEn = lang === "en"
+    const replyOpenedWindow = isEn
+      ? "I opened a new window with what you requested. Click here to review it."
+      : "Abrí una ventana nueva con lo que pediste. Clic aquí para revisarlo."
+    const replyEmailDraft = isEn
+      ? "I opened your email with a draft ready for you to edit and send."
+      : "Abrí tu correo con un borrador listo para que lo edites y envíes."
     let url = ""
-    let replyText = "Abrí una ventana nueva con lo que pediste. Clic aquí para revisarlo."
+    let replyText = replyOpenedWindow
 
     if (
-      (lower.includes("ubicación") || lower.includes("ubicacion") || lower.includes("mapa")) &&
+      (lower.includes("ubicación") || lower.includes("ubicacion") || lower.includes("mapa") || lower.includes("map") || lower.includes("location")) &&
       activeItem?.link_ubicacion_mapa
     ) {
       url = normalizeExternalUrl(activeItem.link_ubicacion_mapa)
     } else if (activeItem?.tipo === "Servicios" && activeItem.redirigir && activeItem.redirigir.includes("@")) {
       url = buildServiceMailto(activeItem.redirigir, activeItem as ConserjeItem, label)
-      replyText = "Abrí tu correo con un borrador listo para que lo edites y envíes."
+      replyText = replyEmailDraft
     } else if (
-      (lower.includes("reservar") || lower.includes("disponibilidad") || lower.includes("coordinar")) &&
+      (lower.includes("reservar") || lower.includes("disponibilidad") || lower.includes("coordinar") || lower.includes("book") || lower.includes("availability") || lower.includes("coordinate")) &&
       activeItem?.redirigir
     ) {
       const redirectTarget = normalizeExternalUrl(activeItem.redirigir)
       if (redirectTarget.startsWith("mailto:")) {
         url = buildServiceMailto(activeItem.redirigir, activeItem as ConserjeItem, label)
-        replyText = "Abrí tu correo con un borrador listo para que lo edites y envíes."
+        replyText = replyEmailDraft
       } else {
         url = redirectTarget
       }
     }
 
-    const action = lower.includes("reservar") || lower.includes("disponibilidad") ? "reservar" : "coordinar"
+    const action = lower.includes("reservar") || lower.includes("disponibilidad") || lower.includes("book") || lower.includes("availability") ? "reservar" : "coordinar"
     if (!url) {
       if (action === "reservar") {
         url = MARRIOTT_ROOMS_URL
       } else {
         url = buildGenericMailto(label)
-        replyText = "Abrí tu correo con un borrador listo para que lo edites y envíes."
+        replyText = replyEmailDraft
       }
     }
 
@@ -733,17 +755,39 @@ function HumanoPageContent() {
       item_type: activeItem?.tipo ?? null,
     })
 
+    const followupQ = lang === "en" ? "Anything else?" : "¿Necesitas algo más?"
     enqueueAgentSequence([
       { type: "text", content: replyText, link: url },
-      { type: "text", content: "¿Necesitas algo más?" },
+      { type: "text", content: followupQ },
     ])
 
     setChatHistory((prev) => [
       ...prev,
       { role: "user", content: label },
       { role: "assistant", content: `${replyText} ${url}` },
-      { role: "assistant", content: "¿Necesitas algo más?" },
+      { role: "assistant", content: followupQ },
     ])
+  }
+
+  useEffect(() => {
+    const stored = loadStoredLang()
+    const initial = stored ?? detectBrowserLang()
+    setLang(initial)
+    setLangReady(true)
+  }, [])
+
+  const handleLangChange = (next: Lang) => {
+    if (next === lang) return
+    persistLang(next)
+    setMessages([])
+    setChatHistory([])
+    setContextTopic(null)
+    setActiveItemId(null)
+    setActiveItemLabel(null)
+    setConversationState({ dates: null, guests: null, profile: null, intent: null })
+    onboardingStartedRef.current = false
+    deepLinkHandledRef.current = false
+    setLang(next)
   }
 
   useEffect(() => {
@@ -771,24 +815,30 @@ function HumanoPageContent() {
       ...(detail ? [{ type: "text", content: detail } as const] : []),
       {
         type: "suggestions",
-        content: targetItem.ctas?.length ? targetItem.ctas.slice(0, 2) : defaultSuggestions,
+        content: targetItem.ctas?.length ? targetItem.ctas.slice(0, 2) : t.defaultSuggestions,
       },
     ])
   }, [searchParams])
 
   useEffect(() => {
+    if (!langReady) return
     if (messages.length === 0 && !onboardingStartedRef.current) {
       onboardingStartedRef.current = true
       const seed = sessionSeedRef.current
+      const tIntentSuggestions = [
+        { label: t.intentLabels.trabajo, description: t.intentDescriptions.trabajo, icon: <Briefcase className="h-5 w-5" /> },
+        { label: t.intentLabels.descanso, description: t.intentDescriptions.descanso, icon: <Palmtree className="h-5 w-5" /> },
+        { label: t.intentLabels.aventura, description: t.intentDescriptions.aventura, icon: <Compass className="h-5 w-5" /> },
+      ]
       enqueueAgentSequence([
-        { type: "text", content: pickVariant(initialHostLines, seed) },
+        { type: "text", content: pickVariant(t.greetings, seed) },
         { type: "gallery", content: onboardingRecImages },
-        { type: "text", content: pickVariant(initialIntentQuestion, `${seed}-intent`) },
-        { type: "intent", content: intentSuggestions },
-        { type: "freetext", content: pickVariant(freeTextPrompts, `${seed}-freetext`) },
+        { type: "text", content: pickVariant(t.initialIntentQuestions, `${seed}-intent`) },
+        { type: "intent", content: tIntentSuggestions },
+        { type: "freetext", content: pickVariant(t.freeTextPrompts, `${seed}-freetext`) },
       ])
     }
-  }, [messages.length])
+  }, [messages.length, langReady, t])
 
   const hasUserInteractedRef = useRef(false)
   useEffect(() => {
@@ -985,6 +1035,7 @@ function HumanoPageContent() {
           activeItemLabel: options?.activeItemLabelOverride ?? activeItemLabel,
           source: options?.source ?? "user",
           state: nextState,
+          lang,
         }),
       })
 
@@ -998,7 +1049,9 @@ function HumanoPageContent() {
             sender: "agent",
             type: "text",
             content:
-              "Disculpa, hubo un problema al procesar tu mensaje. ¿Puedes intentar de nuevo?",
+              lang === "en"
+                ? "Sorry, there was a problem processing your message. Could you try again?"
+                : "Disculpa, hubo un problema al procesar tu mensaje. ¿Puedes intentar de nuevo?",
           },
         ])
         return
@@ -1081,7 +1134,9 @@ function HumanoPageContent() {
           sender: "agent",
           type: "text",
           content:
-            "Disculpa, hubo un error al conectar con el conserje. ¿Puedes intentar de nuevo?",
+            lang === "en"
+              ? "Sorry, there was an error connecting with the concierge. Could you try again?"
+              : "Disculpa, hubo un error al conectar con el conserje. ¿Puedes intentar de nuevo?",
         },
       ])
     } finally {
@@ -1107,6 +1162,7 @@ function HumanoPageContent() {
           activeItemId,
           contextTopic,
           state: nextState,
+          lang,
         }),
       })
 
@@ -1207,30 +1263,41 @@ function HumanoPageContent() {
       handleCtaAction(suggestion)
       return
     }
-    if (["trabajo", "descanso", "aventura"].includes(lower) && isInitialIntentStep) {
-      trackEvent("conserje_intent_select", { intent: lower })
-      const nextState = { ...conversationState, intent: lower }
+    const intentMap: Record<string, string> = lang === "en"
+      ? { work: "trabajo", rest: "descanso", adventure: "aventura", trabajo: "trabajo", descanso: "descanso", aventura: "aventura" }
+      : { trabajo: "trabajo", descanso: "descanso", aventura: "aventura" }
+    const mappedIntent = intentMap[lower]
+    if (mappedIntent && isInitialIntentStep) {
+      trackEvent("conserje_intent_select", { intent: mappedIntent })
+      const nextState = { ...conversationState, intent: mappedIntent }
       setConversationState(nextState)
-      const variants = intentToProfilePrompt[lower] || []
+      const variants = t.intentToProfilePrompt[mappedIntent as "trabajo" | "descanso" | "aventura"] || []
+      const tGroupSuggestions = t.groupSuggestions.map((g) => ({
+        label: g.label,
+        icon:
+          g.key === "solo" ? <UserIcon className="h-5 w-5" />
+          : g.key === "en pareja" ? <UsersIcon className="h-5 w-5" />
+          : <UserGroupIcon className="h-5 w-5" />,
+      }))
       enqueueAgentSequence([
         {
           type: "text",
           content: variants.length
-            ? pickVariant(variants, `${sessionSeedRef.current}-${lower}-${messages.length}`)
-            : "Perfecto. ¿Viajas solo, en pareja o en grupo?",
+            ? pickVariant(variants, `${sessionSeedRef.current}-${mappedIntent}-${messages.length}`)
+            : t.profileFallback,
         },
-        { type: "group", content: groupSuggestions },
+        { type: "group", content: tGroupSuggestions },
       ])
       return
     }
-    if ((lower === "solo" || lower === "en pareja" || lower === "en grupo") && isInitialProfileStep) {
-      const profile = lower.includes("pareja") ? "pareja" : lower.includes("grupo") ? "grupo" : "solo"
+    if ((lower === "solo" || lower === "en pareja" || lower === "en grupo" || lower === "couple" || lower === "group") && isInitialProfileStep) {
+      const profile = lower.includes("pareja") || lower === "couple" ? "pareja" : lower.includes("grupo") || lower === "group" ? "grupo" : "solo"
       trackEvent("conserje_profile_select", { profile })
       const nextState = { ...conversationState, profile }
       setConversationState(nextState)
       enqueueAgentSequence([
-        { type: "text", content: pickVariant(profileCompletionPrompt, `${sessionSeedRef.current}-${profile}-${messages.length}`) },
-        { type: "suggestions", content: defaultSuggestions },
+        { type: "text", content: pickVariant(t.profileCompletionPrompts, `${sessionSeedRef.current}-${profile}-${messages.length}`) },
+        { type: "suggestions", content: t.defaultSuggestions },
       ])
       return
     }
@@ -1288,15 +1355,47 @@ function HumanoPageContent() {
       <header className="sticky top-0 z-10 bg-[#ECE7D0] backdrop-blur-lg border-b border-border/30">
         <div className="max-w-4xl mx-auto px-6 py-2.5">
           <div className="flex items-center justify-between gap-4">
-            <div className="shrink-0 text-[var(--color-azul-rgb)]">
-              <Image
-                src="/logo-humano.svg"
-                alt="Humano Hotel"
-                width={35}
-                height={40}
-                className="h-7 w-auto sm:h-8"
-                priority
-              />
+            <div className="flex items-center gap-5">
+              <div className="shrink-0 text-[var(--color-azul-rgb)]">
+                <Image
+                  src="/logo-humano.svg"
+                  alt="Humano Hotel"
+                  width={35}
+                  height={40}
+                  className="h-7 w-auto sm:h-8"
+                  priority
+                />
+              </div>
+              <div
+                role="group"
+                aria-label="Language"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider leading-none"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleLangChange("es")}
+                  className={`cursor-pointer rounded-full px-2 py-1 transition-colors ${
+                    lang === "es"
+                      ? "bg-[var(--color-azul)] text-white"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  aria-pressed={lang === "es"}
+                >
+                  ES
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleLangChange("en")}
+                  className={`cursor-pointer rounded-full px-2 py-1 transition-colors ${
+                    lang === "en"
+                      ? "bg-[var(--color-azul)] text-white"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  aria-pressed={lang === "en"}
+                >
+                  EN
+                </button>
+              </div>
             </div>
 
             <div className="flex min-w-0 items-center justify-end gap-3">
@@ -1312,7 +1411,7 @@ function HumanoPageContent() {
                     {weather?.tempLabel ?? "--°C"}
                   </span>
                   <span className="hidden max-w-[132px] truncate text-[10px] font-semibold leading-none uppercase tracking-[0.08em] text-foreground/90 sm:inline">
-                    {weather?.description ?? "Clima no disponible"}
+                    {weather?.description ?? t.weatherUnavailable}
                   </span>
                 </span>
                 <span className="mx-1 h-3.5 w-px shrink-0 bg-border/70" />
@@ -1328,7 +1427,7 @@ function HumanoPageContent() {
                 className="inline-flex cursor-pointer items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider leading-none text-muted-foreground transition-colors hover:text-foreground"
               >
                 <Globe className="h-3.5 w-3.5 shrink-0 stroke-[1.75]" />
-                <span className="leading-none">Website</span>
+                <span className="leading-none">{t.websiteLabel}</span>
               </button>
             </div>
           </div>
@@ -1345,20 +1444,25 @@ function HumanoPageContent() {
                   <Logo className="h-5 w-auto !text-white" />
                 </div>
                 <div className="bg-white dark:bg-card rounded-2xl rounded-tl-none px-6 py-4 text-base leading-relaxed shadow-sm max-w-[85%]">
-                  {msg.link ? (
-                    <>
-                      {msg.content.split("Clic aquí")[0]}
-                      <a
-                        href={msg.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-[var(--color-azul-rgb)] underline underline-offset-4"
-                      >
-                        Clic aquí
-                      </a>
-                      {msg.content.split("Clic aquí")[1] || ""}
-                    </>
-                  ) : (
+                  {msg.link ? (() => {
+                    const linkWord = msg.content.includes("Click here") ? "Click here" : "Clic aquí"
+                    const linkLabel = lang === "en" ? "Click here" : "Clic aquí"
+                    const parts = msg.content.split(linkWord)
+                    return (
+                      <>
+                        {parts[0]}
+                        <a
+                          href={msg.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[var(--color-azul-rgb)] underline underline-offset-4"
+                        >
+                          {linkLabel}
+                        </a>
+                        {parts[1] || ""}
+                      </>
+                    )
+                  })() : (
                     renderTextWithLinks(msg.content)
                   )}
                 </div>
@@ -1380,6 +1484,7 @@ function HumanoPageContent() {
               <ConserjeItemsMessage
                 items={msg.content}
                 onAction={(action, item) => handleCtaAction(action, item)}
+                lang={lang}
               />
             )}
 
@@ -1607,7 +1712,7 @@ function HumanoPageContent() {
                 type="text"
                 disabled={isTyping}
                 className="flex-1 bg-transparent text-base focus:outline-none placeholder:text-muted-foreground/50 disabled:cursor-not-allowed disabled:opacity-60"
-                placeholder={isTyping ? "El conserje está escribiendo..." : "Escribe tu pregunta..."}
+                placeholder={isTyping ? (lang === "en" ? "The concierge is typing..." : "El conserje está escribiendo...") : t.inputPlaceholder}
                 value={userInput || transcript}
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyDown={(e) => {
@@ -1658,7 +1763,7 @@ function HumanoPageContent() {
             )}
             {!isMicSupported && (
               <p className="mt-2 text-xs text-muted-foreground">
-                Tu navegador no soporta micrófono.
+                {t.micUnsupported}
               </p>
             )}
           </div>
@@ -1666,7 +1771,7 @@ function HumanoPageContent() {
       </div>
     </div>
     <p className="bg-[#ECE7D0] max-w-4xl mx-auto px-6 py-4 text-[0.72rem] leading-relaxed text-[var(--color-azul-rgb)]/45">
-      Las respuestas son generadas por IA y pueden contener inexactitudes. Hotel Humano no se responsabiliza por la información proporcionada. Consulta siempre con recepción para confirmar disponibilidad y condiciones.
+      {t.disclaimer}
     </p>
     </>
   )

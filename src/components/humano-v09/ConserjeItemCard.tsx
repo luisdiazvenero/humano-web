@@ -17,16 +17,71 @@ import {
   ZoomIn,
 } from "lucide-react"
 
+type CardLang = "es" | "en"
+
 interface ConserjeItemCardProps {
   item: ConserjeItem
   onAction?: (action: string, item: ConserjeItem) => void
+  lang?: CardLang
 }
 
-const TYPE_META: Record<ConserjeItemType, { label: string; Icon: typeof BedDouble }> = {
-  Habitaciones: { label: "Habitaciones", Icon: BedDouble },
-  Servicios: { label: "Servicios", Icon: ConciergeBell },
-  Instalaciones: { label: "Instalaciones", Icon: Building2 },
-  Recomendaciones_Locales: { label: "Recomendaciones locales", Icon: MapPin },
+const TYPE_META: Record<CardLang, Record<ConserjeItemType, { label: string; Icon: typeof BedDouble }>> = {
+  es: {
+    Habitaciones: { label: "Habitaciones", Icon: BedDouble },
+    Servicios: { label: "Servicios", Icon: ConciergeBell },
+    Instalaciones: { label: "Instalaciones", Icon: Building2 },
+    Recomendaciones_Locales: { label: "Recomendaciones locales", Icon: MapPin },
+  },
+  en: {
+    Habitaciones: { label: "Rooms", Icon: BedDouble },
+    Servicios: { label: "Services", Icon: ConciergeBell },
+    Instalaciones: { label: "Facilities", Icon: Building2 },
+    Recomendaciones_Locales: { label: "Local recommendations", Icon: MapPin },
+  },
+}
+
+const CARD_I18N: Record<CardLang, {
+  idealFor: string
+  schedule: string
+  checkInOut: string
+  from: string
+  to: string
+  viewLocation: string
+  viewPhoto: string
+  bookNow: string
+  coordinateService: string
+  exploreSpaces: string
+  reviewAvailability: string
+  seeOtherRooms: string
+}> = {
+  es: {
+    idealFor: "Ideal para:",
+    schedule: "Horario:",
+    checkInOut: "Check-in/out:",
+    from: "Desde:",
+    to: "a",
+    viewLocation: "Ver ubicación en mapa",
+    viewPhoto: "Ver foto completa",
+    bookNow: "Reservar ahora",
+    coordinateService: "Coordinar servicio",
+    exploreSpaces: "Conocer más ambientes",
+    reviewAvailability: "Revisar disponibilidad",
+    seeOtherRooms: "Ver otras habitaciones",
+  },
+  en: {
+    idealFor: "Ideal for:",
+    schedule: "Hours:",
+    checkInOut: "Check-in/out:",
+    from: "From:",
+    to: "to",
+    viewLocation: "View on map",
+    viewPhoto: "View full photo",
+    bookNow: "Book now",
+    coordinateService: "Coordinate service",
+    exploreSpaces: "Explore other spaces",
+    reviewAvailability: "Check availability",
+    seeOtherRooms: "See other rooms",
+  },
 }
 
 const normalizeText = (value: string) => value.replace(/\s+/g, " ").trim()
@@ -38,10 +93,34 @@ const ensureSentence = (value: string) => {
   return `${normalized}.`
 }
 
-const formatTag = (value: string) => {
-  const normalized = normalizeText(value).replace(/[_-]+/g, " ")
+const TAG_I18N: Record<CardLang, Record<string, string>> = {
+  es: {
+    con_costo: "Con costo",
+    sin_costo: "Sin costo",
+    tercerizado: "Tercerizado",
+    disponibilidad_variable: "Disponibilidad variable",
+    condiciones_especiales: "Condiciones especiales",
+    coordinacion_previa: "Coordinación previa",
+    incluido: "Incluido",
+  },
+  en: {
+    con_costo: "Extra fee",
+    sin_costo: "No fee",
+    tercerizado: "Third-party",
+    disponibilidad_variable: "Limited availability",
+    condiciones_especiales: "Special conditions",
+    coordinacion_previa: "Advance request",
+    incluido: "Included",
+  },
+}
+
+const formatTag = (value: string, lang: CardLang = "es") => {
+  const normalized = normalizeText(value).toLowerCase()
   if (!normalized) return ""
-  return normalized.charAt(0).toUpperCase() + normalized.slice(1)
+  const key = normalized.replace(/\s+/g, "_")
+  if (TAG_I18N[lang][key]) return TAG_I18N[lang][key]
+  const spaced = normalized.replace(/[_-]+/g, " ")
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1)
 }
 
 const resolveImage = (item: ConserjeItem) => {
@@ -61,48 +140,67 @@ const normalizeExternalUrl = (url: string) => {
   return `https://${trimmed}`
 }
 
-const normalizeRoomActionLabel = (value: string) => {
+const normalizeRoomActionLabel = (value: string, lang: CardLang = "es") => {
+  const t = CARD_I18N[lang]
   const normalized = normalizeText(value).toLowerCase()
-  if (normalized.includes("reserv")) return "Revisar disponibilidad"
-  if (normalized.includes("ver otras") || normalized.includes("otras habitaciones")) return "Ver otras habitaciones"
-  return value
-}
-
-const normalizeActionLabel = (value: string, item: ConserjeItem) => {
-  const normalized = normalizeText(value).toLowerCase()
-  if (item.tipo === "Habitaciones" && normalized.includes("reserv")) return "Revisar disponibilidad"
-  if (item.tipo === "Servicios" && (normalized.includes("coordinar") || normalized.includes("reserv"))) {
-    return "Coordinar servicio"
+  if (normalized.includes("reserv") || normalized.includes("book") || normalized.includes("availability") || normalized.includes("check availability")) {
+    return t.reviewAvailability
   }
-  if (item.tipo === "Instalaciones" && normalized.includes("reserv")) return "Conocer más ambientes"
-  if (normalized.includes("ubicacion") || normalized.includes("ubicación") || normalized.includes("mapa")) {
-    return "Ver ubicación en mapa"
+  if (normalized.includes("ver otras") || normalized.includes("otras habitaciones") || normalized.includes("see other rooms") || normalized.includes("other rooms")) {
+    return t.seeOtherRooms
   }
   return value
 }
 
-const buildGenericCtas = (item: ConserjeItem) => {
-  const rawCtas = (item.ctas || []).map((cta) => normalizeActionLabel(cta, item))
+const normalizeActionLabel = (value: string, item: ConserjeItem, lang: CardLang = "es") => {
+  const t = CARD_I18N[lang]
+  const normalized = normalizeText(value).toLowerCase()
+  if (item.tipo === "Habitaciones" && (normalized.includes("reserv") || normalized.includes("book") || normalized.includes("availability"))) {
+    return t.reviewAvailability
+  }
+  if (item.tipo === "Servicios" && (normalized.includes("coordinar") || normalized.includes("reserv") || normalized.includes("coordinate"))) {
+    return t.coordinateService
+  }
+  if (item.tipo === "Instalaciones" && (normalized.includes("reserv") || normalized.includes("conocer") || normalized.includes("ambientes") || normalized.includes("explore") || normalized.includes("spaces") || normalized.includes("other spaces"))) {
+    return t.exploreSpaces
+  }
+  if (normalized.includes("ubicacion") || normalized.includes("ubicación") || normalized.includes("mapa") || normalized.includes("map") || normalized.includes("view on")) {
+    return t.viewLocation
+  }
+  return value
+}
+
+const buildGenericCtas = (item: ConserjeItem, lang: CardLang = "es") => {
+  const t = CARD_I18N[lang]
+  const rawCtas = (item.ctas || []).map((cta) => normalizeActionLabel(cta, item, lang))
   const byType = rawCtas.filter((cta) => {
     const normalized = normalizeText(cta).toLowerCase()
     if (!normalized) return false
     if (item.tipo === "Servicios") {
-      if (normalized.includes("reservar habitacion")) return false
+      if (normalized.includes("reservar habitacion") || normalized.includes("book room")) return false
       return (
         normalized.includes("coordinar") ||
         normalized.includes("solicitar") ||
         normalized.includes("correo") ||
         normalized.includes("informacion") ||
-        normalized.includes("información")
+        normalized.includes("información") ||
+        normalized.includes("coordinate") ||
+        normalized.includes("request") ||
+        normalized.includes("email") ||
+        normalized.includes("information")
       )
     }
     if (item.tipo === "Instalaciones") {
-      if (normalized.includes("reservar habitacion")) return false
+      if (normalized.includes("reservar habitacion") || normalized.includes("book room")) return false
       return (
         normalized.includes("conocer") ||
         normalized.includes("ambientes") ||
         normalized.includes("instalaciones") ||
-        normalized.includes("ver")
+        normalized.includes("ver") ||
+        normalized.includes("explore") ||
+        normalized.includes("spaces") ||
+        normalized.includes("facilities") ||
+        normalized.includes("view")
       )
     }
     if (item.tipo === "Recomendaciones_Locales") {
@@ -110,7 +208,10 @@ const buildGenericCtas = (item: ConserjeItem) => {
         normalized.includes("ubicacion") ||
         normalized.includes("ubicación") ||
         normalized.includes("mapa") ||
-        normalized.includes("llegar")
+        normalized.includes("llegar") ||
+        normalized.includes("map") ||
+        normalized.includes("view on") ||
+        normalized.includes("location")
       )
     }
     return true
@@ -119,11 +220,11 @@ const buildGenericCtas = (item: ConserjeItem) => {
   const deduped = Array.from(new Set(byType))
   const fallback =
     item.tipo === "Servicios"
-      ? ["Coordinar servicio"]
+      ? [t.coordinateService]
       : item.tipo === "Instalaciones"
-        ? ["Conocer más ambientes"]
+        ? [t.exploreSpaces]
         : item.tipo === "Recomendaciones_Locales"
-          ? ["Ver ubicación en mapa"]
+          ? [t.viewLocation]
           : []
 
   const merged = deduped.length > 0 ? deduped : fallback
@@ -160,9 +261,10 @@ const actionIconFor = (label: string, item: ConserjeItem) => {
   return CalendarClock
 }
 
-export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
+export function ConserjeItemCard({ item, onAction, lang = "es" }: ConserjeItemCardProps) {
   const [isImageOpen, setIsImageOpen] = useState(false)
-  const { Icon, label } = TYPE_META[item.tipo]
+  const { Icon, label } = TYPE_META[lang][item.tipo]
+  const cardT = CARD_I18N[lang]
   const isRoom = item.tipo === "Habitaciones"
   const imageUrl = resolveImage(item)
   const factual = ensureSentence(item.desc_factual || "")
@@ -171,23 +273,28 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
   const hasReservationLink = item.tipo === "Habitaciones" && normalizeText(item.redirigir || "") !== ""
 
   const serviceChips = [...(item.condiciones_servicio || []), ...(item.restricciones_requisitos || [])]
-    .map(formatTag)
+    .map((v) => formatTag(v, lang))
     .filter(Boolean)
   const uniqueServiceChips = Array.from(new Set(serviceChips))
   const visibleServiceChips = uniqueServiceChips.slice(0, 3)
   const extraServiceChips = uniqueServiceChips.length - visibleServiceChips.length
   const roomCtas = item.ctas || []
-  const genericCtas = buildGenericCtas(item)
+  const genericCtas = buildGenericCtas(item, lang)
   const reserveLabel =
     normalizeRoomActionLabel(
-      roomCtas.find((cta) => normalizeText(cta).toLowerCase().includes("reserv")) || "Revisar disponibilidad"
+      roomCtas.find((cta) => {
+        const n = normalizeText(cta).toLowerCase()
+        return n.includes("reserv") || n.includes("book")
+      }) || cardT.reviewAvailability,
+      lang
     )
   const alternateRoomsLabel =
     normalizeRoomActionLabel(
       roomCtas.find((cta) => {
-      const normalized = normalizeText(cta).toLowerCase()
-      return normalized.includes("otras habitaciones") || normalized.includes("ver otras")
-      }) || "Ver otras habitaciones"
+        const normalized = normalizeText(cta).toLowerCase()
+        return normalized.includes("otras habitaciones") || normalized.includes("ver otras") || normalized.includes("other rooms") || normalized.includes("see other rooms")
+      }) || cardT.seeOtherRooms,
+      lang
     )
 
   useEffect(() => {
@@ -233,7 +340,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
                 <ZoomIn className="h-4 w-4" />
               </span>
               <span className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] bg-gradient-to-t from-black/55 to-transparent px-4 py-2 text-left text-xs font-medium text-white/90 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                Ver foto completa
+                {cardT.viewPhoto}
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -267,7 +374,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
             <p className="conserje-item-experiential flex items-start gap-2 text-[16px] leading-relaxed">
               <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
               <span>
-                <strong className="font-semibold">Ideal para:</strong> {experiential}
+                <strong className="font-semibold">{cardT.idealFor}</strong> {experiential}
               </span>
             </p>
           )}
@@ -280,7 +387,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
                     <CalendarClock className="h-4 w-4" />
                   </span>
                   <p>
-                    <strong className="font-semibold text-foreground">Check-in/out:</strong>{" "}
+                    <strong className="font-semibold text-foreground">{cardT.checkInOut}</strong>{" "}
                     <span className="text-foreground/90">{item.check_in || "-"} / {item.check_out || "-"}</span>
                   </p>
                 </div>
@@ -291,7 +398,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
                     <DollarSign className="h-4 w-4" />
                   </span>
                   <p>
-                    <strong className="font-semibold text-foreground">Desde:</strong>{" "}
+                    <strong className="font-semibold text-foreground">{cardT.from}</strong>{" "}
                     <span className="text-foreground/90">{ensureSentence(item.precio_desde)}</span>
                   </p>
                 </div>
@@ -371,8 +478,8 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
                 <Clock3 className="h-4 w-4" />
               </span>
               <span>
-                <strong className="font-semibold text-foreground">Horario:</strong>{" "}
-                <span className="text-foreground/90">{item.horario_apertura || "-"} a {item.horario_cierre || "-"}</span>
+                <strong className="font-semibold text-foreground">{cardT.schedule}</strong>{" "}
+                <span className="text-foreground/90">{item.horario_apertura || "-"} {cardT.to} {item.horario_cierre || "-"}</span>
               </span>
             </p>
           )}
@@ -396,7 +503,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
                   onClick={() => onAction("Ver ubicación", item)}
                   className="conserje-item-link"
                 >
-                  Ver ubicación en mapa
+                  {cardT.viewLocation}
                 </button>
               ) : (
                 <a
@@ -405,7 +512,7 @@ export function ConserjeItemCard({ item, onAction }: ConserjeItemCardProps) {
                   rel="noreferrer"
                   className="conserje-item-link"
                 >
-                  Ver ubicación en mapa
+                  {cardT.viewLocation}
                 </a>
               )}
             </div>

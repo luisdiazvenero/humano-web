@@ -1,0 +1,2210 @@
+{
+  "items": [
+    {
+      "id": "HAB_SUPERIOR_KING",
+      "nombre_publico": "Superior King",
+      "categoria": "Habitación",
+      "desc_factual": "24 m² room with one king-size bed, Wi-Fi, a 50\" Smart TV, and a full bathroom with shower. Includes a steamer, minibar, safe, coffee machine, and kettle. Complimentary bottled water provided at check-in.",
+      "desc_experiencial": "Ideal if you're looking for a comfortable, quiet base to rest and move around Miraflores at an easy pace. Functional spaces, Wi-Fi, a 50\" Smart TV, and thoughtful details that add comfort from the very first moment. Perfect for solo travelers or couples. Some rooms can be connected.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/superior_king/superior_king_1.webp",
+        "/chatbot/imagenes/hab/superior_king/superior_king_2.webp",
+        "/chatbot/imagenes/hab/superior_king/superior_king_3.webp",
+        "/chatbot/imagenes/hab/superior_king/superior_king_4.webp"
+      ],
+      "frases_sugeridas": [
+        "Easy and comfortable, no hassle",
+        "Ideal if you'll spend the day out exploring"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/superior_king/superior_king_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/superior_king/superior_king_vertical.mp4"
+    },
+    {
+      "id": "HAB_SUPERIOR_DOUBLE",
+      "nombre_publico": "Superior Double",
+      "categoria": "Habitación",
+      "desc_factual": "25 m² room with two double beds, Wi-Fi, a 50\" Smart TV, and a full bathroom with shower. Includes a steamer, minibar, safe, coffee machine, and kettle. Complimentary bottled water provided at check-in.",
+      "desc_experiencial": "A great option if you're traveling with someone and prefer separate beds, no fuss. Comfortable, bright, and well-equipped, with Wi-Fi, a 50\" Smart TV, and a coffee kit. Some rooms can be connected.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/superior_doble/superior_double_1.webp",
+        "/chatbot/imagenes/hab/superior_doble/superior_double_2.webp",
+        "/chatbot/imagenes/hab/superior_doble/superior_double_3.webp",
+        "/chatbot/imagenes/hab/superior_doble/superior_double_4.webp"
+      ],
+      "frases_sugeridas": [
+        "Easy and comfortable, no hassle",
+        "Ideal if you'll spend the day out exploring"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/superior_doble/superior_doble_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/superior_doble/superior_doble_vertical.mp4"
+    },
+    {
+      "id": "HAB_DELUXE_KING",
+      "nombre_publico": "Deluxe King",
+      "categoria": "Habitación",
+      "desc_factual": "24 m² room with one king-size bed and enhanced city views (two windows), Wi-Fi, bathrobes and slippers, a 50\" Smart TV, and a full bathroom with shower. Includes a steamer, minibar, safe, coffee machine, and kettle. Complimentary bottled water provided at check-in.",
+      "desc_experiencial": "More views, more of the city. With two windows, one king-size bed, and bathrobes and slippers, this room elevates the experience with natural light and thoughtful details to enjoy Lima from above. Ending your day here will be all you'll want.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/deluxe_king/deluxe_king_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Great view",
+        "Good for work trips with rest"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_vertical.mp4"
+    },
+    {
+      "id": "HAB_ACCESIBLE_ROOM",
+      "nombre_publico": "Accessible Room",
+      "categoria": "Habitación",
+      "desc_factual": "32 m² room with one king-size bed, Wi-Fi, and a 50\" Smart TV. Features a wheelchair-accessible bathroom with shower. Includes a steamer, minibar, safe, coffee machine, and kettle. Complimentary bottled water provided at check-in. If traveling with someone, it can be connected to a Superior Double room.",
+      "desc_experiencial": "Thoughtfully designed to offer maximum comfort and accessibility without compromising on style. Featuring a king-size bed, generous space, and all the essential amenities, this room ensures a practical and welcoming stay for guests who need greater ease of movement.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/accesible_room/accesible_room_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Designed for a more comfortable stay",
+        "If you need an accessible shower, this is the one"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/accesible_room/accesible_room_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/accesible_room/accesible_room_vertical.mp4"
+    },
+    {
+      "id": "HAB_FAMILY_ROOM",
+      "nombre_publico": "Family Room",
+      "categoria": "Habitación",
+      "desc_factual": "32 m² room with one king-size bed and a two-person sofa bed, Wi-Fi, and a 50\" Smart TV. Features a full bathroom with shower. Includes a steamer, minibar, safe, coffee machine, and kettle. Complimentary bottled water provided at check-in.",
+      "desc_experiencial": "Ideal for families traveling with young children (up to age 11), with a spacious, functional design. A comfortable, well-equipped space created so everyone can enjoy a calm, easy stay.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/family_room/family_room_1.webp",
+        "/chatbot/imagenes/hab/family_room/family_room_2.webp",
+        "/chatbot/imagenes/hab/family_room/family_room_3.webp",
+        "/chatbot/imagenes/hab/family_room/family_room_4.webp"
+      ],
+      "frases_sugeridas": [
+        "Great for traveling with kids and extra space",
+        "Perfect for a family city plan"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/family_room/family_room_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/family_room/family_room_vertical.mp4"
+    },
+    {
+      "id": "HAB_FAMILY_DELUXE",
+      "nombre_publico": "Family Deluxe",
+      "categoria": "Habitación",
+      "desc_factual": "Located on the 3rd floor, this 47 m² room features one king-size bed, a two-person sofa bed, and a private terrace. Includes Wi-Fi, a 50\" Smart TV, and a full bathroom with shower. Also equipped with a steamer, minibar, safe, coffee machine, and kettle. Complimentary bottled water provided at check-in.",
+      "desc_experiencial": "Our most spacious option for families traveling with young children (up to age 11). Enjoy a private terrace—the perfect place to relax, share moments, and feel at home in the heart of Lima.",
+      "intenciones": [
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_1.webp",
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_2.webp",
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_3.webp",
+        "/chatbot/imagenes/hab/family_deluxe/family_deluxe_4.webp"
+      ],
+      "frases_sugeridas": [
+        "Great for traveling with kids and extra space",
+        "Perfect for a family city plan"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "HAB_JUNIOR_SUITE",
+      "nombre_publico": "Junior Suite",
+      "categoria": "Habitación",
+      "desc_factual": "32 m² room with one king-size bed, Wi-Fi, bathrobes and slippers, a 50\" Smart TV, and a full bathroom with both shower and bathtub. Includes a steamer, minibar, safe, coffee machine, and kettle. Complimentary bottled water provided at check-in.",
+      "desc_experiencial": "A space designed to give you an extra layer of comfort. With 32 m², a king-size bed, a bathtub, and bathrobes and slippers, this suite brings together rest and ease in a spacious setting—perfect for special stays or urban escapes.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_1.webp",
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_2.webp",
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_3.webp",
+        "/chatbot/imagenes/hab/junior_suite/junior_suite_4.webp"
+      ],
+      "frases_sugeridas": [
+        "More space to feel at ease",
+        "Great for multi-day stays"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": "/chatbot/imagenes/hab/junior_suite/junior_suite_horizontal.mp4",
+      "video_vertical": "/chatbot/imagenes/hab/junior_suite/junior_suite_vertical.mp4"
+    },
+    {
+      "id": "HAB_SIGNATURE_SUITE",
+      "nombre_publico": "Signature Suite",
+      "categoria": "Habitación",
+      "desc_factual": "64 m² two-room suite featuring a guest bathroom, kitchenette, and a living and dining area with a 55\" Smart TV. The bedroom includes one king-size bed, a desk, a safe, and a full bathroom with both shower and bathtub.",
+      "desc_experiencial": "A spacious, flexible setting designed for those who value comfort and freedom. Fully equipped for working, hosting, or simply unwinding while exploring Lima, it's an ideal choice for longer stays or trips that call for extra room and ease.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja"
+      ],
+      "restricciones_requisitos": [],
+      "precio_desde": "Consultar disponibilidad y precios en marriot.com",
+      "imagenes_url": [
+        "/chatbot/imagenes/hab/signature_suite/signature_suite_1.webp",
+        "/chatbot/imagenes/hab/signature_suite/signature_suite_2.webp",
+        "/chatbot/imagenes/hab/signature_suite/signature_suite_3.webp"
+      ],
+      "frases_sugeridas": [
+        "Plenty of room to live your stay",
+        "Ideal if you mix work and rest"
+      ],
+      "ctas": [
+        "See other rooms",
+        "Book now"
+      ],
+      "redirigir": "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/",
+      "check_in": "Desde las 15:00",
+      "check_out": "Antes de las 12:00 pm",
+      "condiciones_servicio": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "tipo": "Habitaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "SERV_CONCIERGE",
+      "nombre_publico": "Concierge & assistance",
+      "categoria": "Servicio",
+      "desc_factual": "Front desk assistance for general information and support throughout your stay.",
+      "desc_experiencial": "Having someone there to help guide you whenever you need it.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [
+        "Useful if it's your first time",
+        "They'll help you find your way"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_MASCOTAS",
+      "nombre_publico": "Dog friendly",
+      "categoria": "Servicio",
+      "desc_factual": "We welcome dogs for an additional fee of USD 35.00 + taxes per night (includes a water bowl, food dish, and a pet bed). The maximum allowed weight is 15 kg, and dogs must remain in the room, with restricted access to common areas. A deposit is required, subject to confirmation. A valid vaccination record must be presented.",
+      "desc_experiencial": "At HUMANO, dogs are always welcome. We believe travel is better in good company, which is why we offer a dog-friendly stay with everything your four-legged companion needs to feel just as comfortable and at home as you do.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [
+        "coordinacion_previa"
+      ],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [
+        "con_costo",
+        "condiciones_especiales"
+      ],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/mascotas/mascotas_1.webp"
+      ],
+      "frases_sugeridas": [
+        "A good option if you travel with a pet",
+        "Best to coordinate in advance"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "SERV_ROOM_SERVICE",
+      "nombre_publico": "Room service",
+      "categoria": "Servicio",
+      "desc_factual": "In-room food and beverage service.",
+      "desc_experiencial": "Enjoy a relaxed, private meal without leaving your room.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/room_service/room_service_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Useful for quiet days",
+        "Handy if you'd rather not go out"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "SERV_TRANSFER_AEROPUERTO",
+      "nombre_publico": "Airport transfer",
+      "categoria": "Servicio",
+      "desc_factual": "Private transfer to or from Jorge Chávez Airport is available for an additional cost from USD 35.00 (taxes included). Please inquire about rates for other destinations.",
+      "desc_experiencial": "We offer transportation to wherever you need to go—whether it's the airport, a business meeting, or a social event. A comfortable and reliable way to move to and from the hotel with ease.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [
+        "coordinacion_previa"
+      ],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [
+        "con_costo",
+        "tercerizado",
+        "disponibilidad_variable"
+      ],
+      "imagenes_url": [],
+      "frases_sugeridas": [
+        "Handy if you arrive late or in the early morning",
+        "Avoid hassle on arrival"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_WIFI",
+      "nombre_publico": "Wi-Fi",
+      "categoria": "Servicio",
+      "desc_factual": "Wi-Fi connection available throughout the hotel.",
+      "desc_experiencial": "Stay connected, effortlessly.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [
+        "Part of every stay",
+        "Works well for work and leisure"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios"
+    },
+    {
+      "id": "SERV_LAVANDERIA",
+      "nombre_publico": "Laundry",
+      "categoria": "Servicio",
+      "desc_factual": "Laundry and ironing service available at an additional cost.",
+      "desc_experiencial": "We adapt to your rhythm with both regular and express laundry. Whether you're in a rush or taking it slow, we'll take care of your clothes so you can keep enjoying Lima.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [
+        "con_costo"
+      ],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/lavanderia/lavanderia_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Useful for longer stays",
+        "Easy and stress-free"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "SERV_ESTACIONAMIENTO",
+      "nombre_publico": "Parking",
+      "categoria": "Servicio",
+      "desc_factual": "We offer 40 parking spaces (2.05 m clearance), distributed across three basement levels. Parking is exclusively for guests and accommodates vehicles up to van size (Sprinter vans not permitted). Valet parking is not available.",
+      "desc_experiencial": "Enjoy the freedom to move at your own pace, with comfort and security.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [
+        "con_costo",
+        "disponibilidad_variable"
+      ],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/estacionamiento/estacionamiento_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Useful if you arrive by car",
+        "Best to confirm availability"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "SERV_LIMPIEZA",
+      "nombre_publico": "Housekeeping",
+      "categoria": "Servicio",
+      "desc_factual": "Daily housekeeping service.",
+      "desc_experiencial": "Arrive to a room that feels tidy, comfortable, and ready for you.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "redirigir": "recepcion@humanohoteles.com",
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [
+        "Included during your stay",
+        "Keeps everything tidy"
+      ],
+      "ctas": [
+        "Coordinate service"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Servicios"
+    },
+    {
+      "id": "INST_LOBBY",
+      "nombre_publico": "Lobby",
+      "categoria": "Instalación",
+      "desc_factual": "The heart of the hotel, where reception and waiting areas come together.",
+      "desc_experiencial": "A calm space to arrive, find your way, or wait at ease.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/lobby/lobby_1.webp"
+      ],
+      "frases_sugeridas": [
+        "A good place to settle in on arrival",
+        "Works for short waits"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "24h",
+      "horario_cierre": "24h",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_DESAYUNO",
+      "nombre_publico": "Breakfast",
+      "categoria": "Instalación",
+      "desc_factual": "Breakfast area, where the day begins.",
+      "desc_experiencial": "Start the day at ease without leaving the hotel.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/desayuno/desayuno_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Handy for an early start",
+        "Convenient if you'd rather stay in"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "06:30",
+      "horario_cierre": "10:30",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_RESTAURANTE_ENT",
+      "nombre_publico": "Entrañable Restaurant",
+      "categoria": "Instalación",
+      "desc_factual": "Our 18th-floor restaurant, specializing in grilled dishes and wine.",
+      "desc_experiencial": "On the 18th floor, with the best view in the city, Entrañable invites you to enjoy grilled meats, drinks, and great conversations. An open, warm space full of character—perfect for relaxed lunches or al fresco dinners as Lima lights up at night.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/restaurante_entranable/entranable_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Good for lunch or dinner",
+        "No need to go out"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "12:30",
+      "horario_cierre": "22:00",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_RESTAURANTE_CDL",
+      "nombre_publico": "Café de Lima Restaurant",
+      "categoria": "Instalación",
+      "desc_factual": "A restaurant on the first floor with traditional Peruvian and classic dishes.",
+      "desc_experiencial": "Café de Lima is a relaxed, modern space where local flavors take center stage. Open from morning to night, it's the neighborhood spot to gather—whether for breakfast, lunch, dinner, or just a quiet pause.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/restaurante_cdl/cdl_1.webp",
+        "/chatbot/imagenes/inst/restaurante_cdl/cdl_2.webp"
+      ],
+      "frases_sugeridas": [
+        "Great any time of day",
+        "Relaxed ambiance"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "17:00",
+      "horario_cierre": "23:00",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_COWORKING",
+      "nombre_publico": "Coworking",
+      "categoria": "Instalación",
+      "desc_factual": "Our shared working area, designed for productivity and ease.",
+      "desc_experiencial": "A space designed for creating, meeting, and focusing. Open 24 hours, HUMANO's coworking blends comfort, connectivity, and a relaxed atmosphere—ideal for working, informal meetings, or simply a change of scenery.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/coworking/coworking_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Works very well for working",
+        "Quiet space"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "24h",
+      "horario_cierre": "24h",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_GIMNASIO",
+      "nombre_publico": "Gym",
+      "categoria": "Instalación",
+      "desc_factual": "A well-equipped space for your daily training routine.",
+      "desc_experiencial": "Our 24-hour gym offers cardio machines, weights, and everything you need to stay on track. A simple, comfortable space to train on your own time and at your own rhythm.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/gimnasio/gimnasio_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Useful to keep your routine",
+        "Easy to use"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "06:00",
+      "horario_cierre": "22:00",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_PISCINA",
+      "nombre_publico": "Pool",
+      "categoria": "Instalación",
+      "desc_factual": "Our pool, designed for relaxation and enjoyment.",
+      "desc_experiencial": "Located on the 17th floor, our heated pool is an urban oasis. Perfect for unwinding after a busy day or simply slowing down and enjoying the moment—without leaving the hotel.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/piscina/piscina_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Great to relax",
+        "Ideal on quiet days"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "08:00",
+      "horario_cierre": "20:00",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_SALAS_REUNIONES",
+      "nombre_publico": "Meeting rooms",
+      "categoria": "Instalación",
+      "desc_factual": "Spaces designed for meetings and gatherings.",
+      "desc_experiencial": "Spaces tailored for focused work encounters and meetings.",
+      "intenciones": [
+        "Trabajo"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "grupo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/salas_de_reuniones/salas_de_reuniones_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Practical for meetings",
+        "Equipped and functional"
+      ],
+      "ctas": [
+        "Explore other spaces"
+      ],
+      "horario_apertura": "08:00",
+      "horario_cierre": "22:00",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "INST_BAR",
+      "nombre_publico": "Lobby Bar",
+      "categoria": "Instalación",
+      "desc_factual": "A bar space on the first-floor restaurant.",
+      "desc_experiencial": "A relaxed spot to wrap up the day with a drink or meet up with friends for beers.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [],
+      "frases_sugeridas": [],
+      "ctas": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "link_ubicacion_mapa": "",
+      "tipo": "Instalaciones"
+    },
+    {
+      "id": "REC_MALECON_MIRAFLORES",
+      "nombre_publico": "Miraflores Boardwalk",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A coastal path in Miraflores, ideal for a walk or a morning run.",
+      "desc_experiencial": "A simple way to connect with the city and the ocean from early in the day.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_1.webp",
+        "/chatbot/imagenes/rec/malecon_miraflores/malecon_miraflores_2.webp"
+      ],
+      "frases_sugeridas": [
+        "Perfect for a walk or a run",
+        "Popular at sunrise and sunset"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Malec%C3%B3n+de+Miraflores+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_PARQUE_KENNEDY",
+      "nombre_publico": "Kennedy Park",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A central park in Miraflores, a lively meeting point surrounded by cafés and local life.",
+      "desc_experiencial": "A good spot to feel the rhythm of Miraflores.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_1.webp",
+        "/chatbot/imagenes/rec/parque_kennedy/parque_kennedy_2.webp"
+      ],
+      "frases_sugeridas": [
+        "Great place to start exploring",
+        "Always lively"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parque+Kennedy+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_LARCOMAR",
+      "nombre_publico": "Larcomar",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A shopping center facing the sea, with restaurants, stores, and ocean scenery.",
+      "desc_experiencial": "An easy-going spot with great views and places to eat.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/rec/larcomar/larcomar_1.webp",
+        "/chatbot/imagenes/rec/larcomar/larcomar_2.webp"
+      ],
+      "frases_sugeridas": [
+        "Combines a stroll and a meal",
+        "Beautiful sunset views"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Larcomar+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_RUNNING_MALECON",
+      "nombre_publico": "Running along the boardwalk",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A smooth, level path along the Malecón, widely used by runners.",
+      "desc_experiencial": "Start your day with a run along the ocean.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/rec/running_malecon/running_malecon_1.webp"
+      ],
+      "frases_sugeridas": [
+        "Ideal for morning routines",
+        "Very accessible from the hotel"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Running+por+el+malec%C3%B3n+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_RUTA_DEL_CAFÉ",
+      "nombre_publico": "Miraflores Cafés",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Just a short distance from the hotel, a variety of cafés to choose from.",
+      "desc_experiencial": "Enjoy a coffee at a slow pace, with the local rhythm.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://images.unsplash.com/photo-1453614512568-c4024d13c247"
+      ],
+      "frases_sugeridas": [
+        "Easy for a coffee break",
+        "Good options nearby"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Caf%C3%A9s+de+Miraflores+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_HUACA",
+      "nombre_publico": "Pucllana Archaeological Site",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A ceremonial archaeological site from the Lima culture, built between 450 and 650 AD.",
+      "desc_experiencial": "Travel back in time and discover the essence of ancient Lima on a unique journey.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/rec/huaca/huaca_1.webp"
+      ],
+      "frases_sugeridas": [
+        "A direct connection to history"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+de+Sitio+Pucllana+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_PARAPENTE",
+      "nombre_publico": "Paragliding",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Experience Miraflores from above as you glide along the cliffs, with sweeping views of the ocean and skyline.",
+      "desc_experiencial": "Feel the wind and see Lima from a whole new perspective—from above.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/rec/parapente/parapente_1.webp"
+      ],
+      "frases_sugeridas": [
+        "The plan for adventurers"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parapente+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_TEATROS",
+      "nombre_publico": "Theaters",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Theaters within walking distance, with a varied program of local and global shows.",
+      "desc_experiencial": "Step into the magic of theater, where each performance brings a new world of emotions to life.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/rec/teatros/teatro_1.webp",
+        "/chatbot/imagenes/rec/teatros/teatro_2.webp",
+        "/chatbot/imagenes/rec/teatros/teatro_3.webp"
+      ],
+      "frases_sugeridas": [
+        "Something for every taste",
+        "Steps from the hotel"
+      ],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Teatros+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales",
+      "video_horizontal": null,
+      "video_vertical": null
+    },
+    {
+      "id": "REC_BARRANCO",
+      "nombre_publico": "Barranco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A bohemian area of Lima where historic architecture, urban art, and nightlife come together.",
+      "desc_experiencial": "A stroll among art, music, and bars full of Lima's spirit.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/9/95/Peru_-_Lima_034_-_colourful_streetscape_of_Barranco_%286999157827%29.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barranco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PUENTE_SUSPIROS",
+      "nombre_publico": "Bridge of Sighs",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A historic bridge in Barranco, surrounded by traditional streets and scenic viewpoints.",
+      "desc_experiencial": "Cross over and let the neighborhood lead the way.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/b/bb/Puente_de_los_Suspiros_en_Barranco.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Puente+de+los+Suspiros+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MUSEO_LARCO",
+      "nombre_publico": "Larco Museum",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A private museum featuring one of Peru's most extensive pre-Columbian art collections.",
+      "desc_experiencial": "Over 5,000 years of history, housed in an 18th-century mansion that offers an intimate look into Peru's ancient cultures.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c7/Lima_museo_larco.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Museo+Larco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_SURF_PLAYA_WAIKIKI",
+      "nombre_publico": "Surfing at Waikiki Beach",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A well-known Miraflores beach, famous for its waves and surf culture.",
+      "desc_experiencial": "A surf lesson to feel Lima from the ocean.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://images.unsplash.com/photo-1559627755-42212e5c5fdf"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Surf+en+Playa+Waikiki+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_BAJA_BALTA",
+      "nombre_publico": "Bajada Balta",
+      "categoria": "Recomendación externa",
+      "desc_factual": "An access route for both pedestrians and vehicles linking Miraflores with the Costa Verde beaches.",
+      "desc_experiencial": "A 20-minute walk to the ocean that's always worth taking.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/5/50/Limaacantilado.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Bajada+Balta+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MERCADO_SURQUILLO",
+      "nombre_publico": "Surquillo Market",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A nearby local market offering fresh ingredients and local food.",
+      "desc_experiencial": "Discover ingredients and flavors like a local.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/9/92/Mercado_Surquillo_1_Lima_PE.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Mercado+de+Surquillo+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MALECON_CICLISMO",
+      "nombre_publico": "Cycling along the boardwalk",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A bike route that follows the Miraflores cliffs, overlooking the Pacific Ocean.",
+      "desc_experiencial": "A peaceful ride where the city meets the sea.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Malec%C3%B3n_de_Miraflores_-_Lima.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Ciclismo+por+el+malec%C3%B3n+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_RESTAURANTES_50BEST",
+      "nombre_publico": "Lima Gastronomy",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Lima is globally recognized for its award-winning food scene.",
+      "desc_experiencial": "Dine in one of the world's culinary capitals.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Cebiche_peruano.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Gastronom%C3%ADa+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PARQUE_AMOR",
+      "nombre_publico": "Park of Love",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A park by the ocean, known for its mosaics and romantic art pieces.",
+      "desc_experiencial": "A spot to slow down and watch the horizon unfold.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/2/27/El_Beso.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Parque+del+Amor+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PASEO_BARRANCO",
+      "nombre_publico": "A walk through Barranco",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Streets filled with murals, cafés, and traditional architecture.",
+      "desc_experiencial": "Wander without a plan through one of Lima's most creative districts.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://images.unsplash.com/photo-1574521355290-c7bfcafd5c9d"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Paseo+por+Barranco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MIRAFLORES_MARKET",
+      "nombre_publico": "Peruvian crafts",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A craft market featuring Peruvian handicrafts, textiles, and locally made souvenirs.",
+      "desc_experiencial": "A vibrant market where colors, aromas, and handcrafted goods come together, offering an authentic glimpse into everyday local life and culture.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://images.unsplash.com/photo-1562869929-bda0650edb1f"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Artesan%C3%ADa+peruana+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_GATOS_KENNEDY",
+      "nombre_publico": "Cats of Kennedy Park",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A community of cats that calls Miraflores' central park home.",
+      "desc_experiencial": "A curious scene that always surprises.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/7/79/Kennedy_Park_%3D_Cats_Park_%28Lima%2C_Peru%29_%2836972424496%29.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Gatos+del+Parque+Kennedy+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_YOGA_MALECON",
+      "nombre_publico": "Yoga by the ocean",
+      "categoria": "Recomendación externa",
+      "desc_factual": "Spontaneous or guided yoga sessions on the Malecón.",
+      "desc_experiencial": "Breathe in Lima at a slow pace.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://images.unsplash.com/photo-1587216828209-52ed26daf425"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Yoga+frente+al+mar+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CENTRO_HISTORICO",
+      "nombre_publico": "Lima Historic Center",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A World Heritage destination with colonial architecture and historic plazas.",
+      "desc_experiencial": "A stroll through Lima as it once was centuries ago.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/d/da/Plaza_de_Armas%2C_Lima%2C_Peru.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Centro+hist%C3%B3rico+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CATEDRAL_LIMA",
+      "nombre_publico": "Lima Cathedral",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A cathedral located in Lima's Plaza Mayor, with great historical significance.",
+      "desc_experiencial": "A quiet space of architecture in the middle of the city.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/6/64/Fachada_principal_de_la_Catedral_de_Lima.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Catedral+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MONASTERIO_SFRANCISCO",
+      "nombre_publico": "San Francisco Monastery",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A historic religious site known for its subterranean catacombs.",
+      "desc_experiencial": "A historic underground network of tunnels beneath a colonial church in Lima, known for its eerie atmosphere and the remains of thousands from the city's early past.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/1/14/Iglesia_de_San_Francisco%2C_Lima%2C_Per%C3%BA%2C_2015-07-28%2C_DD_70.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Monasterio+San+Francisco+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_MUSEO_ARTE_LIMA",
+      "nombre_publico": "MALI",
+      "aliases": [
+        "Lima Art Museum",
+        "Museum of Art of Lima"
+      ],
+      "categoria": "Recomendación externa",
+      "desc_factual": "The Lima Art Museum, showcasing Peruvian art across different eras.",
+      "desc_experiencial": "Collections of art spanning pre-Columbian, colonial, and contemporary periods in a beautifully restored historic building.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/4/47/Inauguraci%C3%B3n_Fachada_MALI_HM_7198_F.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=MALI+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_PARQUE_AGUA",
+      "nombre_publico": "Magic Water Circuit",
+      "categoria": "Recomendación externa",
+      "desc_factual": "An urban park with light shows, fountains, and evening entertainment.",
+      "desc_experiencial": "An unexpected visual experience in Lima.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/e/ec/2017_Lima_-_Circuito_m%C3%A1gico_del_Parque_de_las_Aguas.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Circuito+M%C3%A1gico+del+Agua+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_FARO_LIMA",
+      "nombre_publico": "Marina Lighthouse",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A historic 22-meter lighthouse overlooking the Pacific.",
+      "desc_experiencial": "Watch the sunset and ocean in warm tones.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0f/Faro_de_la_Marina_en_Miraflores.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Faro+de+la+Marina+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_BARRIO_CHINO_LIMA",
+      "nombre_publico": "Lima's Chinatown",
+      "categoria": "Recomendación externa",
+      "desc_factual": "A historic area known for its restaurants and Chinese culture, especially chifa—Peruvian-Chinese fusion cuisine.",
+      "desc_experiencial": "A one-of-a-kind fusion of Peruvian and Chinese cultures.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ac/Arco_Chino_en_Lima_01.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/search/?api=1&query=Barrio+Chino+de+Lima+Miraflores+Lima",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CAMINATA",
+      "nombre_publico": "Stroll",
+      "aliases": [
+        "stroll",
+        "walk",
+        "walking tour",
+        "paseo",
+        "caminata"
+      ],
+      "categoria": "Recomendación externa",
+      "desc_factual": "Two routes handpicked by our neighbors: one through Miraflores and one through Barranco. Each with morning and evening stops.",
+      "desc_experiencial": "Short on time? Go for the Miraflores stroll. Have a longer day? Try Barranco.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://images.unsplash.com/photo-1693492156077-c5e5450f2615"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CAMINATA_MIRAFLORES",
+      "nombre_publico": "Stroll through Miraflores",
+      "aliases": [
+        "stroll miraflores",
+        "walk miraflores",
+        "morning stroll miraflores",
+        "evening stroll miraflores",
+        "caminata miraflores",
+        "paseo miraflores"
+      ],
+      "categoria": "Recomendación externa",
+      "desc_factual": "Morning Stroll:\n1. Risso, coffee worth the stop: You can't miss The Grano Especial Curitiba.\n2. Yunuik, art gallery: Feels like another world.\n3. Manolos, vintage café: \"Un churro with manjar blanco por favor\". A classic.\n4. El Virrey, bookstore: Ask for Ernesto.\n5. Curich, smoothies: Lúcuma \"cremolada\" with milk. One of a kind.\n\nEvening Stroll:\n6. Fito Espinoza Gallery: Art and coffee.\n7. Kennedy Park: Music in the air, curious cats, and local life.\n8. The Singular Concept Store: Handcrafted pieces.\n9. El Infusionista: Local potions.\n10. Casa Rebara, tavern: Beer, butifarra sandwiches, and live music.",
+      "desc_experiencial": "Ten stops to walk Miraflores like a local: cafés, galleries, bookstores, and bohemia.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/4/45/Miraflores_Lima_Peru_skyline.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/dir/Caf%C3%A9+Risso,+Ca.+Jos%C3%A9+G%C3%A1lvez+130,+Miraflores+15074/YUNUIK,+C.+Bellavista+590,+Miraflores+LIMA+18/Manolo,+Av.+Jos%C3%A9+Larco+608,+Miraflores+15074/Librer%C3%ADa+El+Virrey,+Bolognesi+510,+Miraflores+15074/Curich+Cremoladas,+Bolognesi+759,+Miraflores+15074/Fito+Espinosa+Galer%C3%ADa,+Av+Grau+324,+Miraflores+15074/Parque+Kennedy,+Av+Diagonal,+Miraflores+15074/The+Singular+Concept+Store,+Calle+Gral+Recavarren+435A,+Miraflores+15074/El+Infusionista,+C.+Manuel+Bonilla+123,+Miraflores+15074/Casa+Rebara+1921,+Calle+Gral+Recavarren+261,+Miraflores+15074",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    },
+    {
+      "id": "REC_CAMINATA_BARRANCO",
+      "nombre_publico": "Stroll through Barranco",
+      "aliases": [
+        "stroll barranco",
+        "walk barranco",
+        "morning stroll barranco",
+        "evening stroll barranco",
+        "caminata barranco",
+        "paseo barranco"
+      ],
+      "categoria": "Recomendación externa",
+      "desc_factual": "Morning Stroll:\n1. Pan Sal Aire, café: French toast with berries.\n2. Jade Rivera Museum, contemporary muralist: Start with the blue room.\n3. Blu: The stracciatella and \"maracumango\" combo… worth the wait.\n4. Bridge of Sighs: Hold your breath and make a wish as you cross by, it's worth the shot.\n5. Cuatro en un Baúl: Don't miss Rafa Lanfranco's robots.\n\nEvening Stroll:\n6. Dédalo: Coffee and traditional Peruvian art.\n7. Heraldos Negros Bookstore: \"The right book always finds its reader\".\n8. Domeyer Street: Stop by Siete for a negroni.\n9. Bajada de Baños: Keep it classic at Javier, go bold at Gato Tulipán, or take it up a notch at Menú.\n10. Lady Bee: Cocktails, good music, and a bohemian vibe.",
+      "desc_experiencial": "Ten stops to walk Barranco through art, coffee, bookstores, and bohemia.",
+      "intenciones": [
+        "Trabajo",
+        "Descanso",
+        "Aventura"
+      ],
+      "perfil_ideal": [
+        "solo",
+        "pareja",
+        "grupo",
+        "familia"
+      ],
+      "restricciones_requisitos": [],
+      "condiciones_servicio": [],
+      "imagenes_url": [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4d/Barranco_PuenteDeLosSuspiros.jpg"
+      ],
+      "frases_sugeridas": [],
+      "ctas": [
+        "More recommendations",
+        "View on Google Maps"
+      ],
+      "horario_apertura": null,
+      "horario_cierre": null,
+      "link_ubicacion_mapa": "https://www.google.com/maps/dir/Pan+Sal+Aire,+Av.+Almte.+Miguel+Grau+320,+,+Lima,+Barranco+15063/Museo+Jade+Rivera,+Av.+S%C3%A1enz+Pe%C3%B1a+205,+Barranco+15063/Blu:+il+gelato+del+barrio,+Av.+Almte.+Miguel+Grau+201,+Barranco+15063/Puente+de+los+Suspiros,+Jr.+Batall%C3%B3n+271,+Barranco+15063/Cuatro+en+un+ba%C3%BAl,+Cajamarca+404,+Lima+15063/D%C3%A9dalo,+Jir%C3%B3n+S%C3%A1enz+Pe%C3%B1a+295,+Barranco+15063/Heraldos+Negros+Librer%C3%ADa,+Av.+San+Mart%C3%ADn+219,+Barranco+15063/Jir%C3%B3n+Domeyer,+Barranco+15063/Bajada+de+Ba%C3%B1os,+Barranco+15063/Lady+Bee,+Av.+Pedro+de+Osma+205,+Barranco+15063",
+      "redirigir": "",
+      "check_in": "",
+      "check_out": "",
+      "precio_desde": "",
+      "tipo": "Recomendaciones_Locales"
+    }
+  ],
+  "reglas": [
+    {
+      "regla_id": "GOV_01",
+      "regla_clave": "Fuente de verdad",
+      "descripcion_practica": "Este Excel es la única fuente de información que consume la IA. No se corrige información desde prompts."
+    },
+    {
+      "regla_id": "GOV_02",
+      "regla_clave": "Consistencia de vocabulario",
+      "descripcion_practica": "Usar siempre las mismas palabras clave en perfil_ideal, requisitos y restricciones. Separar valores con |."
+    },
+    {
+      "regla_id": "GOV_03",
+      "regla_clave": "Textos breves",
+      "descripcion_practica": "Las descripciones deben ser cortas, claras y sin promesas comerciales."
+    },
+    {
+      "regla_id": "GOV_04",
+      "regla_clave": "Servicios con cuidado",
+      "descripcion_practica": "Todo servicio con costo, coordinación o tercerización debe indicarse en condiciones_servicio."
+    },
+    {
+      "regla_id": "GOV_05",
+      "regla_clave": "Actualización operativa",
+      "descripcion_practica": "Si algo cambia en la operación real del hotel, se actualiza aquí el mismo día."
+    }
+  ]
+}

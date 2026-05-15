@@ -1,6 +1,8 @@
 import { OpenAI } from "openai"
 import { NextRequest, NextResponse } from "next/server"
-import conserjeDataRaw from "@/data/humano.json"
+import { AsyncLocalStorage } from "node:async_hooks"
+import conserjeDataEs from "@/data/humano.json"
+import conserjeDataEn from "@/data/humano-en.json"
 import type { ConserjeData, ConserjeItem, ConserjeItemType } from "@/lib/humano/types"
 import {
   detectIntent,
@@ -13,7 +15,20 @@ import {
   normalizeText,
 } from "@/lib/humano/search"
 
-const conserjeData = conserjeDataRaw as ConserjeData
+type Lang = "es" | "en"
+const HUMANO_DATA: Record<Lang, ConserjeData> = {
+  es: conserjeDataEs as ConserjeData,
+  en: conserjeDataEn as ConserjeData,
+}
+const langStore = new AsyncLocalStorage<Lang>()
+const getLang = (): Lang => langStore.getStore() ?? "es"
+
+const conserjeData = new Proxy({} as ConserjeData, {
+  get(_target, prop) {
+    const data = HUMANO_DATA[getLang()]
+    return data[prop as keyof ConserjeData]
+  },
+})
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -1285,37 +1300,56 @@ function buildCategoryListIntro(
   state?: { profile?: string | null; intent?: string | null }
 ): string {
   const seed = `${tipo}-${state?.profile || "na"}-${state?.intent || "na"}`
+  const isEn = getLang() === "en"
   if (tipo === "Servicios") {
     return pickVariant(
-      [
-        "Claro, aquí tienes los servicios del hotel. Elige el que más te acomode y lo vemos juntos.",
-        "Te comparto los servicios disponibles para tu estadía. Dime con cuál quieres empezar.",
-        "Estas son las opciones de servicio en Humano. Escoge una y seguimos desde ahí.",
-      ],
+      isEn
+        ? [
+            "Sure, here are the hotel services. Pick the one that suits you best and we'll go from there.",
+            "Here are the services available for your stay. Tell me which one you'd like to start with.",
+            "These are the service options at Humano. Pick one and we'll continue from there.",
+          ]
+        : [
+            "Claro, aquí tienes los servicios del hotel. Elige el que más te acomode y lo vemos juntos.",
+            "Te comparto los servicios disponibles para tu estadía. Dime con cuál quieres empezar.",
+            "Estas son las opciones de servicio en Humano. Escoge una y seguimos desde ahí.",
+          ],
       seed
     )
   }
   if (tipo === "Instalaciones") {
     return pickVariant(
-      [
-        "Estas son las instalaciones del hotel. Elige la que quieras conocer primero.",
-        "Te muestro los espacios disponibles en Humano. Dime cuál te interesa revisar.",
-        "Aquí tienes las instalaciones. Escoge una y te cuento lo esencial.",
-      ],
+      isEn
+        ? [
+            "These are the hotel's facilities. Pick the one you'd like to know first.",
+            "Here are the spaces available at Humano. Tell me which one you'd like to check.",
+            "Here are the facilities. Pick one and I'll share the essentials.",
+          ]
+        : [
+            "Estas son las instalaciones del hotel. Elige la que quieras conocer primero.",
+            "Te muestro los espacios disponibles en Humano. Dime cuál te interesa revisar.",
+            "Aquí tienes las instalaciones. Escoge una y te cuento lo esencial.",
+          ],
       seed
     )
   }
   if (tipo === "Recomendaciones_Locales") {
     return pickVariant(
-      [
-        "Te comparto recomendaciones cercanas en Miraflores. Elige la que más te provoque.",
-        "Aquí tienes opciones para salir cerca del hotel. Dime cuál quieres revisar primero.",
-        "Estas son recomendaciones alrededor de Humano. Escoge una y te guío.",
-      ],
+      isEn
+        ? [
+            "Here are nearby recommendations in Miraflores. Pick the one that interests you most.",
+            "Here are options to go out near the hotel. Tell me which one you'd like to check first.",
+            "These are recommendations around Humano. Pick one and I'll guide you.",
+          ]
+        : [
+            "Te comparto recomendaciones cercanas en Miraflores. Elige la que más te provoque.",
+            "Aquí tienes opciones para salir cerca del hotel. Dime cuál quieres revisar primero.",
+            "Estas son recomendaciones alrededor de Humano. Escoge una y te guío.",
+          ],
       seed
     )
   }
-  return "Aquí tienes opciones disponibles."
+  return isEn ? "Here are available options." : "Aquí tienes opciones disponibles."
 }
 
 function normalizeActionLabel(label: string, item?: ConserjeItem | null): string {
@@ -1472,7 +1506,7 @@ INSTRUCCIONES:
 - Evita urgencia comercial o presión de compra.
 - Si detectas intención de reserva/disponibilidad/precio/tarifa, redirige suavemente a:
   ${MARRIOTT_ROOMS_URL}
-- Responde en español claro y natural.
+- Responde en ${getLang() === "en" ? "inglés" : "español"} claro y natural.
 - Máximo 2 oraciones y una pregunta breve.
 - No menciones fuentes internas ni archivos.`
 
@@ -1537,7 +1571,7 @@ INSTRUCCIONES:
 - Usa SOLO la información factual del CONTEXTO.
 - Si hay intención de reserva/disponibilidad/precio/tarifa, redirige suavemente a ${MARRIOTT_ROOMS_URL}.
 - Tono anfitrión, cercano y sin presión comercial.
-- Responde en español claro y natural.
+- Responde en ${getLang() === "en" ? "inglés" : "español"} claro y natural.
 - Máximo 2 oraciones y una pregunta breve.`
 
     const context = buildContext([options.item])
@@ -1871,28 +1905,46 @@ function pickSuggestedPhrase(item: ConserjeItem, message: string): string | null
 }
 
 function buildSafeFollowup(item: ConserjeItem, message: string): string {
+  const isEn = getLang() === "en"
   const detail = buildDetailReply(item)
   const phrase = pickSuggestedPhrase(item, message)
   const parts = [detail, phrase].filter(Boolean)
   const base = parts.join(" ")
-  const suffix = item.nombre_publico ? ` ¿Necesitas algo más del ${item.nombre_publico}?` : " ¿Necesitas algo más?"
-  return base ? `${base}${suffix}` : `Perfecto.${suffix}`
+  const suffix = isEn
+    ? item.nombre_publico
+      ? ` Anything else about ${item.nombre_publico}?`
+      : " Anything else?"
+    : item.nombre_publico
+      ? ` ¿Necesitas algo más del ${item.nombre_publico}?`
+      : " ¿Necesitas algo más?"
+  return base ? `${base}${suffix}` : `${isEn ? "Done." : "Perfecto."}${suffix}`
 }
 
 function buildCardBridgeFallback(item: ConserjeItem): string {
+  const isEn = getLang() === "en"
   if (item.tipo === "Habitaciones") {
-    return `${item.nombre_publico} ya quedó mapeada en tu plan. Desde aquí también puedo mostrarte servicios del hotel o lugares cercanos para completar la estadía.`
+    return isEn
+      ? `${item.nombre_publico} is part of your plan. From here I can also show you hotel services or nearby places to round out your stay.`
+      : `${item.nombre_publico} ya quedó mapeada en tu plan. Desde aquí también puedo mostrarte servicios del hotel o lugares cercanos para completar la estadía.`
   }
   if (item.tipo === "Servicios") {
-    return `${item.nombre_publico} quedó listo dentro de tu plan. También puedo mostrarte espacios del hotel o rincones cercanos de Miraflores para seguir armando la experiencia.`
+    return isEn
+      ? `${item.nombre_publico} is set in your plan. I can also show you hotel spaces or nearby spots in Miraflores to keep building the experience.`
+      : `${item.nombre_publico} quedó listo dentro de tu plan. También puedo mostrarte espacios del hotel o rincones cercanos de Miraflores para seguir armando la experiencia.`
   }
   if (item.tipo === "Instalaciones") {
-    return `${item.nombre_publico} es un buen punto de partida dentro del hotel. Si te interesa, te muestro otros espacios para que recorras Humano con calma.`
+    return isEn
+      ? `${item.nombre_publico} is a great starting point inside the hotel. If you'd like, I can show you other spaces to explore Humano at your own pace.`
+      : `${item.nombre_publico} es un buen punto de partida dentro del hotel. Si te interesa, te muestro otros espacios para que recorras Humano con calma.`
   }
   if (item.tipo === "Recomendaciones_Locales") {
-    return `${item.nombre_publico} encaja bien con el plan. Cuando quieras, te comparto una ruta simple desde el hotel.`
+    return isEn
+      ? `${item.nombre_publico} fits nicely with the plan. Whenever you're ready, I can share a simple route from the hotel.`
+      : `${item.nombre_publico} encaja bien con el plan. Cuando quieras, te comparto una ruta simple desde el hotel.`
   }
-  return "Listo. Puedo continuar con el siguiente paso cuando lo prefieras."
+  return isEn
+    ? "Done. I can continue with the next step whenever you'd like."
+    : "Listo. Puedo continuar con el siguiente paso cuando lo prefieras."
 }
 
 function hashText(text: string): number {
@@ -1915,57 +1967,94 @@ function buildContextualBridgeReply(
 ): string {
   const profile = state?.profile || null
   const intent = state?.intent || null
+  const isEn = getLang() === "en"
 
   if (item.tipo === "Habitaciones") {
     const contextBits: string[] = []
-    if (profile === "pareja") contextBits.push("si viajan en pareja")
-    if (profile === "solo") contextBits.push("si viajas solo")
-    if (profile === "grupo") contextBits.push("si vienen en grupo")
-    if (intent === "trabajo") contextBits.push("cuando el viaje es por trabajo")
-    if (intent === "descanso") contextBits.push("cuando el viaje es por descanso")
-    if (intent === "aventura") contextBits.push("cuando el viaje es por aventura")
-    const contextLine =
-      contextBits.length > 0
+    if (isEn) {
+      if (profile === "pareja") contextBits.push("if you're traveling as a couple")
+      if (profile === "solo") contextBits.push("if you're traveling solo")
+      if (profile === "grupo") contextBits.push("if you're traveling in a group")
+      if (intent === "trabajo") contextBits.push("when the trip is for work")
+      if (intent === "descanso") contextBits.push("when the trip is for rest")
+      if (intent === "aventura") contextBits.push("when the trip is for adventure")
+    } else {
+      if (profile === "pareja") contextBits.push("si viajan en pareja")
+      if (profile === "solo") contextBits.push("si viajas solo")
+      if (profile === "grupo") contextBits.push("si vienen en grupo")
+      if (intent === "trabajo") contextBits.push("cuando el viaje es por trabajo")
+      if (intent === "descanso") contextBits.push("cuando el viaje es por descanso")
+      if (intent === "aventura") contextBits.push("cuando el viaje es por aventura")
+    }
+    const contextLine = isEn
+      ? contextBits.length > 0
+        ? `${item.nombre_publico} works really well ${contextBits.join(" and ")}.`
+        : `${item.nombre_publico} fits very well with your stay.`
+      : contextBits.length > 0
         ? `${item.nombre_publico} funciona muy bien ${contextBits.join(" y ")}.`
         : `${item.nombre_publico} se acomoda muy bien al ritmo de la estadía.`
 
-    const variants = [
-      `${contextLine} Si quieres, ahora te muestro servicios del hotel o rincones cercanos que valgan la pena.`,
-      `${contextLine} Cuando les provoque, les recomiendo algo dentro del hotel o un plan corto por Miraflores.`,
-      `${contextLine} Desde aquí te puedo sugerir un servicio del hotel o un lugar cercano para seguir el día.`,
-    ]
+    const variants = isEn
+      ? [
+          `${contextLine} If you'd like, I can suggest hotel services or nearby spots worth a visit.`,
+          `${contextLine} Whenever you'd like, I can recommend something inside the hotel or a short plan in Miraflores.`,
+          `${contextLine} From here I can suggest a hotel service or a nearby place to continue your day.`,
+        ]
+      : [
+          `${contextLine} Si quieres, ahora te muestro servicios del hotel o rincones cercanos que valgan la pena.`,
+          `${contextLine} Cuando les provoque, les recomiendo algo dentro del hotel o un plan corto por Miraflores.`,
+          `${contextLine} Desde aquí te puedo sugerir un servicio del hotel o un lugar cercano para seguir el día.`,
+        ]
     return pickVariant(variants, `${item.id}-${profile || "na"}-${intent || "na"}`)
   }
 
   if (item.tipo === "Servicios") {
     return pickVariant(
-      [
-        `Con ${item.nombre_publico} ya tienes esa parte cubierta. Si quieres, te sugiero un ambiente del hotel o un plan cercano.`,
-        `${item.nombre_publico} va muy bien para la estadía. También puedo recomendarte qué ver dentro del hotel o alrededor de Miraflores.`,
-        `${item.nombre_publico} ya quedó listo en tu plan. Cuando quieras, seguimos con instalaciones o recomendaciones cerca.`,
-      ],
+      isEn
+        ? [
+            `With ${item.nombre_publico} that part is covered. If you'd like, I can suggest a hotel space or a nearby plan.`,
+            `${item.nombre_publico} is a great fit for your stay. I can also recommend something to see inside the hotel or around Miraflores.`,
+            `${item.nombre_publico} is set in your plan. Whenever you're ready, we can continue with facilities or nearby recommendations.`,
+          ]
+        : [
+            `Con ${item.nombre_publico} ya tienes esa parte cubierta. Si quieres, te sugiero un ambiente del hotel o un plan cercano.`,
+            `${item.nombre_publico} va muy bien para la estadía. También puedo recomendarte qué ver dentro del hotel o alrededor de Miraflores.`,
+            `${item.nombre_publico} ya quedó listo en tu plan. Cuando quieras, seguimos con instalaciones o recomendaciones cerca.`,
+          ],
       `${item.id}-${profile || "na"}-${intent || "na"}`
     )
   }
 
   if (item.tipo === "Instalaciones") {
     return pickVariant(
-      [
-        `${item.nombre_publico} suma muy bien al recorrido dentro del hotel. Si te provoca, te muestro otro ambiente que combine con su plan.`,
-        `${item.nombre_publico} ya quedó contemplado para la estadía. También puedo sugerirte otro espacio del hotel o algo cercano para salir.`,
-        `${item.nombre_publico} es un buen punto de partida en Humano. Cuando quieras, seguimos con el siguiente ambiente.`,
-      ],
+      isEn
+        ? [
+            `${item.nombre_publico} adds nicely to the experience inside the hotel. If you'd like, I can show you another space that fits your plan.`,
+            `${item.nombre_publico} is part of your stay. I can also suggest another hotel space or something nearby to go out.`,
+            `${item.nombre_publico} is a great starting point at Humano. Whenever you're ready, we can continue with the next space.`,
+          ]
+        : [
+            `${item.nombre_publico} suma muy bien al recorrido dentro del hotel. Si te provoca, te muestro otro ambiente que combine con su plan.`,
+            `${item.nombre_publico} ya quedó contemplado para la estadía. También puedo sugerirte otro espacio del hotel o algo cercano para salir.`,
+            `${item.nombre_publico} es un buen punto de partida en Humano. Cuando quieras, seguimos con el siguiente ambiente.`,
+          ],
       `${item.id}-${profile || "na"}-${intent || "na"}`
     )
   }
 
   if (item.tipo === "Recomendaciones_Locales") {
     return pickVariant(
-      [
-        `Perfecto. Te indico una forma simple de llegar desde el hotel.`,
-        `Listo. Te comparto la ruta más práctica para llegar.`,
-        `Hecho. Te paso una referencia clara para llegar sin vueltas.`,
-      ],
+      isEn
+        ? [
+            `Perfect. Here's a simple way to get there from the hotel.`,
+            `Done. I'll share the most practical route to get there.`,
+            `Got it. Here's a clear reference to get there with no detours.`,
+          ]
+        : [
+            `Perfecto. Te indico una forma simple de llegar desde el hotel.`,
+            `Listo. Te comparto la ruta más práctica para llegar.`,
+            `Hecho. Te paso una referencia clara para llegar sin vueltas.`,
+          ],
       `${item.id}-${profile || "na"}-${intent || "na"}`
     )
   }
@@ -2007,7 +2096,8 @@ INSTRUCCIONES:
 - Evita cierres genéricos como: "¿Algo más en lo que pueda ayudarte?"
 - Evita frases robotizadas como "Buena elección", "Si te sirve", "Conectamos esto", "planes".
 - No preguntes por fechas ni disponibilidad salvo que el huésped lo pida explícitamente.
-- Si el huésped pide reserva/precio/disponibilidad, redirige suavemente a ${MARRIOTT_ROOMS_URL}.`
+- Si el huésped pide reserva/precio/disponibilidad, redirige suavemente a ${MARRIOTT_ROOMS_URL}.
+- Responde en ${getLang() === "en" ? "inglés" : "español"} claro y natural.`
 
     const context = buildContext([options.item])
     const userPrompt = [
@@ -2058,15 +2148,20 @@ function buildDirectionalFollowup(choice: string, item: ConserjeItem): string {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        { error: "Falta configurar OPENAI_API_KEY" },
-        { status: 500 }
-      )
-    }
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json(
+      { error: "Falta configurar OPENAI_API_KEY" },
+      { status: 500 }
+    )
+  }
+  const body = await request.json()
+  const lang: Lang = body?.lang === "en" ? "en" : "es"
+  return langStore.run(lang, () => handlePOST(body))
+}
 
-    const body = await request.json()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function handlePOST(body: any) {
+  try {
     const debug = Boolean(body?.debug)
     const trace: string[] = []
     const mark = (step: string) => {
@@ -2214,7 +2309,8 @@ INSTRUCCIONES:
 - Formula UNA sola pregunta breve para recuperar un dato faltante.
 - El dato faltante es: ${fieldHint}.
 - Usa el tono del conserje y el contexto si está disponible.
-- No menciones fuentes internas ni archivos.`
+- No menciones fuentes internas ni archivos.
+- Responde en ${getLang() === "en" ? "inglés" : "español"} claro y natural.`
 
       const context = contextItems.length ? buildContext(contextItems) : ""
       const response = await openai.chat.completions.create({
@@ -2251,7 +2347,10 @@ INSTRUCCIONES:
     const normalizedMessage = normalizeText(message)
     if (requiresHumanEscalation(message)) {
       return respond({
-        reply: `Para gestionarlo correctamente, prefiero que escribas directamente a nuestro equipo: ${HUMAN_ESCALATION_EMAIL}.`,
+        reply:
+          getLang() === "en"
+            ? `To handle this properly, please write directly to our team: ${HUMAN_ESCALATION_EMAIL}.`
+            : `Para gestionarlo correctamente, prefiero que escribas directamente a nuestro equipo: ${HUMAN_ESCALATION_EMAIL}.`,
         suggestions: [],
         items: [],
         menu: [],
@@ -2377,7 +2476,7 @@ INSTRUCCIONES:
         profile: profileForHotel,
       })
       return respond({
-        reply: "Perfecto. Elige una opción y te la muestro en detalle.",
+        reply: getLang() === "en" ? "Perfect. Pick an option and I'll show you the details." : "Perfecto. Elige una opción y te la muestro en detalle.",
         suggestions: [],
         items: [],
         menu: insideItems.map((item) => ({ id: item.id, label: item.nombre_publico })),
@@ -2411,13 +2510,18 @@ INSTRUCCIONES:
     const caminataDispatcherMatch = explicitNameMatch?.id === "REC_CAMINATA" || nameMatch?.id === "REC_CAMINATA"
     if (caminataDispatcherMatch) {
       mark("caminata_dispatcher")
+      const isEn = getLang() === "en"
+      const mirafloresItem = conserjeData.items.find((i) => i.id === "REC_CAMINATA_MIRAFLORES")
+      const barrancoItem = conserjeData.items.find((i) => i.id === "REC_CAMINATA_BARRANCO")
       return respond({
-        reply: "Tenemos dos rutas curadas por nuestros vecinos. ¿Por dónde te gustaría empezar?",
+        reply: isEn
+          ? "We have two routes handpicked by our neighbors. Where would you like to start?"
+          : "Tenemos dos rutas curadas por nuestros vecinos. ¿Por dónde te gustaría empezar?",
         suggestions: [],
         items: [],
         menu: [
-          { id: "REC_CAMINATA_MIRAFLORES", label: "Caminata por Miraflores" },
-          { id: "REC_CAMINATA_BARRANCO", label: "Caminata por Barranco" },
+          { id: "REC_CAMINATA_MIRAFLORES", label: mirafloresItem?.nombre_publico ?? "Caminata por Miraflores" },
+          { id: "REC_CAMINATA_BARRANCO", label: barrancoItem?.nombre_publico ?? "Caminata por Barranco" },
         ],
         intent: null,
         profile: state?.profile || null,
@@ -2543,11 +2647,17 @@ INSTRUCCIONES:
         if (mode === "show_card") {
           mark("affirmative_show_card")
           const reply = pickVariant(
-            [
-              `Perfecto, te la muestro aquí.`,
-              `Claro, te la dejo aquí para que la revises.`,
-              `Listo, aquí la tienes.`,
-            ],
+            getLang() === "en"
+              ? [
+                  `Perfect, here it is.`,
+                  `Sure, I'll leave it here for you to check.`,
+                  `Done, here you go.`,
+                ]
+              : [
+                  `Perfecto, te la muestro aquí.`,
+                  `Claro, te la dejo aquí para que la revises.`,
+                  `Listo, aquí la tienes.`,
+                ],
             `${activeItem.id}-${state?.profile || "na"}-${state?.intent || "na"}`
           )
           return respond({
@@ -2918,7 +3028,7 @@ INSTRUCCIONES:
 
       if (isNegative(message)) {
         return respond({
-          reply: "Entiendo. ¿Quieres revisar otras opciones?",
+          reply: getLang() === "en" ? "Got it. Would you like to look at other options?" : "Entiendo. ¿Quieres revisar otras opciones?",
           suggestions: [],
           items: [],
           menu: buildCategoryMenu(currentItem.tipo),
@@ -3066,7 +3176,7 @@ INSTRUCCIONES:
       const resolvedMatchedItem = matchedItem as ConserjeItem
       if (isNegative(message)) {
         return respond({
-          reply: "Entiendo. ¿Quieres revisar otras opciones?",
+          reply: getLang() === "en" ? "Got it. Would you like to look at other options?" : "Entiendo. ¿Quieres revisar otras opciones?",
           suggestions: [],
           items: [],
           menu: buildCategoryMenu(resolvedMatchedItem.tipo),
