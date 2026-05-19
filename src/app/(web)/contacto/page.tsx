@@ -121,13 +121,13 @@ export function HumanoContactoPageContent({ lang = "es" }: { lang?: WebLang }) {
 
                           <div className="flex min-w-0 flex-col gap-2 pt-1">
                             <Link
-                              href="/libro-de-reclamaciones"
+                              href={lang === "en" ? "/en/complaints-book" : "/libro-de-reclamaciones"}
                               className="text-sm font-medium text-white/92 transition hover:text-white"
                             >
                               {t.footerComplaints}
                             </Link>
                             <Link
-                              href="/terminos-y-condiciones"
+                              href={lang === "en" ? "/en/terms-and-conditions" : "/terminos-y-condiciones"}
                               className="text-sm font-medium text-white/58 transition hover:text-white/82"
                             >
                               {t.footerTerms}

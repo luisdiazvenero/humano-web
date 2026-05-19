@@ -257,12 +257,55 @@ export const WEB_I18N: Record<WebLang, {
   },
 }
 
+/**
+ * Mapping bidireccional de URLs entre ES y EN.
+ * Key: prefijo ES, Value: prefijo EN.
+ * Las páginas dinámicas mantienen su slug (que se traduce vía getHumano*).
+ */
+const SEGMENT_MAP: ReadonlyArray<{ es: string; en: string }> = [
+  { es: "/habitaciones", en: "/en/rooms" },
+  { es: "/hotel", en: "/en/hotel" },
+  { es: "/servicios", en: "/en/services" },
+  { es: "/contacto/gracias", en: "/en/contact/thanks" },
+  { es: "/contacto", en: "/en/contact" },
+  { es: "/terminos-y-condiciones", en: "/en/terms-and-conditions" },
+  { es: "/libro-de-reclamaciones/gracias", en: "/en/complaints-book/thanks" },
+  { es: "/libro-de-reclamaciones", en: "/en/complaints-book" },
+]
+
 export function pathForLang(currentPath: string, targetLang: WebLang): string {
   const isEn = currentPath.startsWith("/en")
+  const sourceLang: WebLang = isEn ? "en" : "es"
+  if (sourceLang === targetLang) return currentPath
+
   if (targetLang === "en") {
-    return isEn ? currentPath : `/en${currentPath === "/" ? "" : currentPath}`
+    if (currentPath === "/") return "/en"
+    for (const seg of SEGMENT_MAP) {
+      if (currentPath === seg.es) return seg.en
+      if (currentPath.startsWith(`${seg.es}/`)) {
+        const rest = currentPath.slice(seg.es.length)
+        return `${seg.en}${rest}`
+      }
+    }
+    // Detalle de room (/[room]) sin prefijo conocido → /en/rooms/[room]
+    // Excluir rutas que NO son rooms (conserje vive fuera de la web layout)
+    if (/^\/[^/]+$/.test(currentPath) && currentPath !== "/conserje") {
+      return `/en/rooms${currentPath}`
+    }
+    return `/en${currentPath}`
   }
-  if (!isEn) return currentPath
+
+  // targetLang === "es"
+  if (currentPath === "/en") return "/"
+  for (const seg of SEGMENT_MAP) {
+    if (currentPath === seg.en) return seg.es
+    if (currentPath.startsWith(`${seg.en}/`)) {
+      const rest = currentPath.slice(seg.en.length)
+      // Caso especial: /en/rooms/<slug> → /<slug> (rooms ES están en raíz)
+      if (seg.en === "/en/rooms" && /^\/[^/]+$/.test(rest)) return rest
+      return `${seg.es}${rest}`
+    }
+  }
   const rest = currentPath.replace(/^\/en/, "")
   return rest === "" ? "/" : rest
 }

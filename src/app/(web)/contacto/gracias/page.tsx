@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { Inter } from "next/font/google"
 import { ArrowUpRight, Check } from "lucide-react"
@@ -6,35 +5,41 @@ import { ArrowUpRight, Check } from "lucide-react"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { cn } from "@/lib/utils"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { type WebLang } from "@/lib/web/i18n"
+import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
 
-const pageNavItems = [
-  { label: "Home", href: "/#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
+const THANKS_I18N = {
+  es: {
+    eyebrow: "Contacto",
+    h1: "Mensaje recibido",
+    intro:
+      "Gracias por escribirnos. Revisaremos tu mensaje y te responderemos en un plazo breve al correo o teléfono que nos compartiste.",
+    backHome: "Volver al hotel",
+    newMessage: "Enviar otro mensaje",
+  },
+  en: {
+    eyebrow: "Contact",
+    h1: "Message received",
+    intro:
+      "Thanks for reaching out. We'll review your message and reply shortly to the email or phone you shared with us.",
+    backHome: "Back to the hotel",
+    newMessage: "Send another message",
+  },
+} as const
 
-export const metadata: Metadata = {
-  title: "Mensaje recibido · Humano Website",
-  description:
-    "Confirmación visual de contacto para Humano Hotel.",
-}
+export function HumanoContactoGraciasContent({ lang = "es" }: { lang?: WebLang }) {
+  const t = THANKS_I18N[lang]
+  const homeHref = lang === "en" ? "/en" : "/"
+  const contactHref = lang === "en" ? "/en/contact" : "/contacto"
 
-export default function HumanoContactoGraciasPage() {
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-white`}>
-      <WebStickyHeader
-        brandHref="/#inicio"
-        navItems={pageNavItems}
-        activeHref="/contacto"
-        showReserve={false}
-      />
+      <WebStickyHeader brandHref={homeHref} activeHref={contactHref} showReserve={false} lang={lang} />
 
       <main>
         <section className="relative overflow-hidden bg-[var(--color-azul-rgb)] pt-28 sm:pt-32">
@@ -52,33 +57,31 @@ export default function HumanoContactoGraciasPage() {
                 </span>
 
                 <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
-                  Contacto
+                  {t.eyebrow}
                 </p>
                 <h1 className="mt-4 font-serif text-[36px] leading-[0.94] text-white">
-                  Mensaje recibido
+                  {t.h1}
                 </h1>
                 <p className="mx-auto mt-6 max-w-[46ch] text-[16px] leading-8 text-white/76 sm:text-[17px]">
-                  Gracias por escribirnos. Revisaremos tu mensaje y te
-                  responderemos en un plazo breve al correo o teléfono que nos
-                  compartiste.
+                  {t.intro}
                 </p>
 
                 <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <Link
-                    href="/"
+                    href={homeHref}
                     className={cn(
                       webPrimaryButtonClass,
                       "min-h-12 bg-white px-5 py-2.5 text-sm text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]"
                     )}
                   >
-                    Volver al hotel
+                    {t.backHome}
                     <ArrowUpRight className="h-4.5 w-4.5" />
                   </Link>
                   <Link
-                    href="/contacto"
+                    href={contactHref}
                     className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/82 transition hover:border-white/22 hover:bg-white/[0.05] hover:text-white"
                   >
-                    Enviar otro mensaje
+                    {t.newMessage}
                   </Link>
                 </div>
               </div>
@@ -88,4 +91,18 @@ export default function HumanoContactoGraciasPage() {
       </main>
     </div>
   )
+}
+
+export const metadata = buildPageMetadata("es", {
+  title: "Mensaje recibido | Hotel Humano",
+  description: "Confirmación visual de contacto para Hotel Humano.",
+  canonical: "/contacto/gracias",
+  alternates: {
+    es: "/contacto/gracias",
+    en: "/en/contact/thanks",
+  },
+})
+
+export default function HumanoContactoGraciasPage() {
+  return <HumanoContactoGraciasContent lang="es" />
 }

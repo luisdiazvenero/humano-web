@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { Inter } from "next/font/google"
 import { ArrowUpRight, Check } from "lucide-react"
@@ -6,33 +5,41 @@ import { ArrowUpRight, Check } from "lucide-react"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { cn } from "@/lib/utils"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { type WebLang } from "@/lib/web/i18n"
+import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
 
-const pageNavItems = [
-  { label: "Home", href: "/#inicio" },
-  { label: "Habitaciones", href: "/habitaciones" },
-  { label: "Hotel", href: "/hotel" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contacto", href: "/contacto" },
-]
+const THANKS_I18N = {
+  es: {
+    eyebrow: "Libro de Reclamaciones",
+    h1: "Solicitud recibida",
+    intro:
+      "Hemos recibido tu reclamo o queja. Nuestro equipo revisará la información y dará seguimiento según el proceso correspondiente.",
+    backHome: "Volver al hotel",
+    newCase: "Registrar otro caso",
+  },
+  en: {
+    eyebrow: "Complaints Book",
+    h1: "Submission received",
+    intro:
+      "We have received your claim or complaint. Our team will review the information and follow up according to the corresponding process.",
+    backHome: "Back to the hotel",
+    newCase: "Register another case",
+  },
+} as const
 
-export const metadata: Metadata = {
-  title: "Reclamo recibido · Humano Website",
-  description:
-    "Confirmación visual del Libro de Reclamaciones de Humano Hotel.",
-}
+export function HumanoClaimsBookThanksContent({ lang = "es" }: { lang?: WebLang }) {
+  const t = THANKS_I18N[lang]
+  const homeHref = lang === "en" ? "/en" : "/"
+  const formHref = lang === "en" ? "/en/complaints-book" : "/libro-de-reclamaciones"
 
-export default function HumanoClaimsBookThanksPage() {
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-white`}>
-      <WebStickyHeader
-        brandHref="/#inicio"
-        navItems={pageNavItems}
-      />
+      <WebStickyHeader brandHref={homeHref} lang={lang} />
 
       <main>
         <section className="relative overflow-hidden bg-[var(--color-azul-rgb)] pt-28 sm:pt-32">
@@ -50,33 +57,31 @@ export default function HumanoClaimsBookThanksPage() {
                 </span>
 
                 <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
-                  Libro de Reclamaciones
+                  {t.eyebrow}
                 </p>
                 <h1 className="mt-4 font-serif text-[36px] leading-[0.94] text-white">
-                  Solicitud recibida
+                  {t.h1}
                 </h1>
                 <p className="mx-auto mt-6 max-w-[48ch] text-[16px] leading-8 text-white/76 sm:text-[17px]">
-                  Hemos recibido tu reclamo o queja. Nuestro equipo revisará la
-                  información y dará seguimiento según el proceso
-                  correspondiente.
+                  {t.intro}
                 </p>
 
                 <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <Link
-                    href="/"
+                    href={homeHref}
                     className={cn(
                       webPrimaryButtonClass,
                       "min-h-12 bg-white px-5 py-2.5 text-sm text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]"
                     )}
                   >
-                    Volver al hotel
+                    {t.backHome}
                     <ArrowUpRight className="h-4.5 w-4.5" />
                   </Link>
                   <Link
-                    href="/libro-de-reclamaciones"
+                    href={formHref}
                     className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/82 transition hover:border-white/22 hover:bg-white/[0.05] hover:text-white"
                   >
-                    Registrar otro caso
+                    {t.newCase}
                   </Link>
                 </div>
               </div>
@@ -86,4 +91,18 @@ export default function HumanoClaimsBookThanksPage() {
       </main>
     </div>
   )
+}
+
+export const metadata = buildPageMetadata("es", {
+  title: "Reclamo recibido | Hotel Humano",
+  description: "Confirmación visual del Libro de Reclamaciones de Hotel Humano.",
+  canonical: "/libro-de-reclamaciones/gracias",
+  alternates: {
+    es: "/libro-de-reclamaciones/gracias",
+    en: "/en/complaints-book/thanks",
+  },
+})
+
+export default function HumanoClaimsBookThanksPage() {
+  return <HumanoClaimsBookThanksContent lang="es" />
 }

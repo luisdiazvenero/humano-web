@@ -29,6 +29,8 @@ export function HumanoServicesPageContent({ lang = "es" }: { lang?: WebLang }) {
   const servicesHref = lang === "en" ? "/en/services" : "/servicios"
   const hospitalityLabel = lang === "en" ? "Hospitality" : "Hospitalidad"
   const alwaysWithYou = lang === "en" ? "Always with you" : "Siempre contigo"
+  const complaintsHref = lang === "en" ? "/en/complaints-book" : "/libro-de-reclamaciones"
+  const termsHref = lang === "en" ? "/en/terms-and-conditions" : "/terminos-y-condiciones"
 
   return (
     <div className={`${bodyFont.className} bg-[var(--color-crema)] text-[var(--color-azul-rgb)]`}>
@@ -135,14 +137,14 @@ export function HumanoServicesPageContent({ lang = "es" }: { lang?: WebLang }) {
               <div className="flex flex-col items-center gap-4 text-center">
                 <p>{t.footerCopyright}</p>
                 <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] text-white/70">
-                  <Link href="/libro-de-reclamaciones" className="transition-colors hover:text-[var(--color-amarillo)]">
+                  <Link href={complaintsHref} className="transition-colors hover:text-[var(--color-amarillo)]">
                     {t.footerComplaints}
                   </Link>
                   <span
                     aria-hidden="true"
                     className="hidden h-1 w-1 rounded-full bg-white/30 sm:block"
                   />
-                  <Link href="/terminos-y-condiciones" className="transition-colors hover:text-[var(--color-amarillo)]">
+                  <Link href={termsHref} className="transition-colors hover:text-[var(--color-amarillo)]">
                     {t.footerTerms}
                   </Link>
                 </div>

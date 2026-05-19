@@ -33,8 +33,8 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
   const t = WEB_I18N[lang]
   const hotelHref = lang === "en" ? "/en/hotel" : "/hotel"
   const roomsHref = lang === "en" ? "/en/rooms" : "/habitaciones"
-  const complaintsHref = lang === "en" ? "/libro-de-reclamaciones" : "/libro-de-reclamaciones"
-  const termsHref = lang === "en" ? "/terminos-y-condiciones" : "/terminos-y-condiciones"
+  const complaintsHref = lang === "en" ? "/en/complaints-book" : "/libro-de-reclamaciones"
+  const termsHref = lang === "en" ? "/en/terms-and-conditions" : "/terminos-y-condiciones"
   const roomCarouselItems: RoomCarouselItem[] = getHumanoRooms(lang).map((room) => ({
     id: room.slug,
     label: room.nombre,

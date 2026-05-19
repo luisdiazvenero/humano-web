@@ -103,7 +103,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
     mailtoLink.href = mailtoUrl
     mailtoLink.click()
 
-    router.push("/contacto/gracias")
+    router.push(lang === "en" ? "/en/contact/thanks" : "/contacto/gracias")
   }
 
   return (

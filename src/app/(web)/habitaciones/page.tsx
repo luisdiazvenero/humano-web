@@ -28,8 +28,8 @@ export function HumanoRoomsPageContent({ lang = "es" }: { lang?: WebLang }) {
   const rooms = getHumanoRooms(lang)
   const homeHref = lang === "en" ? "/en" : "/"
   const roomsHref = lang === "en" ? "/en/rooms" : "/habitaciones"
-  const complaintsHref = "/libro-de-reclamaciones"
-  const termsHref = "/terminos-y-condiciones"
+  const complaintsHref = lang === "en" ? "/en/complaints-book" : "/libro-de-reclamaciones"
+  const termsHref = lang === "en" ? "/en/terms-and-conditions" : "/terminos-y-condiciones"
 
   return (
     <div className={`${bodyFont.className} bg-[var(--color-crema)] text-[var(--color-azul-rgb)]`}>
