@@ -99,7 +99,7 @@ export default function HumanoTerminosPage() {
                     <ul className="mt-4 list-disc space-y-1.5 pl-5">
                       <li>Razón Social: ARMANDO HOTELES S.A.C.</li>
                       <li>Nombre comercial: HUMANO HOTEL</li>
-                      <li>Domicilio fiscal: Av. Grau 629 oficina 306 Barranco</li>
+                      <li>Domicilio fiscal: Malecón Balta 710, Miraflores</li>
                       <li>
                         Correo de contacto:{" "}
                         <a

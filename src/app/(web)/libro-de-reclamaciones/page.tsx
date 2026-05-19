@@ -90,7 +90,7 @@ export default function HumanoClaimsBookPage() {
                         Dirección fiscal
                       </p>
                       <p className="mt-2 text-[15px] leading-relaxed text-[var(--color-azul-rgb)]/76">
-                        Av. Grau 629 oficina 306 Barranco
+                        Malecón Balta 710, Miraflores
                       </p>
                     </div>
 
