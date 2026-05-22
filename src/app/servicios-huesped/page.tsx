@@ -119,6 +119,35 @@ export default function ServiciosHuesped() {
           padding: 0.2em 0.55em;
         }
 
+        .sh-service-schedule {
+          margin: 0 0 1.5rem;
+          padding: 0.75rem 0 0;
+          list-style: none;
+          font-family: var(--sans);
+          font-size: clamp(0.78rem,1.1vw,0.85rem);
+          color: var(--ink);
+        }
+
+        .sh-service-schedule li {
+          display: flex;
+          justify-content: space-between;
+          gap: 0.75rem;
+          padding: 0.32rem 0;
+          border-bottom: 1px solid rgba(0,55,68,0.08);
+        }
+
+        .sh-service-schedule li:last-child {
+          border-bottom: none;
+        }
+
+        .sh-service-schedule .sh-day {
+          font-weight: 500;
+        }
+
+        .sh-service-schedule .sh-hours {
+          color: rgba(0,55,68,0.65);
+        }
+
         .sh-service-desc {
           margin: 0 0 0.3rem;
           font-family: var(--sans);
@@ -261,6 +290,16 @@ export default function ServiciosHuesped() {
             </div>
             <p className="sh-service-desc">Un espacio que celebra los sabores locales en un ambiente relajado y contemporáneo. Desayuno buffet disponible.</p>
             <p className="sh-service-desc--en">A space that celebrates local flavors in a relaxed, contemporary setting. Buffet breakfast available.</p>
+            <div className="sh-service-actions">
+              <a className="sh-btn-carta" href="/pdfs/carta-cafe-de-lima-es.pdf" target="_blank" rel="noopener noreferrer">
+                <PdfIcon />
+                Ver carta ESP
+              </a>
+              <a className="sh-btn-carta" href="/pdfs/carta-cafe-de-lima-en.pdf" target="_blank" rel="noopener noreferrer">
+                <PdfIcon />
+                Ver carta ENG
+              </a>
+            </div>
           </div>
 
           <div className="sh-service">
@@ -270,10 +309,26 @@ export default function ServiciosHuesped() {
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 18</span>
-              <span className="sh-service-meta-item">12:00 – 22:00 hrs</span>
+              <span className="sh-service-meta-item">Rooftop · Parrillas</span>
             </div>
+            <ul className="sh-service-schedule">
+              <li><span className="sh-day">Lunes</span><span className="sh-hours">Cerrado</span></li>
+              <li><span className="sh-day">Martes a viernes</span><span className="sh-hours">18:00 – 23:00 hrs</span></li>
+              <li><span className="sh-day">Sábado</span><span className="sh-hours">12:00 – 23:00 hrs</span></li>
+              <li><span className="sh-day">Domingo</span><span className="sh-hours">12:00 – 17:00 hrs</span></li>
+            </ul>
             <p className="sh-service-desc">En lo alto del hotel, Entrañable invita a disfrutar carnes, bebidas y buenas conversaciones.</p>
             <p className="sh-service-desc--en">On the 18th floor, Entrañable invites you to enjoy meat, drinks, and even better conversations.</p>
+            <div className="sh-service-actions">
+              <a className="sh-btn-carta" href="/pdfs/carta-entranable-es.pdf" target="_blank" rel="noopener noreferrer">
+                <PdfIcon />
+                Ver carta ESP
+              </a>
+              <a className="sh-btn-carta" href="/pdfs/carta-entranable-en.pdf" target="_blank" rel="noopener noreferrer">
+                <PdfIcon />
+                Ver carta ENG
+              </a>
+            </div>
           </div>
 
           <div className="sh-service">

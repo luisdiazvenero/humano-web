@@ -10,7 +10,8 @@ import { FullLogo } from "@/components/humano-v09/FullLogo"
 import { cn } from "@/lib/utils"
 import { webHeaderShellRadiusClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 import { trackEvent } from "@/lib/analytics"
-import { WEB_I18N, pathForLang, type WebLang } from "@/lib/web/i18n"
+import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { localizedPath } from "@/lib/web/path-localization"
 
 type WebStickyHeaderNavItem = {
   label: string
@@ -191,7 +192,7 @@ export function WebStickyHeader({
               )}
             >
               <Link
-                href={pathForLang(pathname, "es")}
+                href={localizedPath(pathname, "es")}
                 className={cn(
                   "cursor-pointer rounded-full px-2 py-1 transition-colors",
                   lang === "es"
@@ -207,7 +208,7 @@ export function WebStickyHeader({
                 ES
               </Link>
               <Link
-                href={pathForLang(pathname, "en")}
+                href={localizedPath(pathname, "en")}
                 className={cn(
                   "cursor-pointer rounded-full px-2 py-1 transition-colors",
                   lang === "en"
