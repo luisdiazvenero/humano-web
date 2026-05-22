@@ -240,11 +240,11 @@ export default function ServiciosHuesped() {
             <p className="sh-service-desc">Pedidos directamente a tu habitación, disponible las 24 hrs.</p>
             <p className="sh-service-desc--en">Orders straight to your room, available 24 hours.</p>
             <div className="sh-service-actions">
-              <a className="sh-btn-carta" href="/cartas/room-service/carta-room-service-esp.pdf" target="_blank" rel="noopener noreferrer">
+              <a className="sh-btn-carta" href="/pdfs/carta-room-service-es.pdf" target="_blank" rel="noopener noreferrer">
                 <PdfIcon />
                 Ver carta ESP
               </a>
-              <a className="sh-btn-carta" href="/cartas/room-service/carta-room-service-eng.pdf" target="_blank" rel="noopener noreferrer">
+              <a className="sh-btn-carta" href="/pdfs/carta-room-service-en.pdf" target="_blank" rel="noopener noreferrer">
                 <PdfIcon />
                 Ver carta ENG
               </a>
@@ -257,7 +257,7 @@ export default function ServiciosHuesped() {
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 1</span>
-              <span className="sh-service-meta-item">06:30 – 22:00 hrs</span>
+              <span className="sh-service-meta-item">06:30 – 23:00 hrs</span>
             </div>
             <p className="sh-service-desc">Un espacio que celebra los sabores locales en un ambiente relajado y contemporáneo. Desayuno buffet disponible.</p>
             <p className="sh-service-desc--en">A space that celebrates local flavors in a relaxed, contemporary setting. Buffet breakfast available.</p>
@@ -266,7 +266,7 @@ export default function ServiciosHuesped() {
           <div className="sh-service">
             <div className="sh-service-head">
               <h2 className="sh-service-name">Entrañable</h2>
-              <span className="sh-service-badge">Marcha Blanca</span>
+              <span className="sh-service-badge">Apertura Junio 2026</span>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 18</span>

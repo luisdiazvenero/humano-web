@@ -57,7 +57,7 @@ export function ExperiencesFilterGallery({ facilities, lang = "es" }: { faciliti
   const asideText = isEn
     ? "At Humano, hospitality goes beyond service. We create spaces where people can reconnect with themselves and with others, in the heart of Miraflores."
     : "En Humano, la hospitalidad va más allá del servicio. Creamos espacios donde las personas pueden reconectar consigo mismas y con los demás, en el corazón de Miraflores."
-  const comingSoon = isEn ? "Soft Opening" : "Marcha Blanca"
+  const comingSoon = isEn ? "Opening June 2026" : "Apertura Junio 2026"
   const viewDetail = isEn ? "View detail of" : "Ver detalle de"
   const hotelHref = isEn ? "/en/hotel" : "/hotel"
   return (

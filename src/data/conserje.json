@@ -780,7 +780,7 @@
       "nombre_publico": "Restaurante Entrañable",
       "categoria": "Instalación",
       "desc_factual": "Restaurante del hotel en el rooftop del 18, especializado en parrillas.",
-      "desc_experiencial": "Un cierre relajado para el día.",
+      "desc_experiencial": "Entrañable invita a disfrutar carnes, bebidas, buenas conversaciones y la mejor vista de Miraflores (piso 18). Un espacio abierto, cálido y con personalidad, perfecto para almuerzos relajados o cenas al aire libre mientras Lima se ilumina al caer la noche.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -805,8 +805,8 @@
         "Reservar Habitación",
         "Conocer más ambientes"
       ],
-      "horario_apertura": "12:30",
-      "horario_cierre": "22:00",
+      "horario_apertura": null,
+      "horario_cierre": null,
       "link_ubicacion_mapa": "",
       "check_out": "",
       "check_in": "",
@@ -821,7 +821,7 @@
       "nombre_publico": "Restaurante Café de Lima",
       "categoria": "Instalación",
       "desc_factual": "Restaurante en el primer piso del hotel, con platos clásicos y peruanos.",
-      "desc_experiencial": "Comer con calma entre planes del día.",
+      "desc_experiencial": "Somos franquicia del restaurante Café de Lima, un lugar para disfrutar los sabores locales en un ambiente relajado y acogedor. Desde temprano hasta la noche, aquí puedes desayunar, almorzar, cenar o simplemente tomarte un descanso durante el día.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -847,7 +847,7 @@
         "Reservar Habitación",
         "Conocer más ambientes"
       ],
-      "horario_apertura": "17:00",
+      "horario_apertura": "6:30",
       "horario_cierre": "23:00",
       "link_ubicacion_mapa": "",
       "check_out": "",

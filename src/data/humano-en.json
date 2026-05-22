@@ -749,7 +749,7 @@
       "nombre_publico": "Entrañable Restaurant",
       "categoria": "Instalación",
       "desc_factual": "Our 18th-floor restaurant, specializing in grilled dishes and wine.",
-      "desc_experiencial": "On the 18th floor, with the best view in the city, Entrañable invites you to enjoy grilled meats, drinks, and great conversations. An open, warm space full of character—perfect for relaxed lunches or al fresco dinners as Lima lights up at night.",
+      "desc_experiencial": "Entrañable invites you to enjoy premium grilled meats, handcrafted drinks, great conversations, and the best views of Miraflores from the 18th floor. An open, warm, and character-filled space, perfect for relaxed lunches or open-air dinners while Lima lights up at sunset.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -773,8 +773,8 @@
       "ctas": [
         "Explore other spaces"
       ],
-      "horario_apertura": "12:30",
-      "horario_cierre": "22:00",
+      "horario_apertura": null,
+      "horario_cierre": null,
       "redirigir": "",
       "check_in": "",
       "check_out": "",
@@ -789,7 +789,7 @@
       "nombre_publico": "Café de Lima Restaurant",
       "categoria": "Instalación",
       "desc_factual": "A restaurant on the first floor with traditional Peruvian and classic dishes.",
-      "desc_experiencial": "Café de Lima is a relaxed, modern space where local flavors take center stage. Open from morning to night, it's the neighborhood spot to gather—whether for breakfast, lunch, dinner, or just a quiet pause.",
+      "desc_experiencial": "We are Café de Lima franchise (a Peruvian restaurant), a welcoming and relaxed space where you can enjoy authentic local flavors. From early morning until late evening, it is the perfect place for breakfast, lunch, dinner, or simply a break during the day.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -814,7 +814,7 @@
       "ctas": [
         "Explore other spaces"
       ],
-      "horario_apertura": "17:00",
+      "horario_apertura": "6:30",
       "horario_cierre": "23:00",
       "redirigir": "",
       "check_in": "",

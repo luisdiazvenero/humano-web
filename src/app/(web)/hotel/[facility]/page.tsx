@@ -10,6 +10,9 @@ import {
   Clock3,
   Coffee,
   Dumbbell,
+  FileText,
+  Mail,
+  Phone,
   Sparkles,
   UtensilsCrossed,
   Waves,
@@ -34,6 +37,18 @@ const bodyFont = Inter({
   weight: ["400", "500", "700"],
 })
 
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+)
+
 function getFacilityMetaIcon(entry: HumanoFacility["meta"][number]) {
   switch (entry.kind) {
     case "time":
@@ -52,6 +67,96 @@ function getFacilityMetaIcon(entry: HumanoFacility["meta"][number]) {
     default:
       return Sparkles
   }
+}
+
+type RestaurantConfig = {
+  bullets?: string[]
+  schedule?: Array<{ day: string; hours: string }>
+  reservationLabel: string
+  phone: string
+  whatsapp: string
+  email: string
+  menuPdf: string
+  reserveCta: string
+  menuCta: string
+  emailLabel: string
+  phoneLabel: string
+  scheduleLabel?: string
+}
+
+const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
+  INST_RESTAURANTE_CDL: {
+    es: {
+      bullets: [
+        "Desayuno buffet, todos los días, de 06:30 hrs – 10:30 hrs.",
+        "Almuerzo y cena a la carta.",
+        "Tragos y piqueos en nuestro Lobby Bar.",
+      ],
+      reservationLabel: "Reservas",
+      phone: "+51 934 306 844",
+      phoneLabel: "Teléfono",
+      whatsapp: "https://wa.link/4ty7ii",
+      email: "reservas.ayb@humanohoteles.com",
+      emailLabel: "Correo",
+      menuPdf: "/pdfs/carta-cafe-de-lima-es.pdf",
+      reserveCta: "Reservar",
+      menuCta: "Ver carta",
+    },
+    en: {
+      bullets: [
+        "Buffet breakfast, daily, 6:30 AM – 10:30 AM.",
+        "À la carte lunch and dinner.",
+        "Drinks and small plates at our Lobby Bar.",
+      ],
+      reservationLabel: "Reservations",
+      phone: "+51 934 306 844",
+      phoneLabel: "Phone",
+      whatsapp: "https://wa.link/flgsgc",
+      email: "reservas.ayb@humanohoteles.com",
+      emailLabel: "Email",
+      menuPdf: "/pdfs/carta-cafe-de-lima-en.pdf",
+      reserveCta: "Reservation",
+      menuCta: "View menu",
+    },
+  },
+  INST_RESTAURANTE_ENT: {
+    es: {
+      schedule: [
+        { day: "Lunes", hours: "Cerrado" },
+        { day: "Martes a viernes", hours: "18:00 – 23:00 hrs" },
+        { day: "Sábado", hours: "12:00 – 23:00 hrs" },
+        { day: "Domingo", hours: "12:00 – 17:00 hrs" },
+      ],
+      scheduleLabel: "Horarios",
+      reservationLabel: "Reservas",
+      phone: "+51 934 306 844",
+      phoneLabel: "Teléfono",
+      whatsapp: "https://wa.link/6a2hwm",
+      email: "reservas.ayb@humanohoteles.com",
+      emailLabel: "Correo",
+      menuPdf: "/pdfs/carta-entranable-es.pdf",
+      reserveCta: "Reservar",
+      menuCta: "Ver carta",
+    },
+    en: {
+      schedule: [
+        { day: "Monday", hours: "Closed" },
+        { day: "Tuesday to Friday", hours: "6:00 PM – 11:00 PM" },
+        { day: "Saturday", hours: "12:00 PM – 11:00 PM" },
+        { day: "Sunday", hours: "12:00 PM – 5:00 PM" },
+      ],
+      scheduleLabel: "Hours",
+      reservationLabel: "Reservations",
+      phone: "+51 934 306 844",
+      phoneLabel: "Phone",
+      whatsapp: "https://wa.link/3k3ntj",
+      email: "reservas.ayb@humanohoteles.com",
+      emailLabel: "Email",
+      menuPdf: "/pdfs/carta-entranable-en.pdf",
+      reserveCta: "Reservation",
+      menuCta: "View menu",
+    },
+  },
 }
 
 function FacilitySuggestionCard({
@@ -170,6 +275,8 @@ export function FacilityDetailPageContent({
     .filter((item) => item.id !== facilityData.id)
     .slice(0, 4)
 
+  const restaurantConfig = RESTAURANT_DETAILS[facilityData.id]?.[lang] ?? null
+
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader
@@ -240,27 +347,107 @@ export function FacilityDetailPageContent({
                     {facilityData.descripcionExperiencial}
                   </p>
 
-                  <div className="mt-7 flex flex-wrap items-center gap-4">
-                    <TrackLink
-                      href={`/conserje?item=${facilityData.id}`}
-                      eventName="web_facility_cta_click"
-                      eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
-                      className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
-                    >
-                      {ctaLabel}
-                      <ArrowUpRight className="h-5 w-5" />
-                    </TrackLink>
+                  {restaurantConfig?.bullets ? (
+                    <ul className="mt-5 max-w-[680px] space-y-2 text-[15px] leading-[1.55] text-white/82">
+                      {restaurantConfig.bullets.map((line) => (
+                        <li key={line} className="flex gap-3">
+                          <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-white/70" />
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+
+                  {restaurantConfig?.schedule ? (
+                    <div className="mt-6 max-w-[480px]">
+                      {restaurantConfig.scheduleLabel ? (
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/56">
+                          {restaurantConfig.scheduleLabel}
+                        </p>
+                      ) : null}
+                      <ul className="mt-2 divide-y divide-white/10 text-[14px] leading-[1.5] text-white/82">
+                        {restaurantConfig.schedule.map((entry) => (
+                          <li key={entry.day} className="flex items-center justify-between gap-4 py-2">
+                            <span className="font-medium text-white/88">{entry.day}</span>
+                            <span className="text-white/74">{entry.hours}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  <div className="mt-7 flex flex-wrap items-center gap-3">
+                    {restaurantConfig ? (
+                      <>
+                        <TrackLink
+                          href={restaurantConfig.whatsapp}
+                          eventName="web_restaurant_whatsapp_click"
+                          eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
+                          className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <WhatsAppIcon className="h-5 w-5" />
+                          {restaurantConfig.reserveCta}
+                        </TrackLink>
+                        <TrackLink
+                          href={restaurantConfig.menuPdf}
+                          eventName="web_restaurant_menu_click"
+                          eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
+                          className={`${webPrimaryButtonClass} border border-white/30 bg-transparent text-white hover:bg-white/10`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <FileText className="h-5 w-5" strokeWidth={1.8} />
+                          {restaurantConfig.menuCta}
+                        </TrackLink>
+                      </>
+                    ) : (
+                      <TrackLink
+                        href={`/conserje?item=${facilityData.id}`}
+                        eventName="web_facility_cta_click"
+                        eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
+                        className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
+                      >
+                        {ctaLabel}
+                        <ArrowUpRight className="h-5 w-5" />
+                      </TrackLink>
+                    )}
                   </div>
                 </div>
 
-                <div className="mt-8 max-w-[38ch] border-t border-white/12 pt-8 text-right lg:ml-auto lg:self-end">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
-                    {essentialsLabel}
-                  </p>
-                  <p className="mt-3 text-[13px] leading-[1.8] text-white/56">
-                    {facilityData.descripcionFactual}
-                  </p>
-                </div>
+                {restaurantConfig ? (
+                  <div className="mt-8 max-w-[420px] border-t border-white/12 pt-6">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/56">
+                      {restaurantConfig.reservationLabel}
+                    </p>
+                    <div className="mt-3 flex flex-col gap-2 text-[14px] leading-[1.5] text-white/82">
+                      <a
+                        href={`tel:${restaurantConfig.phone.replace(/\s+/g, "")}`}
+                        className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
+                      >
+                        <Phone className="h-4 w-4 text-white/56" strokeWidth={1.8} />
+                        <span>{restaurantConfig.phone}</span>
+                      </a>
+                      <a
+                        href={`mailto:${restaurantConfig.email}`}
+                        className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
+                      >
+                        <Mail className="h-4 w-4 text-white/56" strokeWidth={1.8} />
+                        <span>{restaurantConfig.email}</span>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-8 max-w-[38ch] border-t border-white/12 pt-8 text-right lg:ml-auto lg:self-end">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/54">
+                      {essentialsLabel}
+                    </p>
+                    <p className="mt-3 text-[13px] leading-[1.8] text-white/56">
+                      {facilityData.descripcionFactual}
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="lg:pt-4">
