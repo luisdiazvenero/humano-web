@@ -53,10 +53,11 @@ function FacilityImagePlaceholder() {
 
 export function ExperiencesFilterGallery({ facilities, lang = "es" }: { facilities: HumanoFacility[]; lang?: "es" | "en" }) {
   const isEn = lang === "en"
-  const asideTitle = isEn ? "Conscious hospitality in Lima." : "Hospitalidad consciente en Lima."
+  const asideEyebrow = isEn ? "Hotel" : "Hotel"
+  const asideTitle = isEn ? "Mindful hospitality in Lima" : "Hospitalidad consciente en Lima"
   const asideText = isEn
-    ? "At Humano, hospitality goes beyond service. We create spaces where people can reconnect with themselves and with others, in the heart of Miraflores."
-    : "En Humano, la hospitalidad va más allá del servicio. Creamos espacios donde las personas pueden reconectar consigo mismas y con los demás, en el corazón de Miraflores."
+    ? "At Humano, every experience moves at your pace. You can connect, unwind, or simply pause. The spaces are there for just that—so you can enjoy them in your own way."
+    : "En Humano, cada experiencia sigue tu ritmo. Puedes compartir, desconectar o simplemente hacer una pausa. Los espacios están ahí para eso: para que los vivas como quieras."
   const comingSoon = isEn ? "Opening June 2026" : "Apertura Junio 2026"
   const viewDetail = isEn ? "View detail of" : "Ver detalle de"
   const hotelHref = isEn ? "/en/hotel" : "/hotel"
@@ -65,7 +66,10 @@ export function ExperiencesFilterGallery({ facilities, lang = "es" }: { faciliti
       <div className="grid items-start gap-10 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[240px_minmax(0,1fr)] xl:gap-14">
         <aside className="lg:sticky lg:top-28">
           <div className="pt-10 sm:pt-14">
-            <h2 className="font-serif text-[28px] leading-[1.15] text-[var(--color-azul-rgb)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]/60">
+              {asideEyebrow}
+            </p>
+            <h2 className="mt-3 font-serif text-[28px] leading-[1.15] text-[var(--color-azul-rgb)]">
               {asideTitle}
             </h2>
             <p className="mt-4 text-[15px] leading-[1.8] text-[var(--color-azul-rgb)]/52">

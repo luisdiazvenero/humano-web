@@ -61,10 +61,11 @@ function ServiceImagePlaceholder() {
 
 export function ServicesFilterGallery({ services, lang = "es" }: { services: HumanoService[]; lang?: "es" | "en" }) {
   const isEn = lang === "en"
-  const asideTitle = isEn ? "Conscious hospitality in Lima." : "Hospitalidad consciente en Lima."
+  const asideEyebrow = isEn ? "Services" : "Servicios"
+  const asideTitle = isEn ? "Mindful hospitality in Lima" : "Hospitalidad consciente en Lima"
   const asideText = isEn
-    ? "At Humano, hospitality goes beyond service. We create spaces where people can reconnect with themselves and with others, in the heart of Miraflores."
-    : "En Humano, la hospitalidad va más allá del servicio. Creamos espacios donde las personas pueden reconectar consigo mismas y con los demás, en el corazón de Miraflores."
+    ? "From a relaxed breakfast to a massage or a great local recommendation, everything is set up for you to enjoy without overthinking it. Simple as that."
+    : "Desde un desayuno tranquilo hasta un masaje o una buena recomendación del barrio. Todo está listo para que disfrutes sin pensar demasiado. Así de simple."
   const viewDetail = isEn ? "View detail of" : "Ver detalle de"
   const servicesHref = isEn ? "/en/services" : "/servicios"
   return (
@@ -72,7 +73,10 @@ export function ServicesFilterGallery({ services, lang = "es" }: { services: Hum
       <div className="grid items-start gap-10 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[240px_minmax(0,1fr)] xl:gap-14">
         <aside className="lg:sticky lg:top-28">
           <div className="pt-10 sm:pt-14">
-            <h2 className="font-serif text-[28px] leading-[1.15] text-[var(--color-azul-rgb)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]/60">
+              {asideEyebrow}
+            </p>
+            <h2 className="mt-3 font-serif text-[28px] leading-[1.15] text-[var(--color-azul-rgb)]">
               {asideTitle}
             </h2>
             <p className="mt-4 text-[15px] leading-[1.8] text-[var(--color-azul-rgb)]/52">
