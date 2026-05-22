@@ -21,6 +21,7 @@ const outputRoot = path.join(projectRoot, "public", "chatbot", "imagenes")
 const dataJsonPaths = [
   path.join(projectRoot, "src", "data", "conserje.json"),
   path.join(projectRoot, "src", "data", "humano.json"),
+  path.join(projectRoot, "src", "data", "humano-en.json"),
 ]
 
 const maxEdge = 2000

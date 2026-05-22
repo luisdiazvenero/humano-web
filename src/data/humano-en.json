@@ -39,8 +39,8 @@
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/superior_king/superior_king_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/superior_king/superior_king_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_SUPERIOR_DOUBLE",
@@ -82,8 +82,8 @@
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/superior_doble/superior_doble_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/superior_doble/superior_doble_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_DELUXE_KING",
@@ -123,8 +123,8 @@
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_ACCESIBLE_ROOM",
@@ -164,8 +164,8 @@
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/accesible_room/accesible_room_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/accesible_room/accesible_room_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_ROOM",
@@ -205,8 +205,8 @@
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/family_room/family_room_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/family_room/family_room_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_DELUXE",
@@ -288,8 +288,8 @@
       "horario_cierre": null,
       "link_ubicacion_mapa": "",
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/junior_suite/junior_suite_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/junior_suite/junior_suite_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_SIGNATURE_SUITE",
@@ -352,7 +352,9 @@
       "restricciones_requisitos": [],
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
-      "imagenes_url": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/concierge/concierge_1.webp"
+      ],
       "frases_sugeridas": [
         "Useful if it's your first time",
         "They'll help you find your way"
@@ -366,7 +368,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_MASCOTAS",
@@ -515,7 +519,9 @@
       "restricciones_requisitos": [],
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
-      "imagenes_url": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/wifi/wifi_1.webp"
+      ],
       "frases_sugeridas": [
         "Part of every stay",
         "Works well for work and leisure"
@@ -529,7 +535,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_LAVANDERIA",
@@ -636,7 +644,9 @@
       "restricciones_requisitos": [],
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
-      "imagenes_url": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/serv/limpieza/limpieza_1.webp"
+      ],
       "frases_sugeridas": [
         "Included during your stay",
         "Keeps everything tidy"
@@ -650,7 +660,9 @@
       "check_out": "",
       "precio_desde": "",
       "link_ubicacion_mapa": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_LOBBY",

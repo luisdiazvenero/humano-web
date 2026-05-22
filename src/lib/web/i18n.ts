@@ -117,7 +117,7 @@ export const WEB_I18N: Record<WebLang, {
     hotelH2: "El Hotel.",
     hotelIntro:
       "Espacios pensados para acompañar cada momento de tu estadía: coworking equipado, restaurante de autor y piscina para desconectar en el corazón de Miraflores.",
-    comingSoon: "Próximamente",
+    comingSoon: "Marcha Blanca",
     footerCopyright:
       "2026 Hotel Humano · Malecón Balta 710, Miraflores. Desarrollado por Armando Hoteles",
     footerComplaints: "Libro de Reclamaciones",
@@ -204,7 +204,7 @@ export const WEB_I18N: Record<WebLang, {
     hotelH2: "The Hotel.",
     hotelIntro:
       "Spaces designed to accompany every moment of your stay: equipped coworking, a signature restaurant, and a pool to unwind in the heart of Miraflores.",
-    comingSoon: "Coming soon",
+    comingSoon: "Soft Opening",
     footerCopyright:
       "2026 Hotel Humano · Malecón Balta 710, Miraflores. Developed by Armando Hoteles",
     footerComplaints: "Complaints Book",

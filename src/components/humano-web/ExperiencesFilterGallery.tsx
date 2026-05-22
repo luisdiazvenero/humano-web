@@ -57,7 +57,7 @@ export function ExperiencesFilterGallery({ facilities, lang = "es" }: { faciliti
   const asideText = isEn
     ? "At Humano we believe hospitality goes beyond service. It's about creating spaces where people can reconnect with themselves and with others, in the heart of Miraflores."
     : "En Humano creemos que la hospitalidad va más allá del servicio. Es crear espacios donde las personas puedan reconectar consigo mismas y con los demás, en el corazón de Miraflores."
-  const comingSoon = isEn ? "Coming soon" : "Próximamente"
+  const comingSoon = isEn ? "Soft Opening" : "Marcha Blanca"
   const viewDetail = isEn ? "View detail of" : "Ver detalle de"
   const hotelHref = isEn ? "/en/hotel" : "/hotel"
   return (
@@ -101,7 +101,7 @@ export function ExperiencesFilterGallery({ facilities, lang = "es" }: { faciliti
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
                   {facility.id === "INST_RESTAURANTE_ENT" ? (
-                    <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-[var(--color-amarillo)] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
+                    <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-white px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
                       {comingSoon}
                     </span>
                   ) : (

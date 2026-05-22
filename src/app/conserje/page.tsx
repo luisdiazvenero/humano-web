@@ -46,6 +46,9 @@ import {
   CloudSnow,
   CloudLightning,
   MapPin,
+  Trophy,
+  Zap,
+  Footprints,
   ChevronRight,
   type LucideIcon,
 } from "lucide-react"
@@ -85,6 +88,24 @@ const figtree = Figtree({
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-figtree",
 })
+
+const SportShoe = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="m15 10.42 4.8-5.07" />
+    <path d="M19 18h3" />
+    <path d="M9.5 22 21.414 9.415A2 2 0 0 0 21.2 6.4l-5.61-4.208A1 1 0 0 0 14 3v2a2 2 0 0 1-1.394 1.906L8.677 8.053A1 1 0 0 0 8 9c-.155 6.393-2.082 9-4 9a2 2 0 0 0 0 4h14" />
+  </svg>
+)
 
 const CONSERJE_DATA: Record<Lang, ConserjeData> = {
   es: conserjeDataRaw as ConserjeData,
@@ -278,6 +299,7 @@ const freeTextPrompts = [
 type IntentOption = { label: string; description: string; icon: ReactNode }
 type GroupOption = { label: string; icon: ReactNode }
 type MenuOption = { id: string; label: string }
+type RunRoute = { label: string; description: string; url: string }
 
 type AgentTextMessage = {
   id: string
@@ -304,6 +326,7 @@ type AgentMessage =
   | { id: string; sender: "agent"; type: "items"; content: ConserjeItem[] }
   | { id: string; sender: "agent"; type: "freetext"; content: string }
   | { id: string; sender: "agent"; type: "link"; content: { url: string } }
+  | { id: string; sender: "agent"; type: "runRoutes"; content: RunRoute[] }
 
 type ChatMessage = AgentMessage | UserTextMessage
 
@@ -380,6 +403,10 @@ const normalizeForCompare = (value: string) =>
     .replace(/[^\w\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim()
+
+const RUNNING_QUERY_REGEX = /\b(running|correr|corro|trotar|trote|jogging|jog)\b/i
+
+const isRunningQuery = (text: string) => RUNNING_QUERY_REGEX.test(normalizeForCompare(text))
 
 const overlapRatio = (a: string, b: string) => {
   const tokensA = normalizeForCompare(a).split(" ").filter((t) => t.length >= 4)
@@ -572,6 +599,7 @@ function HumanoPageContent() {
     | { type: "items"; content: ConserjeItem[] }
     | { type: "freetext"; content: string }
     | { type: "link"; content: { url: string } }
+    | { type: "runRoutes"; content: RunRoute[] }
 
   const enqueueAgentSequence = (sequence: AgentSequenceItem[]) => {
     queueRef.current = queueRef.current.then(async () => {
@@ -822,6 +850,11 @@ function HumanoPageContent() {
       return
     }
 
+    if (itemId === "REC_RUNNING_MALECON") {
+      triggerRunningDispatcher()
+      return
+    }
+
     setContextTopic(targetItem.tipo)
     setActiveItemId(targetItem.id)
     setActiveItemLabel(targetItem.nombre_publico)
@@ -904,6 +937,7 @@ function HumanoPageContent() {
   const getServiceMenuIcon = (label: string) => {
     const lower = label.toLowerCase()
     const normalized = normalizeIconLabel(label)
+    if (normalized.includes("caminata") || normalized.includes("stroll")) return <Footprints className="h-5 w-5" />
     if (normalized.includes("transfer")) return <CarTaxiFront className="h-5 w-5" />
     if (normalized.includes("pet") || normalized.includes("mascota")) return <Dog className="h-5 w-5" />
     if (normalized.includes("roomservice")) return <ConciergeBell className="h-5 w-5" />
@@ -1210,6 +1244,24 @@ function HumanoPageContent() {
     requestFollowUp(field, nextState)
   }
 
+  const triggerRunningDispatcher = (originUserMessage?: string) => {
+    const runningItem = conserjeData.items.find((i) => i.id === "REC_RUNNING_MALECON")
+    setContextTopic("Recomendaciones_Locales")
+    setActiveItemId("REC_RUNNING_MALECON")
+    setActiveItemLabel(runningItem?.nombre_publico ?? "Running por el malecón")
+    enqueueAgentSequence([
+      { type: "text", content: t.runningDispatcherReply },
+      { type: "runRoutes", content: t.runningRoutes },
+    ])
+    if (originUserMessage) {
+      setChatHistory((prev) => [
+        ...prev,
+        { role: "user", content: originUserMessage },
+        { role: "assistant", content: t.runningDispatcherReply },
+      ])
+    }
+  }
+
   const handleSendMessage = () => {
     const messageText = userInput || transcript
     if (!messageText.trim() || isAIResponding) return
@@ -1239,6 +1291,11 @@ function HumanoPageContent() {
       lower.includes("mapa")
     ) {
       handleCtaAction(messageText)
+      return
+    }
+    if (isRunningQuery(messageText)) {
+      trackEvent("conserje_running_dispatch", { source: "user_text", query: messageText })
+      triggerRunningDispatcher(messageText)
       return
     }
     sendMessageToConserje(messageText)
@@ -1284,6 +1341,11 @@ function HumanoPageContent() {
       lower.includes("mapa")
     ) {
       handleCtaAction(suggestion)
+      return
+    }
+    if (isRunningQuery(suggestion)) {
+      trackEvent("conserje_running_dispatch", { source: "suggestion", query: suggestion })
+      triggerRunningDispatcher(suggestion)
       return
     }
     const intentMap: Record<string, string> = lang === "en"
@@ -1379,7 +1441,12 @@ function HumanoPageContent() {
         <div className="max-w-4xl mx-auto px-6 py-2.5">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-5">
-              <div className="shrink-0 text-[var(--color-azul-rgb)]">
+              <button
+                type="button"
+                onClick={() => router.push("/")}
+                aria-label="Ir al website"
+                className="shrink-0 text-[var(--color-azul-rgb)] cursor-pointer transition-opacity hover:opacity-80"
+              >
                 <Image
                   src="/logo-humano.svg"
                   alt="Humano Hotel"
@@ -1388,7 +1455,7 @@ function HumanoPageContent() {
                   className="h-7 w-auto sm:h-8"
                   priority
                 />
-              </div>
+              </button>
               <div
                 role="group"
                 aria-label="Language"
@@ -1598,6 +1665,53 @@ function HumanoPageContent() {
                 <p className="text-sm text-muted-foreground/70 text-center">
                   {msg.content}
                 </p>
+              </div>
+            )}
+
+            {msg.type === "runRoutes" && (
+              <div className="flex gap-4 items-start">
+                <div className="w-10 shrink-0" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 flex-1">
+                  {msg.content.map((route: RunRoute, idx: number) => {
+                    const lower = route.label.toLowerCase()
+                    const isShortRoute = lower.includes("5k") && !lower.includes("15k") && !lower.includes("25k")
+                    const isLongRoute = lower.includes("21k")
+                    return (
+                    <a
+                      key={idx}
+                      href={route.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        trackEvent("conserje_run_route_click", {
+                          route_label: route.label,
+                          route_url: route.url,
+                        })
+                      }
+                      className="group relative bg-white dark:bg-card border border-border/30 hover:border-border/50 hover:shadow-md hover:-translate-y-0.5 hover:ring-1 hover:ring-border/40 rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer shadow-sm"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 p-2.5 rounded-full bg-[var(--color-amarillo)] text-[var(--color-azul-rgb)]">
+                          {isShortRoute ? (
+                            <Zap className="h-5 w-5" />
+                          ) : isLongRoute ? (
+                            <Trophy className="h-5 w-5" />
+                          ) : (
+                            <SportShoe className="h-5 w-5" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <p className="text-base font-semibold text-foreground">{route.label}</p>
+                          <p className="text-sm text-muted-foreground mt-1 leading-snug">
+                            {route.description}
+                          </p>
+                        </div>
+                        <ArrowRightIcon className="h-5 w-5 text-muted-foreground/30 group-hover:text-muted-foreground/50 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                      </div>
+                    </a>
+                    )
+                  })}
+                </div>
               </div>
             )}
 

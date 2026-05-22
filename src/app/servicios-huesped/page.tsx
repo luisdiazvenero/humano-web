@@ -93,8 +93,8 @@ export default function ServiciosHuesped() {
           font-weight: 600;
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: #7a5500;
-          background: rgba(255,200,93,0.25);
+          color: var(--ink);
+          background: #ffffff;
           border-radius: 4px;
           padding: 0.2em 0.55em;
           white-space: nowrap;
@@ -266,7 +266,7 @@ export default function ServiciosHuesped() {
           <div className="sh-service">
             <div className="sh-service-head">
               <h2 className="sh-service-name">Entrañable</h2>
-              <span className="sh-service-badge">Abrirá en Mayo</span>
+              <span className="sh-service-badge">Marcha Blanca</span>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 18</span>

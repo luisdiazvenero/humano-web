@@ -42,8 +42,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/superior_king/superior_king_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/superior_king/superior_king_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_SUPERIOR_DOUBLE",
@@ -87,8 +87,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/superior_doble/superior_doble_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/superior_doble/superior_doble_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_DELUXE_KING",
@@ -131,8 +131,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/deluxe_king/deluxe_king_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_ACCESIBLE_ROOM",
@@ -172,8 +172,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/accesible_room/accesible_room_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/accesible_room/accesible_room_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_ROOM",
@@ -216,8 +216,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/family_room/family_room_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/family_room/family_room_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_FAMILY_DELUXE",
@@ -305,8 +305,8 @@
       "horario_apertura": null,
       "horario_cierre": null,
       "tipo": "Habitaciones",
-      "video_horizontal": "/chatbot/imagenes/hab/junior_suite/junior_suite_horizontal.mp4",
-      "video_vertical": "/chatbot/imagenes/hab/junior_suite/junior_suite_vertical.mp4"
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "HAB_SIGNATURE_SUITE",
@@ -591,7 +591,7 @@
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_WIFI"
+        "/chatbot/imagenes/serv/wifi/wifi_1.webp"
       ],
       "frases_sugeridas": [
         "Es parte de la estadía",
@@ -607,7 +607,9 @@
       "check_out": "",
       "check_in": "",
       "precio_desde": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_LIMPIEZA",
@@ -630,7 +632,7 @@
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_LIMPIEZA"
+        "/chatbot/imagenes/serv/limpieza/limpieza_1.webp"
       ],
       "frases_sugeridas": [
         "Incluido durante la estadía",
@@ -646,7 +648,9 @@
       "check_out": "",
       "check_in": "",
       "precio_desde": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "SERV_CONCIERGE",
@@ -669,7 +673,7 @@
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
-        "LINK_IMAGENES_CONCIERGE"
+        "/chatbot/imagenes/serv/concierge/concierge_1.webp"
       ],
       "frases_sugeridas": [
         "Útil si es tu primera vez",
@@ -685,7 +689,9 @@
       "check_out": "",
       "check_in": "",
       "precio_desde": "",
-      "tipo": "Servicios"
+      "tipo": "Servicios",
+      "video_horizontal": null,
+      "video_vertical": null
     },
     {
       "id": "INST_LOBBY",

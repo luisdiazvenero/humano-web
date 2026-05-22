@@ -25,6 +25,9 @@ export const I18N: Record<Lang, {
   caminataDispatcherReply: string
   caminataMirafloresLabel: string
   caminataBarrancoLabel: string
+  // Running dispatcher
+  runningDispatcherReply: string
+  runningRoutes: Array<{ label: string; description: string; url: string }>
   // Profile / group flow
   groupSuggestions: Array<{ label: string; key: string }>
   intentToProfilePrompt: { trabajo: string[]; descanso: string[]; aventura: string[] }
@@ -73,6 +76,24 @@ export const I18N: Record<Lang, {
     caminataDispatcherReply: "Tenemos dos rutas curadas por nuestros vecinos. ¿Por dónde te gustaría empezar?",
     caminataMirafloresLabel: "Caminata por Miraflores",
     caminataBarrancoLabel: "Caminata por Barranco",
+    runningDispatcherReply: "Ruta plana a lo largo del malecón, muy usada para running. Según tu ritmo, elige una:",
+    runningRoutes: [
+      {
+        label: "Ruta 5k",
+        description: "Malecón de Miraflores, a pasos del hotel. Ideal para empezar el día.",
+        url: "https://maps.app.goo.gl/fhR19kbvtHCbM7Hs9",
+      },
+      {
+        label: "Ruta 10k",
+        description: "Malecones de Miraflores y San Isidro, con vista al mar todo el recorrido.",
+        url: "https://maps.app.goo.gl/NgPJj6Th8kd64Y2n8",
+      },
+      {
+        label: "Ruta 21k",
+        description: "Miraflores, San Isidro y Barranco. Para runners con ritmo y media maratón.",
+        url: "https://maps.app.goo.gl/eED4mGia5fud6NYn6",
+      },
+    ],
     groupSuggestions: [
       { label: "Solo", key: "solo" },
       { label: "En pareja", key: "en pareja" },
@@ -144,6 +165,24 @@ export const I18N: Record<Lang, {
     caminataDispatcherReply: "We have two routes handpicked by our neighbors. Where would you like to start?",
     caminataMirafloresLabel: "Stroll through Miraflores",
     caminataBarrancoLabel: "Stroll through Barranco",
+    runningDispatcherReply: "Flat route along the malecón, popular for running. Pick one to match your pace:",
+    runningRoutes: [
+      {
+        label: "5k Route",
+        description: "Miraflores malecón, steps from the hotel. A great way to start the day.",
+        url: "https://maps.app.goo.gl/fhR19kbvtHCbM7Hs9",
+      },
+      {
+        label: "10k Route",
+        description: "Miraflores and San Isidro malecones, with ocean views the whole way.",
+        url: "https://maps.app.goo.gl/NgPJj6Th8kd64Y2n8",
+      },
+      {
+        label: "21k Route",
+        description: "Miraflores, San Isidro and Barranco. For runners in shape and half-marathon training.",
+        url: "https://maps.app.goo.gl/eED4mGia5fud6NYn6",
+      },
+    ],
     groupSuggestions: [
       { label: "Solo", key: "solo" },
       { label: "Couple", key: "en pareja" },

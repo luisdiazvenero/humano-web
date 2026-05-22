@@ -209,7 +209,7 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
                       ) : null}
 
                       {facility.id === "INST_RESTAURANTE_ENT" ? (
-                        <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-[var(--color-amarillo)] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
+                        <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-white px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
                           {t.comingSoon}
                         </span>
                       ) : (

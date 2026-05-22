@@ -230,7 +230,7 @@ export function FacilityDetailPageContent({
                       )
                     })}
                     {facilityData.id === "INST_RESTAURANTE_ENT" ? (
-                      <span className="inline-flex items-center rounded-full bg-[var(--color-amarillo)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-azul-rgb)]">
+                      <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-azul-rgb)]">
                         {t.comingSoon}
                       </span>
                     ) : null}

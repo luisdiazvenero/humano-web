@@ -93,6 +93,40 @@ const ensureSentence = (value: string) => {
   return `${normalized}.`
 }
 
+type FactualBlock =
+  | { type: "header"; text: string }
+  | { type: "paragraph"; text: string }
+  | { type: "list"; items: string[] }
+
+const parseFactualDescription = (value: string): FactualBlock[] => {
+  if (!value) return []
+  const lines = value.split(/\r?\n+/).map((l) => l.trim()).filter(Boolean)
+  if (lines.length === 0) return []
+
+  const blocks: FactualBlock[] = []
+  let currentList: string[] | null = null
+
+  for (const line of lines) {
+    const numberedMatch = line.match(/^\d+\.\s*(.+)$/)
+    if (numberedMatch) {
+      if (!currentList) {
+        currentList = []
+        blocks.push({ type: "list", items: currentList })
+      }
+      currentList.push(numberedMatch[1])
+      continue
+    }
+    currentList = null
+    if (/:$/.test(line)) {
+      blocks.push({ type: "header", text: line })
+    } else {
+      blocks.push({ type: "paragraph", text: line })
+    }
+  }
+
+  return blocks
+}
+
 const TAG_I18N: Record<CardLang, Record<string, string>> = {
   es: {
     con_costo: "Con costo",
@@ -267,7 +301,8 @@ export function ConserjeItemCard({ item, onAction, lang = "es" }: ConserjeItemCa
   const cardT = CARD_I18N[lang]
   const isRoom = item.tipo === "Habitaciones"
   const imageUrl = resolveImage(item)
-  const factual = ensureSentence(item.desc_factual || "")
+  const factualBlocks = parseFactualDescription(item.desc_factual || "")
+  const hasFactual = factualBlocks.length > 0
   const experiential = ensureSentence(item.desc_experiencial || "")
   const hasMapLink = item.tipo === "Recomendaciones_Locales" && normalizeText(item.link_ubicacion_mapa || "") !== ""
   const hasReservationLink = item.tipo === "Habitaciones" && normalizeText(item.redirigir || "") !== ""
@@ -369,7 +404,29 @@ export function ConserjeItemCard({ item, onAction, lang = "es" }: ConserjeItemCa
 
           <h3 className="text-[30px] font-semibold leading-[1.1] text-foreground">{item.nombre_publico}</h3>
 
-          {factual && <p className="text-[16px] leading-[1.58] text-foreground/90">{factual}</p>}
+          {hasFactual && (
+            <div className="space-y-2 text-[16px] leading-[1.58] text-foreground/90">
+              {factualBlocks.map((block, idx) => {
+                if (block.type === "header") {
+                  return (
+                    <p key={idx} className="font-semibold text-foreground">
+                      {block.text}
+                    </p>
+                  )
+                }
+                if (block.type === "list") {
+                  return (
+                    <ol key={idx} className="list-decimal pl-5 space-y-1">
+                      {block.items.map((listItem, i) => (
+                        <li key={i}>{listItem}</li>
+                      ))}
+                    </ol>
+                  )
+                }
+                return <p key={idx}>{block.text}</p>
+              })}
+            </div>
+          )}
           {experiential && (
             <p className="conserje-item-experiential flex items-start gap-2 text-[16px] leading-relaxed">
               <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
