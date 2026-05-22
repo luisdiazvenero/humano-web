@@ -63,8 +63,8 @@ export function ServicesFilterGallery({ services, lang = "es" }: { services: Hum
   const isEn = lang === "en"
   const asideTitle = isEn ? "Conscious hospitality in Lima." : "Hospitalidad consciente en Lima."
   const asideText = isEn
-    ? "At Humano we believe hospitality goes beyond service. It's about creating spaces where people can reconnect with themselves and with others, in the heart of Miraflores."
-    : "En Humano creemos que la hospitalidad va más allá del servicio. Es crear espacios donde las personas puedan reconectar consigo mismas y con los demás, en el corazón de Miraflores."
+    ? "At Humano, hospitality goes beyond service. We create spaces where people can reconnect with themselves and with others, in the heart of Miraflores."
+    : "En Humano, la hospitalidad va más allá del servicio. Creamos espacios donde las personas pueden reconectar consigo mismas y con los demás, en el corazón de Miraflores."
   const viewDetail = isEn ? "View detail of" : "Ver detalle de"
   const servicesHref = isEn ? "/en/services" : "/servicios"
   return (

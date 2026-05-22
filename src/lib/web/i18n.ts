@@ -100,7 +100,7 @@ export const WEB_I18N: Record<WebLang, {
     eyebrowExperience: "Experiencia Humano",
     homeH1: "Hospitalidad consciente en Lima.",
     homeIntro:
-      "En Humano, cada experiencia sigue tu ritmo. Puedes compartir, desconectar o simplemente hacer una pausa. Los espacios están ahí para eso: para que los vivas como quieras.",
+      "En Humano, la hospitalidad va más allá del servicio. Creamos espacios donde las personas pueden reconectar consigo mismas y con los demás, en el corazón de Miraflores.",
     iconsAriaPrefix: "Abrir",
     iconLabels: {
       larcomar: "Larcomar",
@@ -112,11 +112,11 @@ export const WEB_I18N: Record<WebLang, {
       "En el corazón de Miraflores, a pasos del malecón y las mejores vistas del Pacífico. Un punto estratégico donde convergen cultura, gastronomía y vida urbana.",
     roomsH2: "Nuestras habitaciones.",
     roomsIntro:
-      "Cada habitación está diseñada para diferentes necesidades. Desde el viajero solo hasta familias completas, encuentra el espacio perfecto para tu estadía.",
+      "Cada habitación está pensada para distintas formas de viajar. Desde quienes llegan solos hasta familias completas, aquí encuentras el espacio ideal para tu estadía.",
     seeAll: "Ver todas",
     hotelH2: "El Hotel.",
     hotelIntro:
-      "Espacios pensados para acompañar cada momento de tu estadía: coworking equipado, restaurante de autor y piscina para desconectar en el corazón de Miraflores.",
+      "Espacios diseñados para acompañar cada momento de tu visita: un coworking equipado, un restaurante de autor y una piscina para desconectarte en pleno Miraflores.",
     comingSoon: "Marcha Blanca",
     footerCopyright:
       "2026 Hotel Humano · Malecón Balta 710, Miraflores. Desarrollado por Armando Hoteles",
@@ -132,21 +132,21 @@ export const WEB_I18N: Record<WebLang, {
     intentsList: "Trabajo, Descanso, Aventura",
     roomsPageTitle: "Habitaciones",
     roomsPageSubtitle:
-      "Tu espacio, desde que llegas. Cómodas, acogedoras y con un toque que las hace sentir tuyas desde el primer instante.",
+      "Cada habitación está pensada para distintas formas de viajar. Desde quienes llegan solos hasta familias completas, aquí encuentras el espacio ideal para tu estadía.",
     roomsExploreCta: "Explorar habitaciones",
     roomsMetaTitle: "Habitaciones en Miraflores Lima | Hotel Humano",
     roomsMetaDescription:
       "Habitaciones en Hotel Humano, Miraflores. Espacios cálidos, diseño curado y confort pensado para conectar contigo y con la ciudad.",
     hotelPageTitle: "El Hotel",
     hotelPageSubtitle:
-      "Espacios pensados para acompañar cada momento de tu estadía: coworking equipado, restaurante de autor y piscina para desconectar en el corazón de Miraflores.",
+      "Espacios diseñados para acompañar cada momento de tu visita: un coworking equipado, un restaurante de autor y una piscina para desconectarte en pleno Miraflores.",
     hotelExploreCta: "Explorar instalaciones",
     hotelMetaTitle: "Hotel en Miraflores | Instalaciones Hotel Humano",
     hotelMetaDescription:
       "Conoce las instalaciones del Hotel Humano en Miraflores: coworking, restaurante, piscina y más espacios diseñados para tu estadía.",
     servicesPageTitle: "Servicios",
     servicesPageSubtitle:
-      "Servicios pensados para que tu estadía sea cómoda y sin complicaciones. Desde transfer hasta lavandería, todo al alcance de una conversación.",
+      "En Humano, cada detalle está pensado para hacer tu estadía más simple, cómoda y auténtica. Porque para nosotros, la hospitalidad se siente, no solo se ofrece.",
     servicesExploreCta: "Explorar servicios",
     servicesMetaTitle: "Servicios en Hotel Humano Miraflores",
     servicesMetaDescription:
@@ -187,7 +187,7 @@ export const WEB_I18N: Record<WebLang, {
     eyebrowExperience: "Humano Experience",
     homeH1: "Conscious hospitality in Lima.",
     homeIntro:
-      "At Humano, every experience follows your rhythm. You can share, disconnect, or simply pause. The spaces are there for that: so you can live them your way.",
+      "At Humano, hospitality goes beyond service. We create spaces where people can reconnect with themselves and with others, in the heart of Miraflores.",
     iconsAriaPrefix: "Open",
     iconLabels: {
       larcomar: "Larcomar",
@@ -199,11 +199,11 @@ export const WEB_I18N: Record<WebLang, {
       "In the heart of Miraflores, steps from the boardwalk and the best views of the Pacific. A strategic spot where culture, gastronomy, and urban life come together.",
     roomsH2: "Our rooms.",
     roomsIntro:
-      "Each room is designed for different needs. From solo travelers to full families, find the perfect space for your stay.",
+      "Our rooms are designed to adapt to how you travel. From solo travelers to full families, you'll find the ideal space for your stay here.",
     seeAll: "See all",
     hotelH2: "The Hotel.",
     hotelIntro:
-      "Spaces designed to accompany every moment of your stay: equipped coworking, a signature restaurant, and a pool to unwind in the heart of Miraflores.",
+      "Spaces designed to accompany every moment of your visit: a fully equipped coworking area, a signature restaurant, and a pool to rest in the heart of Miraflores.",
     comingSoon: "Soft Opening",
     footerCopyright:
       "2026 Hotel Humano · Malecón Balta 710, Miraflores. Developed by Armando Hoteles",
@@ -219,21 +219,21 @@ export const WEB_I18N: Record<WebLang, {
     intentsList: "Work, Rest, Adventure",
     roomsPageTitle: "Rooms",
     roomsPageSubtitle:
-      "Your space, from the moment you arrive. Cozy, welcoming, and with a touch that makes them feel yours from the very first instant.",
+      "Our rooms are designed to adapt to how you travel. From solo travelers to full families, you'll find the ideal space for your stay here.",
     roomsExploreCta: "Explore rooms",
     roomsMetaTitle: "Rooms in Miraflores Lima | Hotel Humano",
     roomsMetaDescription:
       "Rooms at Hotel Humano, Miraflores. Warm spaces, curated design, and comfort designed to connect you with yourself and the city.",
     hotelPageTitle: "The Hotel",
     hotelPageSubtitle:
-      "Spaces designed to accompany every moment of your stay: equipped coworking, signature restaurant, and a pool to unwind in the heart of Miraflores.",
+      "Spaces designed to accompany every moment of your visit: a fully equipped coworking area, a signature restaurant, and a pool to rest in the heart of Miraflores.",
     hotelExploreCta: "Explore facilities",
     hotelMetaTitle: "Hotel in Miraflores | Hotel Humano Facilities",
     hotelMetaDescription:
       "Discover Hotel Humano's facilities in Miraflores: coworking, restaurant, pool, and more spaces designed for your stay.",
     servicesPageTitle: "Services",
     servicesPageSubtitle:
-      "Services designed to make your stay comfortable and hassle-free. From transfer to laundry, everything is just a conversation away.",
+      "At Humano, every detail is designed to make your stay more effortless, more comfortable, and more authentic. Because we believe true hospitality is felt in every detail, not just offered.",
     servicesExploreCta: "Explore services",
     servicesMetaTitle: "Services at Hotel Humano Miraflores",
     servicesMetaDescription:
