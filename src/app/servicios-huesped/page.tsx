@@ -266,8 +266,8 @@ export default function ServiciosHuesped() {
               <span className="sh-service-meta-item">Habitación</span>
               <span className="sh-service-meta-item">24 hrs</span>
             </div>
-            <p className="sh-service-desc">Pedidos directamente a tu habitación, disponible las 24 hrs.</p>
-            <p className="sh-service-desc--en">Orders straight to your room, available 24 hours.</p>
+            <p className="sh-service-desc">Servicio a la habitación, disponible las 24 horas. Haz tu pedido marcando 0 desde tu habitación y nosotros nos encargamos del resto.<br /><em>*¿Necesitas hielo? Solicita una cubeta sin costo adicional.</em></p>
+            <p className="sh-service-desc--en">Room Service, available 24 hours. To place your order, dial 0 from your room and we&apos;ll take care of the rest.<br /><em>*Need ice? Request an ice bucket at no additional charge.</em></p>
             <div className="sh-service-actions">
               <a className="sh-btn-carta" href="/pdfs/carta-room-service-es.pdf" target="_blank" rel="noopener noreferrer">
                 <PdfIcon />
@@ -354,7 +354,7 @@ export default function ServiciosHuesped() {
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Piso 17</span>
-              <span className="sh-service-meta-item">08:00 – 20:00 hrs</span>
+              <span className="sh-service-meta-item">09:00 – 20:00 hrs</span>
             </div>
             <p className="sh-service-desc">Nuestra piscina, un oasis urbano ideal para relajarte y desconectar.</p>
             <p className="sh-service-desc--en">Our pool, your urban escape to unwind and disconnect.</p>
