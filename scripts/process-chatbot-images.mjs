@@ -28,7 +28,7 @@ const maxEdge = 2000
 const webpQuality = 90
 const videoCrf = 23
 const videoPreset = "slow"
-const supportedImageExts = new Set([".jpg", ".jpeg", ".png", ".webp"])
+const supportedImageExts = new Set([".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff"])
 const supportedVideoExts = new Set([".mp4", ".mov", ".MP4", ".MOV"])
 
 const placeholderFolderMap = {

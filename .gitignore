@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Imágenes fuente / originales (pesadas, no se versionan; solo se commitea lo optimizado en public/)
+/IMAGENES
+/IMAGENES-JUN26
