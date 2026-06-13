@@ -119,14 +119,6 @@ export default function ServiciosHuesped() {
           padding: 0.2em 0.55em;
         }
 
-        .sh-service-meta-item--en {
-          font-weight: 500;
-          font-style: italic;
-          color: rgba(0,55,68,0.5);
-          background: transparent;
-          border: 1px solid rgba(0,55,68,0.18);
-        }
-
         .sh-service-schedule {
           margin: 0 0 1.5rem;
           padding: 0.75rem 0 0;
@@ -294,7 +286,7 @@ export default function ServiciosHuesped() {
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 1</span>
-              <span className="sh-service-meta-item sh-service-meta-item--en">Main Restaurant · 1st Floor</span>
+              <span className="sh-service-meta-item">Main Restaurant · 1st Floor</span>
               <span className="sh-service-meta-item">06:30 – 23:00 hrs</span>
             </div>
             <p className="sh-service-desc">Un espacio que celebra los sabores locales en un ambiente relajado y contemporáneo. Desayuno buffet disponible.</p>
@@ -318,7 +310,7 @@ export default function ServiciosHuesped() {
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 18</span>
-              <span className="sh-service-meta-item sh-service-meta-item--en">Restaurant · 18th Floor</span>
+              <span className="sh-service-meta-item">Restaurant · 18th Floor</span>
               <span className="sh-service-meta-item">Rooftop · Meat&amp;Drinks</span>
             </div>
             <ul className="sh-service-schedule">
@@ -364,7 +356,7 @@ export default function ServiciosHuesped() {
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Piso 17</span>
-              <span className="sh-service-meta-item sh-service-meta-item--en">17th Floor</span>
+              <span className="sh-service-meta-item">17th Floor</span>
               <span className="sh-service-meta-item">09:00 – 20:00 hrs</span>
             </div>
             <p className="sh-service-desc">Nuestra piscina, un oasis urbano ideal para relajarte y desconectar.</p>
