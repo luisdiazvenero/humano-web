@@ -283,7 +283,7 @@ export default function ServiciosHuesped() {
               </a>
               <a className="sh-btn-carta" href="/pdfs/carta-room-service-en.pdf" target="_blank" rel="noopener noreferrer">
                 <PdfIcon />
-                Ver carta ENG
+                Menu ENG
               </a>
             </div>
           </div>
@@ -336,7 +336,7 @@ export default function ServiciosHuesped() {
               </a>
               <a className="sh-btn-carta" href="/pdfs/carta-entranable-en.pdf" target="_blank" rel="noopener noreferrer">
                 <PdfIcon />
-                Ver carta ENG
+                Menu ENG
               </a>
             </div>
           </div>
