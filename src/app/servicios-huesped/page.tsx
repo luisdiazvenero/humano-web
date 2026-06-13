@@ -285,7 +285,7 @@ export default function ServiciosHuesped() {
               <h2 className="sh-service-name">Café de Lima</h2>
             </div>
             <div className="sh-service-meta">
-              <span className="sh-service-meta-item">Restaurante · Piso 1</span>
+              <span className="sh-service-meta-item">Restaurante · Piso 1 / Main Restaurant · 1st Floor</span>
               <span className="sh-service-meta-item">06:30 – 23:00 hrs</span>
             </div>
             <p className="sh-service-desc">Un espacio que celebra los sabores locales en un ambiente relajado y contemporáneo. Desayuno buffet disponible.</p>
@@ -297,7 +297,7 @@ export default function ServiciosHuesped() {
               </a>
               <a className="sh-btn-carta" href="/pdfs/carta-cafe-de-lima-en.pdf" target="_blank" rel="noopener noreferrer">
                 <PdfIcon />
-                Ver carta ENG
+                Menu ENG
               </a>
             </div>
           </div>
@@ -308,8 +308,8 @@ export default function ServiciosHuesped() {
               <span className="sh-service-badge">Apertura Junio 2026</span>
             </div>
             <div className="sh-service-meta">
-              <span className="sh-service-meta-item">Restaurante · Piso 18</span>
-              <span className="sh-service-meta-item">Rooftop · Parrillas</span>
+              <span className="sh-service-meta-item">Restaurante · Piso 18 / Restaurant · 18th Floor</span>
+              <span className="sh-service-meta-item">Rooftop · Meat&amp;Drinks</span>
             </div>
             <ul className="sh-service-schedule">
               <li><span className="sh-day">Lunes</span><span className="sh-hours">Cerrado</span></li>
@@ -318,7 +318,7 @@ export default function ServiciosHuesped() {
               <li><span className="sh-day">Domingo</span><span className="sh-hours">12:00 – 17:00 hrs</span></li>
             </ul>
             <p className="sh-service-desc">En lo alto del hotel, Entrañable invita a disfrutar carnes, bebidas y buenas conversaciones.</p>
-            <p className="sh-service-desc--en">On the 18th floor, Entrañable invites you to enjoy meat, drinks, and even better conversations.</p>
+            <p className="sh-service-desc--en">On the 18th floor, Entrañable invites you to enjoy our grill, drinks, and even better conversations.</p>
             <div className="sh-service-actions">
               <a className="sh-btn-carta" href="/pdfs/carta-entranable-es.pdf" target="_blank" rel="noopener noreferrer">
                 <PdfIcon />
@@ -350,10 +350,10 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Piscina</h2>
+              <h2 className="sh-service-name">Piscina / Pool</h2>
             </div>
             <div className="sh-service-meta">
-              <span className="sh-service-meta-item">Piso 17</span>
+              <span className="sh-service-meta-item">Piso 17 / 17th Floor</span>
               <span className="sh-service-meta-item">09:00 – 20:00 hrs</span>
             </div>
             <p className="sh-service-desc">Nuestra piscina, un oasis urbano ideal para relajarte y desconectar.</p>
@@ -362,14 +362,14 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Gimnasio</h2>
+              <h2 className="sh-service-name">Gimnasio / Gym</h2>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Piso 9</span>
               <span className="sh-service-meta-item">24 hrs</span>
             </div>
             <p className="sh-service-desc">Equipado para que mantengas tu rutina durante tu estadía.</p>
-            <p className="sh-service-desc--en">Everything you need to maintain your routine during your stay.</p>
+            <p className="sh-service-desc--en">Everything you need to stick to your routine during your stay.</p>
           </div>
 
         </main>
