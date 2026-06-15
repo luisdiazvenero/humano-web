@@ -146,6 +146,14 @@ function ServiceSuggestionCard({
   )
 }
 
+// Servicios cuya página de detalle no muestra el CTA de coordinación.
+const SERVICE_IDS_WITHOUT_CTA = new Set([
+  "SERV_WIFI",
+  "SERV_LAVANDERIA",
+  "SERV_LIMPIEZA",
+  "INST_DESAYUNO",
+])
+
 export function ServiceDetailPageContent({
   slug,
   lang = "es",
@@ -182,6 +190,7 @@ export function ServiceDetailPageContent({
   const ctaHref = serviceData.redirigir?.includes("@")
     ? `mailto:${serviceData.redirigir}?subject=${encodeURIComponent(mailSubject)}`
     : serviceData.redirigir || "/conserje"
+  const showServiceCta = !SERVICE_IDS_WITHOUT_CTA.has(serviceData.id)
 
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
@@ -248,17 +257,19 @@ export function ServiceDetailPageContent({
                     {serviceData.descripcionExperiencial}
                   </p>
 
-                  <div className="mt-7 flex flex-wrap items-center gap-4">
-                    <TrackLink
-                      href={ctaHref}
-                      eventName="web_service_cta_click"
-                      eventParams={{ service_slug: serviceData.slug, service_name: serviceData.nombre }}
-                      className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
-                    >
-                      {ctaLabel}
-                      <ArrowUpRight className="h-5 w-5" />
-                    </TrackLink>
-                  </div>
+                  {showServiceCta ? (
+                    <div className="mt-7 flex flex-wrap items-center gap-4">
+                      <TrackLink
+                        href={ctaHref}
+                        eventName="web_service_cta_click"
+                        eventParams={{ service_slug: serviceData.slug, service_name: serviceData.nombre }}
+                        className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
+                      >
+                        {ctaLabel}
+                        <ArrowUpRight className="h-5 w-5" />
+                      </TrackLink>
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="mt-8 max-w-[38ch] border-t border-white/12 pt-8 text-right lg:ml-auto lg:self-end">

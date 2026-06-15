@@ -586,7 +586,7 @@
       "id": "SERV_ESTACIONAMIENTO",
       "nombre_publico": "Estacionamiento",
       "categoria": "Servicio",
-      "desc_factual": "Contamos con 40 espacios disponibles, con una medida de 2.05 m, distribuidos en 3 sótanos. El estacionamiento es exclusivo para huéspedes y permite el ingreso de vehículos hasta el tamaño de una Van (no incluye Sprinter). No ofrecemos servicio de valet parking.",
+      "desc_factual": "Contamos con 40 espacios disponibles, con una medida de 2.05 m, distribuidos en 2 sótanos. El estacionamiento es exclusivo para huéspedes y permite el ingreso de vehículos hasta el tamaño de una Van (no incluye Sprinter). No ofrecemos servicio de valet parking.",
       "desc_experiencial": "Disfruta de la libertad de moverte a tu ritmo, con la comodidad de tener tu auto siempre a la mano.",
       "intenciones": [
         "Trabajo",
@@ -630,7 +630,7 @@
       "nombre_publico": "Limpieza de habitación",
       "categoria": "Servicio",
       "desc_factual": "Servicio regular de limpieza de habitaciones.",
-      "desc_experiencial": "Llegar a una habitación ordenada y cómoda.",
+      "desc_experiencial": "Servicio regular: limpiamos la habitación diariamente. Si quieres que sea de otra manera, avísalo en recepción.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -752,7 +752,7 @@
       "id": "INST_RESTAURANTE_ENT",
       "nombre_publico": "Restaurante Entrañable",
       "categoria": "Instalación",
-      "desc_factual": "Restaurante del hotel en el rooftop del 18, especializado en parrillas.",
+      "desc_factual": "Restaurante del hotel en el piso 18, especializado en parrillas.",
       "desc_experiencial": "Entrañable invita a disfrutar carnes, bebidas, buenas conversaciones y la mejor vista de Miraflores (piso 18). Un espacio abierto, cálido y con personalidad, perfecto para almuerzos relajados o cenas al aire libre mientras Lima se ilumina al caer la noche.",
       "intenciones": [
         "Trabajo",
@@ -921,7 +921,7 @@
       "nombre_publico": "Piscina",
       "categoria": "Instalación",
       "desc_factual": "Piscina del hotel para uso recreativo.",
-      "desc_experiencial": "Ubicada en el piso 17, nuestra piscina temperada es un oasis urbano. Ideal para relajarte después de un día intenso o simplemente desconectar, para bajar el ritmo y disfrutar el momento, sin salir del hotel.",
+      "desc_experiencial": "Ubicada en el piso 17, nuestra piscina es un oasis urbano. Ideal para relajarte después de un día intenso o simplemente desconectar, para bajar el ritmo y disfrutar el momento, sin salir del hotel.",
       "intenciones": [
         "Trabajo",
         "Descanso",

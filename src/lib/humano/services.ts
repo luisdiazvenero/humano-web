@@ -96,75 +96,113 @@ const serviceAudienceOverrides: Record<
   },
 }
 
-function extractServiceMeta(item: ConserjeItem): HumanoService["meta"] {
-  const factual = item.desc_factual
-  const name = item.nombre_publico
-
-  if (name === "Transfer aeropuerto") {
-    return [
-      { label: "Traslado privado", kind: "transport" },
-      { label: "Aeropuerto", kind: "feature" },
-      { label: "US$37", kind: "price" },
-    ]
-  }
-
-  if (name === "Dog friendly") {
-    return [
+const SERVICE_META: Record<string, Record<ServiceLang, HumanoService["meta"]>> = {
+  INST_DESAYUNO: {
+    es: [
+      { label: "Buffet", kind: "food" },
+      { label: "Piso 1", kind: "feature" },
+      { label: "06:30 – 10:30 hrs", kind: "feature" },
+    ],
+    en: [
+      { label: "Buffet", kind: "food" },
+      { label: "First floor", kind: "feature" },
+      { label: "6:30 – 10:30 AM", kind: "feature" },
+    ],
+  },
+  SERV_MASCOTAS: {
+    es: [
       { label: "Pet friendly", kind: "pet" },
       { label: "Hasta 15 kg", kind: "feature" },
       { label: "US$35++", kind: "price" },
-    ]
-  }
-
-  if (name === "Room service") {
-    return [
+    ],
+    en: [
+      { label: "Pet friendly", kind: "pet" },
+      { label: "Up to 15 kg", kind: "feature" },
+      { label: "US$35++", kind: "price" },
+    ],
+  },
+  SERV_ROOM_SERVICE: {
+    es: [
       { label: "A&B", kind: "food" },
       { label: "En habitación", kind: "feature" },
-    ]
-  }
-
-  if (name === "Lavandería") {
-    return [
+      { label: "Disponible 24 horas", kind: "feature" },
+    ],
+    en: [
+      { label: "F&B", kind: "food" },
+      { label: "In-room", kind: "feature" },
+      { label: "Available 24 hours", kind: "feature" },
+    ],
+  },
+  SERV_TRANSFER_AEROPUERTO: {
+    es: [
+      { label: "Traslado privado", kind: "transport" },
+      { label: "Aeropuerto", kind: "feature" },
+      { label: "US$37", kind: "price" },
+    ],
+    en: [
+      { label: "Private transfer", kind: "transport" },
+      { label: "Airport", kind: "feature" },
+      { label: "US$37", kind: "price" },
+    ],
+  },
+  SERV_WIFI: {
+    es: [
+      { label: "Todo el hotel", kind: "wifi" },
+      { label: "Conectividad", kind: "feature" },
+    ],
+    en: [
+      { label: "Whole hotel", kind: "wifi" },
+      { label: "Connectivity", kind: "feature" },
+    ],
+  },
+  SERV_LAVANDERIA: {
+    es: [
       { label: "Regular", kind: "laundry" },
       { label: "Express", kind: "laundry" },
       { label: "Con costo", kind: "price" },
-    ]
-  }
-
-  if (name === "Estacionamiento") {
-    return [
+    ],
+    en: [
+      { label: "Regular", kind: "laundry" },
+      { label: "Express", kind: "laundry" },
+      { label: "Paid", kind: "price" },
+    ],
+  },
+  SERV_ESTACIONAMIENTO: {
+    es: [
       { label: "40 espacios", kind: "parking" },
-      { label: "3 sótanos", kind: "feature" },
+      { label: "2 sótanos", kind: "feature" },
       { label: "Van", kind: "feature" },
-    ]
-  }
-
-  if (name === "Wi‑Fi") {
-    return [
-      { label: "Todo el hotel", kind: "wifi" },
-      { label: "Conectividad", kind: "feature" },
-    ]
-  }
-
-  if (name === "Limpieza de habitación") {
-    return [
+    ],
+    en: [
+      { label: "40 spaces", kind: "parking" },
+      { label: "2 basement levels", kind: "feature" },
+      { label: "Van", kind: "feature" },
+    ],
+  },
+  SERV_LIMPIEZA: {
+    es: [
       { label: "Servicio regular", kind: "cleaning" },
       { label: "En habitación", kind: "feature" },
-    ]
-  }
-
-  if (name === "Local Expert") {
-    return [
+    ],
+    en: [
+      { label: "Regular service", kind: "cleaning" },
+      { label: "In-room", kind: "feature" },
+    ],
+  },
+  SERV_CONCIERGE: {
+    es: [
       { label: "Recepción", kind: "concierge" },
       { label: "Orientación", kind: "feature" },
-    ]
-  }
+    ],
+    en: [
+      { label: "Front desk", kind: "concierge" },
+      { label: "Guidance", kind: "feature" },
+    ],
+  },
+}
 
-  const inferred: HumanoService["meta"] = []
-
-  if (/wifi/i.test(factual)) inferred.push({ label: "Wi-Fi", kind: "wifi" })
-
-  return inferred
+function extractServiceMeta(item: ConserjeItem, lang: ServiceLang): HumanoService["meta"] {
+  return SERVICE_META[item.id]?.[lang] ?? []
 }
 
 function toHumanoService(item: ConserjeItem, lang: ServiceLang): HumanoService {
@@ -181,7 +219,7 @@ function toHumanoService(item: ConserjeItem, lang: ServiceLang): HumanoService {
     descripcionCorta: shortenDescription(item.desc_experiencial || item.desc_factual),
     intenciones: override?.intenciones ?? item.intenciones,
     perfilIdeal: override?.perfiles ?? item.perfil_ideal,
-    meta: extractServiceMeta(item),
+    meta: extractServiceMeta(item, lang),
     imagen: imagenes[0] ?? null,
     imagenes,
     redirigir: item.redirigir,
@@ -191,9 +229,25 @@ function toHumanoService(item: ConserjeItem, lang: ServiceLang): HumanoService {
   }
 }
 
+// Desayuno se muestra como servicio en la web (sigue siendo Instalación para el conserje).
+const serviceOrder = [
+  "INST_DESAYUNO",
+  "SERV_MASCOTAS",
+  "SERV_ROOM_SERVICE",
+  "SERV_TRANSFER_AEROPUERTO",
+  "SERV_WIFI",
+  "SERV_LAVANDERIA",
+  "SERV_ESTACIONAMIENTO",
+  "SERV_LIMPIEZA",
+  "SERV_CONCIERGE",
+] as const
+
 export function getHumanoServices(lang: ServiceLang = "es"): HumanoService[] {
+  const orderMap = new Map<string, number>(serviceOrder.map((id, index) => [id, index]))
+
   return HUMANO_DATA[lang].items
-    .filter((item) => item.tipo === "Servicios")
+    .filter((item) => item.tipo === "Servicios" || item.id === "INST_DESAYUNO")
+    .sort((a, b) => (orderMap.get(a.id) ?? 999) - (orderMap.get(b.id) ?? 999))
     .map((item) => toHumanoService(item, lang))
 }
 

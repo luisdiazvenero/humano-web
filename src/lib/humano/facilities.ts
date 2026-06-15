@@ -15,6 +15,7 @@ const FACILITY_LABEL_I18N: Record<string, { es: string; en: string }> = {
   Desayuno: { es: "Desayuno", en: "Breakfast" },
   "En hotel": { es: "En hotel", en: "In hotel" },
   Rooftop: { es: "Rooftop", en: "Rooftop" },
+  "Piso 18": { es: "Piso 18", en: "18th floor" },
   Parrillas: { es: "Parrillas", en: "Grill" },
   "Primer piso": { es: "Primer piso", en: "First floor" },
   "Cocina peruana": { es: "Cocina peruana", en: "Peruvian cuisine" },
@@ -79,7 +80,6 @@ export type HumanoFacilityCard = {
 
 const installationOrder = [
   "INST_LOBBY",
-  "INST_DESAYUNO",
   "INST_RESTAURANTE_ENT",
   "INST_RESTAURANTE_CDL",
   "INST_COWORKING",
@@ -149,7 +149,7 @@ const facilityMetaConfig: Record<
         getScheduleLabel(item)
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
-        { label: "Rooftop", kind: "food" as const },
+        { label: "Piso 18", kind: "food" as const },
         { label: "Parrillas", kind: "food" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
@@ -190,7 +190,6 @@ const facilityMetaConfig: Record<
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
         { label: "Piso 17", kind: "wellness" as const },
-        { label: "Temperada", kind: "wellness" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
   INST_SALAS_REUNIONES: {

@@ -586,7 +586,7 @@
       "id": "SERV_ESTACIONAMIENTO",
       "nombre_publico": "Parking",
       "categoria": "Servicio",
-      "desc_factual": "We offer 40 parking spaces (2.05 m clearance), distributed across three basement levels. Parking is exclusively for guests and accommodates vehicles up to van size (Sprinter vans not permitted). Valet parking is not available.",
+      "desc_factual": "We offer 40 parking spaces (2.05 m clearance), distributed across two basement levels. Parking is exclusively for guests and accommodates vehicles up to van size (Sprinter vans not permitted). Valet parking is not available.",
       "desc_experiencial": "Enjoy the freedom to move at your own pace, with comfort and security.",
       "intenciones": [
         "Trabajo",
@@ -630,7 +630,7 @@
       "nombre_publico": "Housekeeping",
       "categoria": "Servicio",
       "desc_factual": "Daily housekeeping service.",
-      "desc_experiencial": "Arrive to a room that feels tidy, comfortable, and ready for you.",
+      "desc_experiencial": "Regular service: we clean your room daily. If you'd like it done differently, let us know at the front desk.",
       "intenciones": [
         "Trabajo",
         "Descanso",
@@ -921,7 +921,7 @@
       "nombre_publico": "Pool",
       "categoria": "Instalación",
       "desc_factual": "Our pool, designed for relaxation and enjoyment.",
-      "desc_experiencial": "Located on the 17th floor, our heated pool is an urban oasis. Perfect for unwinding after a busy day or simply slowing down and enjoying the moment—without leaving the hotel.",
+      "desc_experiencial": "Located on the 17th floor, our pool is an urban oasis. Perfect for unwinding after a busy day or simply slowing down and enjoying the moment—without leaving the hotel.",
       "intenciones": [
         "Trabajo",
         "Descanso",

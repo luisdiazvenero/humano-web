@@ -159,6 +159,55 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
   },
 }
 
+type MeetingConfig = {
+  capacityLabel: string
+  unit: string
+  capacities: Array<{ room: string; people: number }>
+  contactLabel: string
+  email: string
+  phone: string
+  cta: string
+  mailSubject: string
+}
+
+const MEETING_DETAILS: Record<WebLang, MeetingConfig> = {
+  es: {
+    capacityLabel: "Aforo máximo",
+    unit: "personas",
+    capacities: [
+      { room: "Salón Balta", people: 50 },
+      { room: "Directorio Paniagua", people: 12 },
+      { room: "Directorio Granada", people: 8 },
+    ],
+    contactLabel: "Eventos",
+    email: "eventos@humanohoteles.com",
+    phone: "+51 934 300 993",
+    cta: "Cotizar evento",
+    mailSubject: "Consulta de eventos",
+  },
+  en: {
+    capacityLabel: "Maximum capacity",
+    unit: "people",
+    capacities: [
+      { room: "Salón Balta", people: 50 },
+      { room: "Directorio Paniagua", people: 12 },
+      { room: "Directorio Granada", people: 8 },
+    ],
+    contactLabel: "Events",
+    email: "eventos@humanohoteles.com",
+    phone: "+51 934 300 993",
+    cta: "Request a quote",
+    mailSubject: "Events inquiry",
+  },
+}
+
+const FACILITY_MENU: Record<string, Record<WebLang, { label: string; pdf: string }>> = {
+  INST_COWORKING: {
+    es: { label: "Ver carta", pdf: "/pdfs/carta-coworking.pdf" },
+    en: { label: "View menu", pdf: "/pdfs/carta-coworking.pdf" },
+  },
+}
+
 function FacilitySuggestionCard({
   facility,
   lang,
@@ -276,6 +325,9 @@ export function FacilityDetailPageContent({
     .slice(0, 4)
 
   const restaurantConfig = RESTAURANT_DETAILS[facilityData.id]?.[lang] ?? null
+  const meetingConfig =
+    facilityData.id === "INST_SALAS_REUNIONES" ? MEETING_DETAILS[lang] : null
+  const menuConfig = FACILITY_MENU[facilityData.id]?.[lang] ?? null
 
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
@@ -336,11 +388,6 @@ export function FacilityDetailPageContent({
                         </span>
                       )
                     })}
-                    {facilityData.id === "INST_RESTAURANTE_ENT" ? (
-                      <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-azul-rgb)]">
-                        {t.comingSoon}
-                      </span>
-                    ) : null}
                   </div>
 
                   <p className="mt-5 max-w-[760px] text-[16px] leading-[1.65] text-white/84">
@@ -376,6 +423,24 @@ export function FacilityDetailPageContent({
                     </div>
                   ) : null}
 
+                  {meetingConfig ? (
+                    <div className="mt-6 max-w-[480px]">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/56">
+                        {meetingConfig.capacityLabel}
+                      </p>
+                      <ul className="mt-2 divide-y divide-white/10 text-[14px] leading-[1.5] text-white/82">
+                        {meetingConfig.capacities.map((entry) => (
+                          <li key={entry.room} className="flex items-center justify-between gap-4 py-2">
+                            <span className="font-medium text-white/88">{entry.room}</span>
+                            <span className="text-white/74">
+                              {entry.people} {meetingConfig.unit}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
                   <div className="mt-7 flex flex-wrap items-center gap-3">
                     {restaurantConfig ? (
                       <>
@@ -402,6 +467,28 @@ export function FacilityDetailPageContent({
                           {restaurantConfig.menuCta}
                         </TrackLink>
                       </>
+                    ) : meetingConfig ? (
+                      <TrackLink
+                        href={`mailto:${meetingConfig.email}?subject=${encodeURIComponent(meetingConfig.mailSubject)}`}
+                        eventName="web_facility_cta_click"
+                        eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
+                        className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
+                      >
+                        <Mail className="h-5 w-5" strokeWidth={1.8} />
+                        {meetingConfig.cta}
+                      </TrackLink>
+                    ) : menuConfig ? (
+                      <TrackLink
+                        href={menuConfig.pdf}
+                        eventName="web_facility_menu_click"
+                        eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
+                        className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FileText className="h-5 w-5" strokeWidth={1.8} />
+                        {menuConfig.label}
+                      </TrackLink>
                     ) : (
                       <TrackLink
                         href={`/conserje?item=${facilityData.id}`}
@@ -435,6 +522,28 @@ export function FacilityDetailPageContent({
                       >
                         <Mail className="h-4 w-4 text-white/56" strokeWidth={1.8} />
                         <span>{restaurantConfig.email}</span>
+                      </a>
+                    </div>
+                  </div>
+                ) : meetingConfig ? (
+                  <div className="mt-8 max-w-[420px] border-t border-white/12 pt-6">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/56">
+                      {meetingConfig.contactLabel}
+                    </p>
+                    <div className="mt-3 flex flex-col gap-2 text-[14px] leading-[1.5] text-white/82">
+                      <a
+                        href={`tel:${meetingConfig.phone.replace(/\s+/g, "")}`}
+                        className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
+                      >
+                        <Phone className="h-4 w-4 text-white/56" strokeWidth={1.8} />
+                        <span>{meetingConfig.phone}</span>
+                      </a>
+                      <a
+                        href={`mailto:${meetingConfig.email}`}
+                        className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
+                      >
+                        <Mail className="h-4 w-4 text-white/56" strokeWidth={1.8} />
+                        <span>{meetingConfig.email}</span>
                       </a>
                     </div>
                   </div>
