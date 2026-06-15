@@ -58,7 +58,6 @@ export function ExperiencesFilterGallery({ facilities, lang = "es" }: { faciliti
   const asideText = isEn
     ? "At Humano, every experience moves at your pace. You can connect, unwind, or simply pause. The spaces are there for just that—so you can enjoy them in your own way."
     : "En Humano, cada experiencia sigue tu ritmo. Puedes compartir, desconectar o simplemente hacer una pausa. Los espacios están ahí para eso: para que los vivas como quieras."
-  const comingSoon = isEn ? "Opening June 2026" : "Apertura Junio 2026"
   const viewDetail = isEn ? "View detail of" : "Ver detalle de"
   const hotelHref = isEn ? "/en/hotel" : "/hotel"
   return (
@@ -104,15 +103,9 @@ export function ExperiencesFilterGallery({ facilities, lang = "es" }: { faciliti
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                  {facility.id === "INST_RESTAURANTE_ENT" ? (
-                    <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-white px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
-                      {comingSoon}
-                    </span>
-                  ) : (
-                    <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
-                      {facility.categoria}
-                    </span>
-                  )}
+                  <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
+                    {facility.categoria}
+                  </span>
 
                   <div className="absolute bottom-8 left-8 right-24">
                     <h3 className="font-serif text-[30px] leading-[1.02] text-white drop-shadow-md sm:text-[26px]">

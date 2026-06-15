@@ -306,7 +306,6 @@ export default function ServiciosHuesped() {
           <div className="sh-service">
             <div className="sh-service-head">
               <h2 className="sh-service-name">Entrañable</h2>
-              <span className="sh-service-badge">Apertura Junio 2026</span>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 18</span>

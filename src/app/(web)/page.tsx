@@ -208,15 +208,9 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
                         />
                       ) : null}
 
-                      {facility.id === "INST_RESTAURANTE_ENT" ? (
-                        <span className="absolute left-7 top-7 inline-flex items-center rounded-md bg-white px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--color-azul-rgb)]">
-                          {t.comingSoon}
-                        </span>
-                      ) : (
-                        <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
-                          {facility.categoria}
-                        </span>
-                      )}
+                      <span className={`${webMediaBadgeClass} absolute left-7 top-7`}>
+                        {facility.categoria}
+                      </span>
                     </div>
 
                     <div className="flex flex-1 flex-col bg-white/[0.02] px-7 pb-6 pt-6">
