@@ -4,7 +4,6 @@ import {
   Armchair,
   BedDouble,
   Briefcase,
-  Building2,
   CarFront,
   Clock3,
   Coffee,
@@ -13,6 +12,7 @@ import {
   Dog,
   Dumbbell,
   Flame,
+  Layers,
   Martini,
   ParkingCircle,
   Plane,
@@ -34,7 +34,7 @@ import type { MetaKind } from "@/lib/humano/metaKinds"
 
 const META_ICONS: Record<MetaKind, LucideIcon> = {
   time: Clock3,
-  floor: Building2,
+  floor: Layers,
   breakfast: Coffee,
   food: UtensilsCrossed,
   grill: Flame,
