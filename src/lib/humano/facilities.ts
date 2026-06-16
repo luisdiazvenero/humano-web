@@ -28,7 +28,7 @@ const FACILITY_LABEL_I18N: Record<string, { es: string; en: string }> = {
   Reuniones: { es: "Reuniones", en: "Meetings" },
   Equipadas: { es: "Equipadas", en: "Equipped" },
   Encuentros: { es: "Encuentros", en: "Meetups" },
-  Cervezas: { es: "Cervezas", en: "Beers" },
+  Cócteles: { es: "Cócteles", en: "Cocktails" },
 }
 
 const FACILITY_CATEGORIA_I18N: Record<FacilityLang, string> = {
@@ -206,7 +206,7 @@ const facilityMetaConfig: Record<
     meta: () => [
       { label: "Primer piso", kind: "food" as const },
       { label: "Encuentros", kind: "feature" as const },
-      { label: "Cervezas", kind: "food" as const },
+      { label: "Cócteles", kind: "food" as const },
     ],
   },
 }

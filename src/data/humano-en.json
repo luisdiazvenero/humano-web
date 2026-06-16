@@ -947,7 +947,7 @@
       "ctas": [
         "Explore other spaces"
       ],
-      "horario_apertura": "08:00",
+      "horario_apertura": "09:00",
       "horario_cierre": "20:00",
       "redirigir": "",
       "check_in": "",
@@ -1015,7 +1015,11 @@
       ],
       "restricciones_requisitos": [],
       "condiciones_servicio": [],
-      "imagenes_url": [],
+      "imagenes_url": [
+        "/chatbot/imagenes/inst/lobby_bar/lobby_bar_1.webp",
+        "/chatbot/imagenes/inst/lobby_bar/lobby_bar_2.webp",
+        "/chatbot/imagenes/inst/lobby_bar/lobby_bar_3.webp"
+      ],
       "frases_sugeridas": [],
       "ctas": [],
       "horario_apertura": null,

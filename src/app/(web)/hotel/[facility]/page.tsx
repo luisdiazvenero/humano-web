@@ -206,6 +206,10 @@ const FACILITY_MENU: Record<string, Record<WebLang, { label: string; pdf: string
     es: { label: "Ver carta", pdf: "/pdfs/carta-coworking.pdf" },
     en: { label: "View menu", pdf: "/pdfs/carta-coworking.pdf" },
   },
+  INST_BAR: {
+    es: { label: "Ver carta", pdf: "/pdfs/carta-lobby-bar.pdf" },
+    en: { label: "View menu", pdf: "/pdfs/carta-lobby-bar.pdf" },
+  },
 }
 
 function FacilitySuggestionCard({

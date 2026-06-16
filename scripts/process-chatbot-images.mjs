@@ -96,7 +96,7 @@ const itemFolderMap = {
   INST_GIMNASIO: "inst/gimnasio",
   INST_PISCINA: "inst/piscina",
   INST_SALAS_REUNIONES: "inst/salas_de_reuniones",
-  INST_BAR: "inst/bar",
+  INST_BAR: "inst/lobby_bar",
 
   REC_MALECON_MIRAFLORES: "rec/malecon_miraflores",
   REC_PARQUE_KENNEDY: "rec/parque_kennedy",
