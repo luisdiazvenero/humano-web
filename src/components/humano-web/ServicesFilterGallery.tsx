@@ -1,46 +1,10 @@
 import Link from "next/link"
 import Image from "next/image"
-import {
-  ArrowUpRight,
-  CarFront,
-  ConciergeBell,
-  Dog,
-  Expand,
-  ParkingCircle,
-  Shirt,
-  Sparkles,
-  UtensilsCrossed,
-  Wifi,
-} from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 import { webMediaBadgeClass } from "@/components/humano-web/webStyles"
+import { getMetaIcon } from "@/components/humano-web/MetaIcon"
 import type { HumanoService } from "@/lib/humano/services"
-
-function getServiceMetaIcon(entry: HumanoService["meta"][number]) {
-  switch (entry.kind) {
-    case "transport":
-      return CarFront
-    case "pet":
-      return Dog
-    case "food":
-      return UtensilsCrossed
-    case "laundry":
-      return Shirt
-    case "parking":
-      return ParkingCircle
-    case "wifi":
-      return Wifi
-    case "cleaning":
-      return Sparkles
-    case "concierge":
-      return ConciergeBell
-    case "price":
-      return Expand
-    case "feature":
-    default:
-      return Sparkles
-  }
-}
 
 function ServiceImagePlaceholder() {
   return (
@@ -123,7 +87,7 @@ export function ServicesFilterGallery({ services, lang = "es" }: { services: Hum
                     {service.meta.length ? (
                       <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white/86">
                         {service.meta.slice(0, 3).map((entry) => {
-                          const Icon = getServiceMetaIcon(entry)
+                          const Icon = getMetaIcon(entry.kind)
 
                           return (
                             <span

@@ -1,6 +1,7 @@
 import humanoDataRaw from "@/data/humano.json"
 import humanoDataRawEn from "@/data/humano-en.json"
 import type { ConserjeData, ConserjeItem } from "@/lib/humano/types"
+import type { MetaKind } from "@/lib/humano/metaKinds"
 
 export type FacilityLang = "es" | "en"
 
@@ -52,15 +53,7 @@ export type HumanoFacility = {
   perfilIdeal: string[]
   meta: Array<{
     label: string
-    kind:
-      | "time"
-      | "breakfast"
-      | "food"
-      | "drinks"
-      | "work"
-      | "wellness"
-      | "meeting"
-      | "feature"
+    kind: MetaKind
   }>
   imagen: string | null
   imagenes: string[]
@@ -73,7 +66,7 @@ export type HumanoFacilityCard = {
   categoria: string
   meta: Array<{
     label: string
-    kind: "time" | "feature"
+    kind: MetaKind
   }>
   descripcion: string
   imagen: string | null
@@ -130,8 +123,8 @@ const facilityMetaConfig: Record<
         getScheduleLabel(item)
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
-        { label: "Recepción", kind: "feature" as const },
-        { label: "Áreas de espera", kind: "feature" as const },
+        { label: "Recepción", kind: "reception" as const },
+        { label: "Áreas de espera", kind: "seating" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
   INST_DESAYUNO: {
@@ -150,8 +143,8 @@ const facilityMetaConfig: Record<
         getScheduleLabel(item)
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
-        { label: "Piso 18", kind: "food" as const },
-        { label: "Parrillas", kind: "food" as const },
+        { label: "Piso 18", kind: "floor" as const },
+        { label: "Parrillas", kind: "grill" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
   INST_RESTAURANTE_CDL: {
@@ -160,7 +153,7 @@ const facilityMetaConfig: Record<
         getScheduleLabel(item)
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
-        { label: "Primer piso", kind: "food" as const },
+        { label: "Primer piso", kind: "floor" as const },
         { label: "Cocina peruana", kind: "food" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
@@ -171,7 +164,7 @@ const facilityMetaConfig: Record<
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
         { label: "Trabajo flexible", kind: "work" as const },
-        { label: "Conectividad", kind: "work" as const },
+        { label: "Conectividad", kind: "connectivity" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
   INST_GIMNASIO: {
@@ -180,8 +173,8 @@ const facilityMetaConfig: Record<
         getScheduleLabel(item)
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
-        { label: "Máquinas", kind: "wellness" as const },
-        { label: "Rutina", kind: "wellness" as const },
+        { label: "Máquinas", kind: "machines" as const },
+        { label: "Rutina", kind: "routine" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
   INST_PISCINA: {
@@ -190,7 +183,7 @@ const facilityMetaConfig: Record<
         getScheduleLabel(item)
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
-        { label: "Piso 17", kind: "wellness" as const },
+        { label: "Piso 17", kind: "floor" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
   INST_SALAS_REUNIONES: {
@@ -200,13 +193,13 @@ const facilityMetaConfig: Record<
           ? { label: getScheduleLabel(item)!, kind: "time" as const }
           : null,
         { label: "Reuniones", kind: "meeting" as const },
-        { label: "Equipadas", kind: "meeting" as const },
+        { label: "Equipadas", kind: "equipped" as const },
       ].filter(Boolean) as HumanoFacility["meta"],
   },
   INST_BAR: {
     meta: () => [
-      { label: "Primer piso", kind: "food" as const },
-      { label: "Encuentros", kind: "feature" as const },
+      { label: "Primer piso", kind: "floor" as const },
+      { label: "Encuentros", kind: "meeting" as const },
       { label: "Cócteles", kind: "drinks" as const },
     ],
   },
@@ -262,7 +255,7 @@ export function getHumanoFeaturedFacilities(lang: FacilityLang = "es"): HumanoFa
       meta: facility.meta
         .map<HumanoFacilityCard["meta"][number]>((entry) => ({
           label: entry.label,
-          kind: entry.kind === "time" ? "time" : "feature",
+          kind: entry.kind,
         }))
         .slice(0, 2),
       descripcion:

@@ -3,10 +3,8 @@ import Link from "next/link"
 import { Inter } from "next/font/google"
 import {
   ArrowUpRight,
-  Clock3,
   Footprints,
   ShoppingBag,
-  Sparkles,
   Waves,
   Zap,
 } from "lucide-react"
@@ -18,6 +16,7 @@ import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { Reveal } from "@/components/motion/Reveal"
 import { StaggerGroup } from "@/components/motion/StaggerGroup"
 import { getHumanoFeaturedFacilities } from "@/lib/humano/facilities"
+import { getMetaIcon } from "@/components/humano-web/MetaIcon"
 import { getHumanoRooms } from "@/lib/humano/rooms"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
@@ -46,15 +45,6 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
   }))
   const featuredFacilities = getHumanoFeaturedFacilities(lang)
 
-  const getFacilityMetaIcon = (kind: "time" | "feature") => {
-    switch (kind) {
-      case "time":
-        return Clock3
-      case "feature":
-      default:
-        return Sparkles
-    }
-  }
   return (
     <div className={`${bodyFont.className} bg-white text-[var(--color-azul-rgb)]`}>
       <WebStickyHeader activeHref={lang === "en" ? "/en" : "/"} lang={lang} />
@@ -220,7 +210,7 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
                         </h3>
                         <div className="mt-3 flex flex-nowrap items-center gap-5 overflow-hidden text-[13px] font-medium text-white/84">
                           {facility.meta.map((entry) => {
-                            const Icon = getFacilityMetaIcon(entry.kind)
+                            const Icon = getMetaIcon(entry.kind)
                             return (
                             <span
                               key={`${facility.id}-${entry.label}`}

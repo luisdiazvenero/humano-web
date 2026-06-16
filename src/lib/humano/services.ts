@@ -1,6 +1,7 @@
 import humanoDataRaw from "@/data/humano.json"
 import humanoDataRawEn from "@/data/humano-en.json"
 import type { ConserjeData, ConserjeItem } from "@/lib/humano/types"
+import type { MetaKind } from "@/lib/humano/metaKinds"
 
 export type ServiceLang = "es" | "en"
 const HUMANO_DATA: Record<ServiceLang, ConserjeData> = {
@@ -24,17 +25,7 @@ export type HumanoService = {
   perfilIdeal: string[]
   meta: Array<{
     label: string
-    kind:
-      | "transport"
-      | "pet"
-      | "food"
-      | "laundry"
-      | "parking"
-      | "wifi"
-      | "cleaning"
-      | "concierge"
-      | "price"
-      | "feature"
+    kind: MetaKind
   }>
   imagen: string | null
   imagenes: string[]
@@ -100,103 +91,103 @@ const SERVICE_META: Record<string, Record<ServiceLang, HumanoService["meta"]>> =
   INST_DESAYUNO: {
     es: [
       { label: "Buffet", kind: "food" },
-      { label: "Piso 1", kind: "feature" },
-      { label: "06:30 – 10:30 hrs", kind: "feature" },
+      { label: "Piso 1", kind: "floor" },
+      { label: "06:30 – 10:30 hrs", kind: "time" },
     ],
     en: [
       { label: "Buffet", kind: "food" },
-      { label: "First floor", kind: "feature" },
-      { label: "6:30 – 10:30 AM", kind: "feature" },
+      { label: "First floor", kind: "floor" },
+      { label: "6:30 – 10:30 AM", kind: "time" },
     ],
   },
   SERV_MASCOTAS: {
     es: [
       { label: "Pet friendly", kind: "pet" },
-      { label: "Hasta 15 kg", kind: "feature" },
+      { label: "Hasta 15 kg", kind: "weight" },
       { label: "US$35++", kind: "price" },
     ],
     en: [
       { label: "Pet friendly", kind: "pet" },
-      { label: "Up to 15 kg", kind: "feature" },
+      { label: "Up to 15 kg", kind: "weight" },
       { label: "US$35++", kind: "price" },
     ],
   },
   SERV_ROOM_SERVICE: {
     es: [
       { label: "A&B", kind: "food" },
-      { label: "En habitación", kind: "feature" },
-      { label: "Disponible 24 horas", kind: "feature" },
+      { label: "En habitación", kind: "room" },
+      { label: "Disponible 24 horas", kind: "time" },
     ],
     en: [
       { label: "F&B", kind: "food" },
-      { label: "In-room", kind: "feature" },
-      { label: "Available 24 hours", kind: "feature" },
+      { label: "In-room", kind: "room" },
+      { label: "Available 24 hours", kind: "time" },
     ],
   },
   SERV_TRANSFER_AEROPUERTO: {
     es: [
       { label: "Traslado privado", kind: "transport" },
-      { label: "Aeropuerto", kind: "feature" },
+      { label: "Aeropuerto", kind: "airport" },
       { label: "US$37", kind: "price" },
     ],
     en: [
       { label: "Private transfer", kind: "transport" },
-      { label: "Airport", kind: "feature" },
+      { label: "Airport", kind: "airport" },
       { label: "US$37", kind: "price" },
     ],
   },
   SERV_WIFI: {
     es: [
       { label: "Todo el hotel", kind: "wifi" },
-      { label: "Conectividad", kind: "feature" },
+      { label: "Conectividad", kind: "connectivity" },
     ],
     en: [
       { label: "Whole hotel", kind: "wifi" },
-      { label: "Connectivity", kind: "feature" },
+      { label: "Connectivity", kind: "connectivity" },
     ],
   },
   SERV_LAVANDERIA: {
     es: [
       { label: "Regular", kind: "laundry" },
-      { label: "Express", kind: "laundry" },
+      { label: "Express", kind: "wash" },
       { label: "Con costo", kind: "price" },
     ],
     en: [
       { label: "Regular", kind: "laundry" },
-      { label: "Express", kind: "laundry" },
+      { label: "Express", kind: "wash" },
       { label: "Paid", kind: "price" },
     ],
   },
   SERV_ESTACIONAMIENTO: {
     es: [
       { label: "40 espacios", kind: "parking" },
-      { label: "2 sótanos", kind: "feature" },
-      { label: "Van", kind: "feature" },
+      { label: "2 sótanos", kind: "floor" },
+      { label: "Van", kind: "vehicle" },
     ],
     en: [
       { label: "40 spaces", kind: "parking" },
-      { label: "2 basement levels", kind: "feature" },
-      { label: "Van", kind: "feature" },
+      { label: "2 basement levels", kind: "floor" },
+      { label: "Van", kind: "vehicle" },
     ],
   },
   SERV_LIMPIEZA: {
     es: [
       { label: "Servicio regular", kind: "cleaning" },
-      { label: "En habitación", kind: "feature" },
+      { label: "En habitación", kind: "room" },
     ],
     en: [
       { label: "Regular service", kind: "cleaning" },
-      { label: "In-room", kind: "feature" },
+      { label: "In-room", kind: "room" },
     ],
   },
   SERV_CONCIERGE: {
     es: [
-      { label: "Recepción", kind: "concierge" },
-      { label: "Orientación", kind: "feature" },
+      { label: "Recepción", kind: "reception" },
+      { label: "Orientación", kind: "guidance" },
     ],
     en: [
-      { label: "Front desk", kind: "concierge" },
-      { label: "Guidance", kind: "feature" },
+      { label: "Front desk", kind: "reception" },
+      { label: "Guidance", kind: "guidance" },
     ],
   },
 }

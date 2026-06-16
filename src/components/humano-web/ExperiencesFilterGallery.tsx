@@ -1,41 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
-import {
-  ArrowUpRight,
-  Briefcase,
-  Clock3,
-  Coffee,
-  Dumbbell,
-  Martini,
-  Sparkles,
-  UtensilsCrossed,
-  Waves,
-} from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 import { webMediaBadgeClass } from "@/components/humano-web/webStyles"
+import { getMetaIcon } from "@/components/humano-web/MetaIcon"
 import type { HumanoFacility } from "@/lib/humano/facilities"
-
-function getFacilityMetaIcon(entry: HumanoFacility["meta"][number]) {
-  switch (entry.kind) {
-    case "time":
-      return Clock3
-    case "breakfast":
-      return Coffee
-    case "food":
-      return UtensilsCrossed
-    case "drinks":
-      return Martini
-    case "work":
-      return Briefcase
-    case "wellness":
-      return Waves
-    case "meeting":
-      return Dumbbell
-    case "feature":
-    default:
-      return Sparkles
-  }
-}
 
 function FacilityImagePlaceholder() {
   return (
@@ -118,7 +87,7 @@ export function ExperiencesFilterGallery({ facilities, lang = "es" }: { faciliti
                     {facility.meta.length ? (
                       <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-medium text-white/86">
                         {facility.meta.slice(0, 3).map((entry) => {
-                          const Icon = getFacilityMetaIcon(entry)
+                          const Icon = getMetaIcon(entry.kind)
 
                           return (
                             <span

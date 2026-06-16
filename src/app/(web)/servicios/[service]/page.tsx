@@ -6,20 +6,13 @@ import { Inter } from "next/font/google"
 import {
   ArrowLeft,
   ArrowUpRight,
-  CarFront,
-  ConciergeBell,
-  Dog,
-  ParkingCircle,
-  Shirt,
-  Sparkles,
-  UtensilsCrossed,
-  Wifi,
 } from "lucide-react"
 import { notFound } from "next/navigation"
 
 import { WebFooterSocialLinks } from "@/components/humano-web/WebFooterSocialLinks"
 import { RoomDetailGallery } from "@/components/humano-web/RoomDetailGallery"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
+import { getMetaIcon } from "@/components/humano-web/MetaIcon"
 import {
   getHumanoServiceBySlug,
   getHumanoServices,
@@ -34,31 +27,6 @@ const bodyFont = Inter({
   weight: ["400", "500", "700"],
 })
 
-function getServiceMetaIcon(entry: HumanoService["meta"][number]) {
-  switch (entry.kind) {
-    case "transport":
-      return CarFront
-    case "pet":
-      return Dog
-    case "food":
-      return UtensilsCrossed
-    case "laundry":
-      return Shirt
-    case "parking":
-      return ParkingCircle
-    case "wifi":
-      return Wifi
-    case "cleaning":
-      return Sparkles
-    case "concierge":
-      return ConciergeBell
-    case "price":
-      return Sparkles
-    case "feature":
-    default:
-      return Sparkles
-  }
-}
 
 function ServiceSuggestionCard({
   service,
@@ -126,7 +94,7 @@ function ServiceSuggestionCard({
           {previewMeta.length ? (
             <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-medium text-white/52">
               {previewMeta.map((entry) => {
-                const Icon = getServiceMetaIcon(entry)
+                const Icon = getMetaIcon(entry.kind)
 
                 return (
                   <span
@@ -239,7 +207,7 @@ export function ServiceDetailPageContent({
 
                   <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[15px] font-medium text-white/76">
                     {serviceData.meta.slice(0, 3).map((entry) => {
-                      const Icon = getServiceMetaIcon(entry)
+                      const Icon = getMetaIcon(entry.kind)
 
                       return (
                         <span
