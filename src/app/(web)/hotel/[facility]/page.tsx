@@ -12,6 +12,7 @@ import {
   Dumbbell,
   FileText,
   Mail,
+  Martini,
   Phone,
   Sparkles,
   UtensilsCrossed,
@@ -57,6 +58,8 @@ function getFacilityMetaIcon(entry: HumanoFacility["meta"][number]) {
       return Coffee
     case "food":
       return UtensilsCrossed
+    case "drinks":
+      return Martini
     case "work":
       return Briefcase
     case "wellness":

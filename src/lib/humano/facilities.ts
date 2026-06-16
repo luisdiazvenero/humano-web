@@ -56,6 +56,7 @@ export type HumanoFacility = {
       | "time"
       | "breakfast"
       | "food"
+      | "drinks"
       | "work"
       | "wellness"
       | "meeting"
@@ -206,7 +207,7 @@ const facilityMetaConfig: Record<
     meta: () => [
       { label: "Primer piso", kind: "food" as const },
       { label: "Encuentros", kind: "feature" as const },
-      { label: "Cócteles", kind: "food" as const },
+      { label: "Cócteles", kind: "drinks" as const },
     ],
   },
 }
