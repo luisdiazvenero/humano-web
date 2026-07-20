@@ -41,6 +41,11 @@ export function RoomDetailGallery({
   // Side thumbnails: show up to 3 if video is present, else 2
   const sideImages = hasVideo ? images.slice(0, 3) : images.slice(1, 3)
   const gridRows = hasVideo ? "lg:grid-rows-3" : "lg:grid-rows-2"
+  // Sin miniaturas laterales ni video: una sola imagen ocupa todo el ancho
+  const isSingle = !hasVideo && sideImages.length === 0
+  const gridClass = isSingle
+    ? "grid gap-4"
+    : `grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.65fr)_minmax(220px,0.86fr)] ${gridRows}`
 
   useEffect(() => {
     if (!lightbox) return
@@ -90,7 +95,7 @@ export function RoomDetailGallery({
 
   return (
     <>
-      <div className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.65fr)_minmax(220px,0.86fr)] ${gridRows}`}>
+      <div className={gridClass}>
 
         {/* Main: video on desktop, first image on mobile */}
         {hasVideo ? (

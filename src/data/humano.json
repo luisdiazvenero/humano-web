@@ -484,7 +484,7 @@
         "tercerizado",
         "disponibilidad_variable"
       ],
-      "imagenes_url": [],
+      "imagenes_url": ["/chatbot/imagenes/serv/transfer_aeropuerto/transfer_aeropuerto_1.webp"],
       "frases_sugeridas": [
         "Cómodo si llegas tarde o de madrugada",
         "Evita complicaciones al llegar"
