@@ -104,7 +104,7 @@ export function HumanoContactoPageContent({ lang = "es" }: { lang?: WebLang }) {
                               href="tel:+5119041400"
                               className="text-sm font-medium text-white/92 transition hover:text-white"
                             >
-                              Front Desk: 01-904-14-00
+                              +51 1 904 1400
                             </a>
                             <p className="text-sm leading-relaxed text-white/58">
                               {isEn ? "Daily service" : "Atención diaria"}
