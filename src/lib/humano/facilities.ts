@@ -73,14 +73,14 @@ export type HumanoFacilityCard = {
 }
 
 const installationOrder = [
-  "INST_LOBBY",
-  "INST_RESTAURANTE_ENT",
   "INST_RESTAURANTE_CDL",
-  "INST_COWORKING",
-  "INST_GIMNASIO",
-  "INST_PISCINA",
+  "INST_RESTAURANTE_ENT",
   "INST_SALAS_REUNIONES",
   "INST_BAR",
+  "INST_PISCINA",
+  "INST_GIMNASIO",
+  "INST_COWORKING",
+  "INST_LOBBY",
 ] as const
 
 const featuredFacilityIds = ["INST_COWORKING", "INST_RESTAURANTE_ENT", "INST_PISCINA"] as const
