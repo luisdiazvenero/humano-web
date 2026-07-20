@@ -6,6 +6,7 @@ import { Inter } from "next/font/google"
 import {
   ArrowLeft,
   ArrowUpRight,
+  ConciergeBell,
   FileText,
   Mail,
   Phone,
@@ -50,6 +51,7 @@ type RestaurantConfig = {
   reservationLabel: string
   phone: string
   whatsapp: string
+  reservationUrl?: string
   email: string
   menuPdf: string
   reserveCta: string
@@ -68,9 +70,10 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
         "Tragos y piqueos en nuestro Lobby Bar.",
       ],
       reservationLabel: "Reservas",
-      phone: "+51 934 306 844",
-      phoneLabel: "Teléfono",
+      phone: "+51 934 304 478",
+      phoneLabel: "Celular",
       whatsapp: "https://wa.link/4ty7ii",
+      reservationUrl: "https://cafedelima.mesa247.pe/",
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Correo",
       menuPdf: "/pdfs/carta-cafe-de-lima-es.pdf",
@@ -84,9 +87,10 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
         "Drinks and small plates at our Lobby Bar.",
       ],
       reservationLabel: "Reservations",
-      phone: "+51 934 306 844",
-      phoneLabel: "Phone",
+      phone: "+51 934 304 478",
+      phoneLabel: "Mobile",
       whatsapp: "https://wa.link/flgsgc",
+      reservationUrl: "https://cafedelima.mesa247.pe/",
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Email",
       menuPdf: "/pdfs/carta-cafe-de-lima-en.pdf",
@@ -104,9 +108,10 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
       ],
       scheduleLabel: "Horarios",
       reservationLabel: "Reservas",
-      phone: "+51 934 306 844",
-      phoneLabel: "Teléfono",
+      phone: "+51 934 304 478",
+      phoneLabel: "Celular",
       whatsapp: "https://wa.link/6a2hwm",
+      reservationUrl: "https://entranable.mesa247.pe/",
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Correo",
       menuPdf: "/pdfs/carta-entranable-es.pdf",
@@ -122,9 +127,10 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
       ],
       scheduleLabel: "Hours",
       reservationLabel: "Reservations",
-      phone: "+51 934 306 844",
-      phoneLabel: "Phone",
+      phone: "+51 934 304 478",
+      phoneLabel: "Mobile",
       whatsapp: "https://wa.link/3k3ntj",
+      reservationUrl: "https://entranable.mesa247.pe/",
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Email",
       menuPdf: "/pdfs/carta-entranable-en.pdf",
@@ -424,14 +430,18 @@ export function FacilityDetailPageContent({
                     {restaurantConfig ? (
                       <>
                         <TrackLink
-                          href={restaurantConfig.whatsapp}
+                          href={restaurantConfig.reservationUrl ?? restaurantConfig.whatsapp}
                           eventName="web_restaurant_whatsapp_click"
                           eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
                           className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <WhatsAppIcon className="h-5 w-5" />
+                          {restaurantConfig.reservationUrl ? (
+                            <ConciergeBell className="h-5 w-5" strokeWidth={1.8} />
+                          ) : (
+                            <WhatsAppIcon className="h-5 w-5" />
+                          )}
                           {restaurantConfig.reserveCta}
                         </TrackLink>
                         <TrackLink
