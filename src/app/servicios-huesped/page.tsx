@@ -60,6 +60,22 @@ export default function ServiciosHuesped() {
           color: var(--ink-mid);
         }
 
+        /* Mismo tratamiento que el rótulo de cabecera: centrado, con su regla debajo */
+        .sh-group { margin-top: clamp(2.5rem,6vw,4rem); }
+
+        .sh-group-title {
+          margin: 0 0 clamp(2.5rem,5vw,3.5rem);
+          padding-bottom: clamp(2rem,5vw,3rem);
+          border-bottom: 1px solid var(--ink-faint);
+          text-align: center;
+          font-family: var(--sans);
+          font-size: clamp(0.62rem,1vw,0.72rem);
+          font-weight: 500;
+          letter-spacing: 0.32em;
+          text-transform: uppercase;
+          color: var(--ink-mid);
+        }
+
         .sh-service {
           padding-bottom: clamp(2rem,4vw,2.8rem);
           margin-bottom: clamp(2rem,4vw,2.8rem);
@@ -67,6 +83,9 @@ export default function ServiciosHuesped() {
         }
 
         .sh-service:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        /* La regla del encabezado de sección ya separa: sin línea antes de él */
+        .sh-service:has(+ .sh-group) { border-bottom: none; }
 
         .sh-service-head {
           display: flex;
@@ -260,7 +279,7 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Room Service</h2>
+              <h3 className="sh-service-name">Room Service</h3>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Habitación</span>
@@ -282,7 +301,7 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Café de Lima</h2>
+              <h3 className="sh-service-name">Café de Lima</h3>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 1</span>
@@ -305,7 +324,7 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Entrañable</h2>
+              <h3 className="sh-service-name">Entrañable</h3>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Restaurante · Piso 18</span>
@@ -332,9 +351,12 @@ export default function ServiciosHuesped() {
             </div>
           </div>
 
+          <section className="sh-group" aria-labelledby="sh-facilidades">
+            <h2 className="sh-group-title" id="sh-facilidades">Facilidades</h2>
+
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Sala de Masajes</h2>
+              <h3 className="sh-service-name">Sala de Masajes</h3>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Consulta en recepción</span>
@@ -351,7 +373,7 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Piscina / Pool</h2>
+              <h3 className="sh-service-name">Piscina / Pool</h3>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Piso 17</span>
@@ -364,7 +386,7 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
-              <h2 className="sh-service-name">Gimnasio / Gym</h2>
+              <h3 className="sh-service-name">Gimnasio / Gym</h3>
             </div>
             <div className="sh-service-meta">
               <span className="sh-service-meta-item">Piso 9</span>
@@ -373,6 +395,20 @@ export default function ServiciosHuesped() {
             <p className="sh-service-desc">Equipado para que mantengas tu rutina durante tu estadía.</p>
             <p className="sh-service-desc--en">Everything you need to stick to your routine during your stay.</p>
           </div>
+
+          <div className="sh-service">
+            <div className="sh-service-head">
+              <h3 className="sh-service-name">Planchado</h3>
+            </div>
+            <div className="sh-service-meta">
+              <span className="sh-service-meta-item">Habitación</span>
+              <span className="sh-service-meta-item">Bajo solicitud</span>
+            </div>
+            <p className="sh-service-desc">Todas nuestras habitaciones cuentan con un steamer para el cuidado y alisado de prendas. Asimismo, ponemos a disposición plancha y tabla de planchar bajo solicitud.</p>
+            <p className="sh-service-desc--en">All of our guest rooms are equipped with a garment steamer for clothing care and wrinkle removal. An iron and ironing board are also available upon request.</p>
+          </div>
+
+          </section>
 
         </main>
 
