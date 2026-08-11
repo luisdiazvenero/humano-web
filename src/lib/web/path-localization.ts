@@ -8,6 +8,7 @@ const ROOT_LEVEL_RESERVED = new Set([
   "hotel",
   "habitaciones",
   "servicios",
+  "eventos",
   "contacto",
   "conserje",
   "servicios-huesped",

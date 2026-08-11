@@ -63,6 +63,23 @@ export const WEB_I18N: Record<WebLang, {
   servicesExploreCta: string
   servicesMetaTitle: string
   servicesMetaDescription: string
+  // Eventos
+  eventsPageTitle: string
+  eventsPageSubtitle: string
+  eventsExploreCta: string
+  eventsMetaTitle: string
+  eventsMetaDescription: string
+  eventsEyebrow: string
+  eventsStatSpaces: string
+  eventsStatArea: string
+  eventsStatCapacity: string
+  eventsStatSetups: string
+  eventsDimensionsLabel: string
+  eventsAreaLabel: string
+  eventsSetupsTitle: string
+  eventsContactTitle: string
+  eventsEmailCta: string
+  eventsWhatsappCta: string
   // Contacto
   contactPageTitle: string
   contactPageSubtitle: string
@@ -151,6 +168,24 @@ export const WEB_I18N: Record<WebLang, {
     servicesMetaTitle: "Servicios en Hotel Humano Miraflores",
     servicesMetaDescription:
       "Servicios del Hotel Humano en Miraflores: transfer al aeropuerto, lavandería, Wi-Fi, estacionamiento y más.",
+    eventsPageTitle: "Eventos",
+    eventsPageSubtitle:
+      "Reuniones de trabajo, celebraciones y encuentros en el corazón de Miraflores. Cinco espacios que se adaptan a tu formato, desde un directorio de 8 personas hasta una terraza para 50.",
+    eventsExploreCta: "Explorar espacios",
+    eventsMetaTitle: "Eventos y salones en Miraflores | Hotel Humano",
+    eventsMetaDescription:
+      "Salones y terrazas para eventos en Hotel Humano, Miraflores: reuniones ejecutivas, conferencias, cocteles y celebraciones desde 8 hasta 50 personas.",
+    eventsEyebrow: "Espacios para eventos",
+    eventsStatSpaces: "Espacios para eventos",
+    eventsStatArea: "Metros cuadrados totales",
+    eventsStatCapacity: "Capacidad máxima",
+    eventsStatSetups: "Tipos de armado",
+    eventsDimensionsLabel: "Dimensiones (L × A × H)",
+    eventsAreaLabel: "Área",
+    eventsSetupsTitle: "Armados",
+    eventsContactTitle: "Cotiza este espacio",
+    eventsEmailCta: "Escríbenos",
+    eventsWhatsappCta: "WhatsApp",
     contactPageTitle: "Contacto",
     contactPageSubtitle:
       "Cuéntanos lo que necesitas para tu estadía. Te respondemos pronto con detalles y propuestas a tu medida.",
@@ -238,6 +273,24 @@ export const WEB_I18N: Record<WebLang, {
     servicesMetaTitle: "Services at Hotel Humano Miraflores",
     servicesMetaDescription:
       "Hotel Humano services in Miraflores: airport transfer, laundry, Wi-Fi, parking, and more.",
+    eventsPageTitle: "Events",
+    eventsPageSubtitle:
+      "Business meetings, celebrations, and gatherings in the heart of Miraflores. Five spaces that adapt to your format, from an 8-person boardroom to a terrace for 50.",
+    eventsExploreCta: "Explore spaces",
+    eventsMetaTitle: "Event venues in Miraflores | Hotel Humano",
+    eventsMetaDescription:
+      "Meeting rooms and terraces at Hotel Humano, Miraflores: executive meetings, conferences, cocktails, and celebrations for 8 to 50 guests.",
+    eventsEyebrow: "Event spaces",
+    eventsStatSpaces: "Event spaces",
+    eventsStatArea: "Total square meters",
+    eventsStatCapacity: "Maximum capacity",
+    eventsStatSetups: "Setup types",
+    eventsDimensionsLabel: "Dimensions (L × W × H)",
+    eventsAreaLabel: "Area",
+    eventsSetupsTitle: "Setups",
+    eventsContactTitle: "Request a quote",
+    eventsEmailCta: "Email us",
+    eventsWhatsappCta: "WhatsApp",
     contactPageTitle: "Contact",
     contactPageSubtitle:
       "Tell us what you need for your stay. We'll get back to you soon with details and tailored proposals.",
@@ -266,6 +319,7 @@ const SEGMENT_MAP: ReadonlyArray<{ es: string; en: string }> = [
   { es: "/habitaciones", en: "/en/rooms" },
   { es: "/hotel", en: "/en/hotel" },
   { es: "/servicios", en: "/en/services" },
+  { es: "/eventos", en: "/en/events" },
   { es: "/contacto/gracias", en: "/en/contact/thanks" },
   { es: "/contacto", en: "/en/contact" },
   { es: "/terminos-y-condiciones", en: "/en/terms-and-conditions" },

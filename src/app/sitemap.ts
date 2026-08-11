@@ -35,6 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/habitaciones", "/en/rooms", 0.9),
     entry("/hotel", "/en/hotel", 0.9),
     entry("/servicios", "/en/services", 0.9),
+    entry("/eventos", "/en/events", 0.8),
     entry("/contacto", "/en/contact", 0.7),
     entry("/terminos-y-condiciones", "/en/terms-and-conditions", 0.3),
     entry("/libro-de-reclamaciones", "/en/complaints-book", 0.3),
