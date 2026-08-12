@@ -48,6 +48,7 @@ const IMAGES: Record<string, string[]> = {
   ],
   "terraza-piso-9": ["/chatbot/imagenes/eventos/terraza_piso_9/piso_9_yoga.webp"],
   "terraza-entranable": [
+    "/chatbot/imagenes/eventos/terraza_entranable/entranable_coctel.webp",
     "/chatbot/imagenes/eventos/terraza_entranable/entranable_terraza.webp",
     "/chatbot/imagenes/eventos/terraza_entranable/entranable_cena.webp",
     "/chatbot/imagenes/eventos/terraza_entranable/entranable_noche.webp",
@@ -83,6 +84,31 @@ const EVENT_SPACES: Record<WebLang, Array<Omit<HumanoEventSpace, "images">>> = {
       note: null,
     },
     {
+      id: "terraza-entranable",
+      slug: "terraza-entranable",
+      name: "Terraza Entrañable",
+      description:
+        "Una terraza cálida y versátil para reuniones sociales, cenas y celebraciones que piden un ambiente más cercano.",
+      dimensions: "8.14 × 9.36 m",
+      area: "76.19 m²",
+      setups: [
+        { kind: "coctel", label: "Coctel", capacity: 50 },
+        { kind: "banquete", label: "Banquete", capacity: 40 },
+      ],
+      note: "Armados versátiles según tu solicitud.",
+    },
+    {
+      id: "terraza-piso-9",
+      slug: "terraza-piso-9",
+      name: "Terraza Piso 9",
+      description:
+        "Terraza al aire libre en el piso 9, con vista abierta a Miraflores. Perfecta para cocteles, lanzamientos y celebraciones al atardecer.",
+      dimensions: "14 × 5 m",
+      area: "70 m²",
+      setups: [{ kind: "coctel", label: "Coctel", capacity: 35 }],
+      note: "Armados versátiles: armados especiales según tu solicitud.",
+    },
+    {
       id: "directorio-paniagua",
       slug: "directorio-paniagua",
       name: "Directorio Paniagua",
@@ -103,31 +129,6 @@ const EVENT_SPACES: Record<WebLang, Array<Omit<HumanoEventSpace, "images">>> = {
       area: "17.8 m²",
       setups: [{ kind: "directorio", label: "Directorio", capacity: 8 }],
       note: null,
-    },
-    {
-      id: "terraza-piso-9",
-      slug: "terraza-piso-9",
-      name: "Terraza Piso 9",
-      description:
-        "Terraza al aire libre en el piso 9, con vista abierta a Miraflores. Perfecta para cocteles, lanzamientos y celebraciones al atardecer.",
-      dimensions: "14 × 5 m",
-      area: "70 m²",
-      setups: [{ kind: "coctel", label: "Coctel", capacity: 35 }],
-      note: "Armados versátiles: armados especiales según tu solicitud.",
-    },
-    {
-      id: "terraza-entranable",
-      slug: "terraza-entranable",
-      name: "Terraza Entrañable",
-      description:
-        "Una terraza cálida y versátil para reuniones sociales, cenas y celebraciones que piden un ambiente más cercano.",
-      dimensions: "8.14 × 9.36 m",
-      area: "76.19 m²",
-      setups: [
-        { kind: "coctel", label: "Coctel", capacity: 50 },
-        { kind: "banquete", label: "Banquete", capacity: 40 },
-      ],
-      note: "Armados versátiles según tu solicitud.",
     },
   ],
   en: [
@@ -150,6 +151,31 @@ const EVENT_SPACES: Record<WebLang, Array<Omit<HumanoEventSpace, "images">>> = {
       note: null,
     },
     {
+      id: "terraza-entranable",
+      slug: "entranable-terrace",
+      name: "Entrañable Terrace",
+      description:
+        "A warm, versatile terrace for social gatherings, dinners, and celebrations that call for a closer atmosphere.",
+      dimensions: "8.14 × 9.36 m",
+      area: "76.19 m²",
+      setups: [
+        { kind: "coctel", label: "Cocktail", capacity: 50 },
+        { kind: "banquete", label: "Banquet", capacity: 40 },
+      ],
+      note: "Versatile setups on request.",
+    },
+    {
+      id: "terraza-piso-9",
+      slug: "9th-floor-terrace",
+      name: "9th Floor Terrace",
+      description:
+        "An open-air terrace on the 9th floor with wide views over Miraflores. Perfect for cocktails, launches, and sunset celebrations.",
+      dimensions: "14 × 5 m",
+      area: "70 m²",
+      setups: [{ kind: "coctel", label: "Cocktail", capacity: 35 }],
+      note: "Versatile setups: custom arrangements on request.",
+    },
+    {
       id: "directorio-paniagua",
       slug: "paniagua-boardroom",
       name: "Paniagua Boardroom",
@@ -170,31 +196,6 @@ const EVENT_SPACES: Record<WebLang, Array<Omit<HumanoEventSpace, "images">>> = {
       area: "17.8 m²",
       setups: [{ kind: "directorio", label: "Boardroom", capacity: 8 }],
       note: null,
-    },
-    {
-      id: "terraza-piso-9",
-      slug: "9th-floor-terrace",
-      name: "9th Floor Terrace",
-      description:
-        "An open-air terrace on the 9th floor with wide views over Miraflores. Perfect for cocktails, launches, and sunset celebrations.",
-      dimensions: "14 × 5 m",
-      area: "70 m²",
-      setups: [{ kind: "coctel", label: "Cocktail", capacity: 35 }],
-      note: "Versatile setups: custom arrangements on request.",
-    },
-    {
-      id: "terraza-entranable",
-      slug: "entranable-terrace",
-      name: "Entrañable Terrace",
-      description:
-        "A warm, versatile terrace for social gatherings, dinners, and celebrations that call for a closer atmosphere.",
-      dimensions: "8.14 × 9.36 m",
-      area: "76.19 m²",
-      setups: [
-        { kind: "coctel", label: "Cocktail", capacity: 50 },
-        { kind: "banquete", label: "Banquet", capacity: 40 },
-      ],
-      note: "Versatile setups on request.",
     },
   ],
 }

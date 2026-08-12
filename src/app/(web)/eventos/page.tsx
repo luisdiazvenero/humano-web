@@ -238,10 +238,7 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
                         </div>
 
                         <div className="mt-6 border-t border-[var(--color-azul-rgb)]/10 pt-5">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-azul-rgb)]/45">
-                            {t.eventsContactTitle}
-                          </p>
-                          <div className="mt-3 flex flex-wrap items-center gap-3">
+                          <div className="flex flex-wrap items-center gap-3">
                             <a
                               href={`mailto:${EVENTS_CONTACT.email}?subject=${encodeURIComponent(
                                 `${isEn ? "Event inquiry" : "Consulta de evento"} — ${space.name}`
@@ -265,12 +262,6 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
                               {t.eventsWhatsappCta}
                             </a>
                           </div>
-                          <a
-                            href={`mailto:${EVENTS_CONTACT.email}`}
-                            className="mt-3 inline-block text-sm text-[var(--color-azul-rgb)]/60 transition hover:text-[var(--color-azul-rgb)]"
-                          >
-                            {EVENTS_CONTACT.email}
-                          </a>
                         </div>
                       </div>
 

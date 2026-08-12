@@ -77,7 +77,6 @@ export const WEB_I18N: Record<WebLang, {
   eventsDimensionsLabel: string
   eventsAreaLabel: string
   eventsSetupsTitle: string
-  eventsContactTitle: string
   eventsEmailCta: string
   eventsWhatsappCta: string
   // Contacto
@@ -183,8 +182,7 @@ export const WEB_I18N: Record<WebLang, {
     eventsDimensionsLabel: "Dimensiones (L × A × H)",
     eventsAreaLabel: "Área",
     eventsSetupsTitle: "Armados",
-    eventsContactTitle: "Cotiza este espacio",
-    eventsEmailCta: "Escríbenos",
+    eventsEmailCta: "Cotizar",
     eventsWhatsappCta: "WhatsApp",
     contactPageTitle: "Contacto",
     contactPageSubtitle:
@@ -288,8 +286,7 @@ export const WEB_I18N: Record<WebLang, {
     eventsDimensionsLabel: "Dimensions (L × W × H)",
     eventsAreaLabel: "Area",
     eventsSetupsTitle: "Setups",
-    eventsContactTitle: "Request a quote",
-    eventsEmailCta: "Email us",
+    eventsEmailCta: "Get a quote",
     eventsWhatsappCta: "WhatsApp",
     contactPageTitle: "Contact",
     contactPageSubtitle:
