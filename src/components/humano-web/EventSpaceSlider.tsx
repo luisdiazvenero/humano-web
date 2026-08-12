@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import { ChevronLeft, ChevronRight, Images, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -149,7 +150,8 @@ export function EventSpaceSlider({
         </div>
       </div>
 
-      {lightboxIndex !== null && images[lightboxIndex] ? (
+      {lightboxIndex !== null && images[lightboxIndex]
+        ? createPortal(
         <div
           className="fixed inset-0 z-[80] bg-[rgba(0,0,0,0.88)] backdrop-blur-md"
           onClick={closeLightbox}
@@ -214,8 +216,10 @@ export function EventSpaceSlider({
               </div>
             </div>
           </div>
-        </div>
-      ) : null}
+        </div>,
+            document.body
+          )
+        : null}
     </>
   )
 }

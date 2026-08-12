@@ -26,6 +26,7 @@ interface WebStickyHeaderProps {
   activeHref?: string
   showReserve?: boolean
   lang?: WebLang
+  className?: string
 }
 
 
@@ -36,6 +37,7 @@ export function WebStickyHeader({
   activeHref,
   showReserve = true,
   lang = "es",
+  className,
 }: WebStickyHeaderProps) {
   const t = WEB_I18N[lang]
   const pathname = usePathname() || "/"
@@ -80,7 +82,7 @@ export function WebStickyHeader({
   }, [isMenuOpen])
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className={cn("fixed inset-x-0 top-0 z-50", className)}>
       <div
         className={cn(
           "mx-auto w-full max-w-[1680px] px-6 sm:px-10 xl:px-14",

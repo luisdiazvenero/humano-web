@@ -6,7 +6,6 @@ import {
   ArrowLeft,
   Briefcase,
   GraduationCap,
-  Mail,
   Martini,
   Maximize,
   Presentation,
@@ -17,6 +16,10 @@ import {
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
+import {
+  EventQuoteButton,
+  EventQuoteProvider,
+} from "@/components/humano-web/EventQuotePanel"
 import { EventSpaceSlider } from "@/components/humano-web/EventSpaceSlider"
 import { WebFooterSocialLinks } from "@/components/humano-web/WebFooterSocialLinks"
 import { WebScrollToSectionButton } from "@/components/humano-web/WebScrollToSectionButton"
@@ -79,10 +82,19 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
   ]
 
   return (
-    <div className={`${bodyFont.className} bg-[var(--color-crema)] text-[var(--color-azul-rgb)]`}>
-      <WebStickyHeader brandHref={homeHref} activeHref={eventsHref} lang={lang} />
+    <EventQuoteProvider
+      lang={lang}
+      spaces={spaces.map((space) => ({ id: space.id, name: space.name }))}
+    >
+      <div className={`${bodyFont.className} bg-[var(--color-crema)] text-[var(--color-azul-rgb)]`}>
+        <WebStickyHeader
+          brandHref={homeHref}
+          activeHref={eventsHref}
+          lang={lang}
+          className="quote-push"
+        />
 
-      <main>
+        <main className="quote-push">
         <section
           id="inicio"
           className="relative flex min-h-[80dvh] items-center overflow-hidden bg-[var(--color-azul-rgb)] pt-28 pb-16 sm:pt-32 sm:pb-20"
@@ -239,15 +251,11 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
 
                         <div className="mt-6 border-t border-[var(--color-azul-rgb)]/10 pt-5">
                           <div className="flex flex-wrap items-center gap-3">
-                            <a
-                              href={`mailto:${EVENTS_CONTACT.email}?subject=${encodeURIComponent(
-                                `${isEn ? "Event inquiry" : "Consulta de evento"} — ${space.name}`
-                              )}`}
-                              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-azul-rgb)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:text-[var(--color-amarillo)]"
-                            >
-                              <Mail className="h-4 w-4" />
-                              {t.eventsEmailCta}
-                            </a>
+                            <EventQuoteButton
+                              spaceId={space.id}
+                              spaceName={space.name}
+                              label={t.eventsEmailCta}
+                            />
                             <a
                               href={`${EVENTS_CONTACT.whatsapp}?text=${encodeURIComponent(
                                 isEn
@@ -325,8 +333,9 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
             </div>
           </Reveal>
         </footer>
-      </main>
-    </div>
+        </main>
+      </div>
+    </EventQuoteProvider>
   )
 }
 
