@@ -1,16 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server"
 
+import { sendMail } from "@/lib/web/mailer"
+
 /**
  * Solicitudes de cotización de los espacios para eventos.
- * Envía por Mailjet al buzón configurado en EVENTS_QUOTE_TO.
+ * El destino se configura con EVENTS_QUOTE_TO; el remitente es común a
+ * todos los formularios de la web (MAIL_FROM).
  */
-
-const MAILJET_ENDPOINT = "https://api.mailjet.com/v3.1/send"
 
 // Destino real; en pruebas se sobrescribe con EVENTS_QUOTE_TO.
 const DEFAULT_TO = "lgonzales@humanohoteles.com"
-// humanolima.com está verificado en Mailjet (SPF + DKIM)
-const DEFAULT_FROM = "Hotel Humano <eventos@humanolima.com>"
 
 const MAX_FIELD_LENGTH = 2000
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000
@@ -47,13 +46,6 @@ function isRateLimited(ip: string): boolean {
 function clean(value: unknown): string {
   if (typeof value !== "string") return ""
   return value.trim().slice(0, MAX_FIELD_LENGTH)
-}
-
-/** Acepta "Nombre <correo@dominio>" o solo "correo@dominio" */
-function parseSender(value: string): { email: string; name?: string } {
-  const match = value.match(/^\s*(.*?)\s*<([^>]+)>\s*$/)
-  if (match) return { email: match[2].trim(), name: match[1].trim() || undefined }
-  return { email: value.trim() }
 }
 
 function escapeHtml(value: string): string {
@@ -143,59 +135,20 @@ export async function POST(request: NextRequest) {
     </div>
   `
 
-  const apiKey = process.env.MAILJET_API_KEY
-  const secretKey = process.env.MAILJET_SECRET_KEY
-  if (!apiKey || !secretKey) {
-    // Sin credenciales todavía: no perdemos la solicitud, queda en el log del servidor
-    console.warn(
-      "[cotizacion] MAILJET_API_KEY / MAILJET_SECRET_KEY no configuradas. Solicitud recibida:\n" + text
+  const sent = await sendMail({
+    to: process.env.EVENTS_QUOTE_TO || DEFAULT_TO,
+    subject,
+    text,
+    html,
+    replyTo: { email, name },
+  })
+
+  if (!sent.ok) {
+    return NextResponse.json(
+      { error: sent.reason === "not_configured" ? "email_not_configured" : "send_failed" },
+      { status: sent.reason === "not_configured" ? 503 : 502 }
     )
-    return NextResponse.json({ error: "email_not_configured" }, { status: 503 })
   }
 
-  const sender = parseSender(process.env.EVENTS_QUOTE_FROM || DEFAULT_FROM)
-  const auth = Buffer.from(`${apiKey}:${secretKey}`).toString("base64")
-
-  try {
-    const response = await fetch(MAILJET_ENDPOINT, {
-      method: "POST",
-      headers: {
-        Authorization: `Basic ${auth}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        Messages: [
-          {
-            From: { Email: sender.email, Name: sender.name ?? "Hotel Humano" },
-            To: [{ Email: process.env.EVENTS_QUOTE_TO || DEFAULT_TO }],
-            // Responder escribe directamente a quien hizo la solicitud
-            ReplyTo: { Email: email, Name: name },
-            Subject: subject,
-            TextPart: text,
-            HTMLPart: html,
-          },
-        ],
-      }),
-    })
-
-    if (!response.ok) {
-      const detail = await response.text()
-      console.error("[cotizacion] Mailjet respondió", response.status, detail)
-      return NextResponse.json({ error: "send_failed" }, { status: 502 })
-    }
-
-    // Mailjet devuelve 200 aunque un mensaje concreto sea rechazado: el
-    // resultado real viene por mensaje en Messages[].Status.
-    const result = await response.json().catch(() => null)
-    const messageStatus = result?.Messages?.[0]?.Status
-    if (messageStatus !== "success") {
-      console.error("[cotizacion] Mailjet no aceptó el mensaje:", JSON.stringify(result))
-      return NextResponse.json({ error: "send_failed" }, { status: 502 })
-    }
-
-    return NextResponse.json({ ok: true })
-  } catch (error) {
-    console.error("[cotizacion] Error enviando el correo", error)
-    return NextResponse.json({ error: "send_failed" }, { status: 502 })
-  }
+  return NextResponse.json({ ok: true })
 }
