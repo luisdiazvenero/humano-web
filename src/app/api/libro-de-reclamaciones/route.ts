@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
 import { markEmailSent, saveSubmission } from "@/lib/web/submissions"
-import { clean, escapeHtml, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
+import { clean, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
+import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
 
 /**
  * Libro de reclamaciones (Indecopi).
@@ -109,6 +110,10 @@ export async function POST(request: NextRequest) {
         notApplicable: "Not applicable",
         deadline:
           "By law this entry must be answered within 15 business days.",
+        copySubject: "Your complaints book record",
+        copyTitle: "We have registered your submission",
+        copyIntro:
+          "Keep this sheet number as proof of your submission. We will reply within 15 business days.",
       }
     : {
         subject: "Libro de reclamaciones",
@@ -131,6 +136,10 @@ export async function POST(request: NextRequest) {
         notApplicable: "No aplica",
         deadline:
           "Por ley este registro debe responderse en un plazo de 15 días hábiles.",
+        copySubject: "Constancia de tu registro",
+        copyTitle: "Registramos tu solicitud",
+        copyIntro:
+          "Conserva este número de hoja como constancia. Te responderemos en un plazo de 15 días hábiles.",
       }
 
   const sheet = saved.claimNumber ? `N-${String(saved.claimNumber).padStart(6, "0")}` : "—"
@@ -150,35 +159,13 @@ export async function POST(request: NextRequest) {
   ]
 
   const subject = `${t.subject} ${sheet} — ${requestType} — ${fullName}`
-  const text = [
-    ...rows.map(([label, value]) => `${label}: ${value}`),
-    "",
-    `${t.incident}:`,
-    incidentDescription,
-    "",
-    t.deadline,
-  ].join("\n")
-
-  const html = `
-    <div style="font-family:Helvetica,Arial,sans-serif;color:#003035;line-height:1.5">
-      <h2 style="margin:0 0 4px">${t.title}</h2>
-      <p style="margin:0 0 20px;color:#5b6f71">${t.sheet}: <strong>${escapeHtml(sheet)}</strong></p>
-      <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:620px">
-        ${rows
-          .map(
-            ([label, value]) => `
-          <tr>
-            <td style="padding:8px 12px 8px 0;color:#5b6f71;white-space:nowrap;vertical-align:top">${escapeHtml(label)}</td>
-            <td style="padding:8px 0;font-weight:600">${escapeHtml(value)}</td>
-          </tr>`
-          )
-          .join("")}
-      </table>
-      <p style="margin:22px 0 6px;color:#5b6f71">${t.incident}</p>
-      <p style="margin:0;white-space:pre-wrap">${escapeHtml(incidentDescription)}</p>
-      <p style="margin:24px 0 0;padding-top:16px;border-top:1px solid #dfe4e4;color:#5b6f71;font-size:13px">${t.deadline}</p>
-    </div>
-  `
+  const { text, html } = renderEmail({
+    title: t.title,
+    subtitle: `${t.sheet}: <strong>${sheet}</strong>`,
+    rows,
+    message: { label: t.incident, value: incidentDescription },
+    footer: t.deadline,
+  })
 
   const sent = await sendMail({
     to: process.env.FORM_CLAIMS_TO || DEFAULT_TO,
@@ -190,6 +177,23 @@ export async function POST(request: NextRequest) {
 
   if (sent.ok && saved.id) {
     await markEmailSent(saved.id)
+  }
+
+  // Constancia para el consumidor: por ley debe quedarse con una copia
+  if (sent.ok) {
+    const copy = renderEmail({
+      title: t.copyTitle,
+      subtitle: `${t.sheet}: <strong>${sheet}</strong>`,
+      rows,
+      message: { label: t.incident, value: incidentDescription },
+      footer: `${t.copyIntro}<br>${contactFooter(lang)}`,
+    })
+    await sendMail({
+      to: email,
+      subject: `${t.copySubject} — ${sheet}`,
+      text: copy.text,
+      html: copy.html,
+    })
   }
 
   if (!sent.ok) {

@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
 import { saveSubmission } from "@/lib/web/submissions"
-import { clean, escapeHtml, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
+import { clean, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
+import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
 
 /**
  * Solicitudes de cotización de los espacios para eventos.
@@ -68,6 +69,9 @@ export async function POST(request: NextRequest) {
         title: "Quote request",
         source: "Sent from the Events page",
         message: "Message",
+        copySubject: "We received your request",
+        copyTitle: "Thank you for your request",
+        copyIntro: "This is a copy of what you sent us. Our events team will reply shortly.",
       }
     : {
         space: "Espacio",
@@ -83,6 +87,9 @@ export async function POST(request: NextRequest) {
         title: "Solicitud de cotización",
         source: "Enviada desde la página de Eventos",
         message: "Mensaje",
+        copySubject: "Recibimos tu solicitud",
+        copyTitle: "Gracias por escribirnos",
+        copyIntro: "Esta es una copia de lo que nos enviaste. Nuestro equipo de eventos te responderá pronto.",
       }
 
   const rows: Array<[string, string]> = [
@@ -97,32 +104,12 @@ export async function POST(request: NextRequest) {
   ]
 
   const subject = `${t.subject} — ${space || "Hotel Humano"} (${name})`
-  const text = [
-    ...rows.map(([label, value]) => `${label}: ${value}`),
-    "",
-    `${t.message}:`,
-    message,
-  ].join("\n")
-
-  const html = `
-    <div style="font-family:Helvetica,Arial,sans-serif;color:#003035;line-height:1.5">
-      <h2 style="margin:0 0 4px">${t.title}</h2>
-      <p style="margin:0 0 20px;color:#5b6f71">${t.source}</p>
-      <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:560px">
-        ${rows
-          .map(
-            ([label, value]) => `
-          <tr>
-            <td style="padding:8px 12px 8px 0;color:#5b6f71;white-space:nowrap;vertical-align:top">${escapeHtml(label)}</td>
-            <td style="padding:8px 0;font-weight:600">${escapeHtml(value)}</td>
-          </tr>`
-          )
-          .join("")}
-      </table>
-      <p style="margin:22px 0 6px;color:#5b6f71">${t.message}</p>
-      <p style="margin:0;white-space:pre-wrap">${escapeHtml(message)}</p>
-    </div>
-  `
+  const { text, html } = renderEmail({
+    title: t.title,
+    subtitle: t.source,
+    rows,
+    message: { label: t.message, value: message },
+  })
 
   const sent = await sendMail({
     // EVENTS_QUOTE_TO era el nombre anterior; se acepta por compatibilidad
@@ -132,6 +119,23 @@ export async function POST(request: NextRequest) {
     html,
     replyTo: { email, name },
   })
+
+  // Copia para quien rellenó el formulario: si falla, no afecta a la solicitud
+  if (sent.ok) {
+    const copy = renderEmail({
+      title: t.copyTitle,
+      subtitle: t.copyIntro,
+      rows,
+      message: { label: t.message, value: message },
+      footer: contactFooter(lang),
+    })
+    await sendMail({
+      to: email,
+      subject: `${t.copySubject} — ${space || "Hotel Humano"}`,
+      text: copy.text,
+      html: copy.html,
+    })
+  }
 
   // El histórico se guarda pase lo que pase con el correo: si el envío falla,
   // la solicitud no se pierde y queda registrado que no salió el aviso.

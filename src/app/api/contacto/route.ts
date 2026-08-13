@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
 import { saveSubmission } from "@/lib/web/submissions"
-import { clean, escapeHtml, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
+import { clean, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
+import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
 
 /**
  * Formulario de contacto general.
@@ -57,6 +58,9 @@ export async function POST(request: NextRequest) {
         language: "Website language",
         languageValue: "English",
         message: "Message",
+        copySubject: "We received your message",
+        copyTitle: "Thank you for writing to us",
+        copyIntro: "This is a copy of your message. We'll reply shortly.",
       }
     : {
         subject: "Contacto web",
@@ -69,6 +73,9 @@ export async function POST(request: NextRequest) {
         language: "Idioma de la web",
         languageValue: "Español",
         message: "Mensaje",
+        copySubject: "Recibimos tu mensaje",
+        copyTitle: "Gracias por escribirnos",
+        copyIntro: "Esta es una copia de tu mensaje. Te responderemos en un plazo breve.",
       }
 
   const rows: Array<[string, string]> = [
@@ -80,32 +87,12 @@ export async function POST(request: NextRequest) {
   ]
 
   const subject = `${t.subject} — ${subjectInput || name}`
-  const text = [
-    ...rows.map(([label, value]) => `${label}: ${value}`),
-    "",
-    `${t.message}:`,
-    message,
-  ].join("\n")
-
-  const html = `
-    <div style="font-family:Helvetica,Arial,sans-serif;color:#003035;line-height:1.5">
-      <h2 style="margin:0 0 4px">${t.title}</h2>
-      <p style="margin:0 0 20px;color:#5b6f71">${t.source}</p>
-      <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:560px">
-        ${rows
-          .map(
-            ([label, value]) => `
-          <tr>
-            <td style="padding:8px 12px 8px 0;color:#5b6f71;white-space:nowrap;vertical-align:top">${escapeHtml(label)}</td>
-            <td style="padding:8px 0;font-weight:600">${escapeHtml(value)}</td>
-          </tr>`
-          )
-          .join("")}
-      </table>
-      <p style="margin:22px 0 6px;color:#5b6f71">${t.message}</p>
-      <p style="margin:0;white-space:pre-wrap">${escapeHtml(message)}</p>
-    </div>
-  `
+  const { text, html } = renderEmail({
+    title: t.title,
+    subtitle: t.source,
+    rows,
+    message: { label: t.message, value: message },
+  })
 
   const sent = await sendMail({
     to: process.env.FORM_CONTACT_TO || DEFAULT_TO,
@@ -114,6 +101,23 @@ export async function POST(request: NextRequest) {
     html,
     replyTo: { email, name },
   })
+
+  // Copia para quien escribió
+  if (sent.ok) {
+    const copy = renderEmail({
+      title: t.copyTitle,
+      subtitle: t.copyIntro,
+      rows,
+      message: { label: t.message, value: message },
+      footer: contactFooter(lang),
+    })
+    await sendMail({
+      to: email,
+      subject: t.copySubject,
+      text: copy.text,
+      html: copy.html,
+    })
+  }
 
   await saveSubmission({
     form: "contacto",
