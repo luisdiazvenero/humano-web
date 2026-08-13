@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import { ArrowUpRight, ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { trackEvent } from "@/lib/analytics"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 
 type ContactFormState = {
@@ -21,6 +22,8 @@ type ContactFormState = {
   countryShort: string
   phone: string
   message: string
+  /** Campo trampa para bots */
+  website: string
 }
 
 const initialState: ContactFormState = {
@@ -32,6 +35,7 @@ const initialState: ContactFormState = {
   countryShort: "PE",
   phone: "",
   message: "",
+  website: "",
 }
 
 const internationalCodes = [
@@ -65,9 +69,18 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
     mailEmailLabel: isEn ? "Email" : "Correo",
     mailPhoneLabel: isEn ? "Phone" : "Teléfono",
     mailMessageLabel: isEn ? "Message" : "Mensaje",
+    sending: isEn ? "Sending…" : "Enviando…",
+    errorGeneric: isEn
+      ? "We couldn't send your message. Please try again."
+      : "No pudimos enviar tu mensaje. Inténtalo otra vez.",
+    errorRate: isEn
+      ? "Too many messages from this connection. Please try again later."
+      : "Demasiados mensajes desde esta conexión. Inténtalo más tarde.",
   }
   const router = useRouter()
   const [form, setForm] = useState<ContactFormState>(initialState)
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isPhoneMenuOpen, setIsPhoneMenuOpen] = useState(false)
   const phoneMenuRef = useRef<HTMLDivElement>(null)
 
@@ -82,28 +95,43 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
     return () => document.removeEventListener("mousedown", handlePointerDown)
   }, [])
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (status === "sending") return
 
-    const subject = form.subject.trim() || `${labels.subjectPrefix} ${form.name || labels.fallbackName}`
-    const body = [
-      `${labels.mailNameLabel}: ${form.name}`,
-      `${labels.mailEmailLabel}: ${form.email}`,
-      `${labels.mailPhoneLabel}: ${form.countryCode} ${form.phone}`,
-      "",
-      `${labels.mailMessageLabel}:`,
-      form.message,
-    ].join("\n")
+    setStatus("sending")
+    setErrorMessage(null)
 
-    const mailtoUrl = `mailto:hola@humanohoteles.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    try {
+      const response = await fetch("/api/contacto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          phone: `${form.countryCode} ${form.phone}`.trim(),
+          message: form.message,
+          website: form.website,
+          lang,
+        }),
+      })
 
-    // Preserve the current mailto-based flow for now and then show the
-    // thank-you screen in the site while backend submission is still pending.
-    const mailtoLink = document.createElement("a")
-    mailtoLink.href = mailtoUrl
-    mailtoLink.click()
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
+        trackEvent("web_contact_error", { reason: data?.error ?? "unknown" })
+        setStatus("error")
+        setErrorMessage(data?.error === "rate_limited" ? labels.errorRate : labels.errorGeneric)
+        return
+      }
 
-    router.push(lang === "en" ? "/en/contact/thanks" : "/contacto/gracias")
+      trackEvent("web_contact_sent")
+      router.push(lang === "en" ? "/en/contact/thanks" : "/contacto/gracias")
+    } catch {
+      trackEvent("web_contact_error", { reason: "network" })
+      setStatus("error")
+      setErrorMessage(labels.errorGeneric)
+    }
   }
 
   return (
@@ -247,6 +275,29 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
         />
       </label>
 
+      {/* Campo trampa para bots: invisible y fuera del orden de tabulación */}
+      <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden opacity-0">
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-label="Website"
+          value={form.website}
+          onChange={(event) =>
+            setForm((current) => ({ ...current, website: event.target.value }))
+          }
+        />
+      </div>
+
+      {errorMessage ? (
+        <p
+          role="alert"
+          className="rounded-2xl border border-[#ffb4a6]/28 bg-[#ffb4a6]/12 px-4 py-3 text-sm leading-relaxed text-[#ffcfc6]"
+        >
+          {errorMessage}
+        </p>
+      ) : null}
+
       <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
         <p className="text-[12px] leading-relaxed text-white/42">
           {labels.reply}
@@ -254,12 +305,13 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
 
         <button
           type="submit"
+          disabled={status === "sending"}
           className={cn(
             webPrimaryButtonClass,
-            "min-h-12 cursor-pointer bg-white px-5 py-2.5 text-sm text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]"
+            "min-h-12 cursor-pointer bg-white px-5 py-2.5 text-sm text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)] disabled:cursor-not-allowed disabled:opacity-60"
           )}
         >
-          {labels.submit}
+          {status === "sending" ? labels.sending : labels.submit}
           <ArrowUpRight className="h-4.5 w-4.5" />
         </button>
       </div>

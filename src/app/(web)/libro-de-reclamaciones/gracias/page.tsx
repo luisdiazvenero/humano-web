@@ -2,6 +2,9 @@ import Link from "next/link"
 import { Inter } from "next/font/google"
 import { ArrowUpRight, Check } from "lucide-react"
 
+import { Suspense } from "react"
+
+import { ClaimSheetNumber } from "@/components/humano-web/ClaimSheetNumber"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { cn } from "@/lib/utils"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
@@ -65,6 +68,10 @@ export function HumanoClaimsBookThanksContent({ lang = "es" }: { lang?: WebLang 
                 <p className="mx-auto mt-6 max-w-[48ch] text-[16px] leading-8 text-white/76 sm:text-[17px]">
                   {t.intro}
                 </p>
+
+                <Suspense fallback={null}>
+                  <ClaimSheetNumber lang={lang} />
+                </Suspense>
 
                 <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <Link

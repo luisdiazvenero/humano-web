@@ -25,19 +25,28 @@ export type Submission = {
   emailSent: boolean
   /** Campos propios de cada formulario (espacio, fecha, personas…) */
   meta?: Record<string, unknown>
+  /** Para el control de envíos por IP */
+  ip?: string
+}
+
+export type SaveResult = {
+  ok: boolean
+  id?: string
+  /** Correlativo del libro de reclamaciones, asignado por la base de datos */
+  claimNumber?: number
 }
 
 /**
  * Guarda la solicitud. Nunca lanza: si el histórico falla no debe tumbar el
  * envío del formulario, así que el error queda en el log del servidor.
  */
-export async function saveSubmission(submission: Submission): Promise<boolean> {
+export async function saveSubmission(submission: Submission): Promise<SaveResult> {
   const url = process.env.SUPABASE_URL
   const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!url || !key) {
     console.warn("[submissions] Supabase no configurado; no se guardó el histórico")
-    return false
+    return { ok: false }
   }
 
   try {
@@ -47,7 +56,8 @@ export async function saveSubmission(submission: Submission): Promise<boolean> {
         apikey: key,
         Authorization: `Bearer ${key}`,
         "Content-Type": "application/json",
-        Prefer: "return=minimal",
+        // Devuelve la fila creada para conocer el correlativo del libro
+        Prefer: "return=representation",
       },
       body: JSON.stringify({
         form: submission.form,
@@ -57,6 +67,7 @@ export async function saveSubmission(submission: Submission): Promise<boolean> {
         message: submission.message ?? null,
         lang: submission.lang ?? null,
         email_sent: submission.emailSent,
+        ip: submission.ip ?? null,
         meta: submission.meta ?? {},
       }),
     })
@@ -64,12 +75,40 @@ export async function saveSubmission(submission: Submission): Promise<boolean> {
     if (!response.ok) {
       const detail = await response.text()
       console.error("[submissions] Supabase respondió", response.status, detail)
-      return false
+      return { ok: false }
     }
 
-    return true
+    const rows = await response.json().catch(() => null)
+    const row = Array.isArray(rows) ? rows[0] : null
+    return { ok: true, id: row?.id, claimNumber: row?.claim_number ?? undefined }
   } catch (error) {
     console.error("[submissions] Error guardando la solicitud", error)
-    return false
+    return { ok: false }
+  }
+}
+
+/**
+ * Marca que el aviso por correo salió. Se usa cuando el correo se envía
+ * después de guardar, como en el libro de reclamaciones, donde el correo
+ * debe incluir el número de la hoja.
+ */
+export async function markEmailSent(id: string): Promise<void> {
+  const url = process.env.SUPABASE_URL
+  const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return
+
+  try {
+    await fetch(`${url}/rest/v1/form_submissions?id=eq.${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({ email_sent: true }),
+    })
+  } catch (error) {
+    console.error("[submissions] No se pudo marcar el envío del correo", error)
   }
 }

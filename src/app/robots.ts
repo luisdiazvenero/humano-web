@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/conserje"],
       },
     ],
-    sitemap: "https://humanohoteles.com/sitemap.xml",
-    host: "https://humanohoteles.com",
+    sitemap: "https://humanolima.com/sitemap.xml",
+    host: "https://humanolima.com",
   }
 }

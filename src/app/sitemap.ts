@@ -3,7 +3,7 @@ import { getHumanoRooms } from "@/lib/humano/rooms"
 import { getHumanoFacilities } from "@/lib/humano/facilities"
 import { getHumanoServices } from "@/lib/humano/services"
 
-const SITE = "https://humanohoteles.com"
+const SITE = "https://humanolima.com"
 
 function entry(
   esPath: string,

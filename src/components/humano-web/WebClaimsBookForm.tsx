@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { ArrowUpRight, CircleAlert } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { trackEvent } from "@/lib/analytics"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 
 type ClaimsLang = "es" | "en"
@@ -414,6 +415,8 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
   const t = CLAIMS_I18N[lang]
   const router = useRouter()
   const [form, setForm] = useState<ClaimsFormState>(initialState)
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showErrors, setShowErrors] = useState(false)
 
   const errors = useMemo(() => getFormErrors(form, lang), [form, lang])
@@ -435,7 +438,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
       }))
     }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setShowErrors(true)
 
@@ -443,44 +446,60 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
       return
     }
 
-    const labels = t.emailBodyLabels
-    const subject = `${t.subjectPrefix} - ${form.requestType} - ${form.fullName.trim()}`
-    const body = [
-      labels.title,
-      "",
-      labels.company,
-      labels.corp,
-      labels.address,
-      "",
-      labels.consumerSection,
-      `${labels.fullName}: ${form.fullName}`,
-      `${labels.guardian}: ${form.guardianName || labels.notApplicable}`,
-      `${labels.document}: ${form.documentNumber}`,
-      `${labels.addressLabel}: ${form.address}`,
-      `${labels.phone}: ${form.phone}`,
-      `${labels.email}: ${form.email}`,
-      "",
-      labels.itemSection,
-      `${labels.itemType}: ${form.contractedItemType}`,
-      `${labels.itemDesc}: ${form.itemDescription}`,
-      "",
-      labels.detailsSection,
-      `${labels.requestType}: ${form.requestType}`,
-      "",
-      labels.infoSection,
-      `${labels.claimTitle}: ${form.claimTitle}`,
-      `${labels.incident}: ${form.incidentDescription}`,
-      "",
-      labels.consentSection,
-      labels.consentYes,
-    ].join("\n")
+    if (status === "sending") return
+    setStatus("sending")
+    setErrorMessage(null)
 
-    const mailtoUrl = `mailto:hola@humanohoteles.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    const mailtoLink = document.createElement("a")
-    mailtoLink.href = mailtoUrl
-    mailtoLink.click()
+    try {
+      const response = await fetch("/api/libro-de-reclamaciones", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: form.fullName,
+          guardianName: form.guardianName,
+          documentNumber: form.documentNumber,
+          address: form.address,
+          phone: form.phone,
+          email: form.email,
+          contractedItemType: form.contractedItemType,
+          itemDescription: form.itemDescription,
+          requestType: form.requestType,
+          claimTitle: form.claimTitle,
+          incidentDescription: form.incidentDescription,
+          lang,
+        }),
+      })
 
-    router.push(lang === "en" ? "/en/complaints-book/thanks" : "/libro-de-reclamaciones/gracias")
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        trackEvent("web_claims_error", { reason: data?.error ?? "unknown" })
+        setStatus("error")
+        setErrorMessage(
+          data?.error === "rate_limited"
+            ? lang === "en"
+              ? "Too many submissions from this connection. Please try again later."
+              : "Demasiados registros desde esta conexión. Inténtalo más tarde."
+            : lang === "en"
+              ? "We couldn't register your entry. Please try again."
+              : "No pudimos registrar tu solicitud. Inténtalo otra vez."
+        )
+        return
+      }
+
+      trackEvent("web_claims_sent")
+      // La hoja lleva número correlativo: se muestra en la constancia
+      const thanks = lang === "en" ? "/en/complaints-book/thanks" : "/libro-de-reclamaciones/gracias"
+      router.push(data?.sheet ? `${thanks}?n=${encodeURIComponent(data.sheet)}` : thanks)
+    } catch {
+      trackEvent("web_claims_error", { reason: "network" })
+      setStatus("error")
+      setErrorMessage(
+        lang === "en"
+          ? "We couldn't register your entry. Please try again."
+          : "No pudimos registrar tu solicitud. Inténtalo otra vez."
+      )
+    }
   }
 
   return (
@@ -732,6 +751,15 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
           <p>{t.helperNote}</p>
         </div>
 
+        {errorMessage ? (
+          <p
+            role="alert"
+            className="rounded-[24px] border border-[#a13b2f]/24 bg-[#a13b2f]/8 px-4 py-3 text-[13px] leading-relaxed text-[#8d3327]"
+          >
+            {errorMessage}
+          </p>
+        ) : null}
+
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <p className="text-[12px] leading-relaxed text-[var(--color-azul-rgb)]/54">
             {t.submitNote}
@@ -739,7 +767,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
 
           <button
             type="submit"
-            disabled={!isFormValid}
+            disabled={!isFormValid || status === "sending"}
             className={cn(
               webPrimaryButtonClass,
               "min-h-12 px-5 py-2.5 text-sm",
@@ -748,7 +776,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
                 : "cursor-not-allowed bg-[var(--color-azul-rgb)]/18 text-[var(--color-azul-rgb)]/38 shadow-none hover:translate-y-0 hover:shadow-none"
             )}
           >
-            {t.submit}
+            {status === "sending" ? (lang === "en" ? "Sending…" : "Enviando…") : t.submit}
             <ArrowUpRight className="h-4.5 w-4.5" />
           </button>
         </div>

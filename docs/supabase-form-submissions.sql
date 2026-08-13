@@ -11,6 +11,7 @@ create table if not exists public.form_submissions (
   message     text,
   lang        text,
   email_sent  boolean not null default false,
+  ip          text,                    -- control de envíos por IP
   meta        jsonb not null default '{}'::jsonb
 );
 
@@ -20,6 +21,13 @@ create index if not exists form_submissions_created_at_idx
 create index if not exists form_submissions_form_idx
   on public.form_submissions (form);
 
+-- Control de envíos: envíos recientes de una IP en un formulario
+create index if not exists form_submissions_rate_idx
+  on public.form_submissions (ip, form, created_at desc);
+
 -- Sin políticas: nadie puede leer ni escribir con la clave publishable.
 -- El servidor usa la secret key (sb_secret_…), que se salta RLS.
 alter table public.form_submissions enable row level security;
+
+-- Si la tabla ya existía sin la columna ip:
+--   alter table public.form_submissions add column if not exists ip text;

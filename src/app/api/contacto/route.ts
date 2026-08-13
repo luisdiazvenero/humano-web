@@ -5,15 +5,11 @@ import { saveSubmission } from "@/lib/web/submissions"
 import { clean, escapeHtml, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
 
 /**
- * Solicitudes de cotización de los espacios para eventos.
- *
- * Cada formulario define su propio destino: FORM_EVENTS_TO aquí,
- * FORM_CONTACT_TO en contacto, FORM_CLAIMS_TO en reclamaciones.
- * Lo único común a los tres es el remitente (MAIL_FROM).
+ * Formulario de contacto general.
+ * Destino: FORM_CONTACT_TO. Remitente común: MAIL_FROM.
  */
 
-// Destino real; en pruebas se sobrescribe con FORM_EVENTS_TO.
-const DEFAULT_TO = "lgonzales@humanohoteles.com"
+const DEFAULT_TO = "hola@humanohoteles.com"
 
 export async function POST(request: NextRequest) {
   let payload: Record<string, unknown>
@@ -28,17 +24,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true })
   }
 
-  const space = clean(payload.space)
   const name = clean(payload.name)
   const email = clean(payload.email)
+  const subjectInput = clean(payload.subject)
   const phone = clean(payload.phone)
   const message = clean(payload.message)
-  const date = clean(payload.date)
-  const time = clean(payload.time)
-  const guests = clean(payload.guests)
   const lang = clean(payload.lang) === "en" ? "en" : "es"
 
-  if (!name || !email || !phone || !message) {
+  if (!name || !email || !message) {
     return NextResponse.json({ error: "missing_fields" }, { status: 400 })
   }
 
@@ -47,56 +40,46 @@ export async function POST(request: NextRequest) {
   }
 
   const ip = getClientIp(request)
-  if (await isRateLimited(ip, "eventos")) {
+  if (await isRateLimited(ip, "contacto")) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 })
   }
 
-  // El aviso se escribe en el idioma en que el visitante rellenó el formulario
   const isEn = lang === "en"
   const t = isEn
     ? {
-        space: "Space",
+        subject: "Website contact",
+        title: "New contact message",
+        source: "Sent from the Contact page",
         name: "Name",
         email: "Email",
         phone: "Phone",
-        date: "Date",
-        time: "Time",
-        guests: "Number of guests",
+        topic: "Subject",
         language: "Website language",
         languageValue: "English",
-        subject: "Event quote request",
-        title: "Quote request",
-        source: "Sent from the Events page",
         message: "Message",
       }
     : {
-        space: "Espacio",
+        subject: "Contacto web",
+        title: "Nuevo mensaje de contacto",
+        source: "Enviado desde la página de Contacto",
         name: "Nombre",
         email: "Correo",
         phone: "Teléfono",
-        date: "Fecha",
-        time: "Hora",
-        guests: "N.º de personas",
+        topic: "Asunto",
         language: "Idioma de la web",
         languageValue: "Español",
-        subject: "Cotización de evento",
-        title: "Solicitud de cotización",
-        source: "Enviada desde la página de Eventos",
         message: "Mensaje",
       }
 
   const rows: Array<[string, string]> = [
-    [t.space, space || "—"],
+    [t.topic, subjectInput || "—"],
     [t.name, name],
     [t.email, email],
-    [t.phone, phone],
-    [t.date, date || "—"],
-    [t.time, time || "—"],
-    [t.guests, guests || "—"],
+    [t.phone, phone || "—"],
     [t.language, t.languageValue],
   ]
 
-  const subject = `${t.subject} — ${space || "Hotel Humano"} (${name})`
+  const subject = `${t.subject} — ${subjectInput || name}`
   const text = [
     ...rows.map(([label, value]) => `${label}: ${value}`),
     "",
@@ -125,18 +108,15 @@ export async function POST(request: NextRequest) {
   `
 
   const sent = await sendMail({
-    // EVENTS_QUOTE_TO era el nombre anterior; se acepta por compatibilidad
-    to: process.env.FORM_EVENTS_TO || process.env.EVENTS_QUOTE_TO || DEFAULT_TO,
+    to: process.env.FORM_CONTACT_TO || DEFAULT_TO,
     subject,
     text,
     html,
     replyTo: { email, name },
   })
 
-  // El histórico se guarda pase lo que pase con el correo: si el envío falla,
-  // la solicitud no se pierde y queda registrado que no salió el aviso.
   await saveSubmission({
-    form: "eventos",
+    form: "contacto",
     name,
     email,
     phone,
@@ -144,7 +124,7 @@ export async function POST(request: NextRequest) {
     lang,
     emailSent: sent.ok,
     ip,
-    meta: { space, date, time, guests },
+    meta: { subject: subjectInput },
   })
 
   if (!sent.ok) {

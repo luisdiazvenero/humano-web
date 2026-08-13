@@ -16,7 +16,7 @@ import "./globals.css"
 // })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://humanohoteles.com"),
+  metadataBase: new URL("https://humanolima.com"),
   title: "Hotel HUMANO · Miraflores",
   description:
     "Hotel Humano en Miraflores, Lima. Tribute Portfolio by Marriott con diseño único, experiencias locales y conexión auténtica con la ciudad.",
