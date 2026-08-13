@@ -99,29 +99,63 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 })
   }
 
+  // El aviso se escribe en el idioma en que el visitante rellenó el formulario
+  const isEn = lang === "en"
+  const t = isEn
+    ? {
+        space: "Space",
+        name: "Name",
+        email: "Email",
+        phone: "Phone",
+        date: "Date",
+        time: "Time",
+        guests: "Number of guests",
+        language: "Website language",
+        languageValue: "English",
+        subject: "Event quote request",
+        title: "Quote request",
+        source: "Sent from the Events page",
+        message: "Message",
+      }
+    : {
+        space: "Espacio",
+        name: "Nombre",
+        email: "Correo",
+        phone: "Teléfono",
+        date: "Fecha",
+        time: "Hora",
+        guests: "N.º de personas",
+        language: "Idioma de la web",
+        languageValue: "Español",
+        subject: "Cotización de evento",
+        title: "Solicitud de cotización",
+        source: "Enviada desde la página de Eventos",
+        message: "Mensaje",
+      }
+
   const rows: Array<[string, string]> = [
-    ["Espacio", space || "—"],
-    ["Nombre", name],
-    ["Correo", email],
-    ["Teléfono", phone],
-    ["Fecha", date || "—"],
-    ["Hora", time || "—"],
-    ["N.º de personas", guests || "—"],
-    ["Idioma de la web", lang === "en" ? "Inglés" : "Español"],
+    [t.space, space || "—"],
+    [t.name, name],
+    [t.email, email],
+    [t.phone, phone],
+    [t.date, date || "—"],
+    [t.time, time || "—"],
+    [t.guests, guests || "—"],
+    [t.language, t.languageValue],
   ]
 
-  const subject = `Cotización de evento — ${space || "Hotel Humano"} (${name})`
+  const subject = `${t.subject} — ${space || "Hotel Humano"} (${name})`
   const text = [
     ...rows.map(([label, value]) => `${label}: ${value}`),
     "",
-    "Mensaje:",
+    `${t.message}:`,
     message,
   ].join("\n")
 
   const html = `
     <div style="font-family:Helvetica,Arial,sans-serif;color:#003035;line-height:1.5">
-      <h2 style="margin:0 0 4px">Solicitud de cotización</h2>
-      <p style="margin:0 0 20px;color:#5b6f71">Enviada desde la página de Eventos</p>
+      <h2 style="margin:0 0 4px">${t.title}</h2>
+      <p style="margin:0 0 20px;color:#5b6f71">${t.source}</p>
       <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:560px">
         ${rows
           .map(
@@ -133,7 +167,7 @@ export async function POST(request: NextRequest) {
           )
           .join("")}
       </table>
-      <p style="margin:22px 0 6px;color:#5b6f71">Mensaje</p>
+      <p style="margin:22px 0 6px;color:#5b6f71">${t.message}</p>
       <p style="margin:0;white-space:pre-wrap">${escapeHtml(message)}</p>
     </div>
   `
