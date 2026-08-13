@@ -189,6 +189,10 @@ export function EventQuoteProvider({
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}))
+        trackEvent("web_event_quote_error", {
+          space: activeSpace?.name ?? "",
+          reason: data?.error ?? "unknown",
+        })
         setStatus("error")
         setErrorMessage(
           data?.error === "rate_limited"
@@ -203,6 +207,10 @@ export function EventQuoteProvider({
       trackEvent("web_event_quote_sent", { space: activeSpace?.name ?? "" })
       setStatus("sent")
     } catch {
+      trackEvent("web_event_quote_error", {
+        space: activeSpace?.name ?? "",
+        reason: "network",
+      })
       setStatus("error")
       setErrorMessage(t.errorGeneric)
     }

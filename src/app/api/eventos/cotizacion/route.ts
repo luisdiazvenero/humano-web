@@ -1,14 +1,17 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
+import { saveSubmission } from "@/lib/web/submissions"
 
 /**
  * Solicitudes de cotización de los espacios para eventos.
- * El destino se configura con EVENTS_QUOTE_TO; el remitente es común a
- * todos los formularios de la web (MAIL_FROM).
+ *
+ * Cada formulario define su propio destino: FORM_EVENTS_TO aquí,
+ * FORM_CONTACT_TO en contacto, FORM_CLAIMS_TO en reclamaciones.
+ * Lo único común a los tres es el remitente (MAIL_FROM).
  */
 
-// Destino real; en pruebas se sobrescribe con EVENTS_QUOTE_TO.
+// Destino real; en pruebas se sobrescribe con FORM_EVENTS_TO.
 const DEFAULT_TO = "lgonzales@humanohoteles.com"
 
 const MAX_FIELD_LENGTH = 2000
@@ -136,11 +139,25 @@ export async function POST(request: NextRequest) {
   `
 
   const sent = await sendMail({
-    to: process.env.EVENTS_QUOTE_TO || DEFAULT_TO,
+    // EVENTS_QUOTE_TO era el nombre anterior; se acepta por compatibilidad
+    to: process.env.FORM_EVENTS_TO || process.env.EVENTS_QUOTE_TO || DEFAULT_TO,
     subject,
     text,
     html,
     replyTo: { email, name },
+  })
+
+  // El histórico se guarda pase lo que pase con el correo: si el envío falla,
+  // la solicitud no se pierde y queda registrado que no salió el aviso.
+  await saveSubmission({
+    form: "eventos",
+    name,
+    email,
+    phone,
+    message,
+    lang,
+    emailSent: sent.ok,
+    meta: { space, date, time, guests },
   })
 
   if (!sent.ok) {

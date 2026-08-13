@@ -21,6 +21,7 @@ import {
   EventQuoteProvider,
 } from "@/components/humano-web/EventQuotePanel"
 import { EventSpaceSlider } from "@/components/humano-web/EventSpaceSlider"
+import { TrackLink } from "@/components/humano-web/TrackLink"
 import { WebFooterSocialLinks } from "@/components/humano-web/WebFooterSocialLinks"
 import { WebScrollToSectionButton } from "@/components/humano-web/WebScrollToSectionButton"
 import { WebSectionEyebrow } from "@/components/humano-web/WebSectionEyebrow"
@@ -134,6 +135,7 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
                   <div className="mt-7 flex flex-wrap items-center gap-4">
                     <WebScrollToSectionButton
                       targetId="espacios"
+                      eventName="web_events_explore_click"
                       className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                     >
                       {t.eventsExploreCta}
@@ -256,19 +258,21 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
                               spaceName={space.name}
                               label={t.eventsEmailCta}
                             />
-                            <a
+                            <TrackLink
                               href={`${EVENTS_CONTACT.whatsapp}?text=${encodeURIComponent(
                                 isEn
                                   ? `Hi! I'd like information about ${space.name} at Hotel Humano.`
                                   : `¡Hola! Quisiera información sobre ${space.name} en Hotel Humano.`
                               )}`}
+                              eventName="web_event_whatsapp_click"
+                              eventParams={{ space: space.name }}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--color-azul-rgb)]/18 px-5 py-2.5 text-sm font-semibold text-[var(--color-azul-rgb)] transition-colors hover:bg-[var(--color-azul-rgb)]/6"
                             >
                               <WhatsAppIcon className="h-4 w-4" />
                               {t.eventsWhatsappCta}
-                            </a>
+                            </TrackLink>
                           </div>
                         </div>
                       </div>

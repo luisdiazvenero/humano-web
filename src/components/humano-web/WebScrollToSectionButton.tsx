@@ -2,18 +2,26 @@
 
 import type { ReactNode } from "react"
 
+import { trackEvent } from "@/lib/analytics"
+
 type WebScrollToSectionButtonProps = {
   targetId: string
   className?: string
   children: ReactNode
+  eventName?: string
+  eventParams?: Record<string, unknown>
 }
 
 export function WebScrollToSectionButton({
   targetId,
   className,
   children,
+  eventName,
+  eventParams,
 }: WebScrollToSectionButtonProps) {
   const handleClick = () => {
+    if (eventName) trackEvent(eventName, eventParams)
+
     const target = document.getElementById(targetId)
     if (!target) return
 
