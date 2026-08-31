@@ -6,6 +6,9 @@
  * Variables de entorno:
  *  - MAILJET_API_KEY / MAILJET_SECRET_KEY  credenciales (obligatorias)
  *  - MAIL_FROM   remitente común a todos los formularios: "Nombre <correo>"
+ *
+ * Los destinatarios de cada formulario NO se configuran aquí: están a la
+ * vista en form-recipients.ts.
  */
 
 const MAILJET_ENDPOINT = "https://api.mailjet.com/v3.1/send"
@@ -21,6 +24,8 @@ export type SendMailInput = {
   html: string
   /** Al responder se escribe aquí, normalmente quien envió el formulario */
   replyTo?: { email: string; name?: string }
+  /** Copia oculta; quien la recibe no aparece para el destinatario */
+  bcc?: string
 }
 
 export type SendMailResult =
@@ -62,6 +67,7 @@ export async function sendMail(input: SendMailInput): Promise<SendMailResult> {
           {
             From: { Email: sender.email, Name: sender.name ?? "Hotel Humano" },
             To: [{ Email: input.to }],
+            ...(input.bcc ? { Bcc: [{ Email: input.bcc }] } : {}),
             ...(input.replyTo
               ? { ReplyTo: { Email: input.replyTo.email, Name: input.replyTo.name } }
               : {}),

@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
+import { noticeBcc, recipientFor } from "@/lib/web/form-recipients"
 import { markEmailSent, saveSubmission } from "@/lib/web/submissions"
 import { clean, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
 import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
@@ -12,10 +13,8 @@ import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
  * correo: la base de datos asigna el número correlativo de la hoja y ese
  * número tiene que aparecer en el aviso y en la constancia del consumidor.
  *
- * Destino: FORM_CLAIMS_TO.
+ * Destino: ver form-recipients.ts.
  */
-
-const DEFAULT_TO = "hola@humanohoteles.com"
 
 export async function POST(request: NextRequest) {
   let payload: Record<string, unknown>
@@ -168,7 +167,8 @@ export async function POST(request: NextRequest) {
   })
 
   const sent = await sendMail({
-    to: process.env.FORM_CLAIMS_TO || DEFAULT_TO,
+    to: recipientFor("reclamaciones"),
+    bcc: noticeBcc(),
     subject,
     text,
     html,

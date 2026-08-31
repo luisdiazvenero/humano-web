@@ -1,16 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
+import { noticeBcc, recipientFor } from "@/lib/web/form-recipients"
 import { saveSubmission } from "@/lib/web/submissions"
 import { clean, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
 import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
 
 /**
  * Formulario de contacto general.
- * Destino: FORM_CONTACT_TO. Remitente común: MAIL_FROM.
+ * Destino: ver form-recipients.ts. Remitente común: MAIL_FROM.
  */
-
-const DEFAULT_TO = "hola@humanohoteles.com"
 
 export async function POST(request: NextRequest) {
   let payload: Record<string, unknown>
@@ -95,7 +94,8 @@ export async function POST(request: NextRequest) {
   })
 
   const sent = await sendMail({
-    to: process.env.FORM_CONTACT_TO || DEFAULT_TO,
+    to: recipientFor("contacto"),
+    bcc: noticeBcc(),
     subject,
     text,
     html,

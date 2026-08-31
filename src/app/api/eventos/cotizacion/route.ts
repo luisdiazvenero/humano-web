@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
+import { noticeBcc, recipientFor } from "@/lib/web/form-recipients"
 import { saveSubmission } from "@/lib/web/submissions"
 import { clean, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
 import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
@@ -8,13 +9,9 @@ import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
 /**
  * Solicitudes de cotización de los espacios para eventos.
  *
- * Cada formulario define su propio destino: FORM_EVENTS_TO aquí,
- * FORM_CONTACT_TO en contacto, FORM_CLAIMS_TO en reclamaciones.
- * Lo único común a los tres es el remitente (MAIL_FROM).
+ * El destinatario está en form-recipients.ts, junto al del resto de
+ * formularios. Lo común a los tres es el remitente (MAIL_FROM).
  */
-
-// Destino real; en pruebas se sobrescribe con FORM_EVENTS_TO.
-const DEFAULT_TO = "lgonzales@humanohoteles.com"
 
 export async function POST(request: NextRequest) {
   let payload: Record<string, unknown>
@@ -112,8 +109,8 @@ export async function POST(request: NextRequest) {
   })
 
   const sent = await sendMail({
-    // EVENTS_QUOTE_TO era el nombre anterior; se acepta por compatibilidad
-    to: process.env.FORM_EVENTS_TO || process.env.EVENTS_QUOTE_TO || DEFAULT_TO,
+    to: recipientFor("eventos"),
+    bcc: noticeBcc(),
     subject,
     text,
     html,
