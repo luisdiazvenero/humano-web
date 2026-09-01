@@ -11,6 +11,8 @@ export function HeroSection({ lang = "es" }: { lang?: WebLang }) {
   const [lightbox, setLightbox] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  // Hitos ya reportados en esta apertura del lightbox: cada uno se manda una sola vez.
+  const milestonesSent = useRef<Set<number>>(new Set())
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)")
@@ -45,7 +47,11 @@ export function HeroSection({ lang = "es" }: { lang?: WebLang }) {
         <div className="relative mx-auto h-screen w-full max-w-[1280px] px-4 text-center text-white sm:px-6 lg:px-8">
           <button
             type="button"
-            onClick={() => { setLightbox(true); trackEvent("web_video_play", { location: "hero" }) }}
+            onClick={() => {
+              milestonesSent.current.clear()
+              setLightbox(true)
+              trackEvent("web_video_play", { location: "hero", video_name: "humanohotel" })
+            }}
             className="absolute left-1/2 top-1/2 inline-flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30 cursor-pointer"
             aria-label={t.heroPlayVideo}
           >
@@ -95,6 +101,30 @@ export function HeroSection({ lang = "es" }: { lang?: WebLang }) {
                   controls
                   autoPlay
                   playsInline
+                  onTimeUpdate={(e) => {
+                    const video = e.currentTarget
+                    if (!video.duration) return
+                    const percent = (video.currentTime / video.duration) * 100
+                    for (const milestone of [25, 50, 75]) {
+                      if (percent < milestone || milestonesSent.current.has(milestone)) continue
+                      milestonesSent.current.add(milestone)
+                      trackEvent("web_video_progress", {
+                        location: "hero",
+                        video_name: "humanohotel",
+                        progress: milestone,
+                      })
+                    }
+                  }}
+                  onEnded={() => {
+                    // El 100% no llega por timeupdate: el último tick se queda corto.
+                    if (milestonesSent.current.has(100)) return
+                    milestonesSent.current.add(100)
+                    trackEvent("web_video_progress", {
+                      location: "hero",
+                      video_name: "humanohotel",
+                      progress: 100,
+                    })
+                  }}
                   className="block w-full max-h-[min(72svh,calc(100svh-13rem))]"
                 />
               </div>

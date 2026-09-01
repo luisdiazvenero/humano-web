@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Inter } from "next/font/google"
 import { ScrollText, Mail, MapPin, Phone } from "lucide-react"
+import { TrackAnchor } from "@/components/humano-web/TrackAnchor"
 
 import { WebContactForm } from "@/components/humano-web/WebContactForm"
 import {
@@ -83,12 +84,14 @@ export function HumanoContactoPageContent({ lang = "es" }: { lang?: WebLang }) {
                             <Mail className="h-4.5 w-4.5" />
                           </span>
                           <div>
-                            <a
+                            <TrackAnchor
                               href="mailto:hola@humanohoteles.com"
+                              eventName="web_mail_click"
+                              eventParams={{ location: "contact_page" }}
                               className="text-sm font-medium text-white/92 transition hover:text-white"
                             >
                               hola@humanohoteles.com
-                            </a>
+                            </TrackAnchor>
                             <p className="text-sm leading-relaxed text-white/58">
                               {isEn ? "Quick reply" : "Respuesta en un plazo breve"}
                             </p>
@@ -100,12 +103,14 @@ export function HumanoContactoPageContent({ lang = "es" }: { lang?: WebLang }) {
                             <Phone className="h-4.5 w-4.5" />
                           </span>
                           <div>
-                            <a
+                            <TrackAnchor
                               href="tel:+5119041400"
+                              eventName="web_phone_click"
+                              eventParams={{ location: "contact_page" }}
                               className="text-sm font-medium text-white/92 transition hover:text-white"
                             >
                               +51 1 904 1400
-                            </a>
+                            </TrackAnchor>
                             <p className="text-sm leading-relaxed text-white/58">
                               {isEn ? "Daily service" : "Atención diaria"}
                             </p>

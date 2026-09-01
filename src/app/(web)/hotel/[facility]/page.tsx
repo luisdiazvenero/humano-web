@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { TrackLink } from "@/components/humano-web/TrackLink"
+import { TrackAnchor } from "@/components/humano-web/TrackAnchor"
 import { Inter } from "next/font/google"
 import {
   ArrowLeft,
@@ -431,7 +432,11 @@ export function FacilityDetailPageContent({
                       <>
                         <TrackLink
                           href={restaurantConfig.reservationUrl ?? restaurantConfig.whatsapp}
-                          eventName="web_restaurant_whatsapp_click"
+                          eventName={
+                            restaurantConfig.reservationUrl
+                              ? "web_restaurant_reserve_click"
+                              : "web_restaurant_whatsapp_click"
+                          }
                           eventParams={{ facility_slug: facilityData.slug, facility_name: facilityData.nombre }}
                           className={`${webPrimaryButtonClass} bg-white text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)]`}
                           target="_blank"
@@ -498,20 +503,32 @@ export function FacilityDetailPageContent({
                       {restaurantConfig.reservationLabel}
                     </p>
                     <div className="mt-3 flex flex-col gap-2 text-[14px] leading-[1.5] text-white/82">
-                      <a
+                      <TrackAnchor
                         href={`tel:${restaurantConfig.phone.replace(/\s+/g, "")}`}
+                        eventName="web_phone_click"
+                        eventParams={{
+                          facility_slug: facilityData.slug,
+                          facility_name: facilityData.nombre,
+                          location: "restaurant_contact",
+                        }}
                         className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
                       >
                         <Phone className="h-4 w-4 text-white/56" strokeWidth={1.8} />
                         <span>{restaurantConfig.phone}</span>
-                      </a>
-                      <a
+                      </TrackAnchor>
+                      <TrackAnchor
                         href={`mailto:${restaurantConfig.email}`}
+                        eventName="web_mail_click"
+                        eventParams={{
+                          facility_slug: facilityData.slug,
+                          facility_name: facilityData.nombre,
+                          location: "restaurant_contact",
+                        }}
                         className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
                       >
                         <Mail className="h-4 w-4 text-white/56" strokeWidth={1.8} />
                         <span>{restaurantConfig.email}</span>
-                      </a>
+                      </TrackAnchor>
                     </div>
                   </div>
                 ) : meetingConfig ? (
@@ -520,20 +537,32 @@ export function FacilityDetailPageContent({
                       {meetingConfig.contactLabel}
                     </p>
                     <div className="mt-3 flex flex-col gap-2 text-[14px] leading-[1.5] text-white/82">
-                      <a
+                      <TrackAnchor
                         href={`tel:${meetingConfig.phone.replace(/\s+/g, "")}`}
+                        eventName="web_phone_click"
+                        eventParams={{
+                          facility_slug: facilityData.slug,
+                          facility_name: facilityData.nombre,
+                          location: "meeting_contact",
+                        }}
                         className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
                       >
                         <Phone className="h-4 w-4 text-white/56" strokeWidth={1.8} />
                         <span>{meetingConfig.phone}</span>
-                      </a>
-                      <a
+                      </TrackAnchor>
+                      <TrackAnchor
                         href={`mailto:${meetingConfig.email}`}
+                        eventName="web_mail_click"
+                        eventParams={{
+                          facility_slug: facilityData.slug,
+                          facility_name: facilityData.nombre,
+                          location: "meeting_contact",
+                        }}
                         className="inline-flex items-center gap-2 text-white/86 transition hover:text-white"
                       >
                         <Mail className="h-4 w-4 text-white/56" strokeWidth={1.8} />
                         <span>{meetingConfig.email}</span>
-                      </a>
+                      </TrackAnchor>
                     </div>
                   </div>
                 ) : (
