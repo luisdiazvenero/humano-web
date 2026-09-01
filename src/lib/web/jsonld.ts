@@ -22,6 +22,10 @@ const HOTEL = {
   email: "hola@humanohoteles.com",
   checkinTime: "15:00",
   checkoutTime: "12:00",
+  // Tomadas del mapa de Google del hotel. Sirven para búsquedas por cercanía
+  // ("hotel cerca del malecón"), no para navegación puerta a puerta.
+  latitude: -12.123332,
+  longitude: -77.032395,
   sameAs: [
     "https://www.instagram.com/humanolima/",
     "https://www.facebook.com/humanolima/",
@@ -64,6 +68,12 @@ export function hotelJsonLd(lang: WebLang, description: string) {
     telephone: HOTEL.phone,
     email: HOTEL.email,
     address,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: HOTEL.latitude,
+      longitude: HOTEL.longitude,
+    },
+    hasMap: `https://www.google.com/maps/search/?api=1&query=${HOTEL.latitude},${HOTEL.longitude}`,
     brand: { "@type": "Brand", name: "Tribute Portfolio" },
     parentOrganization: { "@type": "Organization", name: "Marriott International" },
     checkinTime: HOTEL.checkinTime,

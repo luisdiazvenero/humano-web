@@ -128,3 +128,24 @@ así.
   etiquetar a propósito: parte de esas URLs viaja dentro del prompt del modelo,
   y una URL larga ahí se presta a que salga cortada o mal copiada. El botón de
   reserva del Concierge sí está etiquetado (`utm_content=conserje`).
+
+---
+
+# Pendiente: sección de preguntas frecuentes
+
+Es lo que más falta para aparecer citado en ChatGPT, Perplexity y Gemini. Esos
+modelos extraen y citan respuestas literales; una FAQ marcada con
+`schema.org/FAQPage` es el formato que mejor leen.
+
+Las respuestas ya existen en `src/data/humano.json`, solo falta la página:
+
+- ¿Cuál es el horario de check-in y check-out? → 15:00 / 12:00
+- ¿Aceptan mascotas? → perros hasta 15 kg, USD 35 + impuestos por noche
+- ¿Tiene piscina y gimnasio? → sí, ambos (`INST_PISCINA`, `INST_GIMNASIO`)
+- ¿Dónde está? → Malecón Balta 710, Miraflores
+- ¿Qué restaurantes tiene? → Entrañable (piso 18, parrillas) y Café de Lima
+  (primer piso, peruana)
+- ¿Tiene espacios para eventos? → Salón Balta (50), Directorio Paniagua (12),
+  Directorio Granada (8)
+
+El helper para el marcado va en `src/lib/web/jsonld.ts`, junto a los demás.
