@@ -4,6 +4,8 @@ import Link from "next/link"
 import { TrackLink } from "@/components/humano-web/TrackLink"
 import { TrackAnchor } from "@/components/humano-web/TrackAnchor"
 import { UTM_CAMPAIGN, bonvoyUrl, withUtm } from "@/lib/web/outbound"
+import { JsonLd } from "@/components/humano-web/JsonLd"
+import { breadcrumbJsonLd, restaurantJsonLd } from "@/lib/web/jsonld"
 import { Inter } from "next/font/google"
 import {
   ArrowLeft,
@@ -316,8 +318,39 @@ export function FacilityDetailPageContent({
     facilityData.id === "INST_SALAS_REUNIONES" ? MEETING_DETAILS[lang] : null
   const menuConfig = FACILITY_MENU[facilityData.id]?.[lang] ?? null
 
+  const facilityPath =
+    lang === "en" ? `/en/hotel/${facilityData.slug}` : `/hotel/${facilityData.slug}`
+  // Solo los restaurantes son una entidad propia en schema.org; el resto de
+  // instalaciones ya van declaradas como amenityFeature del hotel.
+  const CUISINE: Record<string, string> = {
+    INST_RESTAURANTE_ENT: lang === "en" ? "Grill, Peruvian" : "Parrillas, Peruana",
+    INST_RESTAURANTE_CDL: lang === "en" ? "Peruvian" : "Peruana",
+  }
+  const structuredData: object[] = [
+    breadcrumbJsonLd([
+      { name: lang === "en" ? "Home" : "Inicio", path: homeHref },
+      { name: lang === "en" ? "The hotel" : "El hotel", path: hotelHref },
+      { name: facilityData.nombre, path: facilityPath },
+    ]),
+  ]
+  if (restaurantConfig) {
+    structuredData.unshift(
+      restaurantJsonLd({
+        name: facilityData.nombre,
+        description: facilityData.descripcionFactual,
+        url: facilityPath,
+        image: facilityData.imagen,
+        servesCuisine: CUISINE[facilityData.id] ?? "Peruana",
+        telephone: restaurantConfig.phone,
+        menuUrl: restaurantConfig.menuPdf,
+        reservationUrl: restaurantConfig.reservationUrl,
+      })
+    )
+  }
+
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
+      <JsonLd data={structuredData} />
       <WebStickyHeader
         brandHref={homeHref}
         activeHref={hotelHref}

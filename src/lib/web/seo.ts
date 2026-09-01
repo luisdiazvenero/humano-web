@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import type { WebLang } from "@/lib/web/i18n"
+import { OG_IMAGE } from "@/lib/web/site"
 
 interface PageSeoInput {
   title: string
@@ -10,7 +11,7 @@ interface PageSeoInput {
 }
 
 export function buildPageMetadata(lang: WebLang, opts: PageSeoInput): Metadata {
-  const ogImage = opts.ogImage ?? "/logo-humano.svg"
+  const ogImage = opts.ogImage ?? OG_IMAGE.url
   return {
     title: opts.title,
     description: opts.description,
@@ -32,7 +33,9 @@ export function buildPageMetadata(lang: WebLang, opts: PageSeoInput): Metadata {
       images: [
         {
           url: ogImage,
-          alt: "Hotel Humano",
+          width: OG_IMAGE.width,
+          height: OG_IMAGE.height,
+          alt: OG_IMAGE.alt,
         },
       ],
     },

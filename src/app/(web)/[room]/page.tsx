@@ -22,6 +22,8 @@ import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 import { getHumanoRoomBySlug, getHumanoRooms, type HumanoRoom } from "@/lib/humano/rooms"
 import { MARRIOTT_ROOMS_URL, UTM_CAMPAIGN, bonvoyUrl, withUtm } from "@/lib/web/outbound"
+import { JsonLd } from "@/components/humano-web/JsonLd"
+import { breadcrumbJsonLd, roomJsonLd } from "@/lib/web/jsonld"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
 import { buildPageMetadata } from "@/lib/web/seo"
 
@@ -161,8 +163,26 @@ export function RoomDetailPageContent({
     .filter((item) => item.id !== roomData.id)
     .slice(0, 4)
 
+  const roomPath = lang === "en" ? `/en/rooms/${roomData.slug}` : `/${roomData.slug}`
+
   return (
     <div className={`${bodyFont.className} min-h-screen bg-[var(--color-azul-rgb)] text-[var(--color-azul-rgb)]`}>
+      <JsonLd
+        data={[
+          roomJsonLd({
+            name: roomData.nombre,
+            description: roomData.descripcionFactual,
+            url: roomPath,
+            image: roomData.imagen,
+            bookingUrl: reserveHref,
+          }),
+          breadcrumbJsonLd([
+            { name: lang === "en" ? "Home" : "Inicio", path: homeHref },
+            { name: lang === "en" ? "Rooms" : "Habitaciones", path: roomsHref },
+            { name: roomData.nombre, path: roomPath },
+          ]),
+        ]}
+      />
       <WebStickyHeader
         brandHref={homeHref}
         activeHref={roomsHref}

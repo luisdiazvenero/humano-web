@@ -17,6 +17,8 @@ import { Reveal } from "@/components/motion/Reveal"
 import { StaggerGroup } from "@/components/motion/StaggerGroup"
 import { getHumanoFeaturedFacilities } from "@/lib/humano/facilities"
 import { bonvoyUrl } from "@/lib/web/outbound"
+import { JsonLd } from "@/components/humano-web/JsonLd"
+import { hotelJsonLd } from "@/lib/web/jsonld"
 import { getMetaIcon } from "@/components/humano-web/MetaIcon"
 import { getHumanoRooms } from "@/lib/humano/rooms"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
@@ -48,6 +50,7 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
 
   return (
     <div className={`${bodyFont.className} bg-white text-[var(--color-azul-rgb)]`}>
+      <JsonLd data={hotelJsonLd(lang, t.metaDescription)} />
       <WebStickyHeader activeHref={lang === "en" ? "/en" : "/"} lang={lang} />
 
       <main>

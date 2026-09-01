@@ -4,6 +4,7 @@ import { headers } from "next/headers"
 // Commented temporarily for build - fonts work fine in production
 // import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { OG_IMAGE, SITE_URL } from "@/lib/web/site"
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -16,7 +17,7 @@ import "./globals.css"
 // })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://humanolima.com"),
+  metadataBase: new URL(SITE_URL),
   title: "Hotel HUMANO · Miraflores",
   description:
     "Hotel Humano en Miraflores, Lima. Tribute Portfolio by Marriott con diseño único, experiencias locales y conexión auténtica con la ciudad.",
@@ -30,10 +31,10 @@ export const metadata: Metadata = {
     alternateLocale: ["en_US"],
     images: [
       {
-        url: "/logo-humano.svg",
-        width: 800,
-        height: 800,
-        alt: "Hotel Humano",
+        url: OG_IMAGE.url,
+        width: OG_IMAGE.width,
+        height: OG_IMAGE.height,
+        alt: OG_IMAGE.alt,
       },
     ],
   },
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     title: "Hotel HUMANO · Miraflores",
     description:
       "Hotel Humano en Miraflores, Lima. Tribute Portfolio by Marriott con diseño único, experiencias locales y conexión auténtica con la ciudad.",
-    images: ["/logo-humano.svg"],
+    images: [OG_IMAGE.url],
   },
 }
 
