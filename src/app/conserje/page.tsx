@@ -1,6 +1,7 @@
 "use client"
 
 import { trackEvent } from "@/lib/analytics"
+import { marriottRoomsUrl } from "@/lib/web/outbound"
 import { Fragment, Suspense, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import Image from "next/image"
@@ -111,8 +112,7 @@ const CONSERJE_DATA: Record<Lang, ConserjeData> = {
   es: conserjeDataRaw as ConserjeData,
   en: conserjeDataRawEn as ConserjeData,
 }
-const MARRIOTT_ROOMS_URL =
-  "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
+const MARRIOTT_ROOMS_URL = marriottRoomsUrl("conserje")
 const HUMAN_ESCALATION_EMAIL = "recepcion@humanohoteles.com"
 
 const defaultSuggestions = [

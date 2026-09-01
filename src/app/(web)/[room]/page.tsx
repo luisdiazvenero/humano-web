@@ -21,6 +21,7 @@ import { RoomDetailGallery } from "@/components/humano-web/RoomDetailGallery"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 import { getHumanoRoomBySlug, getHumanoRooms, type HumanoRoom } from "@/lib/humano/rooms"
+import { MARRIOTT_ROOMS_URL, UTM_CAMPAIGN, bonvoyUrl, withUtm } from "@/lib/web/outbound"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
 import { buildPageMetadata } from "@/lib/web/seo"
 
@@ -148,9 +149,13 @@ export function RoomDetailPageContent({
       ? "If your children are 12 or older, other rooms at the hotel fit that setup very well."
       : "Si tus hijos tienen 12 años o más, otras habitaciones del hotel se adaptan muy bien a ese plan."
 
-  const reserveHref =
-    roomData.reservaUrl ||
-    "https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
+  // Las 8 habitaciones apuntan a la misma URL de Marriott: el utm_content con el
+  // slug es lo único que permite saber desde qué habitación se reservó.
+  const reserveHref = withUtm(
+    roomData.reservaUrl || MARRIOTT_ROOMS_URL,
+    UTM_CAMPAIGN.hotel,
+    `room-${roomData.slug}`
+  )
 
   const moreRooms = getHumanoRooms(lang)
     .filter((item) => item.id !== roomData.id)
@@ -319,7 +324,7 @@ export function RoomDetailPageContent({
 
             <div className="flex justify-center md:justify-end">
               <Link
-                href="https://www.marriott.com/default.mi"
+                href={bonvoyUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Marriott Bonvoy"

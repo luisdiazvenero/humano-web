@@ -35,6 +35,7 @@ import {
   type EventSetupKind,
 } from "@/lib/humano/events"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { bonvoyUrl } from "@/lib/web/outbound"
 import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
@@ -320,7 +321,7 @@ export function HumanoEventosPageContent({ lang = "es" }: { lang?: WebLang }) {
 
               <div className="flex justify-center md:justify-end">
                 <Link
-                  href="https://www.marriott.com/default.mi"
+                  href={bonvoyUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Marriott Bonvoy"

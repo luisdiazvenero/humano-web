@@ -11,6 +11,7 @@ import { FullLogo } from "@/components/humano-v09/FullLogo"
 import { cn } from "@/lib/utils"
 import { webHeaderShellRadiusClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 import { trackEvent } from "@/lib/analytics"
+import { marriottRoomsUrl } from "@/lib/web/outbound"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
 import { localizedPath } from "@/lib/web/path-localization"
 
@@ -184,7 +185,7 @@ export function WebStickyHeader({
             </span>
             {showReserve ? (
               <Link
-                href="https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
+                href={marriottRoomsUrl("navbar")}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent("web_reserve_click", { location: "header" })}
@@ -379,7 +380,7 @@ export function WebStickyHeader({
 
               {showReserve ? (
                 <Link
-                  href="https://www.marriott.com/es/hotels/limtx-humano-lima-a-tribute-portfolio-hotel/rooms/"
+                  href={marriottRoomsUrl("navbar-mobile")}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {

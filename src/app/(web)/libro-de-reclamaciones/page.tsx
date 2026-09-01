@@ -6,6 +6,7 @@ import { WebClaimsBookForm } from "@/components/humano-web/WebClaimsBookForm"
 import { WebFooterSocialLinks } from "@/components/humano-web/WebFooterSocialLinks"
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { bonvoyUrl } from "@/lib/web/outbound"
 import { buildPageMetadata } from "@/lib/web/seo"
 
 const bodyFont = Inter({
@@ -149,7 +150,7 @@ export function HumanoClaimsBookPageContent({ lang = "es" }: { lang?: WebLang })
 
             <div className="flex justify-center md:justify-end">
               <Link
-                href="https://www.marriott.com/default.mi"
+                href={bonvoyUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Marriott Bonvoy"

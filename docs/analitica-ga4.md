@@ -75,3 +75,56 @@ GA4 no los ve: la medición mejorada solo capta enlaces `http/https` a otro
 dominio. Se instrumentan a mano con `TrackAnchor`
 (`src/components/humano-web/TrackAnchor.tsx`). Cualquier teléfono o correo nuevo
 que se agregue a la web tiene que usar ese componente o no se mide.
+
+## UTM en los enlaces salientes
+
+Los enlaces que salen a otro dominio llevan UTM. Esos parámetros **no se leen en
+nuestra analítica**: se leen en la de Marriott y la de Mesa 247, para que puedan
+atribuir el tráfico que les manda la web. Del lado nuestro el dato ya lo da el
+evento propio (`web_reserve_click`, `web_room_reserve_click`,
+`web_restaurant_reserve_click`).
+
+Toda la convención vive en `src/lib/web/outbound.ts`. Cambiarla es cambiar ese
+archivo, no ir enlace por enlace.
+
+```
+utm_source  = humanolima.com     (siempre)
+utm_medium  = referral           (siempre)
+utm_campaign= hotel-booking | restaurant-booking | bonvoy
+utm_content = el sitio exacto del clic
+```
+
+| Enlace | Destino | `utm_campaign` | `utm_content` |
+|---|---|---|---|
+| Reservar del navbar (escritorio) | Marriott · rooms | `hotel-booking` | `navbar` |
+| Reservar del navbar (móvil) | Marriott · rooms | `hotel-booking` | `navbar-mobile` |
+| Reservar de cada habitación | Marriott · rooms | `hotel-booking` | `room-<slug>` |
+| Reservar del Concierge | Marriott · rooms | `hotel-booking` | `conserje` |
+| Reservar · Entrañable | entranable.mesa247.pe | `restaurant-booking` | `entranable` |
+| Reservar · Café de Lima | cafedelima.mesa247.pe | `restaurant-booking` | `cafe-de-lima` |
+| Logo Bonvoy del pie (10 páginas) | marriott.com | `bonvoy` | `footer` |
+
+Las 8 habitaciones apuntan a la misma URL de Marriott, así que el `utm_content`
+es lo único que distingue desde cuál se reservó:
+
+```
+room-superior-king    room-superior-double  room-deluxe-king
+room-family-room      room-family-deluxe    room-junior-suite
+room-signature-suite  room-accesible-room  (en inglés: room-accessible-room)
+```
+
+Ojo con la habitación accesible: el slug cambia entre idiomas, así que en los
+reportes de Marriott aparece partida en dos filas. Es la única que se comporta
+así.
+
+### Enlaces que a propósito NO llevan UTM
+
+- **WhatsApp** (`wa.me`, `wa.link`): descarta el query string al abrir el chat.
+  `withUtm()` los devuelve intactos aunque se le pasen por error.
+- **Instagram y Facebook**: la plataforma no expone esa atribución a la marca.
+- **Google Maps** y los `mailto:` / `tel:`: no leen UTM.
+- **Las URLs de Marriott que el Concierge escribe dentro del texto del chat**
+  (`src/app/api/conserje/route.ts`, `src/app/api/humano/route.ts`). Van sin
+  etiquetar a propósito: parte de esas URLs viaja dentro del prompt del modelo,
+  y una URL larga ahí se presta a que salga cortada o mal copiada. El botón de
+  reserva del Concierge sí está etiquetado (`utm_content=conserje`).

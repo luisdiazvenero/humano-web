@@ -13,6 +13,7 @@ import { WebScrollToSectionButton } from "@/components/humano-web/WebScrollToSec
 import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { Reveal } from "@/components/motion/Reveal"
 import { getHumanoServices } from "@/lib/humano/services"
+import { bonvoyUrl } from "@/lib/web/outbound"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
 import { buildPageMetadata } from "@/lib/web/seo"
@@ -152,7 +153,7 @@ export function HumanoServicesPageContent({ lang = "es" }: { lang?: WebLang }) {
 
               <div className="flex justify-center md:justify-end">
                 <Link
-                  href="https://www.marriott.com/default.mi"
+                  href={bonvoyUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Marriott Bonvoy"

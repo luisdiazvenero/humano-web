@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { TrackLink } from "@/components/humano-web/TrackLink"
 import { TrackAnchor } from "@/components/humano-web/TrackAnchor"
+import { UTM_CAMPAIGN, bonvoyUrl, withUtm } from "@/lib/web/outbound"
 import { Inter } from "next/font/google"
 import {
   ArrowLeft,
@@ -74,7 +75,7 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
       phone: "+51 934 304 478",
       phoneLabel: "Celular",
       whatsapp: "https://wa.link/4ty7ii",
-      reservationUrl: "https://cafedelima.mesa247.pe/",
+      reservationUrl: withUtm("https://cafedelima.mesa247.pe/", UTM_CAMPAIGN.restaurant, "cafe-de-lima"),
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Correo",
       menuPdf: "/pdfs/carta-cafe-de-lima-es.pdf",
@@ -91,7 +92,7 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
       phone: "+51 934 304 478",
       phoneLabel: "Mobile",
       whatsapp: "https://wa.link/flgsgc",
-      reservationUrl: "https://cafedelima.mesa247.pe/",
+      reservationUrl: withUtm("https://cafedelima.mesa247.pe/", UTM_CAMPAIGN.restaurant, "cafe-de-lima"),
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Email",
       menuPdf: "/pdfs/carta-cafe-de-lima-en.pdf",
@@ -112,7 +113,7 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
       phone: "+51 934 304 478",
       phoneLabel: "Celular",
       whatsapp: "https://wa.link/6a2hwm",
-      reservationUrl: "https://entranable.mesa247.pe/",
+      reservationUrl: withUtm("https://entranable.mesa247.pe/", UTM_CAMPAIGN.restaurant, "entranable"),
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Correo",
       menuPdf: "/pdfs/carta-entranable-es.pdf",
@@ -131,7 +132,7 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
       phone: "+51 934 304 478",
       phoneLabel: "Mobile",
       whatsapp: "https://wa.link/3k3ntj",
-      reservationUrl: "https://entranable.mesa247.pe/",
+      reservationUrl: withUtm("https://entranable.mesa247.pe/", UTM_CAMPAIGN.restaurant, "entranable"),
       email: "reservas.ayb@humanohoteles.com",
       emailLabel: "Email",
       menuPdf: "/pdfs/carta-entranable-en.pdf",
@@ -632,7 +633,7 @@ export function FacilityDetailPageContent({
 
               <div className="flex justify-center md:justify-end">
                 <Link
-                  href="https://www.marriott.com/default.mi"
+                  href={bonvoyUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Marriott Bonvoy"

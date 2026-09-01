@@ -16,6 +16,7 @@ import { WebStickyHeader } from "@/components/humano-web/WebStickyHeader"
 import { Reveal } from "@/components/motion/Reveal"
 import { StaggerGroup } from "@/components/motion/StaggerGroup"
 import { getHumanoFeaturedFacilities } from "@/lib/humano/facilities"
+import { bonvoyUrl } from "@/lib/web/outbound"
 import { getMetaIcon } from "@/components/humano-web/MetaIcon"
 import { getHumanoRooms } from "@/lib/humano/rooms"
 import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
@@ -278,7 +279,7 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
 
               <div className="flex justify-center md:justify-end">
                 <Link
-                  href="https://www.marriott.com/default.mi"
+                  href={bonvoyUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Marriott Bonvoy"
