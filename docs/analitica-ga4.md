@@ -16,7 +16,7 @@ Administrar → Definiciones personalizadas → Crear dimensión personalizada,
 de abajo. **No son retroactivas**: GA4 solo reporta desde el momento en que se
 registran, así que conviene crearlas antes de desplegar.
 
-Límite de la propiedad: 50 dimensiones de ámbito evento. Aquí se usan 15.
+Límite de la propiedad: 50 dimensiones de ámbito evento. Aquí se usan 16.
 
 | Parámetro | Eventos que lo mandan | Para qué |
 |---|---|---|
@@ -36,6 +36,12 @@ Límite de la propiedad: 50 dimensiones de ámbito evento. Aquí se usan 15.
 | `intent` | `conserje_intent_select` | Qué le piden al Concierge |
 | `suggestion` | `conserje_suggestion_click` | Qué sugerencia funciona |
 | `cta_label` | `conserje_cta_click` | A qué empuja el Concierge |
+
+Esta tabla es una selección, no el inventario completo: el Concierge manda
+además `item_name`, `item_type`, `profile`, `field`, `input_type`, `source`,
+`query`, `route_label` y `route_url`, y los formularios mandan `reason` en sus
+eventos de error. Se pueden registrar después si hacen falta; no son necesarias
+para los reportes de la web.
 
 ## Eventos clave
 
