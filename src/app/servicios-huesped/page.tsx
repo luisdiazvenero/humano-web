@@ -167,6 +167,52 @@ export default function ServiciosHuesped() {
           color: rgba(0,55,68,0.65);
         }
 
+        .sh-rates {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 0 0 0.7rem;
+          font-family: var(--sans);
+          font-size: clamp(0.78rem,1.1vw,0.85rem);
+          line-height: 1.5;
+          color: var(--ink);
+        }
+
+        .sh-rates th,
+        .sh-rates td {
+          text-align: left;
+          padding: 0.45rem 0.6rem 0.45rem 0;
+          border-bottom: 1px solid rgba(0,55,68,0.12);
+          vertical-align: top;
+        }
+
+        .sh-rates thead th {
+          font-weight: 600;
+          border-bottom-color: rgba(0,55,68,0.3);
+        }
+
+        .sh-rates tbody tr:last-child td { border-bottom: none; }
+
+        .sh-rates-en {
+          display: block;
+          font-style: italic;
+          font-weight: 400;
+          color: rgba(0,55,68,0.55);
+        }
+
+        .sh-rates-note {
+          margin: 0 0 0.2rem;
+          font-family: var(--sans);
+          font-size: clamp(0.72rem,1vw,0.78rem);
+          line-height: 1.6;
+          color: rgba(0,55,68,0.6);
+        }
+
+        .sh-rates-note--en {
+          margin-bottom: 0;
+          font-style: italic;
+          color: rgba(0,55,68,0.5);
+        }
+
         .sh-service-desc {
           margin: 0 0 0.3rem;
           font-family: var(--sans);
@@ -185,6 +231,51 @@ export default function ServiciosHuesped() {
           font-weight: 400;
           font-style: italic;
         }
+
+        .sh-steps-title {
+          margin: 0 0 0.45rem;
+          font-family: var(--sans);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--ink);
+          text-decoration: underline;
+          text-underline-offset: 0.35em;
+          text-decoration-thickness: 1px;
+        }
+
+        .sh-steps-title--en { font-style: italic; }
+
+        .sh-steps {
+          margin: 0 0 0.45rem;
+          padding-left: 1.35rem;
+          list-style: decimal outside;
+          font-family: var(--sans);
+          font-size: clamp(0.82rem,1.1vw,0.9rem);
+          line-height: 1.7;
+          color: rgba(0,55,68,0.75);
+        }
+
+        .sh-steps li::marker {
+          font-weight: 600;
+          color: rgba(0,55,68,0.6);
+        }
+
+        .sh-steps--en { color: rgba(0,55,68,0.6); font-style: italic; }
+
+        .sh-steps li { padding: 0.06rem 0; }
+
+        .sh-steps-note {
+          margin: 0 0 1.1rem;
+          font-family: var(--sans);
+          font-size: clamp(0.78rem,1vw,0.85rem);
+          line-height: 1.6;
+          color: rgba(0,55,68,0.7);
+          font-weight: 500;
+        }
+
+        .sh-steps-note--en { color: rgba(0,55,68,0.55); font-style: italic; }
 
         .sh-service-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
@@ -356,6 +447,62 @@ export default function ServiciosHuesped() {
 
           <div className="sh-service">
             <div className="sh-service-head">
+              <h3 className="sh-service-name">Tarifario de llamadas / Call Rates</h3>
+            </div>
+            <div className="sh-service-meta">
+              <span className="sh-service-meta-item">Teléfono de habitación</span>
+              <span className="sh-service-meta-item">Room phone</span>
+            </div>
+            <table className="sh-rates">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    Destino
+                    <span className="sh-rates-en">Destination</span>
+                  </th>
+                  <th scope="col">
+                    Precio por minuto
+                    <span className="sh-rates-en">Price per minute</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Fijo
+                    <span className="sh-rates-en">Landline</span>
+                  </td>
+                  <td>S/ 1.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    Celular
+                    <span className="sh-rates-en">Mobile</span>
+                  </td>
+                  <td>S/ 3.84</td>
+                </tr>
+                <tr>
+                  <td>
+                    Nacional
+                    <span className="sh-rates-en">Domestic</span>
+                  </td>
+                  <td>S/ 4.48</td>
+                </tr>
+                <tr>
+                  <td>
+                    Internacional
+                    <span className="sh-rates-en">International</span>
+                  </td>
+                  <td>S/ 19.20</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="sh-rates-note">*Precio incluye impuestos y servicios.</p>
+            <p className="sh-rates-note sh-rates-note--en">*Price includes taxes and service charge.</p>
+          </div>
+
+          <div className="sh-service">
+            <div className="sh-service-head">
               <h3 className="sh-service-name">Sala de Masajes</h3>
             </div>
             <div className="sh-service-meta">
@@ -406,6 +553,36 @@ export default function ServiciosHuesped() {
             </div>
             <p className="sh-service-desc">Todas nuestras habitaciones cuentan con un steamer para el cuidado y alisado de prendas. Asimismo, ponemos a disposición plancha y tabla de planchar bajo solicitud.</p>
             <p className="sh-service-desc--en">All of our guest rooms are equipped with a garment steamer for clothing care and wrinkle removal. An iron and ironing board are also available upon request.</p>
+
+            <p className="sh-steps-title">Instrucciones de uso</p>
+            <ol className="sh-steps">
+              <li>Llene el tanque de agua hasta el nivel indicado.</li>
+              <li>Conecte el steamer y espere hasta que esté listo para emitir vapor.</li>
+              <li>Cuelgue la prenda y pase el steamer de arriba hacia abajo.</li>
+            </ol>
+            <p className="sh-steps-note">⚠️ Precaución: no dirija el vapor hacia la piel. Mantener fuera del alcance de los niños.</p>
+
+            <p className="sh-steps-title sh-steps-title--en">How to use</p>
+            <ol className="sh-steps sh-steps--en">
+              <li>Fill the water tank up to the indicated level.</li>
+              <li>Plug in the steamer and wait until steam is ready.</li>
+              <li>Hang the garment and move the steamer from top to bottom.</li>
+            </ol>
+            <p className="sh-steps-note sh-steps-note--en">⚠️ Caution: do not direct steam onto skin. Keep away from children.</p>
+          </div>
+
+          <div className="sh-service">
+            <div className="sh-service-head">
+              <h3 className="sh-service-name">Toallas / Towels</h3>
+            </div>
+            <div className="sh-service-meta">
+              <span className="sh-service-meta-item">Habitación</span>
+              <span className="sh-service-meta-item">Guest room</span>
+            </div>
+            <p className="sh-service-desc"><strong>Reutiliza:</strong> deja las toallas que deseas volver a usar colgadas.</p>
+            <p className="sh-service-desc--en"><strong>Reuse:</strong> hang towels you wish to reuse.</p>
+            <p className="sh-service-desc"><strong>Cambio:</strong> coloca las toallas que deseas cambiar en el piso o dentro de la tina.</p>
+            <p className="sh-service-desc--en"><strong>Change:</strong> place towels you would like replaced on the floor or in the bathtub.</p>
           </div>
 
           </section>

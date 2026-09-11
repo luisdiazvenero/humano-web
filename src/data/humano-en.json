@@ -354,7 +354,7 @@
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/serv/concierge/concierge_1.webp"
+        "/chatbot/imagenes/serv/concierge/concierge_2.webp"
       ],
       "frases_sugeridas": [
         "Useful if it's your first time",
@@ -711,8 +711,8 @@
       "id": "INST_DESAYUNO",
       "nombre_publico": "Breakfast",
       "categoria": "Instalación",
-      "desc_factual": "Breakfast area, where the day begins.",
-      "desc_experiencial": "Start the day at ease without leaving the hotel.",
+      "desc_factual": "Hotel breakfast area on the first floor. Monday to Friday, 6:30 – 10:30 AM; Saturdays and Sundays, 6:30 AM – 12:00 PM.",
+      "desc_experiencial": "Start your day with a varied breakfast buffet and a selection of made-to-order options. On Saturdays and Sundays, enjoy our mimosa station, and on Sundays, discover a special selection of Peruvian flavors.",
       "intenciones": [
         "Trabajo",
         "Descanso",

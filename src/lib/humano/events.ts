@@ -113,7 +113,7 @@ const EVENT_SPACES: Record<WebLang, Array<Omit<HumanoEventSpace, "images">>> = {
       slug: "directorio-paniagua",
       name: "Directorio Paniagua",
       description:
-        "Sala de directorio pensada para reuniones ejecutivas: mesa única, privacidad total y todo lo necesario para trabajar sin interrupciones.",
+        "Sala de directorio pensada para reuniones ejecutivas: versatilidad de armados, privacidad total y todo lo necesario para trabajar sin interrupciones.",
       dimensions: "5.7 × 3.5 × 2.7 m",
       area: "19.9 m²",
       setups: [{ kind: "directorio", label: "Directorio", capacity: 10 }],
@@ -180,7 +180,7 @@ const EVENT_SPACES: Record<WebLang, Array<Omit<HumanoEventSpace, "images">>> = {
       slug: "paniagua-boardroom",
       name: "Paniagua Boardroom",
       description:
-        "A boardroom designed for executive meetings: a single table, complete privacy, and everything you need to work without interruptions.",
+        "A boardroom designed for executive meetings: versatile setups, complete privacy, and everything you need to work without interruptions.",
       dimensions: "5.7 × 3.5 × 2.7 m",
       area: "19.9 m²",
       setups: [{ kind: "directorio", label: "Boardroom", capacity: 10 }],

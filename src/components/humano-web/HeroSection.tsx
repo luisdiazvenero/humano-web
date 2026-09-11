@@ -2,11 +2,19 @@
 
 import { useEffect, useRef, useState } from "react"
 import { X } from "lucide-react"
+import { TripAdvisorBadge } from "@/components/humano-web/TripAdvisorBadge"
 import { VideoBackground } from "@/components/humano-web/VideoBackground"
 import { trackEvent } from "@/lib/analytics"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { TRIPADVISOR_FALLBACK, type TripadvisorStats } from "@/lib/web/tripadvisor"
 
-export function HeroSection({ lang = "es" }: { lang?: WebLang }) {
+export function HeroSection({
+  lang = "es",
+  tripadvisor = TRIPADVISOR_FALLBACK,
+}: {
+  lang?: WebLang
+  tripadvisor?: TripadvisorStats
+}) {
   const t = WEB_I18N[lang]
   const [lightbox, setLightbox] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -66,6 +74,13 @@ export function HeroSection({ lang = "es" }: { lang?: WebLang }) {
             <p className="mt-4 text-[18px] leading-tight text-white/85">
               {t.heroSubtitle}
             </p>
+          </div>
+        </div>
+
+        {/* Alineado con el contenedor del header para que calce con el logo. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-8 z-10 sm:bottom-10">
+          <div className="mx-auto flex w-full max-w-[1680px] justify-center px-6 sm:justify-start sm:px-10 xl:px-14">
+            <TripAdvisorBadge lang={lang} stats={tripadvisor} className="pointer-events-auto" />
           </div>
         </div>
       </section>

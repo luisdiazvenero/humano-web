@@ -115,8 +115,8 @@ export function EventQuoteProvider({
       close: isEn ? "Close" : "Cerrar",
       sentTitle: isEn ? "Request sent" : "Solicitud enviada",
       sentBody: isEn
-        ? "Thank you. Our events team will reply to your email shortly."
-        : "Gracias. Nuestro equipo de eventos te responderá por correo en un plazo breve.",
+        ? "Thank you for thinking of HUMANO for your next event. Our events team is available Monday to Friday, 9:00 a.m. to 6:00 p.m., and will be in touch very soon to help you bring your idea to life."
+        : "Gracias por pensar en HUMANO para tu próximo evento. Nuestro equipo de eventos atiende de lunes a viernes, de 9:00 a. m. a 6:00 p. m., y estará contactándote muy pronto para ayudarte a hacer realidad tu idea.",
       sentCta: isEn ? "Close" : "Cerrar",
       errorGeneric: isEn
         ? "We couldn't send your request. Please try again or write to us on WhatsApp."

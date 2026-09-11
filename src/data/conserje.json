@@ -674,7 +674,7 @@
       "redirigir": "recepcion@humanohoteles.com",
       "condiciones_servicio": [],
       "imagenes_url": [
-        "/chatbot/imagenes/serv/concierge/concierge_1.webp"
+        "/chatbot/imagenes/serv/concierge/concierge_2.webp"
       ],
       "frases_sugeridas": [
         "Útil si es tu primera vez",
@@ -741,8 +741,8 @@
       "id": "INST_DESAYUNO",
       "nombre_publico": "Desayuno",
       "categoria": "Instalación",
-      "desc_factual": "Área de desayuno del hotel.",
-      "desc_experiencial": "Empezar el día con calma sin salir del hotel.",
+      "desc_factual": "Área de desayuno del hotel, en el piso 1. Lunes a viernes de 06:30 – 10:30 hrs.; sábados y domingos de 6:30 – 12:00 hrs.",
+      "desc_experiencial": "Empieza el día con un desayuno buffet variado y una selección de opciones preparadas a la orden. Los sábados y domingos, disfruta de nuestra estación de mimosas, y los domingos déjate sorprender por una propuesta especial de sabores criollos.",
       "intenciones": [
         "Trabajo",
         "Descanso",

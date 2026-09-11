@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test:conserje": "node scripts/conserje-regression.mjs",
     "images:chatbot": "node scripts/process-chatbot-images.mjs",
-    "images:chatbot:dry-run": "node scripts/process-chatbot-images.mjs --dry-run"
+    "images:chatbot:dry-run": "node scripts/process-chatbot-images.mjs --dry-run",
+    "tripadvisor:update": "node scripts/update-tripadvisor.mjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

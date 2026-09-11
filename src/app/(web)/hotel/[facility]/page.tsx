@@ -69,7 +69,7 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
   INST_RESTAURANTE_CDL: {
     es: {
       bullets: [
-        "Desayuno buffet, todos los días, de 06:30 hrs – 10:30 hrs.",
+        "Desayuno buffet: lunes a viernes de 06:30 – 10:30 hrs.; sábados y domingos de 6:30 – 12:00 hrs.",
         "Almuerzo y cena a la carta.",
         "Tragos y piqueos en nuestro Lobby Bar.",
       ],
@@ -86,7 +86,7 @@ const RESTAURANT_DETAILS: Record<string, Record<WebLang, RestaurantConfig>> = {
     },
     en: {
       bullets: [
-        "Buffet breakfast, daily, 6:30 AM – 10:30 AM.",
+        "Buffet breakfast: Monday to Friday, 6:30 – 10:30 AM; Saturdays and Sundays, 6:30 AM – 12:00 PM.",
         "À la carte lunch and dinner.",
         "Drinks and small plates at our Lobby Bar.",
       ],

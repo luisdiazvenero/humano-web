@@ -91,13 +91,13 @@ const SERVICE_META: Record<string, Record<ServiceLang, HumanoService["meta"]>> =
   INST_DESAYUNO: {
     es: [
       { label: "Buffet", kind: "food" },
-      { label: "Piso 1", kind: "floor" },
-      { label: "06:30 – 10:30 hrs", kind: "time" },
+      { label: "Lun a Vie 06:30 – 10:30 hrs", kind: "time" },
+      { label: "Sáb y Dom 6:30 – 12:00 hrs", kind: "time" },
     ],
     en: [
       { label: "Buffet", kind: "food" },
-      { label: "First floor", kind: "floor" },
-      { label: "6:30 – 10:30 AM", kind: "time" },
+      { label: "Mon to Fri 6:30 – 10:30 AM", kind: "time" },
+      { label: "Sat & Sun 6:30 AM – 12:00 PM", kind: "time" },
     ],
   },
   SERV_MASCOTAS: {

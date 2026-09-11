@@ -25,13 +25,14 @@ import type { RoomCarouselItem } from "@/components/humano-v09/RoomMenuCarousel"
 import { webMediaBadgeClass, webPrimaryButtonClass } from "@/components/humano-web/webStyles"
 import { HeroSection } from "@/components/humano-web/HeroSection"
 import { WEB_I18N, type WebLang } from "@/lib/web/i18n"
+import { getTripadvisorStats } from "@/lib/web/tripadvisor"
 
 const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 })
 
-export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
+export async function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
   const t = WEB_I18N[lang]
   const hotelHref = lang === "en" ? "/en/hotel" : "/hotel"
   const roomsHref = lang === "en" ? "/en/rooms" : "/habitaciones"
@@ -47,6 +48,7 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
     imageSrc: room.imagen,
   }))
   const featuredFacilities = getHumanoFeaturedFacilities(lang)
+  const tripadvisor = await getTripadvisorStats()
 
   return (
     <div className={`${bodyFont.className} bg-white text-[var(--color-azul-rgb)]`}>
@@ -54,7 +56,7 @@ export function HumanoWebHome({ lang = "es" }: { lang?: WebLang }) {
       <WebStickyHeader activeHref={lang === "en" ? "/en" : "/"} lang={lang} />
 
       <main>
-        <HeroSection lang={lang} />
+        <HeroSection lang={lang} tripadvisor={tripadvisor} />
 
         <section className="mx-auto w-full max-w-[1680px] px-6 pb-32 pt-36 sm:px-10 sm:pb-36 sm:pt-40 xl:px-14">
           <Reveal>
