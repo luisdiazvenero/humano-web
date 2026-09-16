@@ -129,6 +129,15 @@ así.
   y una URL larga ahí se presta a que salga cortada o mal copiada. El botón de
   reserva del Concierge sí está etiquetado (`utm_content=conserje`).
 
+## Google Ads
+
+Cuenta `AW-18340821016`, configurada en la misma etiqueta de `src/app/layout.tsx`
+que GA4. La acción de conversión **"Vista de página"**
+(`AW-18340821016/5WN2CKKlltQcEJjwyqlE`, valor fijo 1 USD) se dispara en todo el
+sitio, porque la web no tiene página de agradecimiento: la reserva termina en
+Marriott. Como el sitio es de Next.js, cuenta una vez por carga completa (la
+página de entrada), no en cada navegación interna.
+
 ---
 
 # Pendiente: sección de preguntas frecuentes

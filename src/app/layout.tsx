@@ -63,6 +63,12 @@ export default async function RootLayout({
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-72C40YXW4P');
+          gtag('config', 'AW-18340821016');
+          gtag('event', 'conversion', {
+            'send_to': 'AW-18340821016/5WN2CKKlltQcEJjwyqlE',
+            'value': 1.0,
+            'currency': 'USD'
+          });
         `}</Script>
         {children}
       </body>
