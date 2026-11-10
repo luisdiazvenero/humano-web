@@ -10,6 +10,14 @@ Están a la vista en **`src/lib/web/form-recipients.ts`**. Para cambiar un
 destinatario se edita ese archivo y se despliega: git deja constancia de qué
 cambió y cuándo.
 
+| Formulario | Destinatario del aviso |
+|---|---|
+| Eventos (`/eventos`) | `eventos@humanohoteles.com` |
+| Contacto (`/contacto`) | `hola@humanohoteles.com` |
+| Libro de reclamaciones | `hola@humanohoteles.com` |
+
+Si se cambia una dirección en el código, hay que actualizar también esta tabla.
+
 No se usan variables de entorno para esto a propósito. Un correo de destino no
 es un secreto, y tenerlo oculto en el panel de Vercel llevó a que durante dos
 semanas las cotizaciones de eventos llegaran a un correo personal sin que se
@@ -23,7 +31,7 @@ efecto hasta que se redespliega.
 | `MAILJET_API_KEY` / `MAILJET_SECRET_KEY` | Credenciales de Mailjet | Vercel (secretas) |
 | `MAIL_FROM` | Remitente común: `Hotel Humano <web@humanolima.com>` | Vercel |
 | `SUPABASE_URL` / `SUPABASE_SECRET_KEY` | Histórico de solicitudes | Vercel (secretas) |
-| `FORM_BCC` | Copia oculta de todos los avisos internos. Vacía = sin copia | Vercel |
+| `FORM_BCC` | Copia oculta de todos los avisos internos. Vacía = sin copia | Vercel (sensible: su valor no se puede leer en el panel) |
 | `FORM_EVENTS_TO`, `FORM_CONTACT_TO`, `FORM_CLAIMS_TO` | Redirigen el aviso; **solo para desarrollo**, en `.env.local` | No poner en producción |
 
 Las tres últimas siguen funcionando como override para poder probar en local
@@ -33,7 +41,9 @@ y vuelve el problema de origen: no deben existir allí.
 ## Cómo comprobar a dónde llegó un correo
 
 En **Mailjet → Estadísticas → Mensajes** aparece cada envío con su
-destinatario, la fecha y si se entregó o abrió. Es la fuente definitiva.
+destinatario, la fecha y si se entregó o abrió. Es la fuente definitiva, y la
+única forma de saber a qué dirección va la copia oculta: como `FORM_BCC` está
+marcada como sensible en Vercel, su valor no se puede consultar en el panel.
 El histórico de Supabase guarda la solicitud y si el aviso salió
 (`email_sent`), pero no la dirección a la que se envió.
 
