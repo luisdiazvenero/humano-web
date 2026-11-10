@@ -16,7 +16,7 @@ export type FormKey = "eventos" | "contacto" | "reclamaciones"
 
 const RECIPIENTS: Record<FormKey, { to: string; envVar: string }> = {
   // Cotizaciones de los espacios para eventos
-  eventos: { to: "lgonzales@humanohoteles.com", envVar: "FORM_EVENTS_TO" },
+  eventos: { to: "eventos@humanohoteles.com", envVar: "FORM_EVENTS_TO" },
   // Formulario de contacto general
   contacto: { to: "hola@humanohoteles.com", envVar: "FORM_CONTACT_TO" },
   // Libro de reclamaciones (Indecopi)

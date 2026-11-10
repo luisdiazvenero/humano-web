@@ -57,7 +57,7 @@ const IMAGES: Record<string, string[]> = {
 }
 
 export const EVENTS_CONTACT = {
-  email: "lgonzales@humanohoteles.com",
+  email: "eventos@humanohoteles.com",
   whatsapp: "https://wa.me/51934300993",
   whatsappLabel: "+51 934 300 993",
 } as const
