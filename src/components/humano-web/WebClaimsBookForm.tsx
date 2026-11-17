@@ -1,6 +1,6 @@
 "use client"
 
-import { type ChangeEvent, type FormEvent, useMemo, useState } from "react"
+import { type ChangeEvent, type FormEvent, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowUpRight, CircleAlert } from "lucide-react"
@@ -8,6 +8,11 @@ import { ArrowUpRight, CircleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { trackEvent } from "@/lib/analytics"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileHandle,
+} from "@/components/humano-web/TurnstileWidget"
 
 type ClaimsLang = "es" | "en"
 
@@ -421,6 +426,8 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showErrors, setShowErrors] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState("")
+  const captchaRef = useRef<TurnstileHandle>(null)
 
   const errors = useMemo(() => getFormErrors(form, lang), [form, lang])
   const isFormValid = Object.values(errors).every((error) => !error)
@@ -470,6 +477,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
           claimTitle: form.claimTitle,
           incidentDescription: form.incidentDescription,
           website: form.website,
+          captchaToken,
           lang,
         }),
       })
@@ -478,6 +486,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
 
       if (!response.ok) {
         trackEvent("web_claims_error", { reason: data?.error ?? "unknown" })
+        captchaRef.current?.reset()
         setStatus("error")
         setErrorMessage(
           data?.error === "rate_limited"
@@ -497,6 +506,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
       router.push(data?.sheet ? `${thanks}?n=${encodeURIComponent(data.sheet)}` : thanks)
     } catch {
       trackEvent("web_claims_error", { reason: "network" })
+      captchaRef.current?.reset()
       setStatus("error")
       setErrorMessage(
         lang === "en"
@@ -769,6 +779,13 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
           />
         </div>
 
+        <TurnstileWidget
+          ref={captchaRef}
+          lang={lang}
+          theme="light"
+          onToken={setCaptchaToken}
+        />
+
         {errorMessage ? (
           <p
             role="alert"
@@ -785,7 +802,9 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
 
           <button
             type="submit"
-            disabled={!isFormValid || status === "sending"}
+            disabled={
+              !isFormValid || status === "sending" || (isTurnstileEnabled && !captchaToken)
+            }
             className={cn(
               webPrimaryButtonClass,
               "min-h-12 px-5 py-2.5 text-sm",

@@ -7,6 +7,7 @@ import {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
   type FormEvent,
   type ReactNode,
@@ -16,6 +17,11 @@ import { Check, ChevronDown, Mail, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { trackEvent } from "@/lib/analytics"
 import type { WebLang } from "@/lib/web/i18n"
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileHandle,
+} from "@/components/humano-web/TurnstileWidget"
 
 type QuoteSpace = { id: string; name: string }
 
@@ -78,6 +84,8 @@ export function EventQuoteProvider({
   const [form, setForm] = useState<FormState>(() => emptyForm(spaces[0]?.id ?? ""))
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [captchaToken, setCaptchaToken] = useState("")
+  const captchaRef = useRef<TurnstileHandle>(null)
   const fieldId = useId()
 
   const isOpen = activeSpaceId !== null
@@ -183,6 +191,7 @@ export function EventQuoteProvider({
           time,
           guests: form.guests,
           website: form.website,
+          captchaToken,
           lang,
         }),
       })
@@ -193,6 +202,7 @@ export function EventQuoteProvider({
           space: activeSpace?.name ?? "",
           reason: data?.error ?? "unknown",
         })
+        captchaRef.current?.reset()
         setStatus("error")
         setErrorMessage(
           data?.error === "rate_limited"
@@ -211,6 +221,7 @@ export function EventQuoteProvider({
         space: activeSpace?.name ?? "",
         reason: "network",
       })
+      captchaRef.current?.reset()
       setStatus("error")
       setErrorMessage(t.errorGeneric)
     }
@@ -489,6 +500,13 @@ export function EventQuoteProvider({
                 />
               </div>
 
+              <TurnstileWidget
+                ref={captchaRef}
+                lang={lang}
+                theme="dark"
+                onToken={setCaptchaToken}
+              />
+
               {errorMessage ? (
                 <p role="alert" className="rounded-2xl border border-[#ffb4a6]/28 bg-[#ffb4a6]/12 px-4 py-3 text-sm leading-relaxed text-[#ffcfc6]">
                   {errorMessage}
@@ -499,7 +517,7 @@ export function EventQuoteProvider({
                 <p className="text-[12px] text-white/56">* {t.required}</p>
                 <button
                   type="submit"
-                  disabled={status === "sending"}
+                  disabled={status === "sending" || (isTurnstileEnabled && !captchaToken)}
                   className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[var(--color-azul-rgb)] transition-colors hover:bg-[var(--color-crema-soft)] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {status === "sending" ? t.sending : t.submit}

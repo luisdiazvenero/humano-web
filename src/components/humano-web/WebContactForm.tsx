@@ -12,6 +12,11 @@ import { ArrowUpRight, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { trackEvent } from "@/lib/analytics"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileHandle,
+} from "@/components/humano-web/TurnstileWidget"
 
 type ContactFormState = {
   name: string
@@ -81,6 +86,8 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
   const [form, setForm] = useState<ContactFormState>(initialState)
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [captchaToken, setCaptchaToken] = useState("")
+  const captchaRef = useRef<TurnstileHandle>(null)
   const [isPhoneMenuOpen, setIsPhoneMenuOpen] = useState(false)
   const phoneMenuRef = useRef<HTMLDivElement>(null)
 
@@ -113,6 +120,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
           phone: `${form.countryCode} ${form.phone}`.trim(),
           message: form.message,
           website: form.website,
+          captchaToken,
           lang,
         }),
       })
@@ -120,6 +128,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
       if (!response.ok) {
         const data = await response.json().catch(() => ({}))
         trackEvent("web_contact_error", { reason: data?.error ?? "unknown" })
+        captchaRef.current?.reset()
         setStatus("error")
         setErrorMessage(data?.error === "rate_limited" ? labels.errorRate : labels.errorGeneric)
         return
@@ -129,6 +138,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
       router.push(lang === "en" ? "/en/contact/thanks" : "/contacto/gracias")
     } catch {
       trackEvent("web_contact_error", { reason: "network" })
+      captchaRef.current?.reset()
       setStatus("error")
       setErrorMessage(labels.errorGeneric)
     }
@@ -289,6 +299,13 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
         />
       </div>
 
+      <TurnstileWidget
+        ref={captchaRef}
+        lang={lang}
+        theme="dark"
+        onToken={setCaptchaToken}
+      />
+
       {errorMessage ? (
         <p
           role="alert"
@@ -305,7 +322,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
 
         <button
           type="submit"
-          disabled={status === "sending"}
+          disabled={status === "sending" || (isTurnstileEnabled && !captchaToken)}
           className={cn(
             webPrimaryButtonClass,
             "min-h-12 cursor-pointer bg-white px-5 py-2.5 text-sm text-[var(--color-azul-rgb)] hover:bg-[var(--color-crema-soft)] disabled:cursor-not-allowed disabled:opacity-60"

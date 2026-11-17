@@ -31,6 +31,41 @@ export function getClientIp(request: NextRequest): string {
   )
 }
 
+/**
+ * Comprueba el token de Cloudflare Turnstile (captcha).
+ *
+ * Si TURNSTILE_SECRET_KEY no está definida no se exige: así el formulario
+ * sigue funcionando mientras no se configuren las claves. Si Cloudflare no
+ * responde se deja pasar, igual que con el límite de envíos.
+ */
+export async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY
+  if (!secret) return true
+  if (!token) return false
+
+  const body = new URLSearchParams({ secret, response: token })
+  if (ip !== "unknown") body.set("remoteip", ip)
+
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body,
+    })
+    if (!response.ok) {
+      console.error("[form-utils] Turnstile respondió", response.status)
+      return true
+    }
+    const data = (await response.json()) as { success?: boolean; "error-codes"?: string[] }
+    if (!data.success) {
+      console.warn("[form-utils] Captcha rechazado", data["error-codes"])
+    }
+    return Boolean(data.success)
+  } catch (error) {
+    console.error("[form-utils] No se pudo verificar el captcha", error)
+    return true
+  }
+}
+
 /** Respaldo para cuando Supabase no está configurado (desarrollo local) */
 const recentSubmissions = new Map<string, number[]>()
 

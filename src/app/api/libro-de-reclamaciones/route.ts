@@ -3,7 +3,13 @@ import { NextResponse, type NextRequest } from "next/server"
 import { sendMail } from "@/lib/web/mailer"
 import { noticeBcc, recipientFor } from "@/lib/web/form-recipients"
 import { markEmailSent, saveSubmission } from "@/lib/web/submissions"
-import { clean, isValidEmail, getClientIp, isRateLimited } from "@/lib/web/form-utils"
+import {
+  clean,
+  isValidEmail,
+  getClientIp,
+  isRateLimited,
+  verifyTurnstile,
+} from "@/lib/web/form-utils"
 import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
 
 /**
@@ -61,6 +67,10 @@ export async function POST(request: NextRequest) {
   }
 
   const ip = getClientIp(request)
+  if (!(await verifyTurnstile(clean(payload.captchaToken), ip))) {
+    return NextResponse.json({ error: "captcha_failed" }, { status: 400 })
+  }
+
   if (await isRateLimited(ip, "reclamaciones")) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 })
   }
