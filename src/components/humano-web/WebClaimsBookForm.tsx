@@ -252,6 +252,8 @@ type ClaimsFormState = {
   claimTitle: string
   incidentDescription: string
   consent: boolean
+  /** Campo trampa para bots */
+  website: string
 }
 
 const initialState: ClaimsFormState = {
@@ -267,6 +269,7 @@ const initialState: ClaimsFormState = {
   claimTitle: "",
   incidentDescription: "",
   consent: false,
+  website: "",
 }
 
 const textInputClassName =
@@ -466,6 +469,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
           requestType: form.requestType,
           claimTitle: form.claimTitle,
           incidentDescription: form.incidentDescription,
+          website: form.website,
           lang,
         }),
       })
@@ -503,7 +507,7 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
   }
 
   return (
-    <form noValidate className="space-y-8" onSubmit={handleSubmit}>
+    <form noValidate className="relative space-y-8" onSubmit={handleSubmit}>
       <SectionHeading
         index={1}
         title={t.sections.consumer}
@@ -749,6 +753,20 @@ export function WebClaimsBookForm({ lang = "es" }: { lang?: ClaimsLang } = {}) {
         <div className="flex items-start gap-3 rounded-[24px] bg-[rgba(0,48,53,0.04)] px-4 py-3 text-[13px] leading-relaxed text-[var(--color-azul-rgb)]/72">
           <CircleAlert className="mt-0.5 h-4.5 w-4.5 shrink-0 text-[var(--color-azul-rgb)]/62" />
           <p>{t.helperNote}</p>
+        </div>
+
+        {/* Campo trampa para bots: invisible y fuera del orden de tabulación */}
+        <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden opacity-0">
+          <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-label="Website"
+            value={form.website}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, website: event.target.value }))
+            }
+          />
         </div>
 
         {errorMessage ? (
