@@ -83,6 +83,9 @@ const TERMS_I18N = {
     cookiesH3: "Uso de cookies",
     cookiesP:
       "Nuestro sitio web puede utilizar cookies para mejorar tu experiencia de navegación. Puedes configurar tu navegador para aceptar, rechazar o eliminar cookies en cualquier momento.",
+    turnstileP:
+      "Para proteger nuestros formularios contra el spam y los bots usamos Cloudflare Turnstile, que analiza datos técnicos de tu navegador y conexión. Su uso se rige por el",
+    turnstileLink: "Anexo de privacidad de Cloudflare Turnstile",
     changesH3: "Modificaciones a esta política",
     changesP:
       "HUMANO HOTEL se reserva el derecho de modificar esta Política de Protección de Datos Personales. Cualquier cambio será publicado en esta misma sección y entrará en vigencia desde su publicación.",
@@ -156,6 +159,9 @@ const TERMS_I18N = {
     cookiesH3: "Use of Cookies",
     cookiesP:
       "Our website may use cookies to improve your browsing experience. You may configure your browser to accept, reject, or delete cookies at any time.",
+    turnstileP:
+      "To protect our forms against spam and bots we use Cloudflare Turnstile, which analyzes technical data from your browser and connection. Its use is governed by the",
+    turnstileLink: "Cloudflare Turnstile Privacy Addendum",
     changesH3: "Changes to This Policy",
     changesP:
       "HUMANO HOTEL reserves the right to modify this Personal Data Protection Policy. Any changes will be published in this same section and will become effective upon publication.",
@@ -308,6 +314,18 @@ export function HumanoTerminosPageContent({ lang = "es" }: { lang?: WebLang }) {
                     {t.cookiesH3}
                   </h3>
                   <p className="mt-5">{t.cookiesP}</p>
+                  <p className="mt-4">
+                    {t.turnstileP}{" "}
+                    <a
+                      href="https://www.cloudflare.com/turnstile-privacy-policy/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-4 transition-colors hover:text-[var(--color-azul-rgb)]"
+                    >
+                      {t.turnstileLink}
+                    </a>
+                    .
+                  </p>
                 </section>
 
                 <section className="border-t border-[rgba(0,48,53,0.12)] pt-7">
