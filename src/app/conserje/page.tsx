@@ -6,7 +6,7 @@ import { Fragment, Suspense, useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Figtree } from "next/font/google"
+import localFont from "next/font/local"
 import { ConserjeItemsMessage } from "@/components/humano-v09/conserje-items-message"
 import { Logo } from "@/components/humano-v09/Logo"
 import { ImageSlider } from "@/components/humano-v09/ImageSlider"
@@ -84,9 +84,10 @@ import {
   type Lang,
 } from "@/lib/conserje/i18n"
 
-const figtree = Figtree({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+// Fuente variable guardada en el repo: el build de Vercel no depende de Google Fonts
+const figtree = localFont({
+  src: "./fonts/figtree-latin.woff2",
+  weight: "300 700",
   variable: "--font-figtree",
 })
 
