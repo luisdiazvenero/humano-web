@@ -6,12 +6,14 @@ import {
   useRef,
   useState,
 } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowUpRight, ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { trackEvent } from "@/lib/analytics"
 import { webPrimaryButtonClass } from "@/components/humano-web/webStyles"
+import { CONTACT_TOPICS, type ContactTopic } from "@/lib/web/form-recipients"
 import {
   TurnstileWidget,
   isTurnstileEnabled,
@@ -19,6 +21,8 @@ import {
 } from "@/components/humano-web/TurnstileWidget"
 
 type ContactFormState = {
+  /** Motivo de la consulta: decide a qué buzón llega el aviso */
+  topic: ContactTopic | ""
   name: string
   email: string
   subject: string
@@ -32,6 +36,7 @@ type ContactFormState = {
 }
 
 const initialState: ContactFormState = {
+  topic: "",
   name: "",
   email: "",
   subject: "",
@@ -56,7 +61,26 @@ const internationalCodes = [
 
 export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
   const isEn = lang === "en"
+  const topicLabels: Record<ContactTopic, string> = isEn
+    ? {
+        general: "General inquiry",
+        reservas: "Bookings and stays",
+        eventos: "Events and meetings",
+        facturacion: "Invoicing",
+      }
+    : {
+        general: "Consulta general",
+        reservas: "Reservas y estancias",
+        eventos: "Eventos y reuniones",
+        facturacion: "Facturación",
+      }
   const labels = {
+    topic: isEn ? "What is your inquiry about?" : "¿Sobre qué es tu consulta?",
+    eventsHint: isEn
+      ? "Your message will go straight to our events team. To quote a specific space, you can also use the"
+      : "Tu mensaje llegará directamente a nuestro equipo de eventos. Para cotizar un espacio concreto también puedes usar el",
+    eventsHintLink: isEn ? "events form" : "formulario de eventos",
+    eventsHref: isEn ? "/en/events" : "/eventos",
     name: isEn ? "Name" : "Nombre",
     email: isEn ? "Email" : "Correo",
     subject: isEn ? "Subject" : "Asunto",
@@ -114,6 +138,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          topic: form.topic,
           name: form.name,
           email: form.email,
           subject: form.subject,
@@ -134,7 +159,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
         return
       }
 
-      trackEvent("web_contact_sent")
+      trackEvent("web_contact_sent", { topic: form.topic })
       router.push(lang === "en" ? "/en/contact/thanks" : "/contacto/gracias")
     } catch {
       trackEvent("web_contact_error", { reason: "network" })
@@ -146,6 +171,37 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
 
   return (
     <form className="space-y-3" onSubmit={handleSubmit}>
+      <fieldset className="space-y-2.5 pb-1">
+        <legend className="mb-2.5 text-[13px] text-white/62">{labels.topic}</legend>
+        <div className="flex flex-wrap gap-2">
+          {CONTACT_TOPICS.map((topic) => (
+            <label key={topic} className="cursor-pointer">
+              <input
+                type="radio"
+                name="topic"
+                value={topic}
+                required
+                checked={form.topic === topic}
+                onChange={() => setForm((current) => ({ ...current, topic }))}
+                className="peer sr-only"
+              />
+              <span className="inline-flex min-h-10 items-center rounded-full border border-white/12 bg-white/[0.04] px-4 text-[14px] text-white/76 transition hover:border-white/24 hover:text-white peer-checked:border-white peer-checked:bg-white peer-checked:text-[var(--color-azul-rgb)] peer-focus-visible:ring-2 peer-focus-visible:ring-white/40">
+                {topicLabels[topic]}
+              </span>
+            </label>
+          ))}
+        </div>
+        {form.topic === "eventos" ? (
+          <p className="text-[12px] leading-relaxed text-white/56">
+            {labels.eventsHint}{" "}
+            <Link href={labels.eventsHref} className="underline underline-offset-2 hover:text-white">
+              {labels.eventsHintLink}
+            </Link>
+            .
+          </p>
+        ) : null}
+      </fieldset>
+
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block">
           <span className="sr-only">{labels.name}</span>

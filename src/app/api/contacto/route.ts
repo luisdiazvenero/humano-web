@@ -1,7 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { sendMail } from "@/lib/web/mailer"
-import { noticeBcc, recipientFor } from "@/lib/web/form-recipients"
+import {
+  contactRecipientFor,
+  isContactTopic,
+  noticeBcc,
+} from "@/lib/web/form-recipients"
 import { saveSubmission } from "@/lib/web/submissions"
 import {
   clean,
@@ -14,7 +18,9 @@ import { contactFooter, renderEmail } from "@/lib/web/mail-templates"
 
 /**
  * Formulario de contacto general.
- * Destino: ver form-recipients.ts. Remitente común: MAIL_FROM.
+ * El destino depende del motivo elegido: las consultas de eventos van al
+ * equipo de eventos y el resto al buzón general (ver form-recipients.ts).
+ * Remitente común: MAIL_FROM.
  */
 
 export async function POST(request: NextRequest) {
@@ -36,6 +42,10 @@ export async function POST(request: NextRequest) {
   const phone = clean(payload.phone)
   const message = clean(payload.message)
   const lang = clean(payload.lang) === "en" ? "en" : "es"
+  // Motivo desconocido o ausente (p. ej. una versión antigua de la página en
+  // caché): se trata como consulta general, no se rechaza.
+  const topicInput = clean(payload.topic)
+  const topic = isContactTopic(topicInput) ? topicInput : "general"
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: "missing_fields" }, { status: 400 })
@@ -64,6 +74,13 @@ export async function POST(request: NextRequest) {
         email: "Email",
         phone: "Phone",
         topic: "Subject",
+        reason: "Reason",
+        reasonValue: {
+          general: "General inquiry",
+          reservas: "Bookings and stays",
+          eventos: "Events and meetings",
+          facturacion: "Invoicing",
+        },
         language: "Website language",
         languageValue: "English",
         message: "Message",
@@ -79,6 +96,13 @@ export async function POST(request: NextRequest) {
         email: "Correo",
         phone: "Teléfono",
         topic: "Asunto",
+        reason: "Motivo",
+        reasonValue: {
+          general: "Consulta general",
+          reservas: "Reservas y estancias",
+          eventos: "Eventos y reuniones",
+          facturacion: "Facturación",
+        },
         language: "Idioma de la web",
         languageValue: "Español",
         message: "Mensaje",
@@ -88,6 +112,7 @@ export async function POST(request: NextRequest) {
       }
 
   const rows: Array<[string, string]> = [
+    [t.reason, t.reasonValue[topic]],
     [t.topic, subjectInput || "—"],
     [t.name, name],
     [t.email, email],
@@ -95,7 +120,7 @@ export async function POST(request: NextRequest) {
     [t.language, t.languageValue],
   ]
 
-  const subject = `${t.subject} — ${subjectInput || name}`
+  const subject = `${t.subject} (${t.reasonValue[topic]}) — ${subjectInput || name}`
   const { text, html } = renderEmail({
     title: t.title,
     subtitle: t.source,
@@ -104,7 +129,7 @@ export async function POST(request: NextRequest) {
   })
 
   const sent = await sendMail({
-    to: recipientFor("contacto"),
+    to: contactRecipientFor(topic),
     bcc: noticeBcc(),
     subject,
     text,
@@ -138,7 +163,7 @@ export async function POST(request: NextRequest) {
     lang,
     emailSent: sent.ok,
     ip,
-    meta: { subject: subjectInput },
+    meta: { topic, subject: subjectInput },
   })
 
   if (!sent.ok) {

@@ -13,8 +13,13 @@ cambió y cuándo.
 | Formulario | Destinatario del aviso |
 |---|---|
 | Eventos (`/eventos`) | `eventos@humanohoteles.com` |
-| Contacto (`/contacto`) | `hola@humanohoteles.com` |
+| Contacto (`/contacto`), motivo «Eventos y reuniones» | `eventos@humanohoteles.com` |
+| Contacto (`/contacto`), resto de motivos | `hola@humanohoteles.com` |
 | Libro de reclamaciones | `hola@humanohoteles.com` |
+
+El formulario de Contacto pide un motivo (general, reservas, eventos,
+facturación). Así, las consultas de eventos que llegan por Contacto también
+van al equipo de eventos. La regla está en `contactRecipientFor()`.
 
 Si se cambia una dirección en el código, hay que actualizar también esta tabla.
 

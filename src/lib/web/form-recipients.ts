@@ -30,6 +30,22 @@ export function recipientFor(form: FormKey): string {
 }
 
 /**
+ * Motivos que se eligen en el formulario de contacto. Las consultas de
+ * eventos van al equipo de eventos; el resto, al buzón general.
+ */
+export const CONTACT_TOPICS = ["general", "reservas", "eventos", "facturacion"] as const
+export type ContactTopic = (typeof CONTACT_TOPICS)[number]
+
+export function isContactTopic(value: string): value is ContactTopic {
+  return (CONTACT_TOPICS as readonly string[]).includes(value)
+}
+
+/** A quién se avisa según el motivo elegido en el formulario de contacto. */
+export function contactRecipientFor(topic: ContactTopic): string {
+  return topic === "eventos" ? recipientFor("eventos") : recipientFor("contacto")
+}
+
+/**
  * Copia oculta de todos los avisos, para vigilar que el circuito funciona.
  * Va en variable de entorno (FORM_BCC) y no aquí porque suele ser un correo
  * personal y este repositorio es público. Vacía = no se manda copia.
