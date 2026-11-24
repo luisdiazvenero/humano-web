@@ -66,16 +66,14 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
         general: "General inquiry",
         reservas: "Bookings and stays",
         eventos: "Events and meetings",
-        facturacion: "Invoicing",
       }
     : {
         general: "Consulta general",
         reservas: "Reservas y estancias",
         eventos: "Eventos y reuniones",
-        facturacion: "Facturación",
       }
   const labels = {
-    topic: isEn ? "What is your inquiry about?" : "¿Sobre qué es tu consulta?",
+    topic: isEn ? "Reason for your inquiry" : "Motivo de tu consulta",
     eventsHint: isEn
       ? "Your message will go straight to our events team. To quote a specific space, you can also use the"
       : "Tu mensaje llegará directamente a nuestro equipo de eventos. Para cotizar un espacio concreto también puedes usar el",
@@ -171,28 +169,37 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
 
   return (
     <form className="space-y-3" onSubmit={handleSubmit}>
-      <fieldset className="space-y-2.5 pb-1">
-        <legend className="mb-2.5 text-[13px] text-white/62">{labels.topic}</legend>
-        <div className="flex flex-wrap gap-2">
-          {CONTACT_TOPICS.map((topic) => (
-            <label key={topic} className="cursor-pointer">
-              <input
-                type="radio"
-                name="topic"
-                value={topic}
-                required
-                checked={form.topic === topic}
-                onChange={() => setForm((current) => ({ ...current, topic }))}
-                className="peer sr-only"
-              />
-              <span className="inline-flex min-h-10 items-center rounded-full border border-white/12 bg-white/[0.04] px-4 text-[14px] text-white/76 transition hover:border-white/24 hover:text-white peer-checked:border-white peer-checked:bg-white peer-checked:text-[var(--color-azul-rgb)] peer-focus-visible:ring-2 peer-focus-visible:ring-white/40">
+      <div className="space-y-2">
+        <label className="relative block">
+          <span className="sr-only">{labels.topic}</span>
+          <select
+            name="topic"
+            required
+            value={form.topic}
+            onChange={(event) =>
+              setForm((current) => ({
+                ...current,
+                topic: event.target.value as ContactTopic,
+              }))
+            }
+            className={cn(
+              "h-12 w-full cursor-pointer appearance-none rounded-2xl border border-white/12 bg-white/[0.04] pl-4 pr-11 text-[15px] outline-none transition focus:border-white/28 focus:bg-white/[0.06] focus:ring-2 focus:ring-white/10",
+              form.topic ? "text-white" : "text-white/40"
+            )}
+          >
+            <option value="" disabled className="bg-[#0a444a] text-white/60">
+              {labels.topic}
+            </option>
+            {CONTACT_TOPICS.map((topic) => (
+              <option key={topic} value={topic} className="bg-[#0a444a] text-white">
                 {topicLabels[topic]}
-              </span>
-            </label>
-          ))}
-        </div>
+              </option>
+            ))}
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
+        </label>
         {form.topic === "eventos" ? (
-          <p className="text-[12px] leading-relaxed text-white/56">
+          <p className="px-1 text-[12px] leading-relaxed text-white/56">
             {labels.eventsHint}{" "}
             <Link href={labels.eventsHref} className="underline underline-offset-2 hover:text-white">
               {labels.eventsHintLink}
@@ -200,7 +207,7 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
             .
           </p>
         ) : null}
-      </fieldset>
+      </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block">

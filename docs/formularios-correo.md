@@ -17,8 +17,8 @@ cambió y cuándo.
 | Contacto (`/contacto`), resto de motivos | `hola@humanohoteles.com` |
 | Libro de reclamaciones | `hola@humanohoteles.com` |
 
-El formulario de Contacto pide un motivo (general, reservas, eventos,
-facturación). Así, las consultas de eventos que llegan por Contacto también
+El formulario de Contacto pide un motivo en un desplegable (general,
+reservas, eventos). Así, las consultas de eventos que llegan por Contacto también
 van al equipo de eventos. La regla está en `contactRecipientFor()`.
 
 Si se cambia una dirección en el código, hay que actualizar también esta tabla.

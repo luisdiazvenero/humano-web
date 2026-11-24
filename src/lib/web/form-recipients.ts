@@ -33,7 +33,7 @@ export function recipientFor(form: FormKey): string {
  * Motivos que se eligen en el formulario de contacto. Las consultas de
  * eventos van al equipo de eventos; el resto, al buzón general.
  */
-export const CONTACT_TOPICS = ["general", "reservas", "eventos", "facturacion"] as const
+export const CONTACT_TOPICS = ["general", "reservas", "eventos"] as const
 export type ContactTopic = (typeof CONTACT_TOPICS)[number]
 
 export function isContactTopic(value: string): value is ContactTopic {
