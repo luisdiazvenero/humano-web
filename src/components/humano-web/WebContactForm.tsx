@@ -6,7 +6,6 @@ import {
   useRef,
   useState,
 } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowUpRight, ChevronDown } from "lucide-react"
 
@@ -74,11 +73,6 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
       }
   const labels = {
     topic: isEn ? "Reason for your inquiry" : "Motivo de tu consulta",
-    eventsHint: isEn
-      ? "Your message will go straight to our events team. To quote a specific space, you can also use the"
-      : "Tu mensaje llegará directamente a nuestro equipo de eventos. Para cotizar un espacio concreto también puedes usar el",
-    eventsHintLink: isEn ? "events form" : "formulario de eventos",
-    eventsHref: isEn ? "/en/events" : "/eventos",
     name: isEn ? "Name" : "Nombre",
     email: isEn ? "Email" : "Correo",
     subject: isEn ? "Subject" : "Asunto",
@@ -169,45 +163,34 @@ export function WebContactForm({ lang = "es" }: { lang?: "es" | "en" } = {}) {
 
   return (
     <form className="space-y-3" onSubmit={handleSubmit}>
-      <div className="space-y-2">
-        <label className="relative block">
-          <span className="sr-only">{labels.topic}</span>
-          <select
-            name="topic"
-            required
-            value={form.topic}
-            onChange={(event) =>
-              setForm((current) => ({
-                ...current,
-                topic: event.target.value as ContactTopic,
-              }))
-            }
-            className={cn(
-              "h-12 w-full cursor-pointer appearance-none rounded-2xl border border-white/12 bg-white/[0.04] pl-4 pr-11 text-[15px] outline-none transition focus:border-white/28 focus:bg-white/[0.06] focus:ring-2 focus:ring-white/10",
-              form.topic ? "text-white" : "text-white/40"
-            )}
-          >
-            <option value="" disabled className="bg-[#0a444a] text-white/60">
-              {labels.topic}
+      <label className="relative block">
+        <span className="sr-only">{labels.topic}</span>
+        <select
+          name="topic"
+          required
+          value={form.topic}
+          onChange={(event) =>
+            setForm((current) => ({
+              ...current,
+              topic: event.target.value as ContactTopic,
+            }))
+          }
+          className={cn(
+            "h-12 w-full cursor-pointer appearance-none rounded-2xl border border-white/12 bg-white/[0.04] pl-4 pr-11 text-[15px] outline-none transition focus:border-white/28 focus:bg-white/[0.06] focus:ring-2 focus:ring-white/10",
+            form.topic ? "text-white" : "text-white/40"
+          )}
+        >
+          <option value="" disabled className="bg-[#0a444a] text-white/60">
+            {labels.topic}
+          </option>
+          {CONTACT_TOPICS.map((topic) => (
+            <option key={topic} value={topic} className="bg-[#0a444a] text-white">
+              {topicLabels[topic]}
             </option>
-            {CONTACT_TOPICS.map((topic) => (
-              <option key={topic} value={topic} className="bg-[#0a444a] text-white">
-                {topicLabels[topic]}
-              </option>
-            ))}
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
-        </label>
-        {form.topic === "eventos" ? (
-          <p className="px-1 text-[12px] leading-relaxed text-white/56">
-            {labels.eventsHint}{" "}
-            <Link href={labels.eventsHref} className="underline underline-offset-2 hover:text-white">
-              {labels.eventsHintLink}
-            </Link>
-            .
-          </p>
-        ) : null}
-      </div>
+          ))}
+        </select>
+        <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
+      </label>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block">
